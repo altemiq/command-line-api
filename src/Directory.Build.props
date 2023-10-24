@@ -1,0 +1,43 @@
+<Project>
+
+  <PropertyGroup>
+    <Company>Altemiq</Company>
+    <RootNamespace>System.$(MSBuildProjectName)</RootNamespace>
+    <AssemblyName>$(Company).$(MSBuildProjectName)</AssemblyName>
+
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+
+    <NeutralLanguage>en</NeutralLanguage>
+    <LangVersion>preview</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+
+    <!-- Nullable -->
+    <Nullable>enable</Nullable>
+
+    <IsPublishable>false</IsPublishable>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Packaging">
+    <Authors>Ross King</Authors>
+    <Description>$(Company) CommandLine assemblies.</Description>
+    <Product>CommandLine assemblies</Product>
+    <Copyright>Copyright © $(Company) Pty Ltd 2023</Copyright>
+    <PackageTags>CommandLine;Console</PackageTags>
+  </PropertyGroup>
+
+  <PropertyGroup Label=".NET Analyzers">
+    <EnableNETAnalyzers>True</EnableNETAnalyzers>
+    <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+    <AnalysisLevel>preview</AnalysisLevel>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="$([MSBuild]::GetPathOfFileAbove(stylecop.json))" />
+    <None Include="$([MSBuild]::GetPathOfFileAbove(.editorconfig))" />
+  </ItemGroup>
+
+  <PropertyGroup Condition=" '$(MSBuildRuntimeType)' == 'Core' ">
+    <NoWarn>$(NoWarn);SA1642;SA1643</NoWarn>
+  </PropertyGroup>
+
+</Project>

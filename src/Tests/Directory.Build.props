@@ -1,0 +1,28 @@
+﻿<Project>
+
+  <PropertyGroup>
+    <Company>Altemiq</Company>
+    <RootNamespace>System.$(MSBuildProjectName.Replace('.Tests', ''))</RootNamespace>
+    <AssemblyName>$(Company).$(MSBuildProjectName)</AssemblyName>
+
+    <LangVersion>preview</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+
+    <!-- Nullable -->
+    <Nullable>enable</Nullable>
+
+    <IsPublishable>false</IsPublishable>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="$([MSBuild]::GetPathOfFileAbove(stylecop.json))" />
+    <None Include="$([MSBuild]::GetPathOfFileAbove(.editorconfig))" />
+  </ItemGroup>
+
+  <PropertyGroup Condition=" '$(MSBuildRuntimeType)' == 'Core' ">
+    <NoWarn>$(NoWarn);SA1642;SA1643</NoWarn>
+  </PropertyGroup>
+
+</Project>
