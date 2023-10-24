@@ -61,4 +61,68 @@ public class HostingExtensionsTests
         _ = configuration.Invoke(Array.Empty<string>());
         _ = count.Should().Be(1);
     }
+
+    [Fact]
+    public void UseConfigurationInDefaultValueFromArgument()
+    {
+        var argument = new CliArgument<string>("ARG")
+        {
+            DefaultValueFactory = argumentResult =>
+            {
+                Microsoft.Extensions.Configuration.IConfiguration? config = default;
+                var command = argumentResult.GetCommand() ?? argumentResult.Argument.GetCommand();
+                if (command is not null && command.Action is { } action)
+                {
+                    config = action.GetConfiguration();
+                }
+
+                config.Should().NotBeNull();
+                return string.Empty;
+            }
+        };
+        var rootCommand = new CliRootCommand
+        {
+            argument,
+        };
+
+        rootCommand.SetAction(_ => { });
+
+        var configuration = new CliConfiguration(rootCommand);
+        configuration.UseConfiguration();
+
+        _ = configuration.Invoke(Array.Empty<string>());
+    }
+
+    [Fact]
+    public void UseConfigurationInDefaultValueFromOption()
+    {
+        var argument = new CliOption<string>("--option")
+        {
+            DefaultValueFactory = argumentResult =>
+            {
+                Microsoft.Extensions.Configuration.IConfiguration? config = default;
+                var command = argumentResult.GetCommand() ?? argumentResult.Argument.GetCommand();
+                if (command is not null && command.Action is { } action)
+                {
+                    config = action.GetConfiguration();
+                }
+
+                config.Should().NotBeNull();
+                return string.Empty;
+            },
+            Recursive = true,
+        };
+
+        var rootCommand = new CliRootCommand
+        {
+            argument,
+        };
+
+        rootCommand.SetAction(_ => { });
+
+        var configuration = new CliConfiguration(rootCommand);
+        configuration.UseConfiguration();
+
+        _ = configuration.Invoke("--help");
+    }
 }
