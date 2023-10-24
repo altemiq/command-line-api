@@ -35,6 +35,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommandLine.Hosting.Tests",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLine.Services.Tests", "Tests\CommandLine.Services.Tests\CommandLine.Services.Tests.csproj", "{86CD8EA3-D3C3-4499-98B4-AC351B554724}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{F1CA391E-4BE4-4159-93AD-4608E156F9C4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{354F493A-1E24-4849-81E4-F34321511153}"
+	ProjectSection(SolutionItems) = preProject
+		..\.github\workflows\build.yml = ..\.github\workflows\build.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -77,6 +84,7 @@ Global
 		{68A268F2-6AC0-4B64-A9A1-7F4E69A9A3CB} = {79E549E3-BED1-40E0-ABD7-E7D9E0D3D18C}
 		{5D892DF1-810E-43D7-8A87-5181CE0C7F16} = {79E549E3-BED1-40E0-ABD7-E7D9E0D3D18C}
 		{86CD8EA3-D3C3-4499-98B4-AC351B554724} = {79E549E3-BED1-40E0-ABD7-E7D9E0D3D18C}
+		{354F493A-1E24-4849-81E4-F34321511153} = {F1CA391E-4BE4-4159-93AD-4608E156F9C4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C94EF77A-25EE-49E7-81F2-C0771CFFDA0C}
