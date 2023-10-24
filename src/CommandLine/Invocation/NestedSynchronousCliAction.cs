@@ -13,10 +13,13 @@ namespace System.CommandLine.Invocation;
 /// Initialises a new instance of the <see cref="NestedSynchronousCliAction"/> class.
 /// </remarks>
 /// <param name="action">The <see cref="CliAction"/>.</param>
-public class NestedSynchronousCliAction(SynchronousCliAction action) : SynchronousCliAction, INestedAction<SynchronousCliAction>
+public class NestedSynchronousCliAction(SynchronousCliAction action) : SynchronousCliAction, INestedAction<SynchronousCliAction>, INestedAction
 {
     /// <inheritdoc/>
     public SynchronousCliAction Action { get; } = action;
+
+    /// <inheritdoc/>
+    CliAction INestedAction.Action => this.Action;
 
     /// <inheritdoc/>
     public override int Invoke(ParseResult parseResult) => this.Action.Invoke(parseResult);
