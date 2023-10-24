@@ -21,7 +21,7 @@ public static class BuilderAction
     /// <param name="command">The command.</param>
     /// <param name="createInstance">The instance.</param>
     /// <param name="configure">The action to confure the builder.</param>
-    public static void SetHandlers<TBuilder, TInstance>(CliCommand command, Func<TBuilder, TInstance> createInstance, Action<TBuilder> configure)
+    public static void SetHandlers<TBuilder, TInstance>(CliCommand command, Func<TBuilder, TInstance> createInstance, Action<ParseResult, TBuilder> configure)
         where TBuilder : new() => SetHandlers(command, () => new TBuilder(), createInstance, configure);
 
     /// <summary>
@@ -33,7 +33,7 @@ public static class BuilderAction
     /// <param name="createBuilder">The function to create the builder.</param>
     /// <param name="buildInstance">The build the instance.</param>
     /// <param name="configure">The action to confure the builder.</param>
-    public static void SetHandlers<TBuilder, TInstance>(CliCommand command, Func<TBuilder> createBuilder, Func<TBuilder, TInstance> buildInstance, Action<TBuilder> configure)
+    public static void SetHandlers<TBuilder, TInstance>(CliCommand command, Func<TBuilder> createBuilder, Func<TBuilder, TInstance> buildInstance, Action<ParseResult, TBuilder> configure)
     {
         // see if the handler already exists
         if (Configures.TryGetValue((command, typeof(TBuilder), typeof(TInstance)), out var configurer))
@@ -47,7 +47,7 @@ public static class BuilderAction
         Configures.Add((command, typeof(TBuilder), typeof(TInstance)), configurer);
         SetHandlersImpl(command, Create);
 
-        static void SetHandlersImpl(CliCommand command, Func<TInstance> create)
+        static void SetHandlersImpl(CliCommand command, Func<ParseResult, TInstance> create)
         {
             if (command.Action is AsynchronousCliAction asyncAction)
             {
@@ -64,12 +64,12 @@ public static class BuilderAction
             }
         }
 
-        TInstance Create()
+        TInstance Create(ParseResult parseResult)
         {
             var builder = createBuilder();
             if (Configures.TryGetValue((command, typeof(TBuilder), typeof(TInstance)), out var configurer))
             {
-                configurer.Configure(builder);
+                configurer.Configure(parseResult, builder);
             }
 
             return buildInstance(builder);
@@ -111,49 +111,49 @@ public static class BuilderAction
 
     private sealed class Configurer
     {
-        private readonly IList<Action<object?>> actions = new List<Action<object?>>();
+        private readonly IList<Action<ParseResult, object?>> actions = new List<Action<ParseResult, object?>>();
 
-        public void Add<T>(Action<T> action) => this.Add(_ =>
+        public void Add<T>(Action<ParseResult, T> action) => this.Add((parseResult, obj) =>
         {
-            if (_ is T t)
+            if (obj is T t)
             {
-                action(t);
+                action(parseResult, t);
             }
         });
 
-        public void Add(Action<object?> action) => this.actions.Add(action);
+        public void Add(Action<ParseResult, object?> action) => this.actions.Add(action);
 
-        public void Configure(object? obj)
+        public void Configure(ParseResult parseResult, object? obj)
         {
             foreach (var action in this.actions)
             {
-                action(obj);
+                action(parseResult, obj);
             }
         }
     }
 
-    private sealed class BuilderAsynchronousAction<TInstance>(Func<TInstance> create, AsynchronousCliAction action) : NestedAsynchronousCliAction(action)
+    private sealed class BuilderAsynchronousAction<TInstance>(Func<ParseResult, TInstance> create, AsynchronousCliAction action) : NestedAsynchronousCliAction(action)
     {
-        private readonly Func<TInstance> create = create;
+        private readonly Func<ParseResult, TInstance> create = create;
         private TInstance? instance;
 
         public override Task<int> InvokeAsync(ParseResult parseResult, CancellationToken cancellationToken = default)
         {
-            this.instance = this.create();
+            this.instance = this.create(parseResult);
             return base.InvokeAsync(parseResult, cancellationToken);
         }
 
         public TInstance? Get() => this.instance;
     }
 
-    private sealed class BuilderSynchronousAction<TInstance>(Func<TInstance> create, SynchronousCliAction actualAction) : NestedSynchronousCliAction(actualAction)
+    private sealed class BuilderSynchronousAction<TInstance>(Func<ParseResult, TInstance> create, SynchronousCliAction actualAction) : NestedSynchronousCliAction(actualAction)
     {
-        private readonly Func<TInstance> create = create;
+        private readonly Func<ParseResult, TInstance> create = create;
         private TInstance? instance;
 
         public override int Invoke(ParseResult parseResult)
         {
-            this.instance = this.create();
+            this.instance = this.create(parseResult);
             return base.Invoke(parseResult);
         }
 

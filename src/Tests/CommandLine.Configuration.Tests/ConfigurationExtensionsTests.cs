@@ -15,7 +15,11 @@ public class ConfigurationExtensionsTests
         rootCommand.SetAction(result => result.GetConfiguration().Should().NotBeNull());
 
         var configuration = new CliConfiguration(rootCommand);
-        _ = configuration.UseConfiguration();
+        _ = configuration.UseConfiguration((parseResult, builder) =>
+        {
+            parseResult.Should().NotBeNull();
+            builder.Should().NotBeNull();
+        });
 
         _ = configuration.Invoke(Array.Empty<string>());
     }

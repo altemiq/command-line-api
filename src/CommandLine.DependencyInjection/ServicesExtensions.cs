@@ -21,7 +21,17 @@ public static class ServicesExtensions
     /// <returns>The configured configuration.</returns>
     public static CliConfiguration UseServices(
         this CliConfiguration configuration,
-        Action<IServiceCollection> configure)
+        Action<IServiceCollection> configure) => UseServices(configuration, (_, builder) => configure(builder));
+
+    /// <summary>
+    /// Uses services for the configuration.
+    /// </summary>
+    /// <param name="configuration">The configuration.</param>
+    /// <param name="configure">The configure action.</param>
+    /// <returns>The configured configuration.</returns>
+    public static CliConfiguration UseServices(
+        this CliConfiguration configuration,
+        Action<ParseResult, IServiceCollection> configure)
     {
         Invocation.BuilderAction.SetHandlers<ServiceCollection, IServiceProvider>(configuration.RootCommand, builder => builder.BuildServiceProvider(), configure);
         return configuration;

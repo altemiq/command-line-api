@@ -33,19 +33,41 @@ public static class HostingExtensions
     /// Uses configuration for the configuration.
     /// </summary>
     /// <param name="configuration">The configuration.</param>
+    /// <param name="configure">The configure action.</param>
+    /// <returns>The configured configuration.</returns>
+    public static CliConfiguration UseConfiguration(
+        this CliConfiguration configuration,
+        Action<ParseResult, Microsoft.Extensions.Configuration.IConfigurationBuilder> configure) => UseConfiguration(configuration, () => new Microsoft.Extensions.Hosting.HostBuilder(), configure);
+
+    /// <summary>
+    /// Uses configuration for the configuration.
+    /// </summary>
+    /// <param name="configuration">The configuration.</param>
     /// <param name="hostBuilderFactory">The host builder factory.</param>
     /// <param name="configure">The configure action.</param>
     /// <returns>The configured configuration.</returns>
     public static CliConfiguration UseConfiguration(
         this CliConfiguration configuration,
         Func<Microsoft.Extensions.Hosting.IHostBuilder> hostBuilderFactory,
-        Action<Microsoft.Extensions.Configuration.IConfigurationBuilder> configure)
+        Action<Microsoft.Extensions.Configuration.IConfigurationBuilder> configure) => UseConfiguration(configuration, hostBuilderFactory, (_, builder) => configure(builder));
+
+    /// <summary>
+    /// Uses configuration for the configuration.
+    /// </summary>
+    /// <param name="configuration">The configuration.</param>
+    /// <param name="hostBuilderFactory">The host builder factory.</param>
+    /// <param name="configure">The configure action.</param>
+    /// <returns>The configured configuration.</returns>
+    public static CliConfiguration UseConfiguration(
+        this CliConfiguration configuration,
+        Func<Microsoft.Extensions.Hosting.IHostBuilder> hostBuilderFactory,
+        Action<ParseResult, Microsoft.Extensions.Configuration.IConfigurationBuilder> configure)
     {
         Invocation.BuilderAction.SetHandlers(
             configuration.RootCommand,
             hostBuilderFactory,
             builder => builder.Build(),
-            builder => builder.ConfigureAppConfiguration((_, builder) => configure(builder)));
+            (parseResult, builder) => builder.ConfigureAppConfiguration((_, builder) => configure(parseResult, builder)));
 
         return configuration;
     }
@@ -72,19 +94,51 @@ public static class HostingExtensions
     /// Uses configuration for the configuration.
     /// </summary>
     /// <param name="configuration">The configuration.</param>
+    /// <param name="configure">The configure action.</param>
+    /// <returns>The configured configuration.</returns>
+    public static CliConfiguration UseServices(
+        this CliConfiguration configuration,
+        Action<ParseResult, Microsoft.Extensions.DependencyInjection.IServiceCollection> configure) => UseServices(configuration, () => new Microsoft.Extensions.Hosting.HostBuilder(), configure);
+
+    /// <summary>
+    /// Uses configuration for the configuration.
+    /// </summary>
+    /// <param name="configuration">The configuration.</param>
+    /// <param name="hostBuilderFactory">The host builder factory.</param>
+    /// <returns>The configured configuration.</returns>
+    public static CliConfiguration UseServices(
+        this CliConfiguration configuration,
+        Func<Microsoft.Extensions.Hosting.IHostBuilder> hostBuilderFactory) => UseServices(configuration, hostBuilderFactory, (_, _) => { });
+
+    /// <summary>
+    /// Uses configuration for the configuration.
+    /// </summary>
+    /// <param name="configuration">The configuration.</param>
     /// <param name="hostBuilderFactory">The host builder factory.</param>
     /// <param name="configure">The configure action.</param>
     /// <returns>The configured configuration.</returns>
     public static CliConfiguration UseServices(
         this CliConfiguration configuration,
         Func<Microsoft.Extensions.Hosting.IHostBuilder> hostBuilderFactory,
-        Action<Microsoft.Extensions.DependencyInjection.IServiceCollection> configure)
+        Action<Microsoft.Extensions.DependencyInjection.IServiceCollection> configure) => UseServices(configuration, hostBuilderFactory, (_, builder) => configure(builder));
+
+    /// <summary>
+    /// Uses configuration for the configuration.
+    /// </summary>
+    /// <param name="configuration">The configuration.</param>
+    /// <param name="hostBuilderFactory">The host builder factory.</param>
+    /// <param name="configure">The configure action.</param>
+    /// <returns>The configured configuration.</returns>
+    public static CliConfiguration UseServices(
+        this CliConfiguration configuration,
+        Func<Microsoft.Extensions.Hosting.IHostBuilder> hostBuilderFactory,
+        Action<ParseResult, Microsoft.Extensions.DependencyInjection.IServiceCollection> configure)
     {
         Invocation.BuilderAction.SetHandlers(
             configuration.RootCommand,
             hostBuilderFactory,
             builder => builder.Build(),
-            builder => builder.ConfigureServices((_, services) => configure(services)));
+            (parseResult, builder) => builder.ConfigureServices((_, services) => configure(parseResult, services)));
         return configuration;
     }
 

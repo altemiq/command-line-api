@@ -17,8 +17,11 @@ public static class ConfigurationExtensions
     /// Uses configuration for the configuration.
     /// </summary>
     /// <param name="configuration">The configuration.</param>
+    /// <param name="configure">The configure action.</param>
     /// <returns>The configured configuration.</returns>
-    public static CliConfiguration UseConfiguration(this CliConfiguration configuration) => UseConfiguration(configuration, _ => { });
+    public static CliConfiguration UseConfiguration(
+        this CliConfiguration configuration,
+        Action<IConfigurationBuilder> configure) => UseConfiguration(configuration, (_, builder) => configure(builder));
 
     /// <summary>
     /// Uses configuration for the configuration.
@@ -28,7 +31,7 @@ public static class ConfigurationExtensions
     /// <returns>The configured configuration.</returns>
     public static CliConfiguration UseConfiguration(
         this CliConfiguration configuration,
-        Action<IConfigurationBuilder> configure)
+        Action<ParseResult, IConfigurationBuilder> configure)
     {
         Invocation.BuilderAction.SetHandlers<ConfigurationBuilder, IConfiguration>(configuration.RootCommand, builder => builder.Build(), configure);
         return configuration;
@@ -44,7 +47,19 @@ public static class ConfigurationExtensions
     public static CliConfiguration UseConfiguration(
         this CliConfiguration configuration,
         Func<IConfigurationBuilder> createBuilder,
-        Action<IConfigurationBuilder> configure)
+        Action<IConfigurationBuilder> configure) => UseConfiguration(configuration, createBuilder, (_, builder) => configure(builder));
+
+    /// <summary>
+    /// Uses configuration for the configuration.
+    /// </summary>
+    /// <param name="configuration">The configuration.</param>
+    /// <param name="createBuilder">The builder creator.</param>
+    /// <param name="configure">The configure action.</param>
+    /// <returns>The configured configuration.</returns>
+    public static CliConfiguration UseConfiguration(
+        this CliConfiguration configuration,
+        Func<IConfigurationBuilder> createBuilder,
+        Action<ParseResult, IConfigurationBuilder> configure)
     {
         Invocation.BuilderAction.SetHandlers(configuration.RootCommand, createBuilder, builder => builder.Build(), configure);
         return configuration;
