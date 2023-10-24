@@ -44,6 +44,16 @@ public static class HostingExtensions
     /// </summary>
     /// <param name="configuration">The configuration.</param>
     /// <param name="hostBuilderFactory">The host builder factory.</param>
+    /// <returns>The configured configuration.</returns>
+    public static CliConfiguration UseConfiguration(
+        this CliConfiguration configuration,
+        Func<Microsoft.Extensions.Hosting.IHostBuilder> hostBuilderFactory) => UseConfiguration(configuration, hostBuilderFactory, _ => { });
+
+    /// <summary>
+    /// Uses configuration for the configuration.
+    /// </summary>
+    /// <param name="configuration">The configuration.</param>
+    /// <param name="hostBuilderFactory">The host builder factory.</param>
     /// <param name="configure">The configure action.</param>
     /// <returns>The configured configuration.</returns>
     public static CliConfiguration UseConfiguration(
