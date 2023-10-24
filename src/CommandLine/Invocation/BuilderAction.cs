@@ -139,11 +139,17 @@ public static class BuilderAction
 
         public override Task<int> InvokeAsync(ParseResult parseResult, CancellationToken cancellationToken = default)
         {
-            this.instance = this.create(parseResult);
+            this.EnsureInstance(parseResult);
             return base.InvokeAsync(parseResult, cancellationToken);
         }
 
-        public TInstance? Get() => this.instance;
+        public TInstance? Get()
+        {
+            this.EnsureInstance(default);
+            return this.instance;
+        }
+
+        private void EnsureInstance(ParseResult? parseResult) => this.instance ??= this.create(parseResult!);
     }
 
     private sealed class BuilderSynchronousAction<TInstance>(Func<ParseResult, TInstance> create, SynchronousCliAction actualAction) : NestedSynchronousCliAction(actualAction)
@@ -153,10 +159,16 @@ public static class BuilderAction
 
         public override int Invoke(ParseResult parseResult)
         {
-            this.instance = this.create(parseResult);
+            this.EnsureInstance(parseResult);
             return base.Invoke(parseResult);
         }
 
-        public TInstance? Get() => this.instance;
+        public TInstance? Get()
+        {
+            this.EnsureInstance(default);
+            return this.instance;
+        }
+
+        private void EnsureInstance(ParseResult? parseResult) => this.instance ??= this.create(parseResult!);
     }
 }
