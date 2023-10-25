@@ -87,14 +87,8 @@ public class HostingExtensionsTests
                 return string.Empty;
             }
         };
-        var rootCommand = new CliRootCommand
-        {
-            argument,
-        };
 
-        rootCommand.SetAction(_ => { });
-
-        var configuration = new CliConfiguration(rootCommand);
+        var configuration = new CliConfiguration(new CliRootCommand { argument });
         _ = configuration.UseConfiguration();
 
         _ = configuration.Invoke(Array.Empty<string>());
@@ -119,14 +113,7 @@ public class HostingExtensionsTests
             Recursive = true,
         };
 
-        var rootCommand = new CliRootCommand
-        {
-            argument,
-        };
-
-        rootCommand.SetAction(_ => { });
-
-        var configuration = new CliConfiguration(rootCommand);
+        var configuration = new CliConfiguration(new CliRootCommand { argument });
         _ = configuration.UseConfiguration();
 
         _ = configuration.Invoke(string.Empty);

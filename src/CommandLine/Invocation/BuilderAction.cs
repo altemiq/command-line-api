@@ -13,6 +13,13 @@ public static class BuilderAction
 {
     private static readonly IDictionary<(CliCommand, Type, Type), Configurer> Configures = new Dictionary<(CliCommand, Type, Type), Configurer>();
 
+#pragma warning disable SA1600 // Elements should be documented
+    private interface IInstance<out TInstance>
+    {
+        TInstance? Get();
+    }
+#pragma warning restore SA1600 // Elements should be documented
+
     /// <summary>
     /// Sets the handlers.
     /// </summary>
@@ -51,12 +58,14 @@ public static class BuilderAction
         {
             if (command.Action is AsynchronousCliAction asyncAction)
             {
-                command.Action = new BuilderAsynchronousAction<TInstance>(create, asyncAction);
+                command.Action = new BuilderNestedAsynchronousAction<TInstance>(create, asyncAction);
             }
             else if (command.Action is SynchronousCliAction syncAction)
             {
-                command.Action = new BuilderSynchronousAction<TInstance>(create, syncAction);
+                command.Action = new BuilderNestedSynchronousAction<TInstance>(create, syncAction);
             }
+
+            command.Action ??= new BuilderSynchronousAction<TInstance>(create);
 
             foreach (var subCommand in command.Subcommands)
             {
@@ -102,10 +111,8 @@ public static class BuilderAction
 
     private static TInstance? GetInstanceFromAction<TInstance>(CliAction? action) => action switch
     {
-        BuilderAsynchronousAction<TInstance> asyncAction => asyncAction.Get(),
-        BuilderSynchronousAction<TInstance> syncAction => syncAction.Get(),
-        NestedAsynchronousCliAction nestedAsyncAction => GetInstanceFromAction<TInstance>(nestedAsyncAction.Action),
-        NestedSynchronousCliAction nestedSyncAction => GetInstanceFromAction<TInstance>(nestedSyncAction.Action),
+        IInstance<TInstance> instance => instance.Get(),
+        INestedAction nested => GetInstanceFromAction<TInstance>(nested.Action),
         _ => default,
     };
 
@@ -132,7 +139,27 @@ public static class BuilderAction
         }
     }
 
-    private sealed class BuilderAsynchronousAction<TInstance>(Func<ParseResult, TInstance> create, AsynchronousCliAction action) : NestedAsynchronousCliAction(action)
+    private sealed class BuilderSynchronousAction<TInstance>(Func<ParseResult, TInstance> create) : SynchronousCliAction, IInstance<TInstance>
+    {
+        private readonly Func<ParseResult, TInstance> create = create;
+        private TInstance? instance;
+
+        public override int Invoke(ParseResult parseResult)
+        {
+            this.EnsureInstance(parseResult);
+            return 0;
+        }
+
+        public TInstance? Get()
+        {
+            this.EnsureInstance(default);
+            return this.instance;
+        }
+
+        private void EnsureInstance(ParseResult? parseResult) => this.instance ??= this.create(parseResult!);
+    }
+
+    private sealed class BuilderNestedAsynchronousAction<TInstance>(Func<ParseResult, TInstance> create, AsynchronousCliAction action) : NestedAsynchronousCliAction(action), IInstance<TInstance>
     {
         private readonly Func<ParseResult, TInstance> create = create;
         private TInstance? instance;
@@ -152,7 +179,7 @@ public static class BuilderAction
         private void EnsureInstance(ParseResult? parseResult) => this.instance ??= this.create(parseResult!);
     }
 
-    private sealed class BuilderSynchronousAction<TInstance>(Func<ParseResult, TInstance> create, SynchronousCliAction actualAction) : NestedSynchronousCliAction(actualAction)
+    private sealed class BuilderNestedSynchronousAction<TInstance>(Func<ParseResult, TInstance> create, SynchronousCliAction actualAction) : NestedSynchronousCliAction(actualAction), IInstance<TInstance>
     {
         private readonly Func<ParseResult, TInstance> create = create;
         private TInstance? instance;
