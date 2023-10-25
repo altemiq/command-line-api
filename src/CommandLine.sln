@@ -44,6 +44,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLine.Spectre", "CommandLine.Spectre\CommandLine.Spectre.csproj", "{B6B91F07-1931-4FAE-9BF4-3EAA27824CDF}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommandLine.Tests", "Tests\CommandLine.Tests\CommandLine.Tests.csproj", "{CD02CED9-BAD2-47AB-9ABF-D6757F63C034}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -82,6 +84,10 @@ Global
 		{B6B91F07-1931-4FAE-9BF4-3EAA27824CDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B6B91F07-1931-4FAE-9BF4-3EAA27824CDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B6B91F07-1931-4FAE-9BF4-3EAA27824CDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD02CED9-BAD2-47AB-9ABF-D6757F63C034}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD02CED9-BAD2-47AB-9ABF-D6757F63C034}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD02CED9-BAD2-47AB-9ABF-D6757F63C034}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD02CED9-BAD2-47AB-9ABF-D6757F63C034}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -91,6 +97,7 @@ Global
 		{5D892DF1-810E-43D7-8A87-5181CE0C7F16} = {79E549E3-BED1-40E0-ABD7-E7D9E0D3D18C}
 		{86CD8EA3-D3C3-4499-98B4-AC351B554724} = {79E549E3-BED1-40E0-ABD7-E7D9E0D3D18C}
 		{354F493A-1E24-4849-81E4-F34321511153} = {F1CA391E-4BE4-4159-93AD-4608E156F9C4}
+		{CD02CED9-BAD2-47AB-9ABF-D6757F63C034} = {79E549E3-BED1-40E0-ABD7-E7D9E0D3D18C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C94EF77A-25EE-49E7-81F2-C0771CFFDA0C}
