@@ -42,7 +42,7 @@ public static class HostingExtensions
     /// <returns>The configured configuration.</returns>
     public static T UseConfiguration<T>(
         this T configuration,
-        Action<ParseResult, Microsoft.Extensions.Configuration.IConfigurationBuilder> configure)
+        Action<ParseResult?, Microsoft.Extensions.Configuration.IConfigurationBuilder> configure)
         where T : CliConfiguration => UseConfiguration(configuration, () => new Microsoft.Extensions.Hosting.HostBuilder(), configure);
 
     /// <summary>
@@ -108,7 +108,7 @@ public static class HostingExtensions
     public static T UseConfiguration<T>(
         this T configuration,
         Func<Microsoft.Extensions.Hosting.IHostBuilder> hostBuilderFactory,
-        Action<ParseResult, Microsoft.Extensions.Configuration.IConfigurationBuilder> configure)
+        Action<ParseResult?, Microsoft.Extensions.Configuration.IConfigurationBuilder> configure)
         where T : CliConfiguration
     {
         Invocation.BuilderAction.SetHandlers(
@@ -131,12 +131,12 @@ public static class HostingExtensions
     public static T UseConfiguration<T>(
         this T configuration,
         Func<string[], Microsoft.Extensions.Hosting.IHostBuilder> hostBuilderFactory,
-        Action<ParseResult, Microsoft.Extensions.Configuration.IConfigurationBuilder> configure)
+        Action<ParseResult?, Microsoft.Extensions.Configuration.IConfigurationBuilder> configure)
         where T : CliConfiguration
     {
         Invocation.BuilderAction.SetHandlers(
             configuration.RootCommand,
-            parseResult => hostBuilderFactory(parseResult.UnmatchedTokens.ToArray()),
+            parseResult => hostBuilderFactory(parseResult?.UnmatchedTokens.ToArray() ?? Array.Empty<string>()),
             builder => builder.Build(),
             (parseResult, builder) => builder.ConfigureAppConfiguration((_, builder) => configure(parseResult, builder)));
 
@@ -174,7 +174,7 @@ public static class HostingExtensions
     /// <returns>The configured configuration.</returns>
     public static T UseServices<T>(
         this T configuration,
-        Action<ParseResult, Microsoft.Extensions.DependencyInjection.IServiceCollection> configure)
+        Action<ParseResult?, Microsoft.Extensions.DependencyInjection.IServiceCollection> configure)
         where T : CliConfiguration => UseServices(configuration, () => new Microsoft.Extensions.Hosting.HostBuilder(), configure);
 
     /// <summary>
@@ -240,7 +240,7 @@ public static class HostingExtensions
     public static T UseServices<T>(
         this T configuration,
         Func<Microsoft.Extensions.Hosting.IHostBuilder> hostBuilderFactory,
-        Action<ParseResult, Microsoft.Extensions.DependencyInjection.IServiceCollection> configure)
+        Action<ParseResult?, Microsoft.Extensions.DependencyInjection.IServiceCollection> configure)
         where T : CliConfiguration
     {
         Invocation.BuilderAction.SetHandlers(
@@ -262,12 +262,12 @@ public static class HostingExtensions
     public static T UseServices<T>(
         this T configuration,
         Func<string[], Microsoft.Extensions.Hosting.IHostBuilder> hostBuilderFactory,
-        Action<ParseResult, Microsoft.Extensions.DependencyInjection.IServiceCollection> configure)
+        Action<ParseResult?, Microsoft.Extensions.DependencyInjection.IServiceCollection> configure)
         where T : CliConfiguration
     {
         Invocation.BuilderAction.SetHandlers(
             configuration.RootCommand,
-            parseResult => hostBuilderFactory(parseResult.UnmatchedTokens.ToArray()),
+            parseResult => hostBuilderFactory(parseResult?.UnmatchedTokens.ToArray() ?? Array.Empty<string>()),
             builder => builder.Build(),
             (parseResult, builder) => builder.ConfigureServices((_, services) => configure(parseResult, services)));
         return configuration;

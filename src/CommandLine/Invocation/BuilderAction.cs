@@ -21,7 +21,7 @@ public static class BuilderAction
     /// <param name="command">The command.</param>
     /// <param name="createInstance">The instance.</param>
     /// <param name="configure">The action to confure the builder.</param>
-    public static void SetHandlers<TBuilder, TInstance>(CliCommand command, Func<TBuilder, TInstance> createInstance, Action<ParseResult, TBuilder> configure)
+    public static void SetHandlers<TBuilder, TInstance>(CliCommand command, Func<TBuilder, TInstance> createInstance, Action<ParseResult?, TBuilder> configure)
         where TBuilder : new() => SetHandlers(command, _ => new TBuilder(), createInstance, configure);
 
     /// <summary>
@@ -33,7 +33,7 @@ public static class BuilderAction
     /// <param name="createBuilder">The function to create the builder.</param>
     /// <param name="buildInstance">The build the instance.</param>
     /// <param name="configure">The action to confure the builder.</param>
-    public static void SetHandlers<TBuilder, TInstance>(CliCommand command, Func<ParseResult, TBuilder> createBuilder, Func<TBuilder, TInstance> buildInstance, Action<ParseResult, TBuilder> configure)
+    public static void SetHandlers<TBuilder, TInstance>(CliCommand command, Func<ParseResult?, TBuilder> createBuilder, Func<TBuilder, TInstance> buildInstance, Action<ParseResult?, TBuilder> configure)
     {
         // see if the handler already exists
         if (Configures.TryGetValue((command, typeof(TBuilder), typeof(TInstance)), out var configurer))
@@ -64,7 +64,7 @@ public static class BuilderAction
             }
         }
 
-        TInstance Create(ParseResult parseResult)
+        TInstance Create(ParseResult? parseResult)
         {
             var builder = createBuilder(parseResult);
             if (Configures.TryGetValue((command, typeof(TBuilder), typeof(TInstance)), out var configurer))
@@ -111,9 +111,9 @@ public static class BuilderAction
 
     private sealed class Configurer
     {
-        private readonly IList<Action<ParseResult, object?>> actions = new List<Action<ParseResult, object?>>();
+        private readonly IList<Action<ParseResult?, object?>> actions = new List<Action<ParseResult?, object?>>();
 
-        public void Add<T>(Action<ParseResult, T> action) => this.Add((parseResult, obj) =>
+        public void Add<T>(Action<ParseResult?, T> action) => this.Add((parseResult, obj) =>
         {
             if (obj is T t)
             {
@@ -121,9 +121,9 @@ public static class BuilderAction
             }
         });
 
-        public void Add(Action<ParseResult, object?> action) => this.actions.Add(action);
+        public void Add(Action<ParseResult?, object?> action) => this.actions.Add(action);
 
-        public void Configure(ParseResult parseResult, object? obj)
+        public void Configure(ParseResult? parseResult, object? obj)
         {
             foreach (var action in this.actions)
             {

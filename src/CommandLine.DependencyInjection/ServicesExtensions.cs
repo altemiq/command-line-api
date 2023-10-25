@@ -34,7 +34,7 @@ public static class ServicesExtensions
     /// <returns>The configured configuration.</returns>
     public static T UseServices<T>(
         this T configuration,
-        Action<ParseResult, IServiceCollection> configure)
+        Action<ParseResult?, IServiceCollection> configure)
         where T : CliConfiguration
     {
         Invocation.BuilderAction.SetHandlers<ServiceCollection, IServiceProvider>(configuration.RootCommand, builder => builder.BuildServiceProvider(), configure);

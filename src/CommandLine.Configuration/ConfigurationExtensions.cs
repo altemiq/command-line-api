@@ -34,7 +34,7 @@ public static class ConfigurationExtensions
     /// <returns>The configured configuration.</returns>
     public static T UseConfiguration<T>(
         this T configuration,
-        Action<ParseResult, IConfigurationBuilder> configure)
+        Action<ParseResult?, IConfigurationBuilder> configure)
         where T : CliConfiguration
     {
         Invocation.BuilderAction.SetHandlers<ConfigurationBuilder, IConfiguration>(configuration.RootCommand, builder => builder.Build(), configure);
@@ -65,7 +65,7 @@ public static class ConfigurationExtensions
     /// <returns>The configured configuration.</returns>
     public static T UseConfiguration<T>(
         this T configuration,
-        Func<ParseResult, IConfigurationBuilder> createBuilder,
+        Func<ParseResult?, IConfigurationBuilder> createBuilder,
         Action<IConfigurationBuilder> configure)
         where T : CliConfiguration => UseConfiguration(configuration, createBuilder, (_, builder) => configure(builder));
 
@@ -80,7 +80,7 @@ public static class ConfigurationExtensions
     public static T UseConfiguration<T>(
         this T configuration,
         Func<IConfigurationBuilder> createBuilder,
-        Action<ParseResult, IConfigurationBuilder> configure)
+        Action<ParseResult?, IConfigurationBuilder> configure)
         where T : CliConfiguration => UseConfiguration(configuration, _ => createBuilder(), configure);
 
     /// <summary>
@@ -93,8 +93,8 @@ public static class ConfigurationExtensions
     /// <returns>The configured configuration.</returns>
     public static T UseConfiguration<T>(
         this T configuration,
-        Func<ParseResult, IConfigurationBuilder> createBuilder,
-        Action<ParseResult, IConfigurationBuilder> configure)
+        Func<ParseResult?, IConfigurationBuilder> createBuilder,
+        Action<ParseResult?, IConfigurationBuilder> configure)
         where T : CliConfiguration
     {
         Invocation.BuilderAction.SetHandlers(configuration.RootCommand, createBuilder, builder => builder.Build(), configure);
