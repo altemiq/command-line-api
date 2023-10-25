@@ -11,13 +11,15 @@ public class ServiceExtensionsTests
     [Fact]
     public void GetServices()
     {
+        IServiceProvider? serviceProvider = default;
         var rootCommand = new CliRootCommand();
-        rootCommand.SetAction(result => result.GetServices().Should().NotBeNull());
+        rootCommand.SetAction(result => serviceProvider = result.GetServices());
 
         var configuration = new CliConfiguration(rootCommand);
         _ = configuration.UseServices(services => { });
 
         _ = configuration.Invoke(Array.Empty<string>());
+        serviceProvider.Should().NotBeNull();
 
     }
 }

@@ -11,35 +11,41 @@ public class HostingExtensionsTests
     [Fact]
     public void GetConfiguration()
     {
+        Microsoft.Extensions.Configuration.IConfiguration? config = default;
         var rootCommand = new CliRootCommand();
-        rootCommand.SetAction(result => result.GetConfiguration().Should().NotBeNull());
+        rootCommand.SetAction(result => config = result.GetConfiguration());
 
         var configuration = new CliConfiguration(rootCommand);
         _ = configuration.UseConfiguration();
 
         _ = configuration.Invoke(Array.Empty<string>());
+        _ = config.Should().NotBeNull();
     }
 
     [Fact]
     public void GetServices()
     {
+        IServiceProvider? serviceProvider = default;
         var rootCommand = new CliRootCommand();
-        rootCommand.SetAction(result => result.GetServices().Should().NotBeNull());
+        rootCommand.SetAction(result => serviceProvider = result.GetServices());
 
         var configuration = new CliConfiguration(rootCommand);
         _ = configuration.UseServices();
 
         _ = configuration.Invoke(Array.Empty<string>());
+        _ = serviceProvider.Should().NotBeNull();
     }
 
     [Fact]
     public void GetConfigurationAndServices()
     {
+        IServiceProvider? serviceProvider = default;
+        Microsoft.Extensions.Configuration.IConfiguration? config = default;
         var rootCommand = new CliRootCommand();
         rootCommand.SetAction(result =>
         {
-            _ = result.GetServices().Should().NotBeNull();
-            _ = result.GetConfiguration().Should().NotBeNull();
+            serviceProvider = result.GetServices();
+            config = result.GetConfiguration();
         });
 
         var configuration = new CliConfiguration(rootCommand);
@@ -60,11 +66,14 @@ public class HostingExtensionsTests
 
         _ = configuration.Invoke(Array.Empty<string>());
         _ = count.Should().Be(1);
+        _ = serviceProvider.Should().NotBeNull();
+        _ = config.Should().NotBeNull();
     }
 
     [Fact]
     public void UseConfigurationInDefaultValueFromArgument()
     {
+        Microsoft.Extensions.Configuration.IConfiguration? config = default;
         var argument = new CliArgument<string>("ARG")
         {
             DefaultValueFactory = argumentResult =>
@@ -75,7 +84,6 @@ public class HostingExtensionsTests
                     config = action.GetConfiguration();
                 }
 
-                config.Should().NotBeNull();
                 return string.Empty;
             }
         };
@@ -87,25 +95,25 @@ public class HostingExtensionsTests
         rootCommand.SetAction(_ => { });
 
         var configuration = new CliConfiguration(rootCommand);
-        configuration.UseConfiguration();
+        _ = configuration.UseConfiguration();
 
         _ = configuration.Invoke(Array.Empty<string>());
+        _ = config.Should().NotBeNull();
     }
 
     [Fact]
     public void UseConfigurationInDefaultValueFromOption()
     {
+        Microsoft.Extensions.Configuration.IConfiguration? config = default;
         var argument = new CliOption<string>("--option")
         {
             DefaultValueFactory = argumentResult =>
             {
-                Microsoft.Extensions.Configuration.IConfiguration? config = default;
                 if (argumentResult.GetCommand() is { } command)
                 {
                     config = command.GetConfiguration();
                 }
 
-                config.Should().NotBeNull();
                 return string.Empty;
             },
             Recursive = true,
@@ -119,8 +127,9 @@ public class HostingExtensionsTests
         rootCommand.SetAction(_ => { });
 
         var configuration = new CliConfiguration(rootCommand);
-        configuration.UseConfiguration();
+        _ = configuration.UseConfiguration();
 
         _ = configuration.Invoke("--help");
+        _ = config.Should().NotBeNull();
     }
 }
