@@ -132,4 +132,45 @@ public class HostingExtensionsTests
         _ = configuration.Invoke("--help");
         _ = config.Should().NotBeNull();
     }
+
+    [Theory]
+    [InlineData("first")]
+    [InlineData("second")]
+    public void UseConfigurationInHelp(string name)
+    {
+        Microsoft.Extensions.Configuration.IConfiguration? config = default;
+        CliCommand? command = default;
+
+        var argument = new CliOption<string>("--option")
+        {
+            DefaultValueFactory = _ => default!,
+            Recursive = true,
+        };
+
+        var firstSubCommand = new CliCommand("first") { argument };
+        firstSubCommand.SetAction(_ => { });
+        var secondSubCommand = new CliCommand("second") { argument };
+        secondSubCommand.SetAction(_ => { });
+
+        var rootCommand = new CliRootCommand
+        {
+            firstSubCommand,
+            secondSubCommand,
+        };
+
+        argument.CustomizeHelp(helpContext =>
+        {
+            command = helpContext.Command;
+            config = command.GetConfiguration();
+            return default;
+        });
+
+        var configuration = new CliConfiguration(rootCommand);
+        _ = configuration.UseConfiguration();
+
+        _ = configuration.Invoke($"{name} --help");
+
+        _ = command.Should().NotBeNull().And.Subject.As<CliCommand>().Name.Should().Be(name);
+        _ = config.Should().NotBeNull();
+    }
 }
