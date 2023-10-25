@@ -6,20 +6,24 @@
 
 namespace System.CommandLine.Logging;
 
-using Microsoft.Extensions.Logging;
-
 /// <summary>
 /// The <see cref="CliConfiguration"/> <see cref="ILogger"/>.
 /// </summary>
 /// <param name="configuration">The configuration.</param>
-/// <param name="level">The log level.</param>
-internal class CliConfigurationLogger(CliConfiguration configuration, LogLevel level) : ILogger
+/// <param name="scopeProvider">The scope provider.</param>
+internal class CliConfigurationLogger(CliConfiguration configuration, IExternalScopeProvider? scopeProvider) : ILogger
 {
-    /// <inheritdoc/>
-    public IDisposable BeginScope<TState>(TState state) => throw new NotSupportedException();
+    /// <summary>
+    /// Gets or sets the scope provider.
+    /// </summary>
+    internal IExternalScopeProvider? ScopeProvider { get; set; } = scopeProvider;
 
     /// <inheritdoc/>
-    public bool IsEnabled(LogLevel logLevel) => logLevel >= level;
+    public IDisposable BeginScope<TState>(TState state)
+        where TState : notnull => this.ScopeProvider?.Push(state) ?? Internal.NullScope.Instance;
+
+    /// <inheritdoc/>
+    public bool IsEnabled(LogLevel logLevel) => logLevel != LogLevel.None;
 
     /// <inheritdoc/>
     public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)

@@ -46,19 +46,19 @@ public static class ServicesExtensions
     /// </summary>
     /// <param name="parseResult">The parse result.</param>
     /// <returns>The service provider.</returns>
-    public static IServiceProvider? GetServices(this ParseResult parseResult) => Invocation.BuilderAction.GetInstance<IServiceProvider>(parseResult);
+    public static IServiceProvider? GetServices(this ParseResult parseResult) => Invocation.InstanceAction.GetInstance<IServiceProvider>(parseResult);
 
     /// <summary>
     /// Gets the service provider from the command.
     /// </summary>
     /// <param name="command">The command.</param>
     /// <returns>The service provider.</returns>
-    public static IServiceProvider? GetServices(this CliCommand command) => Invocation.BuilderAction.GetInstance<IServiceProvider>(command);
+    public static IServiceProvider? GetServices(this CliCommand command) => Invocation.InstanceAction.GetInstance<IServiceProvider>(command);
 
     /// <summary>
     /// Gets the service provider from the action.
     /// </summary>
     /// <param name="action">The action.</param>
     /// <returns>The service provider.</returns>
-    public static IServiceProvider? GetServices(this Invocation.CliAction action) => Invocation.BuilderAction.GetInstance<IServiceProvider>(action);
+    public static IServiceProvider? GetServices(this Invocation.CliAction action) => Invocation.InstanceAction.GetInstance<IServiceProvider>(action);
 }

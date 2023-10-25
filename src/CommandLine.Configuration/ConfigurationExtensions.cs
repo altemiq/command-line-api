@@ -106,19 +106,19 @@ public static class ConfigurationExtensions
     /// </summary>
     /// <param name="parseResult">The parse result.</param>
     /// <returns>The configuration.</returns>
-    public static IConfiguration? GetConfiguration(this ParseResult parseResult) => Invocation.BuilderAction.GetInstance<IConfiguration>(parseResult);
+    public static IConfiguration? GetConfiguration(this ParseResult parseResult) => Invocation.InstanceAction.GetInstance<IConfiguration>(parseResult);
 
     /// <summary>
     /// Gets the configuration from the command.
     /// </summary>
     /// <param name="command">The command.</param>
     /// <returns>The configuration.</returns>
-    public static IConfiguration? GetConfiguration(this CliCommand command) => Invocation.BuilderAction.GetInstance<IConfiguration>(command);
+    public static IConfiguration? GetConfiguration(this CliCommand command) => Invocation.InstanceAction.GetInstance<IConfiguration>(command);
 
     /// <summary>
     /// Gets the configuration from the action.
     /// </summary>
     /// <param name="action">The action.</param>
     /// <returns>The configuration.</returns>
-    public static IConfiguration? GetConfiguration(this Invocation.CliAction action) => Invocation.BuilderAction.GetInstance<IConfiguration>(action);
+    public static IConfiguration? GetConfiguration(this Invocation.CliAction action) => Invocation.InstanceAction.GetInstance<IConfiguration>(action);
 }

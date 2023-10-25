@@ -278,42 +278,42 @@ public static class HostingExtensions
     /// </summary>
     /// <param name="parseResult">The parse result.</param>
     /// <returns>The configuration.</returns>
-    public static Microsoft.Extensions.Configuration.IConfiguration? GetConfiguration(this ParseResult parseResult) => Invocation.BuilderAction.GetInstance<Microsoft.Extensions.Hosting.IHost>(parseResult)?.GetConfiguration();
+    public static Microsoft.Extensions.Configuration.IConfiguration? GetConfiguration(this ParseResult parseResult) => Invocation.InstanceAction.GetInstance<Microsoft.Extensions.Hosting.IHost>(parseResult)?.GetConfiguration();
 
     /// <summary>
     /// Gets the configuration from the command.
     /// </summary>
     /// <param name="command">The command.</param>
     /// <returns>The configuration.</returns>
-    public static Microsoft.Extensions.Configuration.IConfiguration? GetConfiguration(this CliCommand command) => Invocation.BuilderAction.GetInstance<Microsoft.Extensions.Hosting.IHost>(command)?.GetConfiguration();
+    public static Microsoft.Extensions.Configuration.IConfiguration? GetConfiguration(this CliCommand command) => Invocation.InstanceAction.GetInstance<Microsoft.Extensions.Hosting.IHost>(command)?.GetConfiguration();
 
     /// <summary>
     /// Gets the configuration from the action.
     /// </summary>
     /// <param name="action">The action.</param>
     /// <returns>The configuration.</returns>
-    public static Microsoft.Extensions.Configuration.IConfiguration? GetConfiguration(this Invocation.CliAction action) => Invocation.BuilderAction.GetInstance<Microsoft.Extensions.Hosting.IHost>(action)?.GetConfiguration();
+    public static Microsoft.Extensions.Configuration.IConfiguration? GetConfiguration(this Invocation.CliAction action) => Invocation.InstanceAction.GetInstance<Microsoft.Extensions.Hosting.IHost>(action)?.GetConfiguration();
 
     /// <summary>
     /// Gets the service provider from the parse result.
     /// </summary>
     /// <param name="parseResult">The parse result.</param>
     /// <returns>The service provider.</returns>
-    public static IServiceProvider? GetServices(this ParseResult parseResult) => Invocation.BuilderAction.GetInstance<Microsoft.Extensions.Hosting.IHost>(parseResult)?.GetServices();
+    public static IServiceProvider? GetServices(this ParseResult parseResult) => Invocation.InstanceAction.GetInstance<Microsoft.Extensions.Hosting.IHost>(parseResult)?.GetServices();
 
     /// <summary>
     /// Gets the service provider from the command.
     /// </summary>
     /// <param name="command">The command.</param>
     /// <returns>The service provider.</returns>
-    public static IServiceProvider? GetServices(this CliCommand command) => Invocation.BuilderAction.GetInstance<Microsoft.Extensions.Hosting.IHost>(command)?.GetServices();
+    public static IServiceProvider? GetServices(this CliCommand command) => Invocation.InstanceAction.GetInstance<Microsoft.Extensions.Hosting.IHost>(command)?.GetServices();
 
     /// <summary>
     /// Gets the service provider from the action.
     /// </summary>
     /// <param name="action">The action.</param>
     /// <returns>The service provider.</returns>
-    public static IServiceProvider? GetServices(this Invocation.CliAction action) => Invocation.BuilderAction.GetInstance<Microsoft.Extensions.Hosting.IHost>(action)?.GetServices();
+    public static IServiceProvider? GetServices(this Invocation.CliAction action) => Invocation.InstanceAction.GetInstance<Microsoft.Extensions.Hosting.IHost>(action)?.GetServices();
 
     private static Microsoft.Extensions.Configuration.IConfiguration? GetConfiguration(this Microsoft.Extensions.Hosting.IHost host) => (Microsoft.Extensions.Configuration.IConfiguration)host.Services.GetService(typeof(Microsoft.Extensions.Configuration.IConfiguration));
 
