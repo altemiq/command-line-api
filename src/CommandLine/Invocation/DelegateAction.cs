@@ -21,7 +21,7 @@ public static class DelegateAction
     public static void SetHandlers(
         CliCommand command,
         Action<ParseResult> action,
-        Func<ParseResult, Task> func,
+        Func<ParseResult, CancellationToken, Task> func,
         bool preferSynchronous = false)
     {
         if (command.Action is AsynchronousCliAction asyncAction)
@@ -52,7 +52,7 @@ public static class DelegateAction
     {
         if (command.Action is AsynchronousCliAction asyncAction)
         {
-            command.Action = new Handlers.DelegateNestedAsynchronousCliAction(parseResult => Task.Run(() => action(parseResult)), asyncAction);
+            command.Action = new Handlers.DelegateNestedAsynchronousCliAction((parseResult, cancellationToken) => Task.Run(() => action(parseResult), cancellationToken), asyncAction);
         }
         else if (command.Action is SynchronousCliAction syncAction)
         {
@@ -72,7 +72,7 @@ public static class DelegateAction
     /// </summary>
     /// <param name="command">The command.</param>
     /// <param name="func">The delegate.</param>
-    public static void SetHandlers(CliCommand command, Func<ParseResult, Task> func)
+    public static void SetHandlers(CliCommand command, Func<ParseResult, CancellationToken, Task> func)
     {
         if (command.Action is AsynchronousCliAction asyncAction)
         {
@@ -98,20 +98,20 @@ public static class DelegateAction
             }
         }
 
-        public sealed class DelegateAsynchronousCliAction(Func<ParseResult, Task> func) : AsynchronousCliAction
+        public sealed class DelegateAsynchronousCliAction(Func<ParseResult, CancellationToken, Task> func) : AsynchronousCliAction
         {
             public async override Task<int> InvokeAsync(ParseResult parseResult, CancellationToken cancellationToken = default)
             {
-                await func(parseResult).ConfigureAwait(false);
+                await func(parseResult, cancellationToken).ConfigureAwait(false);
                 return 0;
             }
         }
 
-        public sealed class DelegateNestedAsynchronousCliAction(Func<ParseResult, Task> func, AsynchronousCliAction cliAction) : NestedAsynchronousCliAction(cliAction)
+        public sealed class DelegateNestedAsynchronousCliAction(Func<ParseResult, CancellationToken, Task> func, AsynchronousCliAction cliAction) : NestedAsynchronousCliAction(cliAction)
         {
             public async override Task<int> InvokeAsync(ParseResult parseResult, CancellationToken cancellationToken = default)
             {
-                await func(parseResult).ConfigureAwait(false);
+                await func(parseResult, cancellationToken).ConfigureAwait(false);
                 return await base.InvokeAsync(parseResult, cancellationToken).ConfigureAwait(false);
             }
         }
