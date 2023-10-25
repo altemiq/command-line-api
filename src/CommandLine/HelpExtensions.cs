@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="HelpExtensions.cs" company="Altavec">
-// Copyright (c) Altavec. All rights reserved.
+// <copyright file="HelpExtensions.cs" company="Altemiq">
+// Copyright (c) Altemiq. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
@@ -74,19 +74,32 @@ public static class HelpExtensions
     }
 
     /// <summary>
-    /// Uses the specified help.
+    /// Configures the help.
     /// </summary>
     /// <param name="configuration">The configuration.</param>
     /// <param name="configure">The configure function.</param>
     /// <returns>The configuration for chaining.</returns>
     public static CliConfiguration ConfigureHelp(this CliConfiguration configuration, Action<Help.HelpBuilder> configure)
     {
-        if (GetHelpAction(configuration.RootCommand) is { } helpAction)
+        configuration.RootCommand.ConfigureHelp(configure);
+        return configuration;
+    }
+
+    /// <summary>
+    /// Configures the help.
+    /// </summary>
+    /// <param name="command">The command.</param>
+    /// <param name="configure">The configure function.</param>
+    /// <returns>The command for chaining.</returns>
+    public static CliCommand ConfigureHelp(this CliCommand command, Action<Help.HelpBuilder> configure)
+    {
+        if (GetRootCommand(command) is { } rootCommand
+            && GetHelpAction(rootCommand) is { } helpAction)
         {
             configure(helpAction.Builder);
         }
 
-        return configuration;
+        return command;
     }
 
     private static Help.HelpAction? GetHelpAction(CliCommand command)
