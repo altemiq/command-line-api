@@ -58,7 +58,31 @@ public static class ConfigurationExtensions
     /// <returns>The configured configuration.</returns>
     public static CliConfiguration UseConfiguration(
         this CliConfiguration configuration,
+        Func<ParseResult, IConfigurationBuilder> createBuilder,
+        Action<IConfigurationBuilder> configure) => UseConfiguration(configuration, createBuilder, (_, builder) => configure(builder));
+
+    /// <summary>
+    /// Uses configuration for the configuration.
+    /// </summary>
+    /// <param name="configuration">The configuration.</param>
+    /// <param name="createBuilder">The builder creator.</param>
+    /// <param name="configure">The configure action.</param>
+    /// <returns>The configured configuration.</returns>
+    public static CliConfiguration UseConfiguration(
+        this CliConfiguration configuration,
         Func<IConfigurationBuilder> createBuilder,
+        Action<ParseResult, IConfigurationBuilder> configure) => UseConfiguration(configuration, _ => createBuilder(), configure);
+
+    /// <summary>
+    /// Uses configuration for the configuration.
+    /// </summary>
+    /// <param name="configuration">The configuration.</param>
+    /// <param name="createBuilder">The builder creator.</param>
+    /// <param name="configure">The configure action.</param>
+    /// <returns>The configured configuration.</returns>
+    public static CliConfiguration UseConfiguration(
+        this CliConfiguration configuration,
+        Func<ParseResult, IConfigurationBuilder> createBuilder,
         Action<ParseResult, IConfigurationBuilder> configure)
     {
         Invocation.BuilderAction.SetHandlers(configuration.RootCommand, createBuilder, builder => builder.Build(), configure);
