@@ -129,7 +129,7 @@ public class HostingExtensionsTests
         var configuration = new CliConfiguration(rootCommand);
         _ = configuration.UseConfiguration();
 
-        _ = configuration.Invoke("--help");
+        _ = configuration.Invoke(string.Empty);
         _ = config.Should().NotBeNull();
     }
 
