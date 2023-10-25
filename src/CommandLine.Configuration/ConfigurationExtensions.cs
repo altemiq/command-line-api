@@ -16,22 +16,26 @@ public static class ConfigurationExtensions
     /// <summary>
     /// Uses configuration for the configuration.
     /// </summary>
+    /// <typeparam name="T">The type of configuration.</typeparam>
     /// <param name="configuration">The configuration.</param>
     /// <param name="configure">The configure action.</param>
     /// <returns>The configured configuration.</returns>
-    public static CliConfiguration UseConfiguration(
-        this CliConfiguration configuration,
-        Action<IConfigurationBuilder> configure) => UseConfiguration(configuration, (_, builder) => configure(builder));
+    public static T UseConfiguration<T>(
+        this T configuration,
+        Action<IConfigurationBuilder> configure)
+        where T : CliConfiguration => UseConfiguration(configuration, (_, builder) => configure(builder));
 
     /// <summary>
     /// Uses configuration for the configuration.
     /// </summary>
+    /// <typeparam name="T">The type of configuration.</typeparam>
     /// <param name="configuration">The configuration.</param>
     /// <param name="configure">The configure action.</param>
     /// <returns>The configured configuration.</returns>
-    public static CliConfiguration UseConfiguration(
-        this CliConfiguration configuration,
+    public static T UseConfiguration<T>(
+        this T configuration,
         Action<ParseResult, IConfigurationBuilder> configure)
+        where T : CliConfiguration
     {
         Invocation.BuilderAction.SetHandlers<ConfigurationBuilder, IConfiguration>(configuration.RootCommand, builder => builder.Build(), configure);
         return configuration;
@@ -40,50 +44,58 @@ public static class ConfigurationExtensions
     /// <summary>
     /// Uses configuration for the configuration.
     /// </summary>
+    /// <typeparam name="T">The type of configuration.</typeparam>
     /// <param name="configuration">The configuration.</param>
     /// <param name="createBuilder">The builder creator.</param>
     /// <param name="configure">The configure action.</param>
     /// <returns>The configured configuration.</returns>
-    public static CliConfiguration UseConfiguration(
-        this CliConfiguration configuration,
+    public static T UseConfiguration<T>(
+        this T configuration,
         Func<IConfigurationBuilder> createBuilder,
-        Action<IConfigurationBuilder> configure) => UseConfiguration(configuration, createBuilder, (_, builder) => configure(builder));
+        Action<IConfigurationBuilder> configure)
+        where T : CliConfiguration => UseConfiguration(configuration, createBuilder, (_, builder) => configure(builder));
 
     /// <summary>
     /// Uses configuration for the configuration.
     /// </summary>
+    /// <typeparam name="T">The type of configuration.</typeparam>
     /// <param name="configuration">The configuration.</param>
     /// <param name="createBuilder">The builder creator.</param>
     /// <param name="configure">The configure action.</param>
     /// <returns>The configured configuration.</returns>
-    public static CliConfiguration UseConfiguration(
-        this CliConfiguration configuration,
+    public static T UseConfiguration<T>(
+        this T configuration,
         Func<ParseResult, IConfigurationBuilder> createBuilder,
-        Action<IConfigurationBuilder> configure) => UseConfiguration(configuration, createBuilder, (_, builder) => configure(builder));
+        Action<IConfigurationBuilder> configure)
+        where T : CliConfiguration => UseConfiguration(configuration, createBuilder, (_, builder) => configure(builder));
 
     /// <summary>
     /// Uses configuration for the configuration.
     /// </summary>
+    /// <typeparam name="T">The type of configuration.</typeparam>
     /// <param name="configuration">The configuration.</param>
     /// <param name="createBuilder">The builder creator.</param>
     /// <param name="configure">The configure action.</param>
     /// <returns>The configured configuration.</returns>
-    public static CliConfiguration UseConfiguration(
-        this CliConfiguration configuration,
+    public static T UseConfiguration<T>(
+        this T configuration,
         Func<IConfigurationBuilder> createBuilder,
-        Action<ParseResult, IConfigurationBuilder> configure) => UseConfiguration(configuration, _ => createBuilder(), configure);
+        Action<ParseResult, IConfigurationBuilder> configure)
+        where T : CliConfiguration => UseConfiguration(configuration, _ => createBuilder(), configure);
 
     /// <summary>
     /// Uses configuration for the configuration.
     /// </summary>
+    /// <typeparam name="T">The type of configuration.</typeparam>
     /// <param name="configuration">The configuration.</param>
     /// <param name="createBuilder">The builder creator.</param>
     /// <param name="configure">The configure action.</param>
     /// <returns>The configured configuration.</returns>
-    public static CliConfiguration UseConfiguration(
-        this CliConfiguration configuration,
+    public static T UseConfiguration<T>(
+        this T configuration,
         Func<ParseResult, IConfigurationBuilder> createBuilder,
         Action<ParseResult, IConfigurationBuilder> configure)
+        where T : CliConfiguration
     {
         Invocation.BuilderAction.SetHandlers(configuration.RootCommand, createBuilder, builder => builder.Build(), configure);
         return configuration;

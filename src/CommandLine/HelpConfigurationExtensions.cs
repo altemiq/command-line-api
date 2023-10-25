@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="HelpExtensions.cs" company="Altemiq">
+// <copyright file="HelpConfigurationExtensions.cs" company="Altemiq">
 // Copyright (c) Altemiq. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -7,9 +7,9 @@
 namespace System.CommandLine;
 
 /// <summary>
-/// <see cref="CliConfiguration"/> extensions.
+/// <see cref="Help"/> <see cref="CliConfiguration"/> extensions.
 /// </summary>
-public static class HelpExtensions
+public static class HelpConfigurationExtensions
 {
     /// <summary>
     /// Customizes the help for the symbol.
@@ -29,8 +29,8 @@ public static class HelpExtensions
         where T : CliSymbol
     {
         // get the root command
-        if (GetRootCommand(symbol) is { } rootCommand
-            && GetHelpAction(rootCommand) is { } helpAction)
+        if (Internal.CommandHelpers.GetRootCommand(symbol) is { } rootCommand
+            && Internal.ActionHelpers.GetHelpAction(rootCommand) is { } helpAction)
         {
             helpAction.Builder.CustomizeSymbol(
                 symbol,
@@ -60,8 +60,8 @@ public static class HelpExtensions
         where T : CliSymbol
     {
         // get the root command
-        if (GetRootCommand(symbol) is { } rootCommand
-            && GetHelpAction(rootCommand) is { } helpAction)
+        if (Internal.CommandHelpers.GetRootCommand(symbol) is { } rootCommand
+            && Internal.ActionHelpers.GetHelpAction(rootCommand) is { } helpAction)
         {
             helpAction.Builder.CustomizeSymbol(
                 symbol,
@@ -76,75 +76,14 @@ public static class HelpExtensions
     /// <summary>
     /// Configures the help.
     /// </summary>
+    /// <typeparam name="T">The type of configuration.</typeparam>
     /// <param name="configuration">The configuration.</param>
     /// <param name="configure">The configure function.</param>
     /// <returns>The configuration for chaining.</returns>
-    public static CliConfiguration ConfigureHelp(this CliConfiguration configuration, Action<Help.HelpBuilder> configure)
+    public static T ConfigureHelp<T>(this T configuration, Action<Help.HelpBuilder> configure)
+        where T : CliConfiguration
     {
         configuration.RootCommand.ConfigureHelp(configure);
         return configuration;
-    }
-
-    /// <summary>
-    /// Configures the help.
-    /// </summary>
-    /// <param name="command">The command.</param>
-    /// <param name="configure">The configure function.</param>
-    /// <returns>The command for chaining.</returns>
-    public static CliCommand ConfigureHelp(this CliCommand command, Action<Help.HelpBuilder> configure)
-    {
-        if (GetRootCommand(command) is { } rootCommand
-            && GetHelpAction(rootCommand) is { } helpAction)
-        {
-            configure(helpAction.Builder);
-        }
-
-        return command;
-    }
-
-    private static Help.HelpAction? GetHelpAction(CliCommand command)
-    {
-        return command.Options
-            .OfType<Help.HelpOption>()
-            .Select(option => GetHelpAction(option))
-            .FirstOrDefault(action => action is not null);
-
-        static Help.HelpAction? GetHelpAction(CliOption option)
-        {
-            return GetHelpActionCore(option.Action);
-
-            static Help.HelpAction? GetHelpActionCore(Invocation.CliAction? action)
-            {
-                return action switch
-                {
-                    Help.HelpAction helpAction => helpAction,
-                    Invocation.INestedAction nestedAction => GetHelpActionCore(nestedAction.Action),
-                    _ => default,
-                };
-            }
-        }
-    }
-
-    private static CliRootCommand? GetRootCommand(CliSymbol? symbol)
-    {
-        if (symbol is null)
-        {
-            return default;
-        }
-
-        if (symbol is CliRootCommand rootCommand)
-        {
-            return rootCommand;
-        }
-
-        foreach (var parent in symbol.Parents)
-        {
-            if (GetRootCommand(parent) is { } parentRootCommand)
-            {
-                return parentRootCommand;
-            }
-        }
-
-        return default;
     }
 }
