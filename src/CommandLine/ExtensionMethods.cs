@@ -30,32 +30,4 @@ public static class ExtensionMethods
             };
         }
     }
-
-    /// <summary>
-    /// Gets the command from the symbol.
-    /// </summary>
-    /// <param name="symbol">The symbol.</param>
-    /// <returns>The command if found.</returns>
-    public static CliCommand? GetCommand(this CliSymbol symbol)
-    {
-        return GetCommandCore(symbol);
-
-        static CliCommand? GetCommandCore(CliSymbol symbol)
-        {
-            foreach (var parent in symbol.Parents)
-            {
-                if (parent is CliCommand command)
-                {
-                    return command;
-                }
-
-                if (GetCommand(parent) is { } parentCommand)
-                {
-                    return parentCommand;
-                }
-            }
-
-            return default;
-        }
-    }
 }

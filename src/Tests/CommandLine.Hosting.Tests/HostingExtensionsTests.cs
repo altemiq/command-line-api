@@ -69,8 +69,7 @@ public class HostingExtensionsTests
         {
             DefaultValueFactory = argumentResult =>
             {
-                Microsoft.Extensions.Configuration.IConfiguration? config = default;
-                var command = argumentResult.GetCommand() ?? argumentResult.Argument.GetCommand();
+                var command = argumentResult.GetCommand();
                 if (command is not null && command.Action is { } action)
                 {
                     config = action.GetConfiguration();
@@ -101,10 +100,9 @@ public class HostingExtensionsTests
             DefaultValueFactory = argumentResult =>
             {
                 Microsoft.Extensions.Configuration.IConfiguration? config = default;
-                var command = argumentResult.GetCommand() ?? argumentResult.Argument.GetCommand();
-                if (command is not null && command.Action is { } action)
+                if (argumentResult.GetCommand() is { } command)
                 {
-                    config = action.GetConfiguration();
+                    config = command.GetConfiguration();
                 }
 
                 config.Should().NotBeNull();
