@@ -6,8 +6,6 @@
 
 namespace System.CommandLine;
 
-using Spectre.Console;
-
 /// <summary>
 /// The <see cref="AnsiConsole"/> <see cref="CliCommand"/> extensions.
 /// </summary>

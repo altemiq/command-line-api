@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>net7.0;netstandard2.0</TargetFrameworks>
     <RootNamespace>$(RootNamespace.Replace('.Spectre', ''))</RootNamespace>
   </PropertyGroup>
 
@@ -11,6 +11,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CommandLine\CommandLine.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Spectre.Console" />
   </ItemGroup>
 
 </Project>

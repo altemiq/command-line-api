@@ -16,6 +16,7 @@
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Hosting" Version="7.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Logging" Version="7.0.0" />
+    <PackageVersion Include="Spectre.Console.Testing" Version="0.47.0" />
   </ItemGroup>
 
   <ItemGroup>

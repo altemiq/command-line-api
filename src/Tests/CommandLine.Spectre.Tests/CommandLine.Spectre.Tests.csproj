@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net7.0;net6.0</TargetFrameworks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="Spectre.Console.Testing" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\CommandLine.Spectre\CommandLine.Spectre.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Spectre.Console;Spectre.Console.Testing" />
+  </ItemGroup>
+
+</Project>

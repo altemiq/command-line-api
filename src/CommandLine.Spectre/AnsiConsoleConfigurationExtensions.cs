@@ -6,8 +6,6 @@
 
 namespace System.CommandLine;
 
-using Spectre.Console;
-
 /// <summary>
 /// Extensions using <see cref="Spectre.Console"/>.
 /// </summary>
