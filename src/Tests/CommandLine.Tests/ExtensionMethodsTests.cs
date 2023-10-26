@@ -1,10 +1,10 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="ServiceExtensionsTests.cs" company="Altemiq">
+// <copyright file="ExtensionMethodsTests.cs" company="Altemiq">
 // Copyright (c) Altemiq. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
-namespace System.CommandLine.Services;
+namespace System.CommandLine;
 
 public class ExtensionMethodsTests
 {
@@ -15,7 +15,7 @@ public class ExtensionMethodsTests
         var configuration = new CliConfiguration(new CliRootCommand { option });
 
         var parseResult = configuration.Parse("--option value");
-        parseResult.GetRequiredValue(option).Should().Be("value");
+        _ = parseResult.GetRequiredValue(option).Should().Be("value");
     }
 
     [Fact]
@@ -24,7 +24,7 @@ public class ExtensionMethodsTests
         var option = new CliOption<string>("--option");
         var configuration = new CliConfiguration(new CliRootCommand { option });
 
-        configuration.Parse(string.Empty).Invoking(parseResult => parseResult.GetRequiredValue(option)).Should().Throw<ArgumentNullException>();
+        _ = configuration.Parse(string.Empty).Invoking(parseResult => parseResult.GetRequiredValue(option)).Should().Throw<ArgumentNullException>();
     }
 
     [Fact]
@@ -34,7 +34,7 @@ public class ExtensionMethodsTests
         var configuration = new CliConfiguration(new CliRootCommand { argument });
 
         var parseResult = configuration.Parse("value");
-        parseResult.GetRequiredValue(argument).Should().Be("value");
+        _ = parseResult.GetRequiredValue(argument).Should().Be("value");
     }
 
     [Fact]
@@ -43,6 +43,6 @@ public class ExtensionMethodsTests
         var argument = new CliArgument<string>("ARG") { DefaultValueFactory = _ => default! };
         var configuration = new CliConfiguration(new CliRootCommand { argument });
 
-        configuration.Parse(string.Empty).Invoking(parseResult => parseResult.GetRequiredValue(argument)).Should().Throw<ArgumentNullException>();
+        _ = configuration.Parse(string.Empty).Invoking(parseResult => parseResult.GetRequiredValue(argument)).Should().Throw<ArgumentNullException>();
     }
 }

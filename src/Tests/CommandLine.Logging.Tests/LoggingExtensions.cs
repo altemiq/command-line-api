@@ -14,15 +14,15 @@ public class LoggingExtensions
     public void AddLogging()
     {
         var configuration = new CliConfiguration(new CliRootCommand());
-        configuration.AddLogging((parseResult, builder) =>
+        _ = configuration.AddLogging((parseResult, builder) =>
         {
             if (parseResult?.Configuration is { } configuration)
             {
-                builder.AddCliConfiguration(configuration);
+                _ = builder.AddCliConfiguration(configuration);
             }
         });
 
         var parseResult = configuration.Parse(string.Empty);
-        parseResult.CreateLogger("Test").Should().NotBeNull();
+        _ = parseResult.CreateLogger("Test").Should().NotBeNull();
     }
 }

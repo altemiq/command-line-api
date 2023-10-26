@@ -19,7 +19,7 @@ public class ServiceExtensionsTests
         _ = configuration.UseServices(services => { });
 
         _ = configuration.Invoke(Array.Empty<string>());
-        serviceProvider.Should().NotBeNull();
+        _ = serviceProvider.Should().NotBeNull();
 
     }
 }

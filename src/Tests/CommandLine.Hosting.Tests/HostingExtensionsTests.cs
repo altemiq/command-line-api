@@ -145,7 +145,7 @@ public class HostingExtensionsTests
             secondSubCommand,
         };
 
-        argument.CustomizeHelp(helpContext =>
+        _ = argument.CustomizeHelp(helpContext =>
         {
             command = helpContext.Command;
             config = command.GetConfiguration();

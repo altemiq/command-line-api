@@ -24,7 +24,7 @@ public static class AnsiConsoleConfigurationExtensions
     public static T AddFiglet<T>(this T configuration, string text, Color color)
         where T : CliConfiguration
     {
-        configuration.RootCommand.AddFiglet(text, color);
+        _ = configuration.RootCommand.AddFiglet(text, color);
         return configuration;
     }
 
@@ -40,7 +40,7 @@ public static class AnsiConsoleConfigurationExtensions
     public static T AddFiglet<T>(this T configuration, FigletFont font, string text, Color color)
         where T : CliConfiguration
     {
-        configuration.RootCommand.AddFiglet(font, text, color);
+        _ = configuration.RootCommand.AddFiglet(font, text, color);
         return configuration;
     }
 
@@ -54,7 +54,7 @@ public static class AnsiConsoleConfigurationExtensions
     public static T AddFiglet<T>(this T configuration, FigletText text)
         where T : CliConfiguration
     {
-        configuration.RootCommand.AddFiglet(text);
+        _ = configuration.RootCommand.AddFiglet(text);
         return configuration;
     }
 }

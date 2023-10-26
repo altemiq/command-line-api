@@ -83,7 +83,7 @@ public static class HelpConfigurationExtensions
     public static T ConfigureHelp<T>(this T configuration, Action<Help.HelpBuilder> configure)
         where T : CliConfiguration
     {
-        configuration.RootCommand.ConfigureHelp(configure);
+        _ = configuration.RootCommand.ConfigureHelp(configure);
         return configuration;
     }
 }
