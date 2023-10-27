@@ -15,11 +15,11 @@ public class LoggingBuilderExtensionsTests
     public void CreateLogger() => CreateLoggerImpl("Program").Should().NotBeNull();
 
     [Theory]
-    [InlineData(LogLevel.Information, LogLevel.Information, 6)]
+    [InlineData(LogLevel.Information, LogLevel.Information, 4)]
     [InlineData(LogLevel.Warning, LogLevel.Information, 0)]
-    [InlineData(LogLevel.Information, LogLevel.Warning, 6)]
+    [InlineData(LogLevel.Information, LogLevel.Warning, 4)]
     [InlineData(LogLevel.Debug, LogLevel.Trace, 0)]
-    [InlineData(LogLevel.Trace, LogLevel.Debug, 6)]
+    [InlineData(LogLevel.Trace, LogLevel.Debug, 4)]
     [InlineData(LogLevel.None, LogLevel.Warning, 0)]
     public void LogValue(LogLevel minLevel, LogLevel level, int expectedLength)
     {
@@ -29,6 +29,11 @@ public class LoggingBuilderExtensionsTests
 
         var logger = factory.CreateLogger("Test");
         logger.Log(level, "Test");
+
+        if (expectedLength > 0)
+        {
+            expectedLength += Environment.NewLine.Length;
+        }
 
         _ = writer.GetStringBuilder().Length.Should().Be(expectedLength);
     }
