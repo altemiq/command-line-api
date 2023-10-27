@@ -13,12 +13,21 @@ namespace System.CommandLine.Logging;
 /// Initialises a new instance of the <see cref="CliConfigurationLoggerProvider"/> class.
 /// </remarks>
 /// <param name="configuration">The configuration.</param>
-internal sealed class CliConfigurationLoggerProvider(CliConfiguration configuration) : ILoggerProvider, ISupportExternalScope
+/// <param name="comparer">The <see cref="IEqualityComparer{T}"/> implementation to use when comparing category names.</param>
+internal sealed class CliConfigurationLoggerProvider(CliConfiguration configuration, IEqualityComparer<string> comparer) : ILoggerProvider, ISupportExternalScope
 {
-    private readonly Collections.Concurrent.ConcurrentDictionary<string, CliConfigurationLogger> loggers = new();
+    private readonly Collections.Concurrent.ConcurrentDictionary<string, CliConfigurationLogger> loggers = new(comparer);
     private readonly CliConfiguration configuration = configuration;
-
     private IExternalScopeProvider scopeProvider = Internal.NullExternalScopeProvider.Instance;
+
+    /// <summary>
+    /// Initialises a new instance of the <see cref="CliConfigurationLoggerProvider"/> class.
+    /// </summary>
+    /// <param name="configuration">The configuration.</param>
+    public CliConfigurationLoggerProvider(CliConfiguration configuration)
+        : this(configuration, StringComparer.Ordinal)
+    {
+    }
 
     /// <inheritdoc/>
     public ILogger CreateLogger(string categoryName) => this.loggers.GetOrAdd(categoryName, _ => new CliConfigurationLogger(this.configuration, this.scopeProvider));
