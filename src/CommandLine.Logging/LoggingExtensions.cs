@@ -38,14 +38,21 @@ public static class LoggingExtensions
         return configuration;
     }
 
+    /// <summary>
+    /// Gets the logger factory.
+    /// </summary>
+    /// <param name="parseResult">The parse result.</param>
+    /// <returns>The logger factory.</returns>
+    public static ILoggerFactory GetLoggerFactory(this ParseResult parseResult) => Invocation.InstanceAction.GetInstance<ILoggerFactory>(parseResult) ?? throw new InvalidOperationException(Properties.Resources.FailedToCreateLoggerFactory);
+
     /// <inheritdoc cref="ILoggerFactory.CreateLogger(string)" />
-    public static ILogger CreateLogger(this ParseResult parseResult, string categoryName) => LoggerAction.GetLoggerFactory(parseResult)!.CreateLogger(categoryName);
+    public static ILogger CreateLogger(this ParseResult parseResult, string categoryName) => parseResult.GetLoggerFactory().CreateLogger(categoryName);
 
     /// <inheritdoc cref="LoggerFactoryExtensions.CreateLogger(ILoggerFactory, Type)" />
-    public static ILogger CreateLogger(this ParseResult parseResult, Type type) => LoggerAction.GetLoggerFactory(parseResult)!.CreateLogger(type);
+    public static ILogger CreateLogger(this ParseResult parseResult, Type type) => parseResult.GetLoggerFactory().CreateLogger(type);
 
     /// <inheritdoc cref="LoggerFactoryExtensions.CreateLogger{T}(ILoggerFactory)" />
-    public static ILogger<T> CreateLogger<T>(this ParseResult parseResult) => LoggerAction.GetLoggerFactory(parseResult)!.CreateLogger<T>();
+    public static ILogger<T> CreateLogger<T>(this ParseResult parseResult) => parseResult.GetLoggerFactory().CreateLogger<T>();
 
     /// <summary>
     /// Gets the log level.
@@ -87,9 +94,10 @@ public static class LoggingExtensions
                 var serviceCollection = new ServiceCollection();
                 _ = serviceCollection.AddLogging(builder =>
                 {
-                    if (parseResult is not null)
+                    if (parseResult?.GetResult(CliOptions.VerbosityOption) is { } optionResult)
                     {
-                        _ = builder.SetMinimumLevel(parseResult.GetLogLevel());
+                        var value = optionResult.GetValueOrDefault<VerbosityOptions>();
+                        _ = builder.SetMinimumLevel(value.GetLogLevel());
                     }
 
                     if (Configures.TryGetValue(command, out var configurer))
@@ -103,8 +111,6 @@ public static class LoggingExtensions
                 return new DisposingLoggerFactory(loggerFactory, serviceProvider);
             }
         }
-
-        public static ILoggerFactory? GetLoggerFactory(ParseResult parseResult) => Invocation.InstanceAction.GetInstance<ILoggerFactory>(parseResult.CommandResult.Command.Action!);
 
         private sealed class Configurer
         {
