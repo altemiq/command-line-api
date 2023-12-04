@@ -11,7 +11,7 @@ namespace System.CommandLine.Logging;
 /// </summary>
 /// <param name="configuration">The configuration.</param>
 /// <param name="scopeProvider">The scope provider.</param>
-internal class CliConfigurationLogger(CliConfiguration configuration, IExternalScopeProvider? scopeProvider) : ILogger
+internal sealed class CliConfigurationLogger(CliConfiguration configuration, IExternalScopeProvider? scopeProvider) : ILogger
 {
     /// <summary>
     /// Gets or sets the scope provider.

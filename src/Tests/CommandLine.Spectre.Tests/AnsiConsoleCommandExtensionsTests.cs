@@ -34,7 +34,7 @@ public class AnsiConsoleCommandExtensionsTests
     {
         var console = new TestConsole();
         var command = new CliCommand(nameof(AddFigetToSubCommand));
-        
+
         var configuration = new CliConfiguration(new CliRootCommand { command });
         command.AddFiglet("value", Color.Blue, console);
 
