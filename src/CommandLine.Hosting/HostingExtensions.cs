@@ -136,7 +136,7 @@ public static class HostingExtensions
     {
         Invocation.BuilderAction.SetHandlers(
             configuration.RootCommand,
-            parseResult => hostBuilderFactory(parseResult?.UnmatchedTokens.ToArray() ?? Array.Empty<string>()),
+            parseResult => hostBuilderFactory(parseResult?.UnmatchedTokens.ToArray() ?? []),
             builder => builder.Build(),
             (parseResult, builder) => builder.ConfigureAppConfiguration((_, builder) => configure(parseResult, builder)));
 
@@ -267,7 +267,7 @@ public static class HostingExtensions
     {
         Invocation.BuilderAction.SetHandlers(
             configuration.RootCommand,
-            parseResult => hostBuilderFactory(parseResult?.UnmatchedTokens.ToArray() ?? Array.Empty<string>()),
+            parseResult => hostBuilderFactory(parseResult?.UnmatchedTokens.ToArray() ?? []),
             builder => builder.Build(),
             (parseResult, builder) => builder.ConfigureServices((_, services) => configure(parseResult, services)));
         return configuration;

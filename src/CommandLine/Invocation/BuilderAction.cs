@@ -11,7 +11,7 @@ namespace System.CommandLine.Invocation;
 /// </summary>
 public static class BuilderAction
 {
-    private static readonly Dictionary<(CliCommand, Type, Type), Configurer> Configures = new();
+    private static readonly Dictionary<(CliCommand, Type, Type), Configurer> Configures = [];
 
     /// <summary>
     /// Sets the handlers.
@@ -61,7 +61,7 @@ public static class BuilderAction
 
     private sealed class Configurer
     {
-        private readonly List<Action<ParseResult?, object?>> actions = new();
+        private readonly List<Action<ParseResult?, object?>> actions = [];
 
         public void Add<T>(Action<ParseResult?, T> action) => this.Add((parseResult, obj) =>
         {

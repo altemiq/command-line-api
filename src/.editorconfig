@@ -124,7 +124,6 @@ dotnet_naming_style.begins_with_i.required_prefix = I
 dotnet_naming_style.begins_with_i.required_suffix = 
 dotnet_naming_style.begins_with_i.word_separator = 
 dotnet_naming_style.begins_with_i.capitalization = pascal_case
-tab_width = 4
 
 #### C# Coding Conventions ####
 [*.cs]
@@ -178,6 +177,11 @@ csharp_using_directive_placement = inside_namespace:silent
 
 # namespace declaration
 csharp_style_namespace_declarations = file_scoped:warning
+
+# new styles
+csharp_style_prefer_method_group_conversion = true:silent
+csharp_style_prefer_top_level_statements = true:silent
+csharp_style_prefer_primary_constructors = true:suggestion
 
 #### C# Formatting Rules ####
 
@@ -265,6 +269,8 @@ dotnet_diagnostic.S3971.severity = none
 
 # S6618: Use "string.Create" instead of "FormattableString".
 dotnet_diagnostic.S6618.severity = none
-csharp_style_prefer_method_group_conversion = true:silent
-csharp_style_prefer_top_level_statements = true:silent
-csharp_style_prefer_primary_constructors = true:suggestion
+
+#### StyleCop ####
+
+# SA1010: Opening square brackets should be spaced correctly
+dotnet_diagnostic.SA1010.severity = none

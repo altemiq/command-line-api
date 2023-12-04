@@ -66,7 +66,7 @@ public static class LoggingExtensions
 
     private static class LoggerAction
     {
-        private static readonly Dictionary<CliCommand, Configurer> Configures = new();
+        private static readonly Dictionary<CliCommand, Configurer> Configures = [];
 
         public static void SetHandlers(CliCommand command, Action<ParseResult?, ILoggingBuilder> configure)
         {
@@ -108,7 +108,7 @@ public static class LoggingExtensions
 
         private sealed class Configurer
         {
-            private readonly List<Action<ParseResult?, object?>> actions = new();
+            private readonly List<Action<ParseResult?, object?>> actions = [];
 
             public void Add<T>(Action<ParseResult?, T> action) => this.Add((parseResult, obj) =>
             {
