@@ -11,6 +11,13 @@ using global::Spectre.Console.Testing;
 public class PromptExtensionsTests
 {
     [Fact]
+    public void TestSpecifiedBoolean()
+    {
+        var (parseResult, option, console) = GetResult<bool>("y", "--option true");
+        _ = parseResult.GetValueOrPrompt(option, "Specify boolean value: ", console).Should().BeTrue();
+    }
+
+    [Fact]
     public void TestBoolean()
     {
         var (parseResult, option, console) = GetResult<bool>("y");
@@ -25,6 +32,12 @@ public class PromptExtensionsTests
         option.DefaultValueFactory = _ => true;
         console.Input.PushKey(ConsoleKey.Enter);
         _ = parseResult.GetValueOrPrompt(option, "Get default value: ", console).Should().BeTrue();
+    }
+    [Fact]
+    public void TestSpecifiedString()
+    {
+        var (parseResult, option, console) = GetResult<string>(args: "--option value");
+        _ = parseResult.GetValueOrPrompt(option, "Enter string value: ", console).Should().Be("value");
     }
 
     [Fact]
@@ -67,19 +80,30 @@ public class PromptExtensionsTests
         _ = parseResult.GetValueOrPrompt(option, "Select enum value: ", console).Should().Be(fileMode);
     }
 
-    [Fact]
-    public void TestFlag()
+    [Theory]
+    [InlineData(typeof(Enums.SByte.FileShare))]
+    [InlineData(typeof(Enums.Byte.FileShare))]
+    [InlineData(typeof(Enums.Int16.FileShare))]
+    [InlineData(typeof(Enums.UInt16.FileShare))]
+    [InlineData(typeof(FileShare))]
+    [InlineData(typeof(Enums.UInt32.FileShare))]
+    [InlineData(typeof(Enums.Int64.FileShare))]
+    [InlineData(typeof(Enums.UInt64.FileShare))]
+    public void TestFlag(Type type)
     {
-        const FileShare fileShare = FileShare.Read | FileShare.Delete;
-        var (parseResult, option, console) = GetResult<FileShare>();
-        _ = console.Interactive();
-        console.Input.PushKey(ConsoleKey.Spacebar);
-        console.Input.PushKey(ConsoleKey.DownArrow);
-        console.Input.PushKey(ConsoleKey.DownArrow);
-        console.Input.PushKey(ConsoleKey.DownArrow);
-        console.Input.PushKey(ConsoleKey.Spacebar);
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+        var expected = Enum.ToObject(type, Convert.ChangeType(1 | 4, type.GetEnumUnderlyingType()));
+        _ = typeof(PromptExtensionsTests).GetMethod(nameof(TestFlagCore), Reflection.BindingFlags.Static | Reflection.BindingFlags.NonPublic).MakeGenericMethod(type).Invoke(null, new[] { expected });
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
+    }
+
+    [Fact]
+    public void TestWithCompletions()
+    {
+        var (parseResult, option, console) = GetResult<string>("second");
+        option.CompletionSources.Add("first", "second", "third");
         console.Input.PushKey(ConsoleKey.Enter);
-        _ = parseResult.GetValueOrPrompt(option, "Select enum value: ", console).Should().Be(fileShare);
+        parseResult.GetValueOrPrompt(option, "GetValue", console).Should().Be("second");
     }
 
     private static T GetValue<T>(string prompt, string value)
@@ -96,7 +120,7 @@ public class PromptExtensionsTests
         return parseResult.GetValueOrPrompt(option, prompt, console);
     }
 
-    private static (ParseResult, CliOption<T>, TestConsole) GetResult<T>(string? value = default)
+    private static (ParseResult, CliOption<T>, TestConsole) GetResult<T>(string? value = default, string? args = default)
     {
         var console = new TestConsole();
         if (value is not null)
@@ -106,6 +130,120 @@ public class PromptExtensionsTests
 
         var option = new CliOption<T>("--option");
         var configuration = new CliConfiguration(new CliRootCommand { option });
-        return (configuration.Parse(string.Empty), option, console);
+        return (configuration.Parse(args ?? string.Empty), option, console);
+    }
+
+    private static void TestFlagCore<T>(T expected)
+    {
+        var (parseResult, option, console) = GetResult<T>();
+        _ = console.Interactive();
+        console.Input.PushKey(ConsoleKey.Spacebar);
+        console.Input.PushKey(ConsoleKey.DownArrow);
+        console.Input.PushKey(ConsoleKey.DownArrow);
+        console.Input.PushKey(ConsoleKey.DownArrow);
+        console.Input.PushKey(ConsoleKey.Spacebar);
+        console.Input.PushKey(ConsoleKey.Enter);
+        _ = parseResult.GetValueOrPrompt(option, "Select enum value: ", console).Should().Be(expected);
+    }
+
+    private static class Enums
+    {
+        public static class SByte
+        {
+            [Flags]
+            public enum FileShare : sbyte
+            {
+                None = 0,
+                Read = 1,
+                Write = 2,
+                ReadWrite = 3,
+                Delete = 4,
+                Inheritable = 16
+            }
+        }
+
+        public static class Byte
+        {
+            [Flags]
+            public enum FileShare : byte
+            {
+                None = 0,
+                Read = 1,
+                Write = 2,
+                ReadWrite = 3,
+                Delete = 4,
+                Inheritable = 16
+            }
+        }
+
+        public static class Int16
+        {
+            [Flags]
+            public enum FileShare : short
+            {
+                None = 0,
+                Read = 1,
+                Write = 2,
+                ReadWrite = 3,
+                Delete = 4,
+                Inheritable = 16
+            }
+        }
+
+        public static class UInt16
+        {
+            [Flags]
+            public enum FileShare : ushort
+            {
+                None = 0,
+                Read = 1,
+                Write = 2,
+                ReadWrite = 3,
+                Delete = 4,
+                Inheritable = 16
+            }
+        }
+
+        public static class UInt32
+        {
+            [Flags]
+            public enum FileShare : uint
+            {
+                None = 0,
+                Read = 1,
+                Write = 2,
+                ReadWrite = 3,
+                Delete = 4,
+                Inheritable = 16
+            }
+        }
+
+        public static class Int64
+        {
+            [Flags]
+            public enum FileShare : long
+            {
+                None = 0,
+                Read = 1,
+                Write = 2,
+                ReadWrite = 3,
+                Delete = 4,
+                Inheritable = 16
+            }
+        }
+
+        public static class UInt64
+        {
+            [Flags]
+            public enum FileShare : ulong
+            {
+                None = 0,
+                Read = 1,
+                Write = 2,
+                ReadWrite = 3,
+                Delete = 4,
+                Inheritable = 16
+            }
+        }
     }
 }

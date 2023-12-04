@@ -28,9 +28,8 @@ public static class HelpConfigurationExtensions
         string? defaultValue = null)
         where T : CliSymbol
     {
-        // get the root command
-        if (Internal.CommandHelpers.GetRootCommand(symbol) is { } rootCommand
-            && Internal.ActionHelpers.GetHelpAction(rootCommand) is { } helpAction)
+        // get the help action
+        if (Internal.ActionHelpers.GetHelpAction(symbol) is { } helpAction)
         {
             helpAction.Builder.CustomizeSymbol(
                 symbol,
@@ -59,9 +58,8 @@ public static class HelpConfigurationExtensions
         Func<Help.HelpContext, string?>? defaultValue = null)
         where T : CliSymbol
     {
-        // get the root command
-        if (Internal.CommandHelpers.GetRootCommand(symbol) is { } rootCommand
-            && Internal.ActionHelpers.GetHelpAction(rootCommand) is { } helpAction)
+        // get the help action
+        if (Internal.ActionHelpers.GetHelpAction(symbol) is { } helpAction)
         {
             helpAction.Builder.CustomizeSymbol(
                 symbol,

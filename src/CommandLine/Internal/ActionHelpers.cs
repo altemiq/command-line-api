@@ -12,6 +12,15 @@ namespace System.CommandLine.Internal;
 internal static class ActionHelpers
 {
     /// <summary>
+    /// Gets the help action for the specified symbol.
+    /// </summary>
+    /// <param name="symbol">The symbol.</param>
+    /// <returns>The help action.</returns>
+    public static Help.HelpAction? GetHelpAction(CliSymbol symbol) => CommandHelpers.GetRootCommand(symbol) is { } rootCommand
+        ? GetHelpAction(rootCommand)
+        : default;
+
+    /// <summary>
     /// Gets the help action for the specified command.
     /// </summary>
     /// <param name="command">The command.</param>

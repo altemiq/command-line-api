@@ -95,16 +95,20 @@ public static class PromptExtensions
 
         static T GetValueOrPromptGeneric(CliOption<T> option, string prompt, IAnsiConsole console)
         {
-            var textPrompt = new TextPrompt<T>(prompt);
+            var textPrompt = new TextPrompt<T>(prompt) { ShowDefaultValue = false, ShowChoices = false };
+
             if (option.HasDefaultValue && option.DefaultValueFactory is { } defaultValueFactory)
             {
-                _ = textPrompt.ShowDefaultValue();
-                _ = textPrompt.DefaultValue(defaultValueFactory(default!));
+                _ = textPrompt
+                    .ShowDefaultValue()
+                    .DefaultValue(defaultValueFactory(default!));
             }
 
             if (option.CompletionSources is { Count: > 0 } completionSources)
             {
-                _ = textPrompt.AddChoices(GetChoices<T>(completionSources));
+                _ = textPrompt
+                    .ShowChoices()
+                    .AddChoices(GetChoices<T>(completionSources));
             }
 
             return textPrompt.Show(console);
@@ -124,9 +128,16 @@ public static class PromptExtensions
 
             static ComponentModel.TypeConverter? GetTypeConverterCore()
             {
-                return typeof(T).GetCustomAttributes(inherit: false).OfType<ComponentModel.TypeConverterAttribute>().FirstOrDefault() is { } customAttribute && Type.GetType(customAttribute.ConverterTypeName, throwOnError: false, ignoreCase: false) is Type type
+                return GetConverterType() is { } type
                     ? Activator.CreateInstance(type) as ComponentModel.TypeConverter
                     : default;
+
+                static Type? GetConverterType()
+                {
+                    return typeof(T).GetCustomAttributes(inherit: false).OfType<ComponentModel.TypeConverterAttribute>().FirstOrDefault() is { } customAttribute
+                        ? Type.GetType(customAttribute.ConverterTypeName, throwOnError: false, ignoreCase: false)
+                        : default;
+                }
             }
         }
     }

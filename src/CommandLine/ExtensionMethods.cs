@@ -90,7 +90,7 @@ public static class ExtensionMethods
     /// <param name="symbol">The symbol for which to find a result.</param>
     /// <returns>A result for the specified symbol.</returns>
     /// <exception cref="ArgumentNullException">Failed to find the result.</exception>
-    public static Parsing.SymbolResult? GetRequiredResult(this ParseResult parseResult, CliSymbol symbol) => parseResult.GetResult(symbol).ThrowIfNull();
+    public static Parsing.SymbolResult GetRequiredResult(this ParseResult parseResult, CliSymbol symbol) => parseResult.GetResult(symbol).ThrowIfNull();
 
     /// <summary>
     /// Gets the command, if any, from the symbol result.

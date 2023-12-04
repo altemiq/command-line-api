@@ -9,13 +9,21 @@ namespace System.CommandLine;
 public class ExtensionMethodsTests
 {
     [Fact]
+    public void GetRequiredValueFromOptionName()
+    {
+        var option = new CliOption<string>("--option");
+        var configuration = new CliConfiguration(new CliRootCommand { option });
+
+        _ = configuration.Parse("--option value").GetRequiredValue<string>("--option").Should().Be("value");
+    }
+
+    [Fact]
     public void GetRequiredValueFromOption()
     {
         var option = new CliOption<string>("--option");
         var configuration = new CliConfiguration(new CliRootCommand { option });
 
-        var parseResult = configuration.Parse("--option value");
-        _ = parseResult.GetRequiredValue(option).Should().Be("value");
+        _ = configuration.Parse("--option value").GetRequiredValue(option).Should().Be("value");
     }
 
     [Fact]
@@ -33,8 +41,7 @@ public class ExtensionMethodsTests
         var argument = new CliArgument<string>("ARG");
         var configuration = new CliConfiguration(new CliRootCommand { argument });
 
-        var parseResult = configuration.Parse("value");
-        _ = parseResult.GetRequiredValue(argument).Should().Be("value");
+        _ = configuration.Parse("value").GetRequiredValue(argument).Should().Be("value");
     }
 
     [Fact]
@@ -44,5 +51,73 @@ public class ExtensionMethodsTests
         var configuration = new CliConfiguration(new CliRootCommand { argument });
 
         _ = configuration.Parse(string.Empty).Invoking(parseResult => parseResult.GetRequiredValue(argument)).Should().Throw<ArgumentNullException>();
+    }
+
+    [Fact]
+    public void GetRequiredResultFromOption()
+    {
+        var option = new CliOption<string>("--option");
+        var configuration = new CliConfiguration(new CliRootCommand { option });
+
+        _ = configuration.Parse("--option value").Invoking(parseResult => parseResult.GetRequiredResult(option)).Should().NotThrow();
+    }
+
+    [Fact]
+    public void GetRequiredResultFromArgument()
+    {
+        var argument = new CliArgument<string>("ARG");
+        var configuration = new CliConfiguration(new CliRootCommand { argument });
+
+        _ = configuration.Parse("value").Invoking(parseResult => parseResult.GetRequiredResult(argument)).Should().NotThrow();
+    }
+
+    [Fact]
+    public void GetRequiredResultFromCommand()
+    {
+        var command = new CliRootCommand();
+        var configuration = new CliConfiguration(command);
+
+        _ = configuration.Parse("value").Invoking(parseResult => parseResult.GetRequiredResult(command)).Should().NotThrow();
+    }
+
+    [Fact]
+    public void GetRequiredResultFromDirective()
+    {
+        var command = new CliRootCommand();
+        var configuration = new CliConfiguration(command);
+
+        var directive = command.Directives.First();
+        _ = configuration.Parse($"[{directive.Name}]").Invoking(parseResult => parseResult.GetRequiredResult(directive)).Should().NotThrow();
+    }
+
+    [Fact]
+    public void GetRequiredResultFromSymbol()
+    {
+        var command = new CliRootCommand();
+        var configuration = new CliConfiguration(command);
+        CliSymbol symbol = command;
+        _ = configuration.Parse("value").Invoking(parseResult => parseResult.GetRequiredResult(symbol).Should()).Should().NotThrow();
+    }
+
+    [Fact]
+    public void GetRequiredCommandFromSymbolResult()
+    {
+        var option = new CliOption<string>("--option");
+        var command = new CliRootCommand { option };
+        var configuration = new CliConfiguration(command);
+
+        _ = configuration.Parse("--option value")
+            .GetResult(option).Should().BeOfType<Parsing.OptionResult>()
+            .Which.Invoking(result => result.GetRequiredCommand()).Should().NotThrow();
+    }
+
+    [Fact]
+    public void GetCommandFromNull() => ExtensionMethods.GetCommand(default!).Should().BeNull();
+
+    [Fact]
+    public void GetRequiredCommandFromNull()
+    {
+        var act = () => ExtensionMethods.GetRequiredCommand(null!);
+        act.Should().Throw<ArgumentNullException>();
     }
 }

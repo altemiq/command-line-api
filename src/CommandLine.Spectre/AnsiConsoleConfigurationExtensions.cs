@@ -18,11 +18,12 @@ public static class AnsiConsoleConfigurationExtensions
     /// <param name="configuration">The configuration.</param>
     /// <param name="text">The text.</param>
     /// <param name="color">The color.</param>
+    /// <param name="console">The console.</param>
     /// <returns>The configuration for chaining.</returns>
-    public static T AddFiglet<T>(this T configuration, string text, Color color)
+    public static T AddFiglet<T>(this T configuration, string text, Color color, IAnsiConsole? console = default)
         where T : CliConfiguration
     {
-        _ = configuration.RootCommand.AddFiglet(text, color);
+        _ = configuration.RootCommand.AddFiglet(text, color, console);
         return configuration;
     }
 
@@ -34,11 +35,12 @@ public static class AnsiConsoleConfigurationExtensions
     /// <param name="font">The figlet font.</param>
     /// <param name="text">The text.</param>
     /// <param name="color">The color.</param>
+    /// <param name="console">The console.</param>
     /// <returns>The configuration for chaining.</returns>
-    public static T AddFiglet<T>(this T configuration, FigletFont font, string text, Color color)
+    public static T AddFiglet<T>(this T configuration, FigletFont font, string text, Color color, IAnsiConsole? console = default)
         where T : CliConfiguration
     {
-        _ = configuration.RootCommand.AddFiglet(font, text, color);
+        _ = configuration.RootCommand.AddFiglet(font, text, color, console);
         return configuration;
     }
 
@@ -48,11 +50,12 @@ public static class AnsiConsoleConfigurationExtensions
     /// <typeparam name="T">The type of configuration.</typeparam>
     /// <param name="configuration">The configuration.</param>
     /// <param name="text">The text.</param>
+    /// <param name="console">The console.</param>
     /// <returns>The configuration for chaining.</returns>
-    public static T AddFiglet<T>(this T configuration, FigletText text)
+    public static T AddFiglet<T>(this T configuration, FigletText text, IAnsiConsole? console = default)
         where T : CliConfiguration
     {
-        _ = configuration.RootCommand.AddFiglet(text);
+        _ = configuration.RootCommand.AddFiglet(text, console);
         return configuration;
     }
 }

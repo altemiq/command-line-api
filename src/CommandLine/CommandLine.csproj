@@ -8,4 +8,8 @@
     <PackageReference Include="System.CommandLine" />
   </ItemGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="$(Company).CommandLine.Spectre" />
+  </ItemGroup>
+
 </Project>

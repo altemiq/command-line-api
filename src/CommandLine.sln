@@ -52,7 +52,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommandLine.Logging.Tests",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommandLine.Spectre.Tests", "Tests\CommandLine.Spectre.Tests\CommandLine.Spectre.Tests.csproj", "{2D0F7E82-156C-41DE-886B-8FCA145A8498}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLine.DependencyInjection.Tests", "Tests\CommandLine.DependencyInjection.Tests\CommandLine.DependencyInjection.Tests.csproj", "{B44AD2C7-2067-4EB9-B2E0-7BCED335EC73}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommandLine.DependencyInjection.Tests", "Tests\CommandLine.DependencyInjection.Tests\CommandLine.DependencyInjection.Tests.csproj", "{B44AD2C7-2067-4EB9-B2E0-7BCED335EC73}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

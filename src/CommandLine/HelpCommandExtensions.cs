@@ -21,8 +21,7 @@ public static class HelpCommandExtensions
     public static T ConfigureHelp<T>(this T command, Action<Help.HelpBuilder> configure)
         where T : CliCommand
     {
-        if (Internal.CommandHelpers.GetRootCommand(command) is { } rootCommand
-            && Internal.ActionHelpers.GetHelpAction(rootCommand) is { } helpAction)
+        if (Internal.ActionHelpers.GetHelpAction((CliSymbol)command) is { } helpAction)
         {
             configure(helpAction.Builder);
         }
