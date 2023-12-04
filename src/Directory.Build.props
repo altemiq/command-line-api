@@ -23,6 +23,8 @@
     <Product>CommandLine assemblies</Product>
     <Copyright>Copyright © $(Company) Pty Ltd 2023</Copyright>
     <PackageTags>CommandLine;Console</PackageTags>
+    <_ReadmeFile>readme.md</_ReadmeFile>
+    <PackageReadmeFile Condition="Exists('$(_ReadmeFile)')">$(_ReadmeFile)</PackageReadmeFile>
   </PropertyGroup>
 
   <PropertyGroup Label=".NET Analyzers">
@@ -34,6 +36,7 @@
   <ItemGroup>
     <AdditionalFiles Include="$([MSBuild]::GetPathOfFileAbove(stylecop.json))" />
     <None Include="$([MSBuild]::GetPathOfFileAbove(.editorconfig))" />
+    <None Include="$(_ReadmeFile)" Pack="true" PackagePath="\" Condition=" '$(PackageReadmeFile)' != '' " />
   </ItemGroup>
 
   <PropertyGroup Condition=" '$(MSBuildRuntimeType)' == 'Core' ">
