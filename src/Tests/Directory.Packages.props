@@ -12,10 +12,27 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageVersion Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
-    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
-    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="7.0.0" />
-    <PackageVersion Include="Microsoft.Extensions.Logging" Version="7.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Logging" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition="$([MSBuild]::GetTargetFrameworkIdentifier('$(TargetFramework)')) == '.NETCoreApp' and $([MSBuild]::VersionLessThanOrEquals($([MSBuild]::GetTargetFrameworkVersion('$(TargetFramework)')), '7.0'))">
+    <PackageVersion Update="Microsoft.Extensions.Configuration" Version="7.0.0" />
+    <PackageVersion Update="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+    <PackageVersion Update="Microsoft.Extensions.Hosting" Version="7.0.0" />
+    <PackageVersion Update="Microsoft.Extensions.Logging" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition="$([MSBuild]::GetTargetFrameworkIdentifier('$(TargetFramework)')) == '.NETCoreApp' and $([MSBuild]::VersionLessThanOrEquals($([MSBuild]::GetTargetFrameworkVersion('$(TargetFramework)')), '6.0'))">
+    <PackageVersion Update="Microsoft.Extensions.Configuration" Version="6.0.0" />
+    <PackageVersion Update="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+    <PackageVersion Update="Microsoft.Extensions.Hosting" Version="6.0.0" />
+    <PackageVersion Update="Microsoft.Extensions.Logging" Version="6.0.0" />
+  </ItemGroup>
+  
+  <ItemGroup>
     <PackageVersion Include="Spectre.Console.Testing" Version="0.47.0" />
   </ItemGroup>
 
