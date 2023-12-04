@@ -39,6 +39,13 @@ jobs:
       env:
         NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+    - uses: actions/cache@v3
+      with:
+        path: ~/.nuget/packages
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-
+
     # Test
     - name: Test with dotnet
       working-directory: ${{ github.workspace }}/src
@@ -90,6 +97,13 @@ jobs:
         config-file: ${{ github.workspace }}/src/nuget.config
       env:
         NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - uses: actions/cache@v3
+      with:
+        path: ~/.nuget/packages
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-
 
     - name: Restore with dotnet
       working-directory: ${{ github.workspace }}/src

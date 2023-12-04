@@ -15,6 +15,9 @@
     <Nullable>enable</Nullable>
 
     <IsPublishable>false</IsPublishable>
+
+    <!-- Packages lock file -->
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
   </PropertyGroup>
 
   <PropertyGroup Label="Packaging">
