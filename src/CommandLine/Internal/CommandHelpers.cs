@@ -16,26 +16,10 @@ internal static class CommandHelpers
     /// </summary>
     /// <param name="symbol">The symbol.</param>
     /// <returns>The root command, if found; otherwise <see langword="null"/>.</returns>
-    public static CliRootCommand? GetRootCommand(CliSymbol? symbol)
+    public static CliRootCommand? GetRootCommand(CliSymbol? symbol) => symbol switch
     {
-        if (symbol is null)
-        {
-            return default;
-        }
-
-        if (symbol is CliRootCommand rootCommand)
-        {
-            return rootCommand;
-        }
-
-        foreach (var parent in symbol.Parents)
-        {
-            if (GetRootCommand(parent) is { } parentRootCommand)
-            {
-                return parentRootCommand;
-            }
-        }
-
-        return default;
-    }
+        null => default,
+        CliRootCommand rootCommand => rootCommand,
+        { Parents: var parents } => parents.Select(GetRootCommand).FirstOrDefault(p => p is not null),
+    };
 }

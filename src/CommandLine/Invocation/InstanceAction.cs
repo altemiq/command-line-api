@@ -26,16 +26,13 @@ public static class InstanceAction
     /// <param name="buildInstance">The build the instance.</param>
     public static void SetHandlers<TInstance>(CliCommand command, Func<ParseResult, TInstance> buildInstance)
     {
-        if (command.Action is AsynchronousCliAction asyncAction)
+        command.Action = command.Action switch
         {
-            command.Action = new InstanceNestedAsynchronousAction<TInstance>(buildInstance, asyncAction);
-        }
-        else if (command.Action is SynchronousCliAction syncAction)
-        {
-            command.Action = new InstanceNestedSynchronousAction<TInstance>(buildInstance, syncAction);
-        }
-
-        command.Action ??= new InstanceSynchronousAction<TInstance>(buildInstance);
+            AsynchronousCliAction asyncAction => new InstanceNestedAsynchronousAction<TInstance>(buildInstance, asyncAction),
+            SynchronousCliAction syncAction => new InstanceNestedSynchronousAction<TInstance>(buildInstance, syncAction),
+            null => new InstanceSynchronousAction<TInstance>(buildInstance),
+            var a => a,
+        };
 
         foreach (var subCommand in command.Subcommands)
         {

@@ -24,18 +24,14 @@ public static class DelegateAction
         Func<ParseResult, CancellationToken, Task> func,
         bool preferSynchronous = false)
     {
-        if (command.Action is AsynchronousCliAction asyncAction)
+        command.Action = command.Action switch
         {
-            command.Action = new Handlers.DelegateNestedAsynchronousCliAction(func, asyncAction);
-        }
-        else if (command.Action is SynchronousCliAction syncAction)
-        {
-            command.Action = new Handlers.DelegateNestedSynchronousCliAction(action, syncAction);
-        }
-
-        command.Action ??= preferSynchronous
-            ? new Handlers.DelegateSynchronousCliAction(action)
-            : new Handlers.DelegateAsynchronousCliAction(func);
+            AsynchronousCliAction asyncAction => new Handlers.DelegateNestedAsynchronousCliAction(func, asyncAction),
+            SynchronousCliAction syncAction => new Handlers.DelegateNestedSynchronousCliAction(action, syncAction),
+            null when preferSynchronous => new Handlers.DelegateSynchronousCliAction(action),
+            null => new Handlers.DelegateAsynchronousCliAction(func),
+            var a => a,
+        };
 
         foreach (var subCommand in command.Subcommands)
         {
