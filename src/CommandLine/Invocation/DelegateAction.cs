@@ -46,16 +46,13 @@ public static class DelegateAction
     /// <param name="action">The delegate.</param>
     public static void SetHandlers(CliCommand command, Action<ParseResult> action)
     {
-        if (command.Action is AsynchronousCliAction asyncAction)
+        command.Action = command.Action switch
         {
-            command.Action = new Handlers.DelegateNestedAsynchronousCliAction((parseResult, cancellationToken) => Task.Run(() => action(parseResult), cancellationToken), asyncAction);
-        }
-        else if (command.Action is SynchronousCliAction syncAction)
-        {
-            command.Action = new Handlers.DelegateNestedSynchronousCliAction(action, syncAction);
-        }
-
-        command.Action ??= new Handlers.DelegateSynchronousCliAction(action);
+            AsynchronousCliAction asyncAction => new Handlers.DelegateNestedAsynchronousCliAction((parseResult, cancellationToken) => Task.Run(() => action(parseResult), cancellationToken), asyncAction),
+            SynchronousCliAction syncAction => new Handlers.DelegateNestedSynchronousCliAction(action, syncAction),
+            null => new Handlers.DelegateSynchronousCliAction(action),
+            var a => a,
+        };
 
         foreach (var subCommand in command.Subcommands)
         {
@@ -70,12 +67,12 @@ public static class DelegateAction
     /// <param name="func">The delegate.</param>
     public static void SetHandlers(CliCommand command, Func<ParseResult, CancellationToken, Task> func)
     {
-        if (command.Action is AsynchronousCliAction asyncAction)
+        command.Action = command.Action switch
         {
-            command.Action = new Handlers.DelegateNestedAsynchronousCliAction(func, asyncAction);
-        }
-
-        command.Action ??= new Handlers.DelegateAsynchronousCliAction(func);
+            AsynchronousCliAction asyncAction => new Handlers.DelegateNestedAsynchronousCliAction(func, asyncAction),
+            null => new Handlers.DelegateAsynchronousCliAction(func),
+            var a => a,
+        };
 
         foreach (var subCommand in command.Subcommands)
         {

@@ -14,7 +14,7 @@ public static class InstanceAction
 #pragma warning disable SA1600 // Elements should be documented
     private interface IInstance<out T>
     {
-        T? Get();
+        T? Get(ParseResult? parseResult);
     }
 #pragma warning restore SA1600 // Elements should be documented
 
@@ -46,7 +46,7 @@ public static class InstanceAction
     /// <typeparam name="TInstance">The type of instance.</typeparam>
     /// <param name="parseResult">The parse result.</param>
     /// <returns>The instance.</returns>
-    public static TInstance? GetInstance<TInstance>(ParseResult parseResult) => GetInstanceFromAction<TInstance>(parseResult.CommandResult.Command.Action);
+    public static TInstance? GetInstance<TInstance>(ParseResult parseResult) => GetInstanceFromAction<TInstance>(parseResult, parseResult.CommandResult.Command.Action);
 
     /// <summary>
     /// Gets the instance from the command.
@@ -54,7 +54,7 @@ public static class InstanceAction
     /// <typeparam name="TInstance">The type of instance.</typeparam>
     /// <param name="command">The command.</param>
     /// <returns>The instance.</returns>
-    public static TInstance? GetInstance<TInstance>(CliCommand command) => GetInstanceFromAction<TInstance>(command.Action);
+    public static TInstance? GetInstance<TInstance>(CliCommand command) => GetInstanceFromAction<TInstance>(default, command.Action);
 
     /// <summary>
     /// Gets the instance from the action.
@@ -62,12 +62,12 @@ public static class InstanceAction
     /// <typeparam name="TInstance">The type of instance.</typeparam>
     /// <param name="action">The action.</param>
     /// <returns>The instance.</returns>
-    public static TInstance? GetInstance<TInstance>(CliAction action) => GetInstanceFromAction<TInstance>(action);
+    public static TInstance? GetInstance<TInstance>(CliAction action) => GetInstanceFromAction<TInstance>(default, action);
 
-    private static TInstance? GetInstanceFromAction<TInstance>(CliAction? action) => action switch
+    private static TInstance? GetInstanceFromAction<TInstance>(ParseResult? parseResult, CliAction? action) => action switch
     {
-        IInstance<TInstance> instance => instance.Get(),
-        INestedAction nested => GetInstanceFromAction<TInstance>(nested.Action),
+        IInstance<TInstance> instance => instance.Get(parseResult),
+        INestedAction nested => GetInstanceFromAction<TInstance>(parseResult, nested.Action),
         _ => default,
     };
 
@@ -82,9 +82,9 @@ public static class InstanceAction
             return 0;
         }
 
-        public TInstance? Get()
+        public TInstance? Get(ParseResult? parseResult)
         {
-            this.EnsureInstance(default);
+            this.EnsureInstance(parseResult);
             return this.instance;
         }
 
@@ -102,9 +102,9 @@ public static class InstanceAction
             return base.InvokeAsync(parseResult, cancellationToken);
         }
 
-        public TInstance? Get()
+        public TInstance? Get(ParseResult? parseResult)
         {
-            this.EnsureInstance(default);
+            this.EnsureInstance(parseResult);
             return this.instance;
         }
 
@@ -122,9 +122,9 @@ public static class InstanceAction
             return base.Invoke(parseResult);
         }
 
-        public TInstance? Get()
+        public TInstance? Get(ParseResult? parseResult)
         {
-            this.EnsureInstance(default);
+            this.EnsureInstance(parseResult);
             return this.instance;
         }
 
