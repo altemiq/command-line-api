@@ -7,7 +7,7 @@
 namespace System.CommandLine;
 
 /// <summary>
-/// Extensions using <see cref="Spectre.Console"/>.
+/// The <see cref="Spectre.Console.AnsiConsole"/> <see cref="CliConfiguration"/> extensions.
 /// </summary>
 public static class AnsiConsoleConfigurationExtensions
 {

@@ -7,7 +7,7 @@
 namespace System.CommandLine;
 
 /// <summary>
-/// The <see cref="AnsiConsole"/> <see cref="CliCommand"/> extensions.
+/// The <see cref="Spectre.Console.AnsiConsole"/> <see cref="CliCommand"/> extensions.
 /// </summary>
 public static class AnsiConsoleCommandExtensions
 {
@@ -54,7 +54,7 @@ public static class AnsiConsoleCommandExtensions
         {
             helpAction.Builder.CustomizeLayout(_ => Help.HelpBuilder.Default.GetLayout().Prepend(helpContext =>
             {
-                return AddFigetCore(command, getText, console ?? AnsiConsole.Console);
+                return AddFigetCore(command, getText, AnsiConsole.GetConsoleOrDefault(console));
 
                 bool AddFigetCore(T command, Func<FigletText> getText, IAnsiConsole console)
                 {
@@ -71,6 +71,6 @@ public static class AnsiConsoleCommandExtensions
             return command;
         }
 
-        throw new InvalidOperationException($"Could not find the help action. Ensure this can been called after adding to the {nameof(CliRootCommand)}");
+        throw new InvalidOperationException(Properties.Resources.HelpCommandNotFound);
     }
 }
