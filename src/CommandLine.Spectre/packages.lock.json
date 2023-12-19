@@ -166,7 +166,7 @@
         }
       }
     },
-    "net7.0": {
+    ".NETCoreApp,Version=v5.0": {
       "Altemiq.SemanticVersioning.MSBuild": {
         "type": "Direct",
         "requested": "[2.1.5, )",
@@ -270,6 +270,11 @@
           "Microsoft.SourceLink.Common": "1.1.1"
         }
       },
+      "System.Memory": {
+        "type": "Transitive",
+        "resolved": "4.5.4",
+        "contentHash": "1MbJTHS1lZ4bS4FmsJjnuGJOu88ZzTT2rLvrhW7Ygic+pC0NWA+3hgAen0HRdsocuQXCkUTdFn9yHJJhsijDXw=="
+      },
       "Wcwidth": {
         "type": "Transitive",
         "resolved": "0.2.0",
@@ -285,7 +290,10 @@
         "type": "CentralTransitive",
         "requested": "[2.0.0-beta4.23407.1, )",
         "resolved": "2.0.0-beta4.23407.1",
-        "contentHash": "uhT8LJz12lBakhANCVJtdzBeuM+WpHovvRcSW7BrtVDLGoj6WiSdUYrysxEA71OX9UnpG6yWiWo8zJ3ekVFqMw=="
+        "contentHash": "uhT8LJz12lBakhANCVJtdzBeuM+WpHovvRcSW7BrtVDLGoj6WiSdUYrysxEA71OX9UnpG6yWiWo8zJ3ekVFqMw==",
+        "dependencies": {
+          "System.Memory": "4.5.4"
+        }
       }
     }
   }

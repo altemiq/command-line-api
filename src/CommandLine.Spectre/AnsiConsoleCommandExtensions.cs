@@ -20,6 +20,30 @@ public static class AnsiConsoleCommandExtensions
     /// <param name="color">The color.</param>
     /// <param name="console">The console.</param>
     /// <returns>The command for chaining.</returns>
+    public static T AddFiglet<T>(this T command, string text, ConsoleColor color, IAnsiConsole? console = default)
+        where T : CliCommand => AddFiglet(command, text, Color.FromConsoleColor(color), console);
+
+    /// <summary>
+    /// Adds the specified figlet to the command help.
+    /// </summary>
+    /// <typeparam name="T">The type of command.</typeparam>
+    /// <param name="command">The command.</param>
+    /// <param name="text">The text.</param>
+    /// <param name="color">The color.</param>
+    /// <param name="console">The console.</param>
+    /// <returns>The command for chaining.</returns>
+    public static T AddFiglet<T>(this T command, string text, Drawing.Color color, IAnsiConsole? console = default)
+        where T : CliCommand => AddFiglet(command, text, new Color(color.R, color.G, color.B), console);
+
+    /// <summary>
+    /// Adds the specified figlet to the command help.
+    /// </summary>
+    /// <typeparam name="T">The type of command.</typeparam>
+    /// <param name="command">The command.</param>
+    /// <param name="text">The text.</param>
+    /// <param name="color">The color.</param>
+    /// <param name="console">The console.</param>
+    /// <returns>The command for chaining.</returns>
     public static T AddFiglet<T>(this T command, string text, Color color, IAnsiConsole? console = default)
         where T : CliCommand => AddFiglet(command, () => new FigletText(text).Color(color), console);
 
