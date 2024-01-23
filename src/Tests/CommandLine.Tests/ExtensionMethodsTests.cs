@@ -112,10 +112,10 @@ public class ExtensionMethodsTests
     }
 
     [Fact]
-    public void GetRequiredCommandFromHelp()
+    public void GetRequiredCommandFromOption()
     {
         CliCommand? commandFromOptionDefault = default;
-        var apiOption = new CliOption<string>("--api")
+        var option = new CliOption<string>("--api")
         {
             DefaultValueFactory = argumentResult =>
             {
@@ -123,8 +123,38 @@ public class ExtensionMethodsTests
                 return "This is the default value";
             },
         };
-        var command = new CliRootCommand { apiOption };
-        var configuration = new CliConfiguration(command);
+        var command = new CliRootCommand { option };
+        var configuration = new CliConfiguration(command)
+        {
+            Output = TextWriter.Null,
+            Error = TextWriter.Null,
+        };
+
+        var parsedConfiguration = configuration.Parse("--help");
+        var result = parsedConfiguration.Invoke();
+        _ = commandFromOptionDefault.Should().NotBeNull();
+    }
+
+
+
+    [Fact]
+    public void GetRequiredCommandFromArgument()
+    {
+        CliCommand? commandFromOptionDefault = default;
+        var argument = new CliArgument<string>("API")
+        {
+            DefaultValueFactory = argumentResult =>
+            {
+                commandFromOptionDefault = argumentResult.GetCommand();
+                return "This is the default value";
+            },
+        };
+        var command = new CliRootCommand { argument };
+        var configuration = new CliConfiguration(command)
+        {
+            Output = TextWriter.Null,
+            Error = TextWriter.Null,
+        };
 
         var parsedConfiguration = configuration.Parse("--help");
         var result = parsedConfiguration.Invoke();
