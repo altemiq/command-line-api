@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="AnsiConsoleCommandExtensionsTests.cs" company="Altemiq">
+// <copyright file="AnsiConsoleConfigurationExtensionsTests.cs" company="Altemiq">
 // Copyright (c) Altemiq. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -15,8 +15,8 @@ public class AnsiConsoleConfigurationExtensionsTests
 
         var configuration = new CliConfiguration(new CliRootCommand()).AddFiglet("value", Color.Blue, console);
 
-        configuration.Parse("--help").Invoke();
+        _ = configuration.Parse("--help").Invoke();
 
-        console.Lines.Skip(1).Should().NotBeEmpty();
+        _ = console.Lines.Skip(1).Should().NotBeEmpty();
     }
 }

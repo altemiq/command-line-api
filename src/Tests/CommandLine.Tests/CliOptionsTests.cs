@@ -12,8 +12,8 @@ public class CliOptionsTests
     public void Verbosity()
     {
         var verbosity = CliOptions.VerbosityOption;
-        verbosity.Recursive.Should().BeTrue();
-        verbosity.HasDefaultValue.Should().BeTrue();
-        verbosity.DefaultValueFactory.Should().NotBeNull();
+        _ = verbosity.Recursive.Should().BeTrue();
+        _ = verbosity.HasDefaultValue.Should().BeTrue();
+        _ = verbosity.DefaultValueFactory.Should().NotBeNull();
     }
 }

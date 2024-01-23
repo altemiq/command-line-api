@@ -13,9 +13,9 @@ public class HelpCommandExtensionsTests
     {
         Help.HelpBuilder? builder = default;
         var command = new CliRootCommand();
-        command.ConfigureHelp(b => builder = b);
+        _ = command.ConfigureHelp(b => builder = b);
 
-        builder.Should().NotBeNull();
+        _ = builder.Should().NotBeNull();
     }
 
     [Fact]
@@ -26,9 +26,9 @@ public class HelpCommandExtensionsTests
         command.Options.Clear();
         command.Directives.Clear();
 
-        command.ConfigureHelp(b => builder = b);
+        _ = command.ConfigureHelp(b => builder = b);
 
-        builder.Should().BeNull();
+        _ = builder.Should().BeNull();
     }
 
     [Fact]
@@ -36,9 +36,9 @@ public class HelpCommandExtensionsTests
     {
         Help.HelpBuilder? builder = default;
         var command = new CliCommand(nameof(NoRootCommand));
-        command.ConfigureHelp(b => builder = b);
+        _ = command.ConfigureHelp(b => builder = b);
 
-        builder.Should().BeNull();
+        _ = builder.Should().BeNull();
     }
 
     [Fact]
@@ -51,8 +51,8 @@ public class HelpCommandExtensionsTests
             command,
         };
 
-        command.ConfigureHelp(b => builder = b);
+        _ = command.ConfigureHelp(b => builder = b);
 
-        builder.Should().NotBeNull();
+        _ = builder.Should().NotBeNull();
     }
 }

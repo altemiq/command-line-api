@@ -13,20 +13,20 @@ public class AnsiConsoleCommandExtensionsTests
     {
         var console = new TestConsole();
         var command = new CliRootCommand();
-        command.AddFiglet("value", Color.Blue, console);
+        _ = command.AddFiglet("value", Color.Blue, console);
 
         var configuration = new CliConfiguration(command);
 
-        configuration.Parse("--help").Invoke();
+        _ = configuration.Parse("--help").Invoke();
 
-        console.Lines.Skip(1).Should().NotBeEmpty();
+        _ = console.Lines.Skip(1).Should().NotBeEmpty();
     }
 
     [Fact]
     public void AddFigletTooEarly()
     {
         var command = new CliCommand(nameof(AddFigletTooEarly));
-        command.Invoking(c => c.AddFiglet("value", Color.Blue)).Should().Throw<InvalidOperationException>();
+        _ = command.Invoking(c => c.AddFiglet("value", Color.Blue)).Should().Throw<InvalidOperationException>();
     }
 
     [Fact]
@@ -36,11 +36,11 @@ public class AnsiConsoleCommandExtensionsTests
         var command = new CliCommand(nameof(AddFigetToSubCommand));
 
         var configuration = new CliConfiguration(new CliRootCommand { command });
-        command.AddFiglet("value", Color.Blue, console);
+        _ = command.AddFiglet("value", Color.Blue, console);
 
-        configuration.Parse($"{nameof(AddFigetToSubCommand)} --help").Invoke();
+        _ = configuration.Parse($"{nameof(AddFigetToSubCommand)} --help").Invoke();
 
-        console.Lines.Skip(1).Should().NotBeEmpty();
+        _ = console.Lines.Skip(1).Should().NotBeEmpty();
     }
 
     [Fact]
@@ -50,10 +50,10 @@ public class AnsiConsoleCommandExtensionsTests
         var command = new CliCommand(nameof(AddFigetToSubCommandAndInvokeRoot));
 
         var configuration = new CliConfiguration(new CliRootCommand { command });
-        command.AddFiglet("value", Color.Blue, console);
+        _ = command.AddFiglet("value", Color.Blue, console);
 
-        configuration.Parse("--help").Invoke();
+        _ = configuration.Parse("--help").Invoke();
 
-        console.Lines.Skip(1).Should().BeEmpty();
+        _ = console.Lines.Skip(1).Should().BeEmpty();
     }
 }

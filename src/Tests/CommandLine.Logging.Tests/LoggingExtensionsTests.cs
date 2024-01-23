@@ -8,7 +8,6 @@ namespace System.CommandLine.Logging;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 public class LoggingExtensionsTests
 {

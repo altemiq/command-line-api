@@ -1,10 +1,10 @@
 // -----------------------------------------------------------------------
-// <copyright file="UnitTest1.cs" company="Altemiq">
+// <copyright file="ServicesExtensionsTests.cs" company="Altemiq">
 // Copyright (c) Altemiq. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
-namespace System.CommandLine.DependencyInjection.Tests;
+namespace System.CommandLine.DependencyInjection;
 
 using Microsoft.Extensions.DependencyInjection;
 

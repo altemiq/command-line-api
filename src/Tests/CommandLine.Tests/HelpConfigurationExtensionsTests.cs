@@ -12,7 +12,7 @@ public class HelpConfigurationExtensionsTests
     public void CustomizeHelp()
     {
         var command = new CliRootCommand();
-        command.CustomizeHelp("first", "second", "default").Should().NotBeNull();
+        _ = command.CustomizeHelp("first", "second", "default").Should().NotBeNull();
     }
 
     [Fact]
@@ -20,8 +20,8 @@ public class HelpConfigurationExtensionsTests
     {
         Help.HelpBuilder? builder = default;
         var configuration = new CliConfiguration(new CliRootCommand());
-        configuration.ConfigureHelp(b => builder = b);
+        _ = configuration.ConfigureHelp(b => builder = b);
 
-        builder.Should().NotBeNull();
+        _ = builder.Should().NotBeNull();
     }
 }

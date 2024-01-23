@@ -128,7 +128,7 @@ public class ExtensionMethodsTests
 
         var parsedConfiguration = configuration.Parse("--help");
         var result = parsedConfiguration.Invoke();
-        commandFromOptionDefault.Should().NotBeNull();
+        _ = commandFromOptionDefault.Should().NotBeNull();
     }
 
     [Fact]
@@ -138,6 +138,6 @@ public class ExtensionMethodsTests
     public void GetRequiredCommandFromNull()
     {
         var act = () => ExtensionMethods.GetRequiredCommand(null!);
-        act.Should().Throw<ArgumentNullException>();
+        _ = act.Should().Throw<ArgumentNullException>();
     }
 }

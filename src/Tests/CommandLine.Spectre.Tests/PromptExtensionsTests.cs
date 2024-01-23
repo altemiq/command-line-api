@@ -91,10 +91,10 @@ public class PromptExtensionsTests
     [InlineData(typeof(Enums.UInt64.FileShare))]
     public void TestFlag(Type type)
     {
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
         var expected = Enum.ToObject(type, Convert.ChangeType(1 | 4, type.GetEnumUnderlyingType()));
-        _ = typeof(PromptExtensionsTests).GetMethod(nameof(TestFlagCore), Reflection.BindingFlags.Static | Reflection.BindingFlags.NonPublic).MakeGenericMethod(type).Invoke(null, new[] { expected });
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
+        _ = typeof(PromptExtensionsTests).GetMethod(nameof(TestFlagCore), Reflection.BindingFlags.Static | Reflection.BindingFlags.NonPublic)
+            .Should().BeAssignableTo<Reflection.MethodInfo>()
+            .Which.MakeGenericMethod(type).Invoke(null, new[] { expected });
     }
 
     [Fact]
@@ -103,7 +103,7 @@ public class PromptExtensionsTests
         var (parseResult, option, console) = GetResult<string>("second");
         option.CompletionSources.Add("first", "second", "third");
         console.Input.PushKey(ConsoleKey.Enter);
-        parseResult.GetValueOrPrompt(option, "GetValue", console).Should().Be("second");
+        _ = parseResult.GetValueOrPrompt(option, "GetValue", console).Should().Be("second");
     }
 
     private static T GetValue<T>(string prompt, string value)
