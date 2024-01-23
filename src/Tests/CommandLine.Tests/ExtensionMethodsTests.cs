@@ -112,6 +112,26 @@ public class ExtensionMethodsTests
     }
 
     [Fact]
+    public void GetRequiredCommandFromHelp()
+    {
+        CliCommand? commandFromOptionDefault = default;
+        var apiOption = new CliOption<string>("--api")
+        {
+            DefaultValueFactory = argumentResult =>
+            {
+                commandFromOptionDefault = argumentResult.GetCommand();
+                return "This is the default value";
+            },
+        };
+        var command = new CliRootCommand { apiOption };
+        var configuration = new CliConfiguration(command);
+
+        var parsedConfiguration = configuration.Parse("--help");
+        var result = parsedConfiguration.Invoke();
+        commandFromOptionDefault.Should().NotBeNull();
+    }
+
+    [Fact]
     public void GetCommandFromNull() => ExtensionMethods.GetCommand(default!).Should().BeNull();
 
     [Fact]

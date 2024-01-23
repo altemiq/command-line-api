@@ -107,8 +107,28 @@ public static class ExtensionMethods
             {
                 { Parent: Parsing.CommandResult commandResult } => commandResult.Command,
                 { Parent: Parsing.SymbolResult parentSymbolResult } => GetCommandCore(parentSymbolResult),
+                Parsing.ArgumentResult { Parent: null } argumentResult => GetCommandFromSymbol(argumentResult.Argument),
+                Parsing.OptionResult { Parent: null } optionResult => GetCommandFromSymbol(optionResult.Option),
                 _ => default,
             };
+
+            static CliCommand? GetCommandFromSymbol(CliSymbol symbol)
+            {
+                foreach (var parent in symbol.Parents)
+                {
+                    if (parent is CliCommand command)
+                    {
+                        return command;
+                    }
+
+                    if (parent is CliSymbol parentSymbol && GetCommandFromSymbol(parentSymbol) is { } parentCommand)
+                    {
+                        return parentCommand;
+                    }
+                }
+
+                return default;
+            }
         }
     }
 
