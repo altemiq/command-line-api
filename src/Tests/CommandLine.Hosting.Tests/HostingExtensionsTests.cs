@@ -16,7 +16,7 @@ public class HostingExtensionsTests
         Microsoft.Extensions.Hosting.IHost? host = default;
         var rootCommand = new CliRootCommand();
         rootCommand.SetAction(parseResult => host = parseResult.GetHost());
-        
+
         var configuration = new CliConfiguration(rootCommand);
         _ = configuration.UseHost();
 
@@ -51,7 +51,7 @@ public class HostingExtensionsTests
         Microsoft.Extensions.Hosting.IHost? host = default;
         var rootCommand = new CliRootCommand();
         rootCommand.SetAction(parseResult => host = parseResult.GetHost());
-        
+
         var configuration = new CliConfiguration(rootCommand);
         _ = configuration.UseApplicationHost();
 

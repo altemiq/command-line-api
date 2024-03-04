@@ -15,7 +15,7 @@ public class InstanceActionTests
     public void Instance(Action action)
     {
         var command = CliCommandExtensions.SetAction(new CliCommand("command") { new CliCommand("subcommand") }, action);
-        
+
         InstanceAction.SetHandlers(command, parseResult => new object());
 
         var configuration = new CliConfiguration(command);
