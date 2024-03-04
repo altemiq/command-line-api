@@ -90,11 +90,19 @@ public static partial class HostingExtensions
     public static Microsoft.Extensions.Hosting.IHostApplicationBuilder UseInvocationLifetime(this Microsoft.Extensions.Hosting.IHostApplicationBuilder host, Action<InvocationLifetimeOptions>? configureOptions = null)
     {
         _ = host.Services.AddSingleton<Microsoft.Extensions.Hosting.IHostLifetime, InvocationLifetime>();
-        if (configureOptions is { } configureOptionsAction)
-        {
-            _ = host.Services.Configure(configureOptionsAction);
-        }
+        host.Services.ConfigureInvocationLifetime(configureOptions);
+        return host;
+    }
 
+    /// <summary>
+    /// Configures the invocation lifetime.
+    /// </summary>
+    /// <param name="host">The host builder.</param>
+    /// <param name="configureOptions">The options to configure.</param>
+    /// <returns>The host builder for chaining.</returns>
+    public static Microsoft.Extensions.Hosting.IHostApplicationBuilder ConfigureInvocationLifetime(this Microsoft.Extensions.Hosting.IHostApplicationBuilder host, Action<InvocationLifetimeOptions>? configureOptions = null)
+    {
+        host.Services.ConfigureInvocationLifetime(configureOptions);
         return host;
     }
 #else
@@ -107,11 +115,19 @@ public static partial class HostingExtensions
     public static Microsoft.Extensions.Hosting.HostApplicationBuilder UseInvocationLifetime(this Microsoft.Extensions.Hosting.HostApplicationBuilder host, Action<InvocationLifetimeOptions>? configureOptions = null)
     {
         _ = host.Services.AddSingleton<Microsoft.Extensions.Hosting.IHostLifetime, InvocationLifetime>();
-        if (configureOptions is { } configureOptionsAction)
-        {
-            _ = host.Services.Configure(configureOptionsAction);
-        }
+        _ = host.Services.ConfigureInvocationLifetime(configureOptions);
+        return host;
+    }
 
+    /// <summary>
+    /// Configures the invocation lifetime.
+    /// </summary>
+    /// <param name="host">The host builder.</param>
+    /// <param name="configureOptions">The options to configure.</param>
+    /// <returns>The host builder for chaining.</returns>
+    public static Microsoft.Extensions.Hosting.HostApplicationBuilder ConfigureInvocationLifetime(this Microsoft.Extensions.Hosting.HostApplicationBuilder host, Action<InvocationLifetimeOptions>? configureOptions = null)
+    {
+        _ = host.Services.ConfigureInvocationLifetime(configureOptions);
         return host;
     }
 #endif

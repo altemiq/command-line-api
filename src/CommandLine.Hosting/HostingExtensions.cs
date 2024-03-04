@@ -99,15 +99,40 @@ public static partial class HostingExtensions
     /// <param name="host">The host builder.</param>
     /// <param name="configureOptions">The options to configure.</param>
     /// <returns>The host builder for chaining.</returns>
-    public static Microsoft.Extensions.Hosting.IHostBuilder UseInvocationLifetime(this Microsoft.Extensions.Hosting.IHostBuilder host, Action<InvocationLifetimeOptions>? configureOptions = null) =>
+    public static Microsoft.Extensions.Hosting.IHostBuilder UseInvocationLifetime(this Microsoft.Extensions.Hosting.IHostBuilder host, Action<InvocationLifetimeOptions>? configureOptions = null) => host
+        .ConfigureServices((__, services) =>
+        {
+            services.AddSingleton<Microsoft.Extensions.Hosting.IHostLifetime, InvocationLifetime>();
+            services.ConfigureInvocationLifetime(configureOptions);
+        });
+
+    /// <summary>
+    /// Use the invocation lifetime.
+    /// </summary>
+    /// <param name="host">The host builder.</param>
+    /// <param name="configureOptions">The options to configure.</param>
+    /// <returns>The host builder for chaining.</returns>
+    public static Microsoft.Extensions.Hosting.IHostBuilder ConfigureInvocationLifetime(this Microsoft.Extensions.Hosting.IHostBuilder host, Action<InvocationLifetimeOptions>? configureOptions = null) =>
         host.ConfigureServices((__, services) =>
         {
-            _ = services.AddSingleton<Microsoft.Extensions.Hosting.IHostLifetime, InvocationLifetime>();
-            if (configureOptions is { } configureOptionsAction)
-            {
-                _ = services.Configure(configureOptionsAction);
-            }
+            services.ConfigureInvocationLifetime(configureOptions);
         });
+
+    /// <summary>
+    /// Configures the invocation lifetime.
+    /// </summary>
+    /// <param name="services">The services.</param>
+    /// <param name="configureOptions">The options to configure.</param>
+    /// <returns>The host builder for chaining.</returns>
+    public static IServiceCollection ConfigureInvocationLifetime(this IServiceCollection services, Action<InvocationLifetimeOptions>? configureOptions = null)
+    {
+        if (configureOptions is { } configureOptionsAction)
+        {
+            _ = services.Configure(configureOptionsAction);
+        }
+
+        return services;
+    }
 
     /// <summary>
     /// Gets the host from the parse result.
