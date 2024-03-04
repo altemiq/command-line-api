@@ -25,6 +25,9 @@ indent_size = 2
 # C#/VB files
 [*.{cs,vb}]
 
+#### Spelling ####
+spelling_exclusion_path = .\exclusion.dic
+
 #### Core EditorConfig Options ####
 
 # New line preferences

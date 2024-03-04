@@ -9,7 +9,7 @@ namespace System.CommandLine.Spectre;
 public class AnsiConsoleConfigurationExtensionsTests
 {
     [Fact]
-    public void AddFiget()
+    public void AddFiglet()
     {
         var console = new TestConsole();
 

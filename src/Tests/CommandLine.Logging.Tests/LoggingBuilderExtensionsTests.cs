@@ -12,7 +12,7 @@ using Microsoft.Extensions.Logging;
 public class LoggingBuilderExtensionsTests
 {
     [Fact]
-    public void CreateLogger() => CreateLoggerImpl("Program").Should().NotBeNull();
+    public void CreateLogger() => CreateLoggerFactory().CreateLogger("Program").Should().NotBeNull();
 
     [Theory]
     [InlineData(LogLevel.Information, LogLevel.Information, 4)]
@@ -43,6 +43,4 @@ public class LoggingBuilderExtensionsTests
         configuration ??= new CliConfiguration(new CliRootCommand());
         return LoggerFactory.Create(builder => builder.AddCliConfiguration(configuration));
     }
-
-    private static ILogger CreateLoggerImpl(string name, CliConfiguration? configuration = default) => CreateLoggerFactory(configuration).CreateLogger(name);
 }

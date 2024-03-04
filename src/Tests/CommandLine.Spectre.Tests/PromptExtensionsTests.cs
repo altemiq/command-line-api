@@ -94,7 +94,7 @@ public class PromptExtensionsTests
         var expected = Enum.ToObject(type, Convert.ChangeType(1 | 4, type.GetEnumUnderlyingType()));
         _ = typeof(PromptExtensionsTests).GetMethod(nameof(TestFlagCore), Reflection.BindingFlags.Static | Reflection.BindingFlags.NonPublic)
             .Should().BeAssignableTo<Reflection.MethodInfo>()
-            .Which.MakeGenericMethod(type).Invoke(null, new[] { expected });
+            .Which.MakeGenericMethod(type).Invoke(null, [expected]);
     }
 
     [Fact]

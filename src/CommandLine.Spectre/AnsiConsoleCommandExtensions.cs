@@ -78,9 +78,9 @@ public static class AnsiConsoleCommandExtensions
         {
             helpAction.Builder.CustomizeLayout(_ => Help.HelpBuilder.Default.GetLayout().Prepend(helpContext =>
             {
-                return AddFigetCore(command, getText, AnsiConsole.GetConsoleOrDefault(console));
+                return AddFigletCore(command, getText, AnsiConsole.GetConsoleOrDefault(console));
 
-                bool AddFigetCore(T command, Func<FigletText> getText, IAnsiConsole console)
+                bool AddFigletCore(T command, Func<FigletText> getText, IAnsiConsole console)
                 {
                     if (helpContext.Command == command)
                     {

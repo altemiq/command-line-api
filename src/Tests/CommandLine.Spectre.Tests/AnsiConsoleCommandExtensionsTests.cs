@@ -9,7 +9,7 @@ namespace System.CommandLine.Spectre;
 public class AnsiConsoleCommandExtensionsTests
 {
     [Fact]
-    public void AddFigetToRoot()
+    public void AddFigletToRoot()
     {
         var console = new TestConsole();
         var command = new CliRootCommand();
@@ -30,24 +30,24 @@ public class AnsiConsoleCommandExtensionsTests
     }
 
     [Fact]
-    public void AddFigetToSubCommand()
+    public void AddFigletToSubCommand()
     {
         var console = new TestConsole();
-        var command = new CliCommand(nameof(AddFigetToSubCommand));
+        var command = new CliCommand(nameof(AddFigletToSubCommand));
 
         var configuration = new CliConfiguration(new CliRootCommand { command });
         _ = command.AddFiglet("value", Color.Blue, console);
 
-        _ = configuration.Parse($"{nameof(AddFigetToSubCommand)} --help").Invoke();
+        _ = configuration.Parse($"{nameof(AddFigletToSubCommand)} --help").Invoke();
 
         _ = console.Lines.Skip(1).Should().NotBeEmpty();
     }
 
     [Fact]
-    public void AddFigetToSubCommandAndInvokeRoot()
+    public void AddFigletToSubCommandAndInvokeRoot()
     {
         var console = new TestConsole();
-        var command = new CliCommand(nameof(AddFigetToSubCommandAndInvokeRoot));
+        var command = new CliCommand(nameof(AddFigletToSubCommandAndInvokeRoot));
 
         var configuration = new CliConfiguration(new CliRootCommand { command });
         _ = command.AddFiglet("value", Color.Blue, console);

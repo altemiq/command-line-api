@@ -22,9 +22,9 @@
   </ItemGroup>
 
   <ItemGroup Label="Analyzers">
-    <GlobalPackageReference Include="Meziantou.Analyzer" Version="2.0.137" />
-    <GlobalPackageReference Include="Roslynator.Analyzers" Version="4.9.0" />
-    <GlobalPackageReference Include="SonarAnalyzer.CSharp" Version="9.17.0.82934" />
+    <GlobalPackageReference Include="Meziantou.Analyzer" Version="2.0.145" />
+    <GlobalPackageReference Include="Roslynator.Analyzers" Version="4.11.0" />
+    <GlobalPackageReference Include="SonarAnalyzer.CSharp" Version="9.20.0.85982" />
     <GlobalPackageReference Include="StyleCop.Analyzers.Unstable" Version="1.2.0.556" />
   </ItemGroup>
 
