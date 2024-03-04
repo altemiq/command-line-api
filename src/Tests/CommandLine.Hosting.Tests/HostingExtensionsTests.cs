@@ -21,7 +21,9 @@ public class HostingExtensionsTests
         _ = configuration.UseHost();
 
         _ = configuration.Invoke(Array.Empty<string>());
-        _ = host.Should().NotBeNull();
+        _ = host.Should().BeAssignableTo<Microsoft.Extensions.Hosting.IHost>()
+            .Which.Services.GetService(typeof(Microsoft.Extensions.Hosting.IHostLifetime)).Should().BeAssignableTo<Microsoft.Extensions.Hosting.IHostLifetime>()
+            .Which.Should().BeOfType<InvocationLifetime>();
     }
 
     [Fact]
@@ -54,8 +56,9 @@ public class HostingExtensionsTests
         _ = configuration.UseApplicationHost();
 
         _ = configuration.Invoke(Array.Empty<string>());
-        _ = host.Should().NotBeNull();
-
+        _ = host.Should().BeAssignableTo<Microsoft.Extensions.Hosting.IHost>()
+            .Which.Services.GetService(typeof(Microsoft.Extensions.Hosting.IHostLifetime)).Should().BeAssignableTo<Microsoft.Extensions.Hosting.IHostLifetime>()
+            .Which.Should().BeOfType<InvocationLifetime>();
     }
 
     [Fact]

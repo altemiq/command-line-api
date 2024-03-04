@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="HostingExtensions.ApplicationHost.cs" company="Altavec">
-// Copyright (c) Altavec. All rights reserved.
+// <copyright file="HostingExtensions.ApplicationHost.cs" company="Altemiq">
+// Copyright (c) Altemiq. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
