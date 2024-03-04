@@ -26,4 +26,20 @@ public class LoggingExtensionsTests
         var parseResult = configuration.Parse(string.Empty);
         _ = parseResult.CreateLogger("Test").Should().NotBeNull();
     }
+
+    [Fact]
+    public void FailGetLogger() => new CliConfiguration(new CliRootCommand()).Parse(string.Empty).Invoking(pr => pr.GetLoggerFactory()).Should().Throw<InvalidOperationException>();
+
+    [Theory]
+    [InlineData(VerbosityOptions.q, LogLevel.Error)]
+    [InlineData(VerbosityOptions.quiet, LogLevel.Error)]
+    [InlineData(VerbosityOptions.m, LogLevel.Warning)]
+    [InlineData(VerbosityOptions.minimal, LogLevel.Warning)]
+    [InlineData(VerbosityOptions.n, LogLevel.Information)]
+    [InlineData(VerbosityOptions.normal, LogLevel.Information)]
+    [InlineData(VerbosityOptions.d, LogLevel.Debug)]
+    [InlineData(VerbosityOptions.detailed, LogLevel.Debug)]
+    [InlineData(VerbosityOptions.diag, LogLevel.Trace)]
+    [InlineData(VerbosityOptions.diagnostic, LogLevel.Trace)]
+    public void GetLogLevel(VerbosityOptions verbosity, LogLevel level) => new CliConfiguration(new CliRootCommand() { CliOptions.VerbosityOption }).Parse($"{CliOptions.VerbosityOption.Name} {verbosity}").GetLogLevel().Should().Be(level);
 }

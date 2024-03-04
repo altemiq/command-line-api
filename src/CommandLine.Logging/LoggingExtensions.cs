@@ -73,20 +73,20 @@ public static class LoggingExtensions
 
     private static class LoggerAction
     {
-        private static readonly Dictionary<CliCommand, Configurer> Configures = [];
+        private static readonly Dictionary<CliCommand, ConfigureAction> Configures = [];
 
         public static void SetHandlers(CliCommand command, Action<ParseResult?, ILoggingBuilder> configure)
         {
             // see if the handler already exists
-            if (Configures.TryGetValue(command, out var configurer))
+            if (Configures.TryGetValue(command, out var commandConfigure))
             {
-                configurer.Add(configure);
+                commandConfigure.Add(configure);
                 return;
             }
 
-            configurer = new Configurer();
-            configurer.Add(configure);
-            Configures.Add(command, configurer);
+            commandConfigure = new ConfigureAction();
+            commandConfigure.Add(configure);
+            Configures.Add(command, commandConfigure);
             Invocation.InstanceAction.SetHandlers(command, Create);
 
             ILoggerFactory Create(ParseResult? parseResult)
@@ -100,9 +100,9 @@ public static class LoggingExtensions
                         _ = builder.SetMinimumLevel(value.GetLogLevel());
                     }
 
-                    if (Configures.TryGetValue(command, out var configurer))
+                    if (Configures.TryGetValue(command, out var commandConfigure))
                     {
-                        configurer.Configure(parseResult, builder);
+                        commandConfigure.Configure(parseResult, builder);
                     }
                 });
 
@@ -112,7 +112,7 @@ public static class LoggingExtensions
             }
         }
 
-        private sealed class Configurer
+        private sealed class ConfigureAction
         {
             private readonly List<Action<ParseResult?, object?>> actions = [];
 
