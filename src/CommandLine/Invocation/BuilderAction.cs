@@ -33,7 +33,35 @@ public static class BuilderAction
     /// <param name="createBuilder">The function to create the builder.</param>
     /// <param name="buildInstance">The build the instance.</param>
     /// <param name="configure">The action to confure the builder.</param>
-    public static void SetHandlers<TBuilder, TInstance>(CliCommand command, Func<ParseResult?, TBuilder> createBuilder, Func<TBuilder, TInstance> buildInstance, Action<ParseResult?, TBuilder> configure)
+    public static void SetHandlers<TBuilder, TInstance>(CliCommand command, Func<ParseResult?, TBuilder> createBuilder, Func<TBuilder, TInstance> buildInstance, Action<ParseResult?, TBuilder> configure) => SetHandlers(command, createBuilder, buildInstance, configure, create => InstanceAction.SetHandlers(command, create));
+
+    /// <summary>
+    /// Sets the handlers.
+    /// </summary>
+    /// <typeparam name="TBuilder">The type of builder.</typeparam>
+    /// <typeparam name="TInstance">The type of instance.</typeparam>
+    /// <param name="command">The command.</param>
+    /// <param name="createBuilder">The function to create the builder.</param>
+    /// <param name="buildInstance">The build the instance.</param>
+    /// <param name="configure">The action to confure the builder.</param>
+    /// <param name="beforeInvoke">The action to call before invoking the nested action.</param>
+    /// <param name="afterInvoke">The action to call after invoking the nested action.</param>
+    public static void SetHandlers<TBuilder, TInstance>(CliCommand command, Func<ParseResult?, TBuilder> createBuilder, Func<TBuilder, TInstance> buildInstance, Action<ParseResult?, TBuilder> configure, Action<ParseResult, TInstance> beforeInvoke, Action<ParseResult, TInstance> afterInvoke) => SetHandlers(command, createBuilder, buildInstance, configure, create => InstanceAction.SetHandlers(command, create, beforeInvoke, afterInvoke));
+
+    /// <summary>
+    /// Sets the handlers.
+    /// </summary>
+    /// <typeparam name="TBuilder">The type of builder.</typeparam>
+    /// <typeparam name="TInstance">The type of instance.</typeparam>
+    /// <param name="command">The command.</param>
+    /// <param name="createBuilder">The function to create the builder.</param>
+    /// <param name="buildInstance">The build the instance.</param>
+    /// <param name="configure">The action to confure the builder.</param>
+    /// <param name="beforeInvoke">The action to call before invoking the nested action.</param>
+    /// <param name="afterInvoke">The action to call after invoking the nested action.</param>
+    public static void SetHandlers<TBuilder, TInstance>(CliCommand command, Func<ParseResult?, TBuilder> createBuilder, Func<TBuilder, TInstance> buildInstance, Action<ParseResult?, TBuilder> configure, Func<ParseResult, TInstance, CancellationToken, Task> beforeInvoke, Func<ParseResult, TInstance, CancellationToken, Task> afterInvoke) => SetHandlers(command, createBuilder, buildInstance, configure, create => InstanceAction.SetHandlers(command, create, beforeInvoke, afterInvoke));
+
+    private static void SetHandlers<TBuilder, TInstance>(CliCommand command, Func<ParseResult?, TBuilder> createBuilder, Func<TBuilder, TInstance> buildInstance, Action<ParseResult?, TBuilder> configure, Action<Func<ParseResult?, TInstance>> setHandler)
     {
         // see if the handler already exists
         if (Configures.TryGetValue((command, typeof(TBuilder), typeof(TInstance)), out var configurer))
@@ -45,7 +73,7 @@ public static class BuilderAction
         configurer = new Configurer();
         configurer.Add(configure);
         Configures.Add((command, typeof(TBuilder), typeof(TInstance)), configurer);
-        InstanceAction.SetHandlers(command, Create);
+        setHandler(Create);
 
         TInstance Create(ParseResult? parseResult)
         {

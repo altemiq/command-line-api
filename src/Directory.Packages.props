@@ -13,6 +13,14 @@
     <PackageVersion Include="System.CommandLine" Version="2.0.0-beta4.23407.1" />
   </ItemGroup>
 
+  <ItemGroup Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net7.0'))">
+    <PackageVersion Update="Microsoft.Extensions.Hosting" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net8.0'))">
+    <PackageVersion Update="Microsoft.Extensions.Hosting" Version="8.0.0" />
+  </ItemGroup>
+
   <ItemGroup Label="Analyzers">
     <GlobalPackageReference Include="Meziantou.Analyzer" Version="2.0.137" />
     <GlobalPackageReference Include="Roslynator.Analyzers" Version="4.9.0" />

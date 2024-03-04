@@ -885,7 +885,7 @@
         "type": "Project",
         "dependencies": {
           "Altemiq.CommandLine": "[1.0.0, )",
-          "Microsoft.Extensions.Hosting": "[2.1.0, )"
+          "Microsoft.Extensions.Hosting": "[7.0.0, )"
         }
       },
       "Microsoft.Extensions.Configuration": {
@@ -1357,7 +1357,7 @@
         "type": "Project",
         "dependencies": {
           "Altemiq.CommandLine": "[1.0.0, )",
-          "Microsoft.Extensions.Hosting": "[2.1.0, )"
+          "Microsoft.Extensions.Hosting": "[8.0.0, )"
         }
       },
       "Microsoft.Extensions.Configuration": {

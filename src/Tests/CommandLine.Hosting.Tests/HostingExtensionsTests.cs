@@ -6,8 +6,77 @@
 
 namespace System.CommandLine.Hosting;
 
+using Microsoft.Extensions.Configuration;
+
 public class HostingExtensionsTests
 {
+    [Fact]
+    public void GetHost()
+    {
+        Microsoft.Extensions.Hosting.IHost? host = default;
+        var rootCommand = new CliRootCommand();
+        rootCommand.SetAction(parseResult => host = parseResult.GetHost());
+        
+        var configuration = new CliConfiguration(rootCommand);
+        _ = configuration.UseHost();
+
+        _ = configuration.Invoke(Array.Empty<string>());
+        _ = host.Should().NotBeNull();
+    }
+
+    [Fact]
+    public void GetHostWithDirectives()
+    {
+        Microsoft.Extensions.Hosting.IHost? host = default;
+        var rootCommand = new CliRootCommand();
+        rootCommand.SetAction(parseResult => host = parseResult.GetHost());
+
+        var configuration = new CliConfiguration(rootCommand);
+        _ = configuration.UseHost();
+
+        _ = configuration.Invoke("[config:Key1=Value1]");
+        _ = host.Should().NotBeNull();
+
+        host?.Services.GetService(typeof(IConfiguration))
+            .Should().BeOfType<ConfigurationRoot>()
+            .Which.GetValue<string>("Key1").Should().Be("Value1");
+    }
+
+#if NET7_0_OR_GREATER
+    [Fact]
+    public void GetHostFromApplicationBuilder()
+    {
+        Microsoft.Extensions.Hosting.IHost? host = default;
+        var rootCommand = new CliRootCommand();
+        rootCommand.SetAction(parseResult => host = parseResult.GetHost());
+        
+        var configuration = new CliConfiguration(rootCommand);
+        _ = configuration.UseApplicationHost();
+
+        _ = configuration.Invoke(Array.Empty<string>());
+        _ = host.Should().NotBeNull();
+
+    }
+
+    [Fact]
+    public void GetHostFromApplicationBuilderWithDirectives()
+    {
+        Microsoft.Extensions.Hosting.IHost? host = default;
+        var rootCommand = new CliRootCommand();
+        rootCommand.SetAction(parseResult => host = parseResult.GetHost());
+
+        var configuration = new CliConfiguration(rootCommand);
+        _ = configuration.UseApplicationHost();
+
+        _ = configuration.Invoke("[config:Key1=Value1]");
+        _ = host.Should().NotBeNull();
+
+        host?.Services.GetService(typeof(IConfiguration))
+            .Should().BeOfType<ConfigurationManager>()
+            .Which.GetValue<string>("Key1").Should().Be("Value1");
+    }
+#endif
+
     [Fact]
     public void GetConfiguration()
     {
