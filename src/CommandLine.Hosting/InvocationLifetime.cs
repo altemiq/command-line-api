@@ -123,8 +123,8 @@ public class InvocationLifetime : IHostLifetime, IDisposable
     private void OnApplicationStarted()
     {
         this.Logger.LogInformation("Application started. Press Ctrl+C to shut down.");
-        this.Logger.LogInformation("Hosting environment: {envName}", this.Environment.EnvironmentName);
-        this.Logger.LogInformation("Content root path: {contentRoot}", this.Environment.ContentRootPath);
+        this.Logger.LogInformation("Hosting environment: {EnvName}", this.Environment.EnvironmentName);
+        this.Logger.LogInformation("Content root path: {ContentRoot}", this.Environment.ContentRootPath);
     }
 
     private void OnApplicationStopping() => this.Logger.LogInformation("Application is shutting down...");
