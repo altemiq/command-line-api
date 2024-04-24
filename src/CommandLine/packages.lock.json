@@ -4,7 +4,7 @@
     ".NETStandard,Version=v2.0": {
       "Altemiq.SemanticVersioning.MSBuild": {
         "type": "Direct",
-        "requested": "[2.1.5, )",
+        "requested": "[2.1.6, )",
         "resolved": "2.1.8",
         "contentHash": "Vbaqo/lUthlOBtHGMegNoLGIpxG0jAcdEsMjREFkimKTEMglPgipgL27CIFlJ+jYePxD7HXYICwsDAMkjSgk4A=="
       },
@@ -28,9 +28,9 @@
       },
       "Meziantou.Analyzer": {
         "type": "Direct",
-        "requested": "[2.0.145, )",
-        "resolved": "2.0.145",
-        "contentHash": "BPgr0uG1JpLaDE/dIDK04cngtwzcwNEa3MJROJ+HjOal4E5EBjfTsyPOr/1yyjB2FTCmg2yIAqGteDqSykJwng=="
+        "requested": "[2.0.149, )",
+        "resolved": "2.0.149",
+        "contentHash": "nJaiWMp6AlosBpl3sJO/frbqiImPBHodaJpcwlA/ez3zwjj9ZF4oeH0tWHSRFW8+e5mJMswlc3Kwl8DFskVOCg=="
       },
       "NETStandard.Library": {
         "type": "Direct",
@@ -43,15 +43,15 @@
       },
       "Roslynator.Analyzers": {
         "type": "Direct",
-        "requested": "[4.11.0, )",
-        "resolved": "4.11.0",
-        "contentHash": "gb8OEqxIlqaT2r/RjMltheNZJJ/f2jfjJXyI+5JwNZvXBgSNPEQa8JeMW4lXgDtOOSdzpGNpMSuPikYLzmEvCw=="
+        "requested": "[4.12.2, )",
+        "resolved": "4.12.2",
+        "contentHash": "6gLnu303OyuBwOjd3QFKG3wEmbRPXKfVHRKLkZB6lDs5Ik8mfBGVoCIVN86HAQcbZI5KQD5dY3HEie0ScoeEag=="
       },
       "SonarAnalyzer.CSharp": {
         "type": "Direct",
-        "requested": "[9.20.0.85982, )",
-        "resolved": "9.20.0.85982",
-        "contentHash": "c0IYtFg4mYusTafTy0Bs5wev45vRKNShkuoWyQyPMbC6imEFHL7tY/7xbbUJd6JNLYx5vP8wyi2LgiBsMHqb2Q=="
+        "requested": "[9.24.0.89429, )",
+        "resolved": "9.24.0.89429",
+        "contentHash": "Ozk4LVpLNHhd+mmYKiG/WYtUUBZFknpkRy5JwTq4YfmT2wPA16vev5s/42urrN27ZV+01Kb5aYKJt3EI+5jPdw=="
       },
       "StyleCop.Analyzers.Unstable": {
         "type": "Direct",
