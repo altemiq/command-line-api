@@ -13,4 +13,8 @@
     <ProjectReference Include="..\..\CommandLine.Hosting\CommandLine.Hosting.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="HostingExtensionsTests.ApplicationHost.cs" DependentUpon="HostingExtensionsTests.cs" />
+  </ItemGroup>
+
 </Project>

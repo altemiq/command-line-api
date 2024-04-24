@@ -8,7 +8,7 @@ namespace System.CommandLine.Hosting;
 
 using Microsoft.Extensions.Configuration;
 
-public class HostingExtensionsTests
+public partial class HostingExtensionsTests
 {
     [Fact]
     public void GetHost()
@@ -44,46 +44,10 @@ public class HostingExtensionsTests
             .Which.GetValue<string>("Key1").Should().Be("Value1");
     }
 
-#if NET7_0_OR_GREATER
-    [Fact]
-    public void GetHostFromApplicationBuilder()
-    {
-        Microsoft.Extensions.Hosting.IHost? host = default;
-        var rootCommand = new CliRootCommand();
-        rootCommand.SetAction(parseResult => host = parseResult.GetHost());
-
-        var configuration = new CliConfiguration(rootCommand);
-        _ = configuration.UseApplicationHost();
-
-        _ = configuration.Invoke(Array.Empty<string>());
-        _ = host.Should().BeAssignableTo<Microsoft.Extensions.Hosting.IHost>()
-            .Which.Services.GetService(typeof(Microsoft.Extensions.Hosting.IHostLifetime)).Should().BeAssignableTo<Microsoft.Extensions.Hosting.IHostLifetime>()
-            .Which.Should().BeOfType<InvocationLifetime>();
-    }
-
-    [Fact]
-    public void GetHostFromApplicationBuilderWithDirectives()
-    {
-        Microsoft.Extensions.Hosting.IHost? host = default;
-        var rootCommand = new CliRootCommand();
-        rootCommand.SetAction(parseResult => host = parseResult.GetHost());
-
-        var configuration = new CliConfiguration(rootCommand);
-        _ = configuration.UseApplicationHost();
-
-        _ = configuration.Invoke("[config:Key1=Value1]");
-        _ = host.Should().NotBeNull();
-
-        host?.Services.GetService(typeof(IConfiguration))
-            .Should().BeOfType<ConfigurationManager>()
-            .Which.GetValue<string>("Key1").Should().Be("Value1");
-    }
-#endif
-
     [Fact]
     public void GetConfiguration()
     {
-        Microsoft.Extensions.Configuration.IConfiguration? config = default;
+        IConfiguration? config = default;
         var rootCommand = new CliRootCommand();
         rootCommand.SetAction(result => config = result.GetConfiguration());
 
@@ -112,7 +76,7 @@ public class HostingExtensionsTests
     public void GetConfigurationAndServices()
     {
         IServiceProvider? serviceProvider = default;
-        Microsoft.Extensions.Configuration.IConfiguration? config = default;
+        IConfiguration? config = default;
         var rootCommand = new CliRootCommand();
         rootCommand.SetAction(result =>
         {
@@ -145,7 +109,7 @@ public class HostingExtensionsTests
     [Fact]
     public void UseConfigurationInDefaultValueFromArgument()
     {
-        Microsoft.Extensions.Configuration.IConfiguration? config = default;
+        IConfiguration? config = default;
         var argument = new CliArgument<string>("ARG")
         {
             DefaultValueFactory = argumentResult =>
@@ -170,7 +134,7 @@ public class HostingExtensionsTests
     [Fact]
     public void UseConfigurationInDefaultValueFromOption()
     {
-        Microsoft.Extensions.Configuration.IConfiguration? config = default;
+        IConfiguration? config = default;
         var argument = new CliOption<string>("--option")
         {
             DefaultValueFactory = argumentResult =>
@@ -197,7 +161,7 @@ public class HostingExtensionsTests
     [InlineData("second")]
     public void UseConfigurationInHelp(string name)
     {
-        Microsoft.Extensions.Configuration.IConfiguration? config = default;
+        IConfiguration? config = default;
         CliCommand? command = default;
 
         var argument = new CliOption<string>("--option")
