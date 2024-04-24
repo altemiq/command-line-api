@@ -14,6 +14,7 @@ namespace System.CommandLine.Logging;
 /// </remarks>
 /// <param name="configuration">The configuration.</param>
 /// <param name="comparer">The <see cref="IEqualityComparer{T}"/> implementation to use when comparing category names.</param>
+[Microsoft.Extensions.Logging.ProviderAlias(nameof(CliConfiguration))]
 internal sealed class CliConfigurationLoggerProvider(CliConfiguration configuration, IEqualityComparer<string> comparer) : ILoggerProvider, ISupportExternalScope
 {
     private readonly Collections.Concurrent.ConcurrentDictionary<string, CliConfigurationLogger> loggers = new(comparer);
