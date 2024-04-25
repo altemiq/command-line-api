@@ -7,6 +7,7 @@
 namespace System.CommandLine.Hosting;
 
 using Microsoft.Extensions.Configuration;
+using NSubstitute;
 
 public partial class HostingExtensionsTests
 {
@@ -195,5 +196,64 @@ public partial class HostingExtensionsTests
 
         _ = command.Should().NotBeNull().And.Subject.As<CliCommand>().Name.Should().Be(name);
         _ = config.Should().NotBeNull();
+    }
+
+    public partial class EnsureStartAndStopAreCalled
+    {
+        public class Host
+        {
+            [Fact]
+            public async Task WithNoAction()
+            {
+                var host = Substitute.For<Microsoft.Extensions.Hosting.IHost>();
+                var hostBuilder = Substitute.For<Microsoft.Extensions.Hosting.IHostBuilder>();
+                hostBuilder.Build().Returns(host);
+
+                var root = new CliRootCommand();
+                var configuration = new CliConfiguration(root);
+                configuration.UseHost(args => hostBuilder);
+
+                await configuration.InvokeAsync(string.Empty);
+
+                await host.Received().StartAsync(Arg.Any<CancellationToken>());
+                await host.Received().StopAsync(Arg.Any<CancellationToken>());
+            }
+
+            [Fact]
+            public async Task WithSynchronousAction()
+            {
+                var host = Substitute.For<Microsoft.Extensions.Hosting.IHost>();
+                var hostBuilder = Substitute.For<Microsoft.Extensions.Hosting.IHostBuilder>();
+                hostBuilder.Build().Returns(host);
+
+                var root = new CliRootCommand();
+                root.SetAction(parseResult => { });
+                var configuration = new CliConfiguration(root);
+                configuration.UseHost(args => hostBuilder);
+
+                await configuration.InvokeAsync(string.Empty);
+
+                await host.Received().StartAsync(Arg.Any<CancellationToken>());
+                await host.Received().StopAsync(Arg.Any<CancellationToken>());
+            }
+
+            [Fact]
+            public async Task WithAsynchronousAction()
+            {
+                var host = Substitute.For<Microsoft.Extensions.Hosting.IHost>();
+                var hostBuilder = Substitute.For<Microsoft.Extensions.Hosting.IHostBuilder>();
+                hostBuilder.Build().Returns(host);
+
+                var root = new CliRootCommand();
+                root.SetAction((parseResult, cancellationToken) => Task.CompletedTask);
+                var configuration = new CliConfiguration(root);
+                configuration.UseHost(args => hostBuilder);
+
+                await configuration.InvokeAsync(string.Empty);
+
+                await host.Received().StartAsync(Arg.Any<CancellationToken>());
+                await host.Received().StopAsync(Arg.Any<CancellationToken>());
+            }
+        }
     }
 }
