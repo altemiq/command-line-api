@@ -1,0 +1,9 @@
+﻿<Project>
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('$(MSBuildThisFile)', '$(MSBuildThisFileDirectory)../'))" />
+
+  <ItemGroup>
+    <PackageVersion Include="Spectre.Console" Version="0.48.0" />
+    <PackageVersion Include="System.CommandLine" Version="2.0.0-beta4.24209.3" />
+  </ItemGroup>
+
+</Project>

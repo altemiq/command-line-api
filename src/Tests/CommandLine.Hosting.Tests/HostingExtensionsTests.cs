@@ -59,15 +59,24 @@ public partial class HostingExtensionsTests
         _ = config.Should().NotBeNull();
     }
 
-    [Fact]
-    public void GetServices()
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public void GetServices(bool withArgs)
     {
         IServiceProvider? serviceProvider = default;
         var rootCommand = new CliRootCommand();
         rootCommand.SetAction(result => serviceProvider = result.GetServices());
 
         var configuration = new CliConfiguration(rootCommand);
-        _ = configuration.UseServices();
+        if (withArgs)
+        {
+            _ = configuration.UseServices(args => Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args));
+        }
+        else
+        {
+            _ = configuration.UseServices();
+        }
 
         _ = configuration.Invoke(Array.Empty<string>());
         _ = serviceProvider.Should().NotBeNull();
@@ -158,9 +167,11 @@ public partial class HostingExtensionsTests
     }
 
     [Theory]
-    [InlineData("first")]
-    [InlineData("second")]
-    public void UseConfigurationInHelp(string name)
+    [InlineData("first", true)]
+    [InlineData("second", true)]
+    [InlineData("first", false)]
+    [InlineData("second", false)]
+    public void UseConfigurationInHelp(string name, bool withArgs)
     {
         IConfiguration? config = default;
         CliCommand? command = default;
@@ -190,7 +201,14 @@ public partial class HostingExtensionsTests
         });
 
         var configuration = new CliConfiguration(rootCommand);
-        _ = configuration.UseConfiguration();
+        if (withArgs)
+        {
+            _ = configuration.UseConfiguration((args) => Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args));
+        }
+        else
+        {
+            _ = configuration.UseConfiguration();
+        }
 
         _ = configuration.Invoke($"{name} --help");
 

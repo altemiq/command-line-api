@@ -2,12 +2,18 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFrameworks>net8.0;net472</TargetFrameworks>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Spectre.Console" />
+    <PackageReference Include="System.CommandLine" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\CommandLine.Hosting\CommandLine.Hosting.csproj" />
     <ProjectReference Include="..\..\CommandLine.Logging\CommandLine.Logging.csproj" />
+    <ProjectReference Include="..\..\CommandLine.Spectre\CommandLine.Spectre.csproj" />
   </ItemGroup>
 
   <ItemGroup>

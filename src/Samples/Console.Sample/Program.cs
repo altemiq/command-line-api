@@ -6,6 +6,7 @@
 
 using System.CommandLine.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 var root = new CliRootCommand { CliOptions.VerbosityOption };
@@ -25,22 +26,52 @@ root.SetAction(parseResult =>
     logger.LogInformation("host: Logging Information");
     logger.LogWarning("host: Logging Warning");
     logger.LogError("host: Logging Error");
+
+    // do some tasks
+    var ansiConsoleProgress = AnsiConsoleProgress.Create<(string Name, double Percentage)>(Spectre.Console.AnsiConsole.Console, x => new AnsiConsoleProgressItem(x.Name, x.Percentage));
+    IProgress<(string Name, double Percentage)> progress = ansiConsoleProgress;
+
+    progress.Report(new("Unknown Length Task", -1));
+    progress.Report(new("Known Length Task", 0));
+
+    for (var i = 1; i <= 100; i++)
+    {
+        Thread.Sleep(100);
+        progress.Report(new("Known Length Task", i));
+    }
+
+    progress.Report(("Unknown Length Task", -1));
+
+    while (!ansiConsoleProgress.IsComplete)
+    {
+        Thread.Sleep(100);
+    }
 });
 
 var configuration = new CliConfiguration(root);
 configuration
+#if NET8_0_OR_GREATER
     .UseApplicationHost((parseResult, builder) =>
     {
-        if (parseResult is not null)
+        if (parseResult is { Configuration: { } configuration })
         {
-            builder.Logging.AddCliConfiguration(parseResult.Configuration);
+            builder.Logging.AddCliConfiguration(configuration);
         }
     })
+#else
+    .UseHost((parseResult, builder) => builder.ConfigureLogging(loggingBuilder =>
+    {
+        if (parseResult is { Configuration: { } configuration })
+        {
+            loggingBuilder.AddCliConfiguration(configuration);
+        }
+    }))
+#endif
     .AddLogging((parseResult, configure) =>
     {
-        if (parseResult is not null)
+        if (parseResult is { Configuration: { } configuration })
         {
-            configure.AddCliConfiguration(parseResult.Configuration);
+            configure.AddCliConfiguration(configuration);
         }
     });
 
