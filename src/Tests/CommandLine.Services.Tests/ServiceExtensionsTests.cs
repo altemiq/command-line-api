@@ -18,7 +18,7 @@ public class ServiceExtensionsTests
         var configuration = new CliConfiguration(rootCommand);
         _ = configuration.UseServices(services => { });
 
-        _ = configuration.Invoke(Array.Empty<string>());
+        _ = configuration.Invoke([]);
         _ = serviceProvider.Should().NotBeNull();
 
     }

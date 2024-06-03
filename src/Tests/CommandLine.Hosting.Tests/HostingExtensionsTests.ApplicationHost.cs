@@ -21,7 +21,7 @@ public partial class HostingExtensionsTests
         var configuration = new CliConfiguration(rootCommand);
         _ = configuration.UseApplicationHost();
 
-        _ = configuration.Invoke(Array.Empty<string>());
+        _ = configuration.Invoke([]);
         _ = host.Should().BeAssignableTo<Microsoft.Extensions.Hosting.IHost>()
             .Which.Services.GetService(typeof(Microsoft.Extensions.Hosting.IHostLifetime)).Should().BeAssignableTo<Microsoft.Extensions.Hosting.IHostLifetime>()
             .Which.Should().BeOfType<InvocationLifetime>();

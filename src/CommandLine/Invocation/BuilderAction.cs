@@ -11,7 +11,7 @@ namespace System.CommandLine.Invocation;
 /// </summary>
 public static class BuilderAction
 {
-    private static readonly Dictionary<(CliCommand, Type, Type), Configurer> Configures = [];
+    private static readonly Collections.Concurrent.ConcurrentDictionary<(CliCommand, Type, Type), Configurer> Configures = [];
 
     /// <summary>
     /// Sets the handlers.
@@ -63,17 +63,17 @@ public static class BuilderAction
 
     private static void SetHandlers<TBuilder, TInstance>(CliCommand command, Func<ParseResult?, TBuilder> createBuilder, Func<TBuilder, TInstance> buildInstance, Action<ParseResult?, TBuilder> configure, Action<Func<ParseResult?, TInstance>> setHandler)
     {
-        // see if the handler already exists
-        if (Configures.TryGetValue((command, typeof(TBuilder), typeof(TInstance)), out var configurer))
+        if (Configures.AddOrUpdate(
+            (command, typeof(TBuilder), typeof(TInstance)),
+            Configurer.Create(configure),
+            (_, configurer) =>
+            {
+                configurer.Add(configure);
+                return configurer;
+            }) is { Count: 1 })
         {
-            configurer.Add(configure);
-            return;
+            setHandler(Create);
         }
-
-        configurer = new Configurer();
-        configurer.Add(configure);
-        Configures.Add((command, typeof(TBuilder), typeof(TInstance)), configurer);
-        setHandler(Create);
 
         TInstance Create(ParseResult? parseResult)
         {
@@ -90,6 +90,15 @@ public static class BuilderAction
     private sealed class Configurer
     {
         private readonly List<Action<ParseResult?, object?>> actions = [];
+
+        public int Count => this.actions.Count;
+
+        public static Configurer Create<T>(Action<ParseResult?, T> action)
+        {
+            var configurer = new Configurer();
+            configurer.Add(action);
+            return configurer;
+        }
 
         public void Add<T>(Action<ParseResult?, T> action) => this.Add((parseResult, obj) =>
         {

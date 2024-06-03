@@ -24,7 +24,7 @@ public class ConfigurationExtensionsTests
             builder = builder_;
         });
 
-        _ = configuration.Invoke(Array.Empty<string>());
+        _ = configuration.Invoke([]);
         _ = config.Should().NotBeNull();
         _ = parseResult.Should().NotBeNull();
         _ = builder.Should().NotBeNull();

@@ -21,7 +21,7 @@ public partial class HostingExtensionsTests
         var configuration = new CliConfiguration(rootCommand);
         _ = configuration.UseHost();
 
-        _ = configuration.Invoke(Array.Empty<string>());
+        _ = configuration.Invoke([]);
         _ = host.Should().BeAssignableTo<Microsoft.Extensions.Hosting.IHost>()
             .Which.Services.GetService(typeof(Microsoft.Extensions.Hosting.IHostLifetime)).Should().BeAssignableTo<Microsoft.Extensions.Hosting.IHostLifetime>()
             .Which.Should().BeOfType<InvocationLifetime>();
@@ -55,7 +55,7 @@ public partial class HostingExtensionsTests
         var configuration = new CliConfiguration(rootCommand);
         _ = configuration.UseConfiguration();
 
-        _ = configuration.Invoke(Array.Empty<string>());
+        _ = configuration.Invoke([]);
         _ = config.Should().NotBeNull();
     }
 
@@ -73,7 +73,7 @@ public partial class HostingExtensionsTests
             ? configuration.UseServices(args => Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args))
             : configuration.UseServices();
 
-        _ = configuration.Invoke(Array.Empty<string>());
+        _ = configuration.Invoke([]);
         _ = serviceProvider.Should().NotBeNull();
     }
 
@@ -105,7 +105,7 @@ public partial class HostingExtensionsTests
         },
         configure => { });
 
-        _ = configuration.Invoke(Array.Empty<string>());
+        _ = configuration.Invoke([]);
         _ = count.Should().Be(1);
         _ = serviceProvider.Should().NotBeNull();
         _ = config.Should().NotBeNull();
@@ -132,7 +132,7 @@ public partial class HostingExtensionsTests
         var configuration = new CliConfiguration(new CliRootCommand { argument });
         _ = configuration.UseConfiguration();
 
-        _ = configuration.Invoke(Array.Empty<string>());
+        _ = configuration.Invoke([]);
         _ = config.Should().NotBeNull();
     }
 

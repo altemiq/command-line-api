@@ -20,7 +20,7 @@ public class ServicesExtensionsTests
         var configuration = new CliConfiguration(rootCommand);
         _ = configuration.UseServices(configure => { });
 
-        _ = configuration.Invoke(Array.Empty<string>());
+        _ = configuration.Invoke([]);
         _ = serviceProvider.Should().NotBeNull();
     }
 
@@ -40,7 +40,7 @@ public class ServicesExtensionsTests
         var configuration = new CliConfiguration(rootCommand);
         _ = configuration.UseServices(configure => configure.AddSingleton<IDisposable, Disposable>());
 
-        _ = configuration.Invoke(Array.Empty<string>());
+        _ = configuration.Invoke([]);
         _ = disposable.Should().NotBeNull();
 
     }
