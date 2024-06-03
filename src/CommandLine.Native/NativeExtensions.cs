@@ -10,7 +10,7 @@ namespace System.CommandLine;
 /// The native extensions.
 /// </summary>
 [Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
-internal static class NativeExtensions
+public static class NativeExtensions
 {
     /// <summary>
     /// Resolves native assemblies for the configuration.
