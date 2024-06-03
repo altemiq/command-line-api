@@ -46,7 +46,7 @@ internal static class LocalizationResources
     /// <param name="uri">The URI.</param>
     /// <param name="schemes">The schemes.</param>
     /// <returns>The localised string.</returns>
-    public static string InvalidSchemes(string uri, IEnumerable<string> schemes) => GetResourceString(Properties.Resources.Culture, Properties.Resources.InvalidSchemes, uri, string.Join(", ",  schemes));
+    public static string InvalidSchemes(string uri, IEnumerable<string> schemes) => GetResourceString(Properties.Resources.Culture, Properties.Resources.InvalidSchemes, uri, string.Join(", ", schemes));
 
     private static string GetResourceString(IFormatProvider? provider, string? resourceString, params object?[] formatArguments) => (resourceString, formatArguments) switch
     {

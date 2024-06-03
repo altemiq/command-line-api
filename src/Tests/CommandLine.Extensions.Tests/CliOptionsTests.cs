@@ -75,7 +75,7 @@ public class CliOptionsTests
 
     private class RangeEqualityComparer : IEqualityComparer<Range>
     {
-        public static readonly IEqualityComparer<Range> Instance = new RangeEqualityComparer();
+        public static readonly RangeEqualityComparer Instance = new();
 
         public bool Equals(Range x, Range y) => x.Equals(y);
 
@@ -84,7 +84,7 @@ public class CliOptionsTests
 
     private class IndexEqualityComparer : IEqualityComparer<Index>
     {
-        public static readonly IEqualityComparer<Index> Instance = new IndexEqualityComparer();
+        public static readonly IndexEqualityComparer Instance = new();
 
         public bool Equals(Index x, Index y) => x.Equals(y);
 

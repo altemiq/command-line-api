@@ -44,7 +44,7 @@ public class PromptExtensionsTests
     public void TestString()
     {
         const string value = nameof(value);
-        _ = GetValue<string>("Enter string value:", value).Should().Be(value);
+        _ = GetValue("Enter string value:", value).Should().Be(value);
     }
 
     [Fact]
