@@ -55,9 +55,9 @@
       },
       "Spectre.Console": {
         "type": "Direct",
-        "requested": "[0.48.0, )",
-        "resolved": "0.48.0",
-        "contentHash": "4Mc1UT7Azgtyb8FyNwK5FZmoZbKuT5PmY7ZwaKUytjD5kGFMNBACpOZTwYtkuY377YkYtZYBeDDTJUwTW86QXw==",
+        "requested": "[0.49.1, )",
+        "resolved": "0.49.1",
+        "contentHash": "USV+pdu49OJ3nCjxNuw1K9Zw/c1HCBbwbjXZp0EOn6wM99tFdAtN34KEBZUMyRuJuXlUMDqhd8Yq9obW2MslYA==",
         "dependencies": {
           "System.Memory": "4.5.5"
         }
@@ -351,12 +351,9 @@
       },
       "Spectre.Console": {
         "type": "Direct",
-        "requested": "[0.48.0, )",
-        "resolved": "0.48.0",
-        "contentHash": "4Mc1UT7Azgtyb8FyNwK5FZmoZbKuT5PmY7ZwaKUytjD5kGFMNBACpOZTwYtkuY377YkYtZYBeDDTJUwTW86QXw==",
-        "dependencies": {
-          "System.Memory": "4.5.5"
-        }
+        "requested": "[0.49.1, )",
+        "resolved": "0.49.1",
+        "contentHash": "USV+pdu49OJ3nCjxNuw1K9Zw/c1HCBbwbjXZp0EOn6wM99tFdAtN34KEBZUMyRuJuXlUMDqhd8Yq9obW2MslYA=="
       },
       "StyleCop.Analyzers.Unstable": {
         "type": "Direct",
@@ -707,11 +704,6 @@
         "type": "Transitive",
         "resolved": "8.0.0",
         "contentHash": "fdYxcRjQqTTacKId/2IECojlDSFvp7LP5N78+0z/xH7v/Tuw5ZAxu23Y6PTCRinqyu2ePx+Gn1098NC6jM6d+A=="
-      },
-      "System.Memory": {
-        "type": "Transitive",
-        "resolved": "4.5.5",
-        "contentHash": "XIWiDvKPXaTveaB7HVganDlOCRoj03l+jrwNvcge/t8vhGYKvqV+dMv6G4SAX2NoNmN0wZfVPTAlFwZcZvVOUw=="
       },
       "System.Text.Encodings.Web": {
         "type": "Transitive",
