@@ -24,18 +24,19 @@ public class CliOptionsTests
     [Fact]
     public void FileSystemGlobbing()
     {
-        const string RootDir = "C:\\Files to Search";
-        var first = Path.Join(RootDir, "first", "first.las");
-        var second = Path.Join(RootDir, "second.las");
-        var third = Path.Join(RootDir, "deep", "deep", "path", "third.las");
-        var forth = Path.Join(RootDir, "forth.laz");
+        var rootDir = Path.Join(Path.GetPathRoot(Environment.CurrentDirectory), "Files to Search");
 
-        var directoryInfo = new Microsoft.Extensions.FileSystemGlobbing.InMemoryDirectoryInfo("C:\\Files to Search", [first, second, third, forth]);
+        var first = Path.Join(rootDir, "first", "first.las");
+        var second = Path.Join(rootDir, "second.las");
+        var third = Path.Join(rootDir, "deep", "deep", "path", "third.las");
+        var forth = Path.Join(rootDir, "forth.laz");
+
+        var directoryInfo = new Microsoft.Extensions.FileSystemGlobbing.InMemoryDirectoryInfo(rootDir, [first, second, third, forth]);
 
         var argument = new CliArgument<FileInfo[]>("FILES") { CustomParser = argumentResult => CliOptions.ParseGlobbing(argumentResult, directoryInfo) };
         var root = new CliRootCommand { argument };
         var configuration = new CliConfiguration(root);
-        var parseResult = configuration.Parse("\"" + Path.Combine(RootDir, "**", "*.las") + "\"");
+        var parseResult = configuration.Parse("\"" + Path.Combine(rootDir, "**", "*.las") + "\"");
 
         parseResult.GetValue(argument).Should().NotBeNull()
             .And.Subject.Select(x => x.FullName).Should()
