@@ -43,7 +43,7 @@ public static class LoggingExtensions
     /// </summary>
     /// <param name="parseResult">The parse result.</param>
     /// <returns>The logger factory.</returns>
-    public static ILoggerFactory GetLoggerFactory(this ParseResult parseResult) => Invocation.InstanceAction.GetInstance<ILoggerFactory>(parseResult) ?? throw new InvalidOperationException(Properties.Resources.FailedToCreateLoggerFactory);
+    public static ILoggerFactory GetLoggerFactory(this ParseResult parseResult) => Invocation.InstanceAction.GetInstance<ILoggerFactory>(parseResult) ?? throw new InvalidOperationException(Logging.Properties.Resources.FailedToCreateLoggerFactory);
 
     /// <inheritdoc cref="ILoggerFactory.CreateLogger(string)" />
     public static ILogger CreateLogger(this ParseResult parseResult, string categoryName) => parseResult.GetLoggerFactory().CreateLogger(categoryName);

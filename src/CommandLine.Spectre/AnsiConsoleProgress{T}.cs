@@ -6,8 +6,6 @@
 
 namespace System.CommandLine;
 
-using Spectre.Console;
-
 /// <summary>
 /// Handler for <see cref="AnsiConsoleExtensions.Progress(IAnsiConsole)"/>.
 /// </summary>

@@ -34,7 +34,6 @@ public static class ArgumentValidation
         return argument;
     }
 
-
     /// <summary>
     /// Validates that the <see cref="Uri"/> has the correct <see cref="Uri.Scheme"/> specified.
     /// </summary>

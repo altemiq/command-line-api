@@ -7,7 +7,7 @@
 namespace System.CommandLine;
 
 /// <summary>
-/// The <see cref="Spectre.Console.AnsiConsole"/> <see cref="CliCommand"/> extensions.
+/// The <see cref="global::Spectre.Console.AnsiConsole"/> <see cref="CliCommand"/> extensions.
 /// </summary>
 public static class AnsiConsoleCommandExtensions
 {
@@ -95,6 +95,6 @@ public static class AnsiConsoleCommandExtensions
             return command;
         }
 
-        throw new InvalidOperationException(Properties.Resources.HelpCommandNotFound);
+        throw new InvalidOperationException(Spectre.Properties.Resources.HelpCommandNotFound);
     }
 }

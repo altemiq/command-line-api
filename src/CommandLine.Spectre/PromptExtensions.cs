@@ -7,7 +7,7 @@
 namespace System.CommandLine;
 
 /// <summary>
-/// The <see cref="Spectre.Console.AnsiConsole.Prompt{T}(IPrompt{T})"/> <see cref="ParseResult"/> extensions.
+/// The <see cref="global::Spectre.Console.AnsiConsole.Prompt{T}(IPrompt{T})"/> <see cref="ParseResult"/> extensions.
 /// </summary>
 public static class PromptExtensions
 {
@@ -17,7 +17,7 @@ public static class PromptExtensions
     /// <param name="parseResult">The parse result.</param>
     /// <param name="option">The option to get the value for.</param>
     /// <param name="prompt">The prompt for the user.</param>
-    /// <param name="console">The console to use or <see cref="Spectre.Console.AnsiConsole.Console"/> if <see langword="null" />.</param>
+    /// <param name="console">The console to use or <see cref="global::Spectre.Console.AnsiConsole.Console"/> if <see langword="null" />.</param>
     /// <returns>The parsed value or the prompted value for <paramref name="option"/>.</returns>
     public static bool GetValueOrPrompt(this ParseResult parseResult, CliOption<bool> option, string prompt, IAnsiConsole? console = default)
     {
@@ -43,7 +43,7 @@ public static class PromptExtensions
     /// <param name="parseResult">The parse result.</param>
     /// <param name="option">The option to get the value for.</param>
     /// <param name="prompt">The prompt for the user.</param>
-    /// <param name="console">The console to use or <see cref="Spectre.Console.AnsiConsole.Console"/> if <see langword="null" />.</param>
+    /// <param name="console">The console to use or <see cref="global::Spectre.Console.AnsiConsole.Console"/> if <see langword="null" />.</param>
     /// <returns>The parsed value or the prompted value for <paramref name="option"/>.</returns>
     public static T GetValueOrPrompt<T>(this ParseResult parseResult, CliOption<T> option, string prompt, IAnsiConsole? console = default)
     {
@@ -124,7 +124,7 @@ public static class PromptExtensions
         {
             return ComponentModel.TypeDescriptor.GetConverter(typeof(T))
                 ?? GetTypeConverterCore()
-                ?? throw new InvalidOperationException(string.Format(Properties.Resources.Culture, Properties.Resources.TypeConverterNotFound, typeof(T)));
+                ?? throw new InvalidOperationException(string.Format(Spectre.Properties.Resources.Culture, Spectre.Properties.Resources.TypeConverterNotFound, typeof(T)));
 
             static ComponentModel.TypeConverter? GetTypeConverterCore()
             {
