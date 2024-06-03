@@ -1,2 +1,30 @@
 ﻿<Project>
+
+  <PropertyGroup>
+    <CreateManifestResourceNamesDependsOn>_CreateStronglyTypedManifestResourceNames;$(CreateManifestResourceNamesDependsOn)</CreateManifestResourceNamesDependsOn>
+    <CoreCompileDependsOn>PrepareResources;$(CoreCompileDependsOn)</CoreCompileDependsOn>
+  </PropertyGroup>
+
+  <Target Name="_CreateStronglyTypedManifestResourceNames"
+          Condition=" '@(EmbeddedResource)' != '' ">
+    <ItemGroup>
+      <!-- update to do strongly typed resources -->
+      <EmbeddedResource Condition=" '%(EmbeddedResource.Type)' == 'Resx' ">
+        <Generator>MSBuild:Compile</Generator>
+        <StronglyTypedFileName>$(IntermediateOutputPath)\$([MSBuild]::ValueOrDefault('%(RelativeDir)', '').Replace('\', '.').Replace('/', '.'))%(Filename).g$(DefaultLanguageSourceExtension)</StronglyTypedFileName>
+        <StronglyTypedLanguage>$(Language)</StronglyTypedLanguage>
+        <StronglyTypedNamespace Condition="'%(RelativeDir)' == ''">$(SolutionNamespace).$(MSBuildProjectName)</StronglyTypedNamespace>
+        <StronglyTypedNamespace Condition="'%(RelativeDir)' != ''">$(SolutionNamespace).$(MSBuildProjectName).$([MSBuild]::ValueOrDefault('%(RelativeDir)', '').Trim('\').Trim('/').Replace('.','_').Replace('\','.').Replace('/','.'))</StronglyTypedNamespace>
+        <StronglyTypedClassName>%(Filename)</StronglyTypedClassName>
+      </EmbeddedResource>
+    </ItemGroup>
+
+    <ItemGroup>
+      <!-- update the manifest resource name -->
+      <EmbeddedResource Condition=" '%(EmbeddedResource.ManifestResourceName)' == '' and '%(EmbeddedResource.StronglyTypedNamespace)' != '' and '%(EmbeddedResource.StronglyTypedClassName)' != '' ">
+        <ManifestResourceName>%(EmbeddedResource.StronglyTypedNamespace).%(EmbeddedResource.StronglyTypedClassName)</ManifestResourceName>
+      </EmbeddedResource>
+    </ItemGroup>
+  </Target>
+
 </Project>

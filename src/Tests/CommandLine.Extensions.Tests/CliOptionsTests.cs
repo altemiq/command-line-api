@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="CliOptionsTests.cs" company="Altavec">
-// Copyright (c) Altavec. All rights reserved.
+// <copyright file="CliOptionsTests.cs" company="Altemiq">
+// Copyright (c) Altemiq. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 

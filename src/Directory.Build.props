@@ -2,7 +2,8 @@
 
   <PropertyGroup>
     <Company>Altemiq</Company>
-    <RootNamespace>System.$(MSBuildProjectName)</RootNamespace>
+    <SolutionNamespace>System</SolutionNamespace>
+    <RootNamespace>$(SolutionNamespace).$(MSBuildProjectName)</RootNamespace>
     <AssemblyName>$(Company).$(MSBuildProjectName)</AssemblyName>
 
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
