@@ -265,6 +265,13 @@
         "dependencies": {
           "System.CommandLine": "[2.0.0-beta4.23407.1, )"
         }
+      },
+      "Altemiq.CommandLine.Extensions": {
+        "type": "Project",
+        "dependencies": {
+          "Microsoft.Extensions.FileSystemGlobbing": "[2.1.0, )",
+          "System.CommandLine": "[2.0.0-beta4.23407.1, )"
+        }
       }
     },
     "net7.0": {
@@ -646,6 +653,13 @@
       "Altemiq.CommandLine": {
         "type": "Project",
         "dependencies": {
+          "System.CommandLine": "[2.0.0-beta4.23407.1, )"
+        }
+      },
+      "Altemiq.CommandLine.Extensions": {
+        "type": "Project",
+        "dependencies": {
+          "Microsoft.Extensions.FileSystemGlobbing": "[2.1.0, )",
           "System.CommandLine": "[2.0.0-beta4.23407.1, )"
         }
       }
@@ -1059,6 +1073,13 @@
       "Altemiq.CommandLine": {
         "type": "Project",
         "dependencies": {
+          "System.CommandLine": "[2.0.0-beta4.23407.1, )"
+        }
+      },
+      "Altemiq.CommandLine.Extensions": {
+        "type": "Project",
+        "dependencies": {
+          "Microsoft.Extensions.FileSystemGlobbing": "[2.1.0, )",
           "System.CommandLine": "[2.0.0-beta4.23407.1, )"
         }
       }

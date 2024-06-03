@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.1;netstandard2.0;netcoreapp3.0</TargetFrameworks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.CommandLine" VersionOverride="2.0.0-beta4.23407.1" />
+    <PackageReference Include="Microsoft.Extensions.FileSystemGlobbing" VersionOverride="2.1.0" />
+  </ItemGroup>
+
+</Project>

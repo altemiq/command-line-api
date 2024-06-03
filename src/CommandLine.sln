@@ -63,12 +63,24 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Console.Sample", "Samples\C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommandLine.Native", "CommandLine.Native\CommandLine.Native.csproj", "{867D737A-BDBF-4004-A493-9D587539ED8E}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommandLine.Extensions", "CommandLine.Extensions\CommandLine.Extensions.csproj", "{29A02319-9FE5-44D2-B63D-571BE44F15DC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommandLine.Extensions.Tests", "Tests\CommandLine.Extensions.Tests\CommandLine.Extensions.Tests.csproj", "{27F8F436-75CE-46B8-90BF-199993746B11}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{27F8F436-75CE-46B8-90BF-199993746B11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27F8F436-75CE-46B8-90BF-199993746B11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27F8F436-75CE-46B8-90BF-199993746B11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27F8F436-75CE-46B8-90BF-199993746B11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29A02319-9FE5-44D2-B63D-571BE44F15DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29A02319-9FE5-44D2-B63D-571BE44F15DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29A02319-9FE5-44D2-B63D-571BE44F15DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29A02319-9FE5-44D2-B63D-571BE44F15DC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2E669CEA-D5E9-42B3-85EE-38FF76D7DC36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2E669CEA-D5E9-42B3-85EE-38FF76D7DC36}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E669CEA-D5E9-42B3-85EE-38FF76D7DC36}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -134,6 +146,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{27F8F436-75CE-46B8-90BF-199993746B11} = {79E549E3-BED1-40E0-ABD7-E7D9E0D3D18C}
 		{68A268F2-6AC0-4B64-A9A1-7F4E69A9A3CB} = {79E549E3-BED1-40E0-ABD7-E7D9E0D3D18C}
 		{5D892DF1-810E-43D7-8A87-5181CE0C7F16} = {79E549E3-BED1-40E0-ABD7-E7D9E0D3D18C}
 		{86CD8EA3-D3C3-4499-98B4-AC351B554724} = {79E549E3-BED1-40E0-ABD7-E7D9E0D3D18C}
