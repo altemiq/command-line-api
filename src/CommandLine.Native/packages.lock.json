@@ -39,9 +39,9 @@
       },
       "Meziantou.Analyzer": {
         "type": "Direct",
-        "requested": "[2.0.149, )",
-        "resolved": "2.0.149",
-        "contentHash": "nJaiWMp6AlosBpl3sJO/frbqiImPBHodaJpcwlA/ez3zwjj9ZF4oeH0tWHSRFW8+e5mJMswlc3Kwl8DFskVOCg=="
+        "requested": "[2.0.155, )",
+        "resolved": "2.0.155",
+        "contentHash": "ugvSofIM4UFomZmLHBA8qrZptcvtECxVxew1IhhZVpTwx6TypwGEblKz8TX5xro8NJVIcg/BgIvXnNFkLsRYVQ=="
       },
       "NETStandard.Library": {
         "type": "Direct",
@@ -54,15 +54,15 @@
       },
       "Roslynator.Analyzers": {
         "type": "Direct",
-        "requested": "[4.12.2, )",
-        "resolved": "4.12.2",
-        "contentHash": "6gLnu303OyuBwOjd3QFKG3wEmbRPXKfVHRKLkZB6lDs5Ik8mfBGVoCIVN86HAQcbZI5KQD5dY3HEie0ScoeEag=="
+        "requested": "[4.12.4, )",
+        "resolved": "4.12.4",
+        "contentHash": "isl8hAh7yFNjyBEC4YlTSi+xGBblqBUC/2MCMmnBPwuXPewb7XYnMRzT3vXbP/gOGwT8hZUOy1g/aRH3lAF/NQ=="
       },
       "SonarAnalyzer.CSharp": {
         "type": "Direct",
-        "requested": "[9.24.0.89429, )",
-        "resolved": "9.24.0.89429",
-        "contentHash": "Ozk4LVpLNHhd+mmYKiG/WYtUUBZFknpkRy5JwTq4YfmT2wPA16vev5s/42urrN27ZV+01Kb5aYKJt3EI+5jPdw=="
+        "requested": "[9.26.0.92422, )",
+        "resolved": "9.26.0.92422",
+        "contentHash": "xfyzQhAZ5Qyxkl/KkLUfvLQR6eMCXJG1bngvJNFypZYkuGU0Inb4lWi6I6HCgUnVCJSoafLRJzyWC0HYinhR3A=="
       },
       "StyleCop.Analyzers.Unstable": {
         "type": "Direct",
