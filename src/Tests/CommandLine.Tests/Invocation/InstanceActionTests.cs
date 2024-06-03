@@ -21,7 +21,7 @@ public class InstanceActionTests
         var configuration = new CliConfiguration(command);
         _ = configuration.Invoke(string.Empty);
 
-        InstanceAction.GetInstance<object>(command).Should().NotBeNull();
+        _ = InstanceAction.GetInstance<object>(command).Should().NotBeNull();
     }
 
     [Theory]
@@ -39,9 +39,9 @@ public class InstanceActionTests
         var configuration = new CliConfiguration(command);
         _ = configuration.Invoke(string.Empty);
 
-        InstanceAction.GetInstance<object>(command).Should().NotBeNull();
-        before.Should().BeTrue();
-        after.Should().BeTrue();
+        _ = InstanceAction.GetInstance<object>(command).Should().NotBeNull();
+        _ = before.Should().BeTrue();
+        _ = after.Should().BeTrue();
     }
 
     [Theory]
@@ -59,8 +59,8 @@ public class InstanceActionTests
         var configuration = new CliConfiguration(command);
         _ = configuration.Invoke(string.Empty);
 
-        InstanceAction.GetInstance<object>(command).Should().NotBeNull();
-        before.Should().BeTrue();
-        after.Should().BeTrue();
+        _ = InstanceAction.GetInstance<object>(command).Should().NotBeNull();
+        _ = before.Should().BeTrue();
+        _ = after.Should().BeTrue();
     }
 }

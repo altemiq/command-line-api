@@ -41,5 +41,5 @@ public class LoggingExtensionsTests
     [InlineData(VerbosityOptions.detailed, LogLevel.Debug)]
     [InlineData(VerbosityOptions.diag, LogLevel.Trace)]
     [InlineData(VerbosityOptions.diagnostic, LogLevel.Trace)]
-    public void GetLogLevel(VerbosityOptions verbosity, LogLevel level) => new CliConfiguration(new CliRootCommand() { CliOptions.VerbosityOption }).Parse($"{CliOptions.VerbosityOption.Name} {verbosity}").GetLogLevel().Should().Be(level);
+    public void GetLogLevel(VerbosityOptions verbosity, LogLevel level) => new CliConfiguration(new CliRootCommand { CliOptions.VerbosityOption }).Parse($"{CliOptions.VerbosityOption.Name} {verbosity}").GetLogLevel().Should().Be(level);
 }

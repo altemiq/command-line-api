@@ -5,12 +5,6 @@
 // -----------------------------------------------------------------------
 
 namespace System.CommandLine.Spectre;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 public class AnsiConsoleProgressTests
 {
@@ -34,7 +28,7 @@ public class AnsiConsoleProgressTests
             }
         }, source.Token);
 
-        consoleProgress.IsComplete.Should().Be(true);
+        _ = consoleProgress.IsComplete.Should().Be(true);
 
         static void UpdateProgress(IProgress<AnsiConsoleProgressItem> progress)
         {

@@ -5,9 +5,6 @@
 // -----------------------------------------------------------------------
 
 namespace System.CommandLine.Hosting;
-
-using Microsoft.Extensions.DependencyInjection;
-
 public class InvocationLifetimeTests
 {
     [Fact]
@@ -22,15 +19,15 @@ public class InvocationLifetimeTests
             // wait for the cancellation token source to be cancelled.
             while (!cancellationToken.IsCancellationRequested)
             {
-                await Task.Delay(1000);
+                await Task.Delay(1000, CancellationToken.None);
             }
         });
 
         var configuration = new CliConfiguration(command);
-        configuration.UseHost();
+        _ = configuration.UseHost();
 
-        await configuration.InvokeAsync(string.Empty, cancellationTokenSource.Token);
+        _ = await configuration.InvokeAsync(string.Empty, cancellationTokenSource.Token);
 
-        cancellationTokenSource.IsCancellationRequested.Should().BeTrue();
+        _ = cancellationTokenSource.IsCancellationRequested.Should().BeTrue();
     }
 }

@@ -90,7 +90,7 @@ public static partial class HostingExtensions
     public static Microsoft.Extensions.Hosting.IHostApplicationBuilder UseInvocationLifetime(this Microsoft.Extensions.Hosting.IHostApplicationBuilder host, Action<InvocationLifetimeOptions>? configureOptions = null)
     {
         _ = host.Services.AddSingleton<Microsoft.Extensions.Hosting.IHostLifetime, InvocationLifetime>();
-        host.Services.ConfigureInvocationLifetime(configureOptions);
+        _ = host.Services.ConfigureInvocationLifetime(configureOptions);
         return host;
     }
 
@@ -102,7 +102,7 @@ public static partial class HostingExtensions
     /// <returns>The host builder for chaining.</returns>
     public static Microsoft.Extensions.Hosting.IHostApplicationBuilder ConfigureInvocationLifetime(this Microsoft.Extensions.Hosting.IHostApplicationBuilder host, Action<InvocationLifetimeOptions>? configureOptions = null)
     {
-        host.Services.ConfigureInvocationLifetime(configureOptions);
+        _ = host.Services.ConfigureInvocationLifetime(configureOptions);
         return host;
     }
 #else

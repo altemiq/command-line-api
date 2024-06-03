@@ -40,9 +40,9 @@ public partial class HostingExtensionsTests
         _ = configuration.Invoke("[config:Key1=Value1]");
         _ = host.Should().NotBeNull();
 
-        host?.Services.GetService(typeof(IConfiguration))
+        _ = (host?.Services.GetService(typeof(IConfiguration))
             .Should().BeOfType<ConfigurationRoot>()
-            .Which.GetValue<string>("Key1").Should().Be("Value1");
+            .Which.GetValue<string>("Key1").Should().Be("Value1"));
     }
 
     [Fact]
@@ -69,14 +69,9 @@ public partial class HostingExtensionsTests
         rootCommand.SetAction(result => serviceProvider = result.GetServices());
 
         var configuration = new CliConfiguration(rootCommand);
-        if (withArgs)
-        {
-            _ = configuration.UseServices(args => Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args));
-        }
-        else
-        {
-            _ = configuration.UseServices();
-        }
+        _ = withArgs
+            ? configuration.UseServices(args => Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args))
+            : configuration.UseServices();
 
         _ = configuration.Invoke(Array.Empty<string>());
         _ = serviceProvider.Should().NotBeNull();
@@ -201,14 +196,9 @@ public partial class HostingExtensionsTests
         });
 
         var configuration = new CliConfiguration(rootCommand);
-        if (withArgs)
-        {
-            _ = configuration.UseConfiguration((args) => Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args));
-        }
-        else
-        {
-            _ = configuration.UseConfiguration();
-        }
+        _ = withArgs
+            ? configuration.UseConfiguration((args) => Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args))
+            : configuration.UseConfiguration();
 
         _ = configuration.Invoke($"{name} --help");
 
@@ -225,13 +215,13 @@ public partial class HostingExtensionsTests
             {
                 var host = Substitute.For<Microsoft.Extensions.Hosting.IHost>();
                 var hostBuilder = Substitute.For<Microsoft.Extensions.Hosting.IHostBuilder>();
-                hostBuilder.Build().Returns(host);
+                _ = hostBuilder.Build().Returns(host);
 
                 var root = new CliRootCommand();
                 var configuration = new CliConfiguration(root);
-                configuration.UseHost(args => hostBuilder);
+                _ = configuration.UseHost(args => hostBuilder);
 
-                await configuration.InvokeAsync(string.Empty);
+                _ = await configuration.InvokeAsync(string.Empty);
 
                 await host.Received().StartAsync(Arg.Any<CancellationToken>());
                 await host.Received().StopAsync(Arg.Any<CancellationToken>());
@@ -242,14 +232,14 @@ public partial class HostingExtensionsTests
             {
                 var host = Substitute.For<Microsoft.Extensions.Hosting.IHost>();
                 var hostBuilder = Substitute.For<Microsoft.Extensions.Hosting.IHostBuilder>();
-                hostBuilder.Build().Returns(host);
+                _ = hostBuilder.Build().Returns(host);
 
                 var root = new CliRootCommand();
                 root.SetAction(parseResult => { });
                 var configuration = new CliConfiguration(root);
-                configuration.UseHost(args => hostBuilder);
+                _ = configuration.UseHost(args => hostBuilder);
 
-                await configuration.InvokeAsync(string.Empty);
+                _ = await configuration.InvokeAsync(string.Empty);
 
                 await host.Received().StartAsync(Arg.Any<CancellationToken>());
                 await host.Received().StopAsync(Arg.Any<CancellationToken>());
@@ -260,14 +250,14 @@ public partial class HostingExtensionsTests
             {
                 var host = Substitute.For<Microsoft.Extensions.Hosting.IHost>();
                 var hostBuilder = Substitute.For<Microsoft.Extensions.Hosting.IHostBuilder>();
-                hostBuilder.Build().Returns(host);
+                _ = hostBuilder.Build().Returns(host);
 
                 var root = new CliRootCommand();
                 root.SetAction((parseResult, cancellationToken) => Task.CompletedTask);
                 var configuration = new CliConfiguration(root);
-                configuration.UseHost(args => hostBuilder);
+                _ = configuration.UseHost(args => hostBuilder);
 
-                await configuration.InvokeAsync(string.Empty);
+                _ = await configuration.InvokeAsync(string.Empty);
 
                 await host.Received().StartAsync(Arg.Any<CancellationToken>());
                 await host.Received().StopAsync(Arg.Any<CancellationToken>());
