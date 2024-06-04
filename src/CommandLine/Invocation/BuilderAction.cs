@@ -63,17 +63,20 @@ public static class BuilderAction
 
     private static void SetHandlers<TBuilder, TInstance>(CliCommand command, Func<ParseResult?, TBuilder> createBuilder, Func<TBuilder, TInstance> buildInstance, Action<ParseResult?, TBuilder> configure, Action<Func<ParseResult?, TInstance>> setHandler)
     {
-        if (Configures.AddOrUpdate(
+        _ = Configures.AddOrUpdate(
             (command, typeof(TBuilder), typeof(TInstance)),
-            Configurer.Create(configure),
+            _ =>
+            {
+                var configurer = new Configurer();
+                configurer.Add(configure);
+                setHandler(Create);
+                return configurer;
+            },
             (_, configurer) =>
             {
                 configurer.Add(configure);
                 return configurer;
-            }) is { Count: 1 })
-        {
-            setHandler(Create);
-        }
+            });
 
         TInstance Create(ParseResult? parseResult)
         {
@@ -90,15 +93,6 @@ public static class BuilderAction
     private sealed class Configurer
     {
         private readonly List<Action<ParseResult?, object?>> actions = [];
-
-        public int Count => this.actions.Count;
-
-        public static Configurer Create<T>(Action<ParseResult?, T> action)
-        {
-            var configurer = new Configurer();
-            configurer.Add(action);
-            return configurer;
-        }
 
         public void Add<T>(Action<ParseResult?, T> action) => this.Add((parseResult, obj) =>
         {

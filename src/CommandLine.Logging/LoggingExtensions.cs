@@ -73,21 +73,24 @@ public static class LoggingExtensions
 
     private static class LoggerAction
     {
-        private static readonly Dictionary<CliCommand, ConfigureAction> Configures = [];
+        private static readonly Collections.Concurrent.ConcurrentDictionary<CliCommand, Configurer> Configures = [];
 
         public static void SetHandlers(CliCommand command, Action<ParseResult?, ILoggingBuilder> configure)
         {
-            // see if the handler already exists
-            if (Configures.TryGetValue(command, out var commandConfigure))
-            {
-                commandConfigure.Add(configure);
-                return;
-            }
-
-            commandConfigure = new ConfigureAction();
-            commandConfigure.Add(configure);
-            Configures.Add(command, commandConfigure);
-            Invocation.InstanceAction.SetHandlers(command, Create);
+            Configures.AddOrUpdate(
+                command,
+                command =>
+                {
+                    var configurer = new Configurer();
+                    configurer.Add(configure);
+                    Invocation.InstanceAction.SetHandlers(command, Create);
+                    return configurer;
+                },
+                (_, configurer) =>
+                {
+                    configurer.Add(configure);
+                    return configurer;
+                });
 
             ILoggerFactory Create(ParseResult? parseResult)
             {
@@ -112,7 +115,7 @@ public static class LoggingExtensions
             }
         }
 
-        private sealed class ConfigureAction
+        private sealed class Configurer
         {
             private readonly List<Action<ParseResult?, object?>> actions = [];
 

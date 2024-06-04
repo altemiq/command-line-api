@@ -52,7 +52,7 @@ public static class AnsiConsoleProgress
         var lastUpdate = DateTime.Now;
         var updateThreshold = TimeSpan.FromMilliseconds(updatedThreshold);
         ProgressContext? context = default;
-        var progressTasks = new Dictionary<string, ProgressTask>(StringComparer.Ordinal);
+        var progressTasks = new Collections.Concurrent.ConcurrentDictionary<string, ProgressTask>(StringComparer.Ordinal);
         var contextLock = new object();
 
         return new AnsiConsoleProgress<T>(Handler, () => context is null);
@@ -72,10 +72,7 @@ public static class AnsiConsoleProgress
                                 context = ctx;
 
                                 // add the first task
-                                var task = ctx.AddTask($"[green]{progressItem.Name}[/]");
-                                task.IsIndeterminate = progressItem.Percentage < 0;
-
-                                progressTasks.Add(progressItem.Name, task);
+                                _ = AddOrUpdate(progressItem);
 
                                 while (!progressTasks.Values.All(progressTask => progressTask.IsFinished))
                                 {
@@ -94,11 +91,7 @@ public static class AnsiConsoleProgress
                 }
             }
 
-            if (!progressTasks.TryGetValue(progressItem.Name, out var progressTask))
-            {
-                progressTask = context.AddTask($"[green]{progressItem.Name}[/]");
-                progressTasks.Add(progressItem.Name, progressTask);
-            }
+            var progressTask = AddOrUpdate(progressItem);
 
             var currentUpdate = DateTime.Now;
             if (currentUpdate - lastUpdate > updateThreshold)
@@ -118,6 +111,18 @@ public static class AnsiConsoleProgress
             {
                 progressTask.Value = 100D;
                 progressTask.StopTask();
+            }
+
+            ProgressTask AddOrUpdate(AnsiConsoleProgressItem progressItem)
+            {
+                var processTask = progressTasks.AddOrUpdate(
+                    progressItem.Name,
+                    key => context.AddTask($"[green]{key}[/]"),
+                    (_, item) => item);
+
+                processTask.IsIndeterminate = progressItem.Percentage < 0;
+
+                return processTask;
             }
         }
     }

@@ -28,6 +28,21 @@ public class LoggingExtensionsTests
     }
 
     [Fact]
+    public async Task AddLoggingMultipleTimes()
+    {
+        const int Total = 10;
+        int count = default;
+        var configuration = new CliConfiguration(new CliRootCommand());
+
+        _ = await Task.WhenAll(Enumerable.Range(0, Total).Select(_ => Task.Run(() => configuration.AddLogging(builder => Interlocked.Increment(ref count)))));
+
+        // force getting the logger
+        _ = configuration.Parse(string.Empty).GetLoggerFactory();
+
+        _ =count.Should().Be(Total);
+    }
+
+    [Fact]
     public void FailGetLogger() => new CliConfiguration(new CliRootCommand()).Parse(string.Empty).Invoking(pr => pr.GetLoggerFactory()).Should().Throw<InvalidOperationException>();
 
     [Theory]

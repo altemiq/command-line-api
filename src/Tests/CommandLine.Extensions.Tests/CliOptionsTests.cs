@@ -44,7 +44,6 @@ public class CliOptionsTests
                 .Contain(second).And
                 .Contain(third).And
                 .NotContain(forth);
-
     }
 
     [Fact]
