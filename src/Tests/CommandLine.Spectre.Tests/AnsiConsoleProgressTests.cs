@@ -13,7 +13,7 @@ public class AnsiConsoleProgressTests
     {
         var console = new TestConsole();
 
-        var consoleProgress = AnsiConsoleProgress.Create(console, new AnsiConsoleProgressOptions { UpdateThreshold = 1 });
+        var consoleProgress = AnsiConsoleProgress.Create(console, new AnsiConsoleProgressOptions { UpdateRate = TimeSpan.FromMilliseconds(1) });
 
         UpdateProgress(consoleProgress);
 
@@ -24,19 +24,25 @@ public class AnsiConsoleProgressTests
         {
             while (!consoleProgress.IsComplete)
             {
-                Thread.Sleep(100);
+                Thread.Sleep(1);
             }
         }, source.Token);
 
-        _ = consoleProgress.IsComplete.Should().Be(true);
+        _ = consoleProgress.IsComplete.Should().BeTrue();
+        _ = source.IsCancellationRequested.Should().BeFalse();
 
         static void UpdateProgress(IProgress<AnsiConsoleProgressItem> progress)
         {
             progress.Report(new AnsiConsoleProgressItem("Simple Task", 0));
-            progress.Report(new AnsiConsoleProgressItem("Indeterminate Task", -1));
+            Thread.Sleep(1);
+            progress.Report(new AnsiConsoleProgressItem("Indeterminate Task", double.PositiveInfinity));
+            Thread.Sleep(1);
             progress.Report(new AnsiConsoleProgressItem("Simple Task", 50));
+            Thread.Sleep(1);
             progress.Report(new AnsiConsoleProgressItem("Simple Task", 100));
-            progress.Report(new AnsiConsoleProgressItem("Indeterminate Task", -1));
+            Thread.Sleep(1);
+            progress.Report(new AnsiConsoleProgressItem("Indeterminate Task", double.NaN));
+            Thread.Sleep(1);
         }
     }
 }

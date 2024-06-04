@@ -16,8 +16,9 @@ public static class AnsiConsoleProgress
     /// </summary>
     /// <param name="console">The console.</param>
     /// <param name="options">The optional options.</param>
+    /// <param name="configureTask">The action to perform to configure tasks.</param>
     /// <returns>The progress class.</returns>
-    public static AnsiConsoleProgress<AnsiConsoleProgressItem> Create(IAnsiConsole console, AnsiConsoleProgressOptions? options = default) => Create(console, Func<AnsiConsoleProgressItem>.Return, options);
+    public static AnsiConsoleProgress<AnsiConsoleProgressItem> Create(IAnsiConsole console, AnsiConsoleProgressOptions? options = default, Action<string, ProgressTaskSettings>? configureTask = default) => Create(console, Func<AnsiConsoleProgressItem>.Return, options, configureTask);
 
     /// <summary>
     /// Creates the <see cref="IProgress{T}" /> for <see cref="IAnsiConsole"/>.
@@ -26,11 +27,12 @@ public static class AnsiConsoleProgress
     /// <param name="console">The console.</param>
     /// <param name="converter">The converter.</param>
     /// <param name="options">The optional options.</param>
+    /// <param name="configureTask">The action to perform to configure tasks.</param>
     /// <returns>The progress class.</returns>
-    public static AnsiConsoleProgress<T> Create<T>(IAnsiConsole console, Func<T, AnsiConsoleProgressItem> converter, AnsiConsoleProgressOptions? options = default)
+    public static AnsiConsoleProgress<T> Create<T>(IAnsiConsole console, Func<T, AnsiConsoleProgressItem> converter, AnsiConsoleProgressOptions? options = default, Action<string, ProgressTaskSettings>? configureTask = default)
     {
         options ??= AnsiConsoleProgressOptions.Default;
-        return Create(() => EnsureColumns(console.Progress(), options), converter, options.UpdateThreshold);
+        return Create(() => EnsureColumns(console.Progress(), options), converter, options.UpdateRate, configureTask);
     }
 
     /// <summary>
@@ -40,17 +42,18 @@ public static class AnsiConsoleProgress
     /// <param name="progress">The progress.</param>
     /// <param name="converter">The converter.</param>
     /// <param name="options">The optional options.</param>
+    /// <param name="configureTask">The action to perform to configure tasks.</param>
     /// <returns>The progress class.</returns>
-    public static AnsiConsoleProgress<T> Create<T>(Progress progress, Func<T, AnsiConsoleProgressItem> converter, AnsiConsoleProgressOptions? options = default)
+    public static AnsiConsoleProgress<T> Create<T>(Progress progress, Func<T, AnsiConsoleProgressItem> converter, AnsiConsoleProgressOptions? options = default, Action<string, ProgressTaskSettings>? configureTask = default)
     {
         options ??= AnsiConsoleProgressOptions.Default;
-        return Create(() => progress, converter, options.UpdateThreshold);
+        return Create(() => progress, converter, options.UpdateRate, configureTask);
     }
 
-    private static AnsiConsoleProgress<T> Create<T>(System.Func<Progress> progressFactory, Func<T, AnsiConsoleProgressItem> converter, int updatedThreshold = 1000)
+    private static AnsiConsoleProgress<T> Create<T>(System.Func<Progress> progressFactory, Func<T, AnsiConsoleProgressItem> converter, TimeSpan updateRate, Action<string, ProgressTaskSettings>? configureTask)
     {
+        const int ThreadUpdateRate = 100;
         var lastUpdate = DateTime.Now;
-        var updateThreshold = TimeSpan.FromMilliseconds(updatedThreshold);
         ProgressContext? context = default;
         var progressTasks = new Collections.Concurrent.ConcurrentDictionary<string, ProgressTask>(StringComparer.Ordinal);
         var contextLock = new object();
@@ -76,7 +79,7 @@ public static class AnsiConsoleProgress
 
                                 while (!progressTasks.Values.All(progressTask => progressTask.IsFinished))
                                 {
-                                    Thread.Sleep(100);
+                                    Thread.Sleep(ThreadUpdateRate);
                                 }
 
                                 context = default;
@@ -85,7 +88,7 @@ public static class AnsiConsoleProgress
                         // wait for the context be valid
                         while (context is null)
                         {
-                            Thread.Sleep(100);
+                            Thread.Sleep(ThreadUpdateRate);
                         }
                     }
                 }
@@ -94,22 +97,22 @@ public static class AnsiConsoleProgress
             var progressTask = AddOrUpdate(progressItem);
 
             var currentUpdate = DateTime.Now;
-            if (currentUpdate - lastUpdate > updateThreshold)
+            if (currentUpdate - lastUpdate > updateRate)
             {
                 lastUpdate = currentUpdate;
-                if (progressItem.Percentage >= 0)
+                if (progressItem.Percentage is >= 0 and < double.PositiveInfinity)
                 {
                     progressTask.Value = progressItem.Percentage;
                 }
             }
 
-            if (progressItem.Percentage < 0D)
+            if (double.IsNaN(progressItem.Percentage))
             {
                 progressTask.StopTask();
             }
-            else if (progressItem.Percentage >= 100D)
+            else if (progressItem.Percentage > progressTask.MaxValue && progressItem.Percentage < double.PositiveInfinity)
             {
-                progressTask.Value = 100D;
+                progressTask.Value = progressTask.MaxValue;
                 progressTask.StopTask();
             }
 
@@ -117,10 +120,19 @@ public static class AnsiConsoleProgress
             {
                 var processTask = progressTasks.AddOrUpdate(
                     progressItem.Name,
-                    key => context.AddTask($"[green]{key}[/]"),
+                    key =>
+                    {
+                        var options = new ProgressTaskSettings();
+                        if (configureTask is { } action)
+                        {
+                            action.Invoke(key, options);
+                        }
+
+                        return context.AddTask($"[green]{key}[/]", options);
+                    },
                     (_, item) => item);
 
-                processTask.IsIndeterminate = progressItem.Percentage < 0;
+                processTask.IsIndeterminate = double.IsInfinity(progressItem.Percentage);
 
                 return processTask;
             }

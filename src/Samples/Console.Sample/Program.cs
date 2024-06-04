@@ -28,10 +28,10 @@ root.SetAction(parseResult =>
     logger.LogError("host: Logging Error");
 
     // do some tasks
-    var ansiConsoleProgress = AnsiConsoleProgress.Create<(string Name, double Percentage)>(Spectre.Console.AnsiConsole.Console, x => new AnsiConsoleProgressItem(x.Name, x.Percentage));
+    var ansiConsoleProgress = AnsiConsoleProgress.Create<(string Name, double Percentage)>(Spectre.Console.AnsiConsole.Console, x => new AnsiConsoleProgressItem(x.Name, x.Percentage), new AnsiConsoleProgressOptions { UpdateRate = TimeSpan.FromMilliseconds(50) });
     IProgress<(string Name, double Percentage)> progress = ansiConsoleProgress;
 
-    progress.Report(new("Unknown Length Task", -1));
+    progress.Report(new("Unknown Length Task", double.PositiveInfinity));
     progress.Report(new("Known Length Task", 0));
 
     for (var i = 1; i <= 100; i++)
@@ -40,7 +40,7 @@ root.SetAction(parseResult =>
         progress.Report(new("Known Length Task", i));
     }
 
-    progress.Report(("Unknown Length Task", -1));
+    progress.Report(("Unknown Length Task", double.NaN));
 
     while (!ansiConsoleProgress.IsComplete)
     {

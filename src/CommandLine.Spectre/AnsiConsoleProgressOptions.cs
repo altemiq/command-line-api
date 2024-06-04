@@ -17,9 +17,10 @@ public class AnsiConsoleProgressOptions
     public static readonly AnsiConsoleProgressOptions Default = new();
 
     /// <summary>
-    /// Gets or sets the update threshold, in milliseconds.
+    /// Gets or sets the update rate.
+    /// Defaults to once a second.
     /// </summary>
-    public int UpdateThreshold { get; set; } = 1000;
+    public TimeSpan UpdateRate { get; set; } = TimeSpan.FromSeconds(1D);
 
     /// <summary>
     /// Gets or sets a value indicating whether to show the <see cref="RemainingTimeColumn"/>.
