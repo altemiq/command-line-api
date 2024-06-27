@@ -76,9 +76,9 @@
       },
       "System.CommandLine": {
         "type": "Direct",
-        "requested": "[2.0.0-beta4.24209.3, )",
-        "resolved": "2.0.0-beta4.24209.3",
-        "contentHash": "uisMNRfkoLHfP8ldaKxhTHJ+E2pd3oJQXRi7mDBomTTCqpRFMqKc9W+KCFVjIPH7kSm9GQ8mb+0RCAK3mEWIFg==",
+        "requested": "[2.0.0-beta4.24324.3, )",
+        "resolved": "2.0.0-beta4.24324.3",
+        "contentHash": "UddDcdPmeAbRpkYHOMBHYS74UINTL5yXhzHTbruhVN7eR79J8RPGgq1nNXlz5TH4iMK/Fn6OlSFf4Z2UxCJpXw==",
         "dependencies": {
           "System.Memory": "4.5.4"
         }
@@ -204,11 +204,6 @@
           "Microsoft.Extensions.FileSystemGlobbing": "6.0.0",
           "Microsoft.Extensions.Primitives": "6.0.0"
         }
-      },
-      "Microsoft.Extensions.FileSystemGlobbing": {
-        "type": "Transitive",
-        "resolved": "6.0.0",
-        "contentHash": "ip8jnL1aPiaPeKINCqaTEbvBFDmVx9dXQEBZ2HOBRXPD1eabGNqP/bKlsIcp7U2lGxiXd5xIhoFcmY8nM4Hdiw=="
       },
       "Microsoft.Extensions.Hosting.Abstractions": {
         "type": "Transitive",
@@ -444,7 +439,7 @@
           "System.CommandLine": "[2.0.0-beta4.23407.1, )"
         }
       },
-      "Altemiq.CommandLine.Extensions": {
+      "Altemiq.CommandLine.FileSystemGlobbing": {
         "type": "Project",
         "dependencies": {
           "Microsoft.Extensions.FileSystemGlobbing": "[2.1.0, )",
@@ -455,7 +450,7 @@
         "type": "Project",
         "dependencies": {
           "Altemiq.CommandLine": "[1.0.0, )",
-          "Altemiq.CommandLine.Extensions": "[1.0.0, )",
+          "Altemiq.CommandLine.FileSystemGlobbing": "[1.0.0, )",
           "Microsoft.Extensions.Hosting": "[2.1.0, )"
         }
       },
@@ -478,6 +473,12 @@
           "Microsoft.Extensions.DependencyInjection.Abstractions": "6.0.0",
           "System.Runtime.CompilerServices.Unsafe": "6.0.0"
         }
+      },
+      "Microsoft.Extensions.FileSystemGlobbing": {
+        "type": "CentralTransitive",
+        "requested": "[6.0.0, )",
+        "resolved": "6.0.0",
+        "contentHash": "ip8jnL1aPiaPeKINCqaTEbvBFDmVx9dXQEBZ2HOBRXPD1eabGNqP/bKlsIcp7U2lGxiXd5xIhoFcmY8nM4Hdiw=="
       },
       "Microsoft.Extensions.Logging": {
         "type": "CentralTransitive",
@@ -569,9 +570,9 @@
       },
       "System.CommandLine": {
         "type": "Direct",
-        "requested": "[2.0.0-beta4.24209.3, )",
-        "resolved": "2.0.0-beta4.24209.3",
-        "contentHash": "uisMNRfkoLHfP8ldaKxhTHJ+E2pd3oJQXRi7mDBomTTCqpRFMqKc9W+KCFVjIPH7kSm9GQ8mb+0RCAK3mEWIFg=="
+        "requested": "[2.0.0-beta4.24324.3, )",
+        "resolved": "2.0.0-beta4.24324.3",
+        "contentHash": "UddDcdPmeAbRpkYHOMBHYS74UINTL5yXhzHTbruhVN7eR79J8RPGgq1nNXlz5TH4iMK/Fn6OlSFf4Z2UxCJpXw=="
       },
       "xunit": {
         "type": "Direct",
@@ -694,11 +695,6 @@
           "Microsoft.Extensions.FileSystemGlobbing": "7.0.0",
           "Microsoft.Extensions.Primitives": "7.0.0"
         }
-      },
-      "Microsoft.Extensions.FileSystemGlobbing": {
-        "type": "Transitive",
-        "resolved": "7.0.0",
-        "contentHash": "2jONjKHiF+E92ynz2ZFcr9OvxIw+rTGMPEH+UZGeHTEComVav93jQUWGkso8yWwVBcEJGcNcZAaqY01FFJcj7w=="
       },
       "Microsoft.Extensions.Hosting.Abstractions": {
         "type": "Transitive",
@@ -913,7 +909,7 @@
           "System.CommandLine": "[2.0.0-beta4.23407.1, )"
         }
       },
-      "Altemiq.CommandLine.Extensions": {
+      "Altemiq.CommandLine.FileSystemGlobbing": {
         "type": "Project",
         "dependencies": {
           "Microsoft.Extensions.FileSystemGlobbing": "[2.1.0, )",
@@ -924,7 +920,7 @@
         "type": "Project",
         "dependencies": {
           "Altemiq.CommandLine": "[1.0.0, )",
-          "Altemiq.CommandLine.Extensions": "[1.0.0, )",
+          "Altemiq.CommandLine.FileSystemGlobbing": "[1.0.0, )",
           "Microsoft.Extensions.Hosting": "[7.0.0, )"
         }
       },
@@ -946,6 +942,12 @@
         "dependencies": {
           "Microsoft.Extensions.DependencyInjection.Abstractions": "7.0.0"
         }
+      },
+      "Microsoft.Extensions.FileSystemGlobbing": {
+        "type": "CentralTransitive",
+        "requested": "[7.0.0, )",
+        "resolved": "7.0.0",
+        "contentHash": "2jONjKHiF+E92ynz2ZFcr9OvxIw+rTGMPEH+UZGeHTEComVav93jQUWGkso8yWwVBcEJGcNcZAaqY01FFJcj7w=="
       },
       "Microsoft.Extensions.Logging": {
         "type": "CentralTransitive",
@@ -1036,9 +1038,9 @@
       },
       "System.CommandLine": {
         "type": "Direct",
-        "requested": "[2.0.0-beta4.24209.3, )",
-        "resolved": "2.0.0-beta4.24209.3",
-        "contentHash": "uisMNRfkoLHfP8ldaKxhTHJ+E2pd3oJQXRi7mDBomTTCqpRFMqKc9W+KCFVjIPH7kSm9GQ8mb+0RCAK3mEWIFg=="
+        "requested": "[2.0.0-beta4.24324.3, )",
+        "resolved": "2.0.0-beta4.24324.3",
+        "contentHash": "UddDcdPmeAbRpkYHOMBHYS74UINTL5yXhzHTbruhVN7eR79J8RPGgq1nNXlz5TH4iMK/Fn6OlSFf4Z2UxCJpXw=="
       },
       "xunit": {
         "type": "Direct",
@@ -1181,11 +1183,6 @@
           "Microsoft.Extensions.FileSystemGlobbing": "8.0.0",
           "Microsoft.Extensions.Primitives": "8.0.0"
         }
-      },
-      "Microsoft.Extensions.FileSystemGlobbing": {
-        "type": "Transitive",
-        "resolved": "8.0.0",
-        "contentHash": "OK+670i7esqlQrPjdIKRbsyMCe9g5kSLpRRQGSr4Q58AOYEe/hCnfLZprh7viNisSUUQZmMrbbuDaIrP+V1ebQ=="
       },
       "Microsoft.Extensions.Hosting.Abstractions": {
         "type": "Transitive",
@@ -1405,7 +1402,7 @@
           "System.CommandLine": "[2.0.0-beta4.23407.1, )"
         }
       },
-      "Altemiq.CommandLine.Extensions": {
+      "Altemiq.CommandLine.FileSystemGlobbing": {
         "type": "Project",
         "dependencies": {
           "Microsoft.Extensions.FileSystemGlobbing": "[2.1.0, )",
@@ -1416,7 +1413,7 @@
         "type": "Project",
         "dependencies": {
           "Altemiq.CommandLine": "[1.0.0, )",
-          "Altemiq.CommandLine.Extensions": "[1.0.0, )",
+          "Altemiq.CommandLine.FileSystemGlobbing": "[1.0.0, )",
           "Microsoft.Extensions.Hosting": "[8.0.0, )"
         }
       },
@@ -1438,6 +1435,12 @@
         "dependencies": {
           "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.0"
         }
+      },
+      "Microsoft.Extensions.FileSystemGlobbing": {
+        "type": "CentralTransitive",
+        "requested": "[8.0.0, )",
+        "resolved": "8.0.0",
+        "contentHash": "OK+670i7esqlQrPjdIKRbsyMCe9g5kSLpRRQGSr4Q58AOYEe/hCnfLZprh7viNisSUUQZmMrbbuDaIrP+V1ebQ=="
       },
       "Microsoft.Extensions.Logging": {
         "type": "CentralTransitive",

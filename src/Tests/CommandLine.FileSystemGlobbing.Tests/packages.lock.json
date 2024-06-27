@@ -26,6 +26,12 @@
           "Microsoft.TestPlatform.ObjectModel": "17.10.0"
         }
       },
+      "Microsoft.Extensions.FileSystemGlobbing": {
+        "type": "Direct",
+        "requested": "[6.0.0, )",
+        "resolved": "6.0.0",
+        "contentHash": "ip8jnL1aPiaPeKINCqaTEbvBFDmVx9dXQEBZ2HOBRXPD1eabGNqP/bKlsIcp7U2lGxiXd5xIhoFcmY8nM4Hdiw=="
+      },
       "Microsoft.NET.Test.Sdk": {
         "type": "Direct",
         "requested": "[17.10.0, )",
@@ -38,9 +44,9 @@
       },
       "System.CommandLine": {
         "type": "Direct",
-        "requested": "[2.0.0-beta4.24209.3, )",
-        "resolved": "2.0.0-beta4.24209.3",
-        "contentHash": "uisMNRfkoLHfP8ldaKxhTHJ+E2pd3oJQXRi7mDBomTTCqpRFMqKc9W+KCFVjIPH7kSm9GQ8mb+0RCAK3mEWIFg==",
+        "requested": "[2.0.0-beta4.24324.3, )",
+        "resolved": "2.0.0-beta4.24324.3",
+        "contentHash": "UddDcdPmeAbRpkYHOMBHYS74UINTL5yXhzHTbruhVN7eR79J8RPGgq1nNXlz5TH4iMK/Fn6OlSFf4Z2UxCJpXw==",
         "dependencies": {
           "System.Memory": "4.5.4"
         }
@@ -66,11 +72,6 @@
         "type": "Transitive",
         "resolved": "17.10.0",
         "contentHash": "yC7oSlnR54XO5kOuHlVOKtxomNNN1BWXX8lK1G2jaPXT9sUok7kCOoA4Pgs0qyFaCtMrNsprztYMeoEGqCm4uA=="
-      },
-      "Microsoft.Extensions.FileSystemGlobbing": {
-        "type": "Transitive",
-        "resolved": "2.1.0",
-        "contentHash": "JEwwhwbVTEXJu4W4l/FFx7FG9Fh5R8999mZl6qJImjM/LY4DxQsFYzpSkziMdY022n7TQpNUxJlH9bKZc7TqWw=="
       },
       "Microsoft.TestPlatform.ObjectModel": {
         "type": "Transitive",
@@ -157,7 +158,7 @@
           "xunit.extensibility.core": "[2.8.1]"
         }
       },
-      "Altemiq.CommandLine.Extensions": {
+      "Altemiq.CommandLine.FileSystemGlobbing": {
         "type": "Project",
         "dependencies": {
           "Microsoft.Extensions.FileSystemGlobbing": "[2.1.0, )",
@@ -190,6 +191,12 @@
           "Microsoft.TestPlatform.ObjectModel": "17.10.0"
         }
       },
+      "Microsoft.Extensions.FileSystemGlobbing": {
+        "type": "Direct",
+        "requested": "[7.0.0, )",
+        "resolved": "7.0.0",
+        "contentHash": "2jONjKHiF+E92ynz2ZFcr9OvxIw+rTGMPEH+UZGeHTEComVav93jQUWGkso8yWwVBcEJGcNcZAaqY01FFJcj7w=="
+      },
       "Microsoft.NET.Test.Sdk": {
         "type": "Direct",
         "requested": "[17.10.0, )",
@@ -202,9 +209,9 @@
       },
       "System.CommandLine": {
         "type": "Direct",
-        "requested": "[2.0.0-beta4.24209.3, )",
-        "resolved": "2.0.0-beta4.24209.3",
-        "contentHash": "uisMNRfkoLHfP8ldaKxhTHJ+E2pd3oJQXRi7mDBomTTCqpRFMqKc9W+KCFVjIPH7kSm9GQ8mb+0RCAK3mEWIFg=="
+        "requested": "[2.0.0-beta4.24324.3, )",
+        "resolved": "2.0.0-beta4.24324.3",
+        "contentHash": "UddDcdPmeAbRpkYHOMBHYS74UINTL5yXhzHTbruhVN7eR79J8RPGgq1nNXlz5TH4iMK/Fn6OlSFf4Z2UxCJpXw=="
       },
       "xunit": {
         "type": "Direct",
@@ -227,11 +234,6 @@
         "type": "Transitive",
         "resolved": "17.10.0",
         "contentHash": "yC7oSlnR54XO5kOuHlVOKtxomNNN1BWXX8lK1G2jaPXT9sUok7kCOoA4Pgs0qyFaCtMrNsprztYMeoEGqCm4uA=="
-      },
-      "Microsoft.Extensions.FileSystemGlobbing": {
-        "type": "Transitive",
-        "resolved": "2.1.0",
-        "contentHash": "JEwwhwbVTEXJu4W4l/FFx7FG9Fh5R8999mZl6qJImjM/LY4DxQsFYzpSkziMdY022n7TQpNUxJlH9bKZc7TqWw=="
       },
       "Microsoft.TestPlatform.ObjectModel": {
         "type": "Transitive",
@@ -313,7 +315,7 @@
           "xunit.extensibility.core": "[2.8.1]"
         }
       },
-      "Altemiq.CommandLine.Extensions": {
+      "Altemiq.CommandLine.FileSystemGlobbing": {
         "type": "Project",
         "dependencies": {
           "Microsoft.Extensions.FileSystemGlobbing": "[2.1.0, )",
@@ -346,6 +348,12 @@
           "Microsoft.TestPlatform.ObjectModel": "17.10.0"
         }
       },
+      "Microsoft.Extensions.FileSystemGlobbing": {
+        "type": "Direct",
+        "requested": "[8.0.0, )",
+        "resolved": "8.0.0",
+        "contentHash": "OK+670i7esqlQrPjdIKRbsyMCe9g5kSLpRRQGSr4Q58AOYEe/hCnfLZprh7viNisSUUQZmMrbbuDaIrP+V1ebQ=="
+      },
       "Microsoft.NET.Test.Sdk": {
         "type": "Direct",
         "requested": "[17.10.0, )",
@@ -358,9 +366,9 @@
       },
       "System.CommandLine": {
         "type": "Direct",
-        "requested": "[2.0.0-beta4.24209.3, )",
-        "resolved": "2.0.0-beta4.24209.3",
-        "contentHash": "uisMNRfkoLHfP8ldaKxhTHJ+E2pd3oJQXRi7mDBomTTCqpRFMqKc9W+KCFVjIPH7kSm9GQ8mb+0RCAK3mEWIFg=="
+        "requested": "[2.0.0-beta4.24324.3, )",
+        "resolved": "2.0.0-beta4.24324.3",
+        "contentHash": "UddDcdPmeAbRpkYHOMBHYS74UINTL5yXhzHTbruhVN7eR79J8RPGgq1nNXlz5TH4iMK/Fn6OlSFf4Z2UxCJpXw=="
       },
       "xunit": {
         "type": "Direct",
@@ -383,11 +391,6 @@
         "type": "Transitive",
         "resolved": "17.10.0",
         "contentHash": "yC7oSlnR54XO5kOuHlVOKtxomNNN1BWXX8lK1G2jaPXT9sUok7kCOoA4Pgs0qyFaCtMrNsprztYMeoEGqCm4uA=="
-      },
-      "Microsoft.Extensions.FileSystemGlobbing": {
-        "type": "Transitive",
-        "resolved": "2.1.0",
-        "contentHash": "JEwwhwbVTEXJu4W4l/FFx7FG9Fh5R8999mZl6qJImjM/LY4DxQsFYzpSkziMdY022n7TQpNUxJlH9bKZc7TqWw=="
       },
       "Microsoft.TestPlatform.ObjectModel": {
         "type": "Transitive",
@@ -469,7 +472,7 @@
           "xunit.extensibility.core": "[2.8.1]"
         }
       },
-      "Altemiq.CommandLine.Extensions": {
+      "Altemiq.CommandLine.FileSystemGlobbing": {
         "type": "Project",
         "dependencies": {
           "Microsoft.Extensions.FileSystemGlobbing": "[2.1.0, )",

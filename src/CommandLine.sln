@@ -63,9 +63,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Console.Sample", "Samples\C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommandLine.Native", "CommandLine.Native\CommandLine.Native.csproj", "{867D737A-BDBF-4004-A493-9D587539ED8E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommandLine.Extensions", "CommandLine.Extensions\CommandLine.Extensions.csproj", "{29A02319-9FE5-44D2-B63D-571BE44F15DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommandLine.FileSystemGlobbing", "CommandLine.FileSystemGlobbing\CommandLine.FileSystemGlobbing.csproj", "{29A02319-9FE5-44D2-B63D-571BE44F15DC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommandLine.Extensions.Tests", "Tests\CommandLine.Extensions.Tests\CommandLine.Extensions.Tests.csproj", "{27F8F436-75CE-46B8-90BF-199993746B11}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommandLine.FileSystemGlobbing.Tests", "Tests\CommandLine.FileSystemGlobbing.Tests\CommandLine.FileSystemGlobbing.Tests.csproj", "{27F8F436-75CE-46B8-90BF-199993746B11}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

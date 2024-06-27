@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CommandLine.Extensions\CommandLine.Extensions.csproj" />
+    <ProjectReference Include="..\CommandLine.FileSystemGlobbing\CommandLine.FileSystemGlobbing.csproj" />
     <ProjectReference Include="..\CommandLine\CommandLine.csproj" />
   </ItemGroup>
 

@@ -6,10 +6,11 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="Microsoft.Extensions.FileSystemGlobbing" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\CommandLine.Extensions\CommandLine.Extensions.csproj" />
+    <ProjectReference Include="..\..\CommandLine.FileSystemGlobbing\CommandLine.FileSystemGlobbing.csproj" />
   </ItemGroup>
 
 </Project>

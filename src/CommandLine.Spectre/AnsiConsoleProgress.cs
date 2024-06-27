@@ -118,23 +118,33 @@ public static class AnsiConsoleProgress
 
             ProgressTask AddOrUpdate(AnsiConsoleProgressItem progressItem)
             {
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_0_OR_GREATER || NET472_OR_GREATER
                 var processTask = progressTasks.AddOrUpdate(
                     progressItem.Name,
-                    key =>
-                    {
-                        var options = new ProgressTaskSettings();
-                        if (configureTask is { } action)
-                        {
-                            action.Invoke(key, options);
-                        }
-
-                        return context.AddTask($"[green]{key}[/]", options);
-                    },
+                    static (key, state) => Create(key, state.Context, state.ConfigureTask),
+                    static (_, item, _) => item,
+                    (Context: context, ConfigureTask: configureTask));
+#else
+                var processTask = progressTasks.AddOrUpdate(
+                    progressItem.Name,
+                    key => Create(key, context, configureTask),
                     (_, item) => item);
+#endif
 
                 processTask.IsIndeterminate = double.IsInfinity(progressItem.Percentage);
 
                 return processTask;
+
+                static ProgressTask Create(string key, ProgressContext context, Action<string, ProgressTaskSettings>? configureTask)
+                {
+                    var options = new ProgressTaskSettings();
+                    if (configureTask is { } action)
+                    {
+                        action.Invoke(key, options);
+                    }
+
+                    return context.AddTask($"[green]{key}[/]", options);
+                }
             }
         }
     }

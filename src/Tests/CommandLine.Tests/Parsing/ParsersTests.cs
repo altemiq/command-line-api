@@ -1,55 +1,33 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="CliOptionsTests.cs" company="Altemiq">
+// <copyright file="Parsers.cs" company="Altemiq">
 // Copyright (c) Altemiq. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
-namespace System.CommandLine.Extensions;
+namespace System.CommandLine.Parsing;
 
-public class CliOptionsTests
+public class ParsersTests
 {
-    private static readonly CliCommand command = new("base") { new CliArgument<string>("RANGE") };
+    private const string RangeOptionName = "--range";
+    private static readonly CliCommand argumentCommand = new("base") { new CliArgument<string>("RANGE") };
+    private static readonly CliCommand optionCommand = new("base") { new CliOption<Range>(RangeOptionName) { CustomParser = RangeParser.Parse } };
 
     public static TheoryData<string, SerializableRange> Ranges() => new()
     {
-        { "..", new(new Range(start: Index.Start, end: Index.End)) },
-        { "0..", new(new Range(start: Index.Start, end: Index.End)) },
-        { "..^0", new(new Range(start: Index.Start, end: Index.End)) },
-        { "0..^0", new(new Range(start: Index.Start, end: Index.End)) },
-        { "1..", new(new Range(start: new Index(value: 1), end: Index.End)) },
+        { "..", new(new Range(start: System.Index.Start, end: System.Index.End)) },
+        { "0..", new(new Range(start: System.Index.Start, end: System.Index.End)) },
+        { "..^0", new(new Range(start: System.Index.Start, end: System.Index.End)) },
+        { "0..^0", new(new Range(start: System.Index.Start, end: System.Index.End)) },
+        { "1..", new(new Range(start: new Index(value: 1), end: System.Index.End)) },
+        { "1..^0", new(new Range(start: new Index(value: 1), end: System.Index.End)) },
         { "3..^5", new(new Range(start: new Index(value: 3), end: new Index(value: 5, fromEnd: true))) },
         { "^5..^2", new(new Range(start: new Index(value: 5, fromEnd: true), end: new Index(value: 2, fromEnd: true))) },
     };
 
     [Fact]
-    public void FileSystemGlobbing()
-    {
-        var rootDir = Path.Join(Path.GetPathRoot(Environment.CurrentDirectory), "Files to Search");
-
-        var first = Path.Join(rootDir, "first", "first.las");
-        var second = Path.Join(rootDir, "second.las");
-        var third = Path.Join(rootDir, "deep", "deep", "path", "third.las");
-        var forth = Path.Join(rootDir, "forth.laz");
-
-        var directoryInfo = new Microsoft.Extensions.FileSystemGlobbing.InMemoryDirectoryInfo(rootDir, [first, second, third, forth]);
-
-        var argument = new CliArgument<FileInfo[]>("FILES") { CustomParser = argumentResult => CliOptions.ParseGlobbing(argumentResult, directoryInfo) };
-        var root = new CliRootCommand { argument };
-        var configuration = new CliConfiguration(root);
-        var parseResult = configuration.Parse("\"" + Path.Combine(rootDir, "**", "*.las") + "\"");
-
-        parseResult.GetValue(argument).Should().NotBeNull()
-            .And.Subject.Select(x => x.FullName).Should()
-                .Contain(first).And
-                .Contain(second).And
-                .Contain(third).And
-                .NotContain(forth);
-    }
-
-    [Fact]
     public void TestSerializableRange()
     {
-        var serializable = new SerializableRange(new Range(start: Index.Start, end: Index.End));
+        var serializable = new SerializableRange(new Range(start: System.Index.Start, end: System.Index.End));
         var serialized = Xunit.Sdk.SerializationHelper.Serialize(serializable);
         var deserialized = Xunit.Sdk.SerializationHelper.Deserialize<SerializableRange>(serialized);
         _ = deserialized.Should().Be(serializable);
@@ -67,11 +45,15 @@ public class CliOptionsTests
 
     [Theory]
     [MemberData(nameof(Ranges))]
-    public void ParseRange(string input, SerializableRange expected) => CliOptions.ParseRange(input).Should().Be(expected, RangeEqualityComparer.Instance);
+    public void ParseRange(string input, SerializableRange expected) => RangeParser.Parse(input).Should().Be(expected, RangeEqualityComparer.Instance);
 
     [Theory]
     [MemberData(nameof(Ranges))]
-    public void ParseOption(string input, SerializableRange expected) => CliOptions.ParseRange(command.Parse(input).CommandResult.Children.FirstOrDefault().As<Parsing.ArgumentResult>()).Should().Be(expected, RangeEqualityComparer.Instance);
+    public void ParseArgument(string input, SerializableRange expected) => RangeParser.Parse(argumentCommand.Parse(input).CommandResult.Children.OfType<ArgumentResult>().First()).Should().Be(expected, RangeEqualityComparer.Instance);
+
+    [Theory]
+    [MemberData(nameof(Ranges))]
+    public void ParseOption(string input, SerializableRange expected) => optionCommand.Parse(RangeOptionName + " " + input).GetValue<Range>(RangeOptionName).Should().Be(expected, RangeEqualityComparer.Instance);
 
     private class RangeEqualityComparer : IEqualityComparer<Range>
     {
