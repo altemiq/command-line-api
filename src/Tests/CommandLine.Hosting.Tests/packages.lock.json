@@ -451,7 +451,16 @@
         "dependencies": {
           "Altemiq.CommandLine": "[1.0.0, )",
           "Altemiq.CommandLine.FileSystemGlobbing": "[1.0.0, )",
+          "Altemiq.CommandLine.Logging": "[1.0.0, )",
           "Microsoft.Extensions.Hosting": "[2.1.0, )"
+        }
+      },
+      "Altemiq.CommandLine.Logging": {
+        "type": "Project",
+        "dependencies": {
+          "Altemiq.CommandLine": "[1.0.0, )",
+          "Microsoft.Extensions.DependencyInjection": "[2.1.0, )",
+          "Microsoft.Extensions.Logging": "[2.1.0, )"
         }
       },
       "Microsoft.Extensions.Configuration": {
@@ -921,7 +930,16 @@
         "dependencies": {
           "Altemiq.CommandLine": "[1.0.0, )",
           "Altemiq.CommandLine.FileSystemGlobbing": "[1.0.0, )",
+          "Altemiq.CommandLine.Logging": "[1.0.0, )",
           "Microsoft.Extensions.Hosting": "[7.0.0, )"
+        }
+      },
+      "Altemiq.CommandLine.Logging": {
+        "type": "Project",
+        "dependencies": {
+          "Altemiq.CommandLine": "[1.0.0, )",
+          "Microsoft.Extensions.DependencyInjection": "[2.1.0, )",
+          "Microsoft.Extensions.Logging": "[2.1.0, )"
         }
       },
       "Microsoft.Extensions.Configuration": {
@@ -1414,7 +1432,16 @@
         "dependencies": {
           "Altemiq.CommandLine": "[1.0.0, )",
           "Altemiq.CommandLine.FileSystemGlobbing": "[1.0.0, )",
+          "Altemiq.CommandLine.Logging": "[1.0.0, )",
           "Microsoft.Extensions.Hosting": "[8.0.0, )"
+        }
+      },
+      "Altemiq.CommandLine.Logging": {
+        "type": "Project",
+        "dependencies": {
+          "Altemiq.CommandLine": "[1.0.0, )",
+          "Microsoft.Extensions.DependencyInjection": "[2.1.0, )",
+          "Microsoft.Extensions.Logging": "[2.1.0, )"
         }
       },
       "Microsoft.Extensions.Configuration": {
