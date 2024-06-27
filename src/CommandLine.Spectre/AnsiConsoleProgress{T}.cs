@@ -10,7 +10,7 @@ namespace System.CommandLine;
 /// Handler for <see cref="AnsiConsoleExtensions.Progress(IAnsiConsole)"/>.
 /// </summary>
 /// <typeparam name="T">The type of progress item.</typeparam>
-public class AnsiConsoleProgress<T> : IProgress<T>
+public class AnsiConsoleProgress<T> : AnsiConsoleProgressBase, IProgress<T>
 {
     private readonly SynchronizationContext synchronizationContext;
     private readonly Action<T>? handler;
@@ -60,10 +60,5 @@ public class AnsiConsoleProgress<T> : IProgress<T>
             // (If T is a value type, it will get boxed here.)
             this.synchronizationContext.Send(this.invokeHandlers, value);
         }
-    }
-
-    private static class ProgressStatics
-    {
-        internal static readonly SynchronizationContext DefaultContext = new();
     }
 }
