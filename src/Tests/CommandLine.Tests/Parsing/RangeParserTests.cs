@@ -6,7 +6,7 @@
 
 namespace System.CommandLine.Parsing;
 
-public class ParsersTests
+public class RangeParserTests
 {
     private const string RangeOptionName = "--range";
     private static readonly CliCommand argumentCommand = new("base") { new CliArgument<string>("RANGE") };
@@ -14,12 +14,12 @@ public class ParsersTests
 
     public static TheoryData<string, SerializableRange> Ranges() => new()
     {
-        { "..", new(new Range(start: System.Index.Start, end: System.Index.End)) },
-        { "0..", new(new Range(start: System.Index.Start, end: System.Index.End)) },
-        { "..^0", new(new Range(start: System.Index.Start, end: System.Index.End)) },
-        { "0..^0", new(new Range(start: System.Index.Start, end: System.Index.End)) },
-        { "1..", new(new Range(start: new Index(value: 1), end: System.Index.End)) },
-        { "1..^0", new(new Range(start: new Index(value: 1), end: System.Index.End)) },
+        { "..", new(new Range(start: Index.Start, end: Index.End)) },
+        { "0..", new(new Range(start: Index.Start, end: Index.End)) },
+        { "..^0", new(new Range(start: Index.Start, end: Index.End)) },
+        { "0..^0", new(new Range(start: Index.Start, end: Index.End)) },
+        { "1..", new(new Range(start: new Index(value: 1), end: Index.End)) },
+        { "1..^0", new(new Range(start: new Index(value: 1), end: Index.End)) },
         { "3..^5", new(new Range(start: new Index(value: 3), end: new Index(value: 5, fromEnd: true))) },
         { "^5..^2", new(new Range(start: new Index(value: 5, fromEnd: true), end: new Index(value: 2, fromEnd: true))) },
     };
@@ -27,7 +27,7 @@ public class ParsersTests
     [Fact]
     public void TestSerializableRange()
     {
-        var serializable = new SerializableRange(new Range(start: System.Index.Start, end: System.Index.End));
+        var serializable = new SerializableRange(new Range(start: Index.Start, end: Index.End));
         var serialized = Xunit.Sdk.SerializationHelper.Serialize(serializable);
         var deserialized = Xunit.Sdk.SerializationHelper.Deserialize<SerializableRange>(serialized);
         _ = deserialized.Should().Be(serializable);

@@ -15,9 +15,44 @@ public static class FileSystemGlobbingParser
     /// Parses the file system globbing.
     /// </summary>
     /// <param name="argumentResult">The argument result.</param>
+    /// <returns>The files matched by the globbing.</returns>
+    public static FileInfo[] Parse(ArgumentResult argumentResult) => Parse(argumentResult, default);
+
+    /// <summary>
+    /// Parses the file system globbing.
+    /// </summary>
+    /// <param name="tokens">The tokens.</param>
+    /// <returns>The files matched by the globbing.</returns>
+    public static FileInfo[] Parse(IEnumerable<CliToken> tokens) => Parse(tokens, default);
+
+    /// <summary>
+    /// Parses the file system globbing.
+    /// </summary>
+    /// <param name="token">The token.</param>
+    /// <returns>The files matched by the globbing.</returns>
+    public static FileInfo[] Parse(CliToken token) => Parse(token, default);
+
+    /// <summary>
+    /// Parses the file system globbing.
+    /// </summary>
+    /// <param name="glob">The glob.</param>
+    /// <returns>The files matched by the globbing.</returns>
+    public static FileInfo[] Parse(string glob) => Parse(glob, default);
+
+    /// <summary>
+    /// Parses the file system globbing.
+    /// </summary>
+    /// <param name="globs">The globs.</param>
+    /// <returns>The files matched by the globbing.</returns>
+    public static FileInfo[] Parse(IEnumerable<string> globs) => Parse(globs, default);
+
+    /// <summary>
+    /// Parses the file system globbing.
+    /// </summary>
+    /// <param name="argumentResult">The argument result.</param>
     /// <param name="directoryInfo">The directory information.</param>
     /// <returns>The files matched by the globbing.</returns>
-    public static FileInfo[] Parse(ArgumentResult argumentResult, Microsoft.Extensions.FileSystemGlobbing.Abstractions.DirectoryInfoBase? directoryInfo = default) => Parse(argumentResult.Tokens, directoryInfo);
+    internal static FileInfo[] Parse(ArgumentResult argumentResult, Microsoft.Extensions.FileSystemGlobbing.Abstractions.DirectoryInfoBase? directoryInfo) => Parse(argumentResult.Tokens, directoryInfo);
 
     /// <summary>
     /// Parses the file system globbing.
@@ -25,7 +60,23 @@ public static class FileSystemGlobbingParser
     /// <param name="tokens">The tokens.</param>
     /// <param name="directoryInfo">The directory information.</param>
     /// <returns>The files matched by the globbing.</returns>
-    public static FileInfo[] Parse(IEnumerable<CliToken> tokens, Microsoft.Extensions.FileSystemGlobbing.Abstractions.DirectoryInfoBase? directoryInfo = default) => Parse(tokens.Select(token => token.Value), directoryInfo);
+    internal static FileInfo[] Parse(IEnumerable<CliToken> tokens, Microsoft.Extensions.FileSystemGlobbing.Abstractions.DirectoryInfoBase? directoryInfo) => Parse(tokens.Select(token => token.Value), directoryInfo);
+
+    /// <summary>
+    /// Parses the file system globbing.
+    /// </summary>
+    /// <param name="token">The token.</param>
+    /// <param name="directoryInfo">The directory information.</param>
+    /// <returns>The files matched by the globbing.</returns>
+    internal static FileInfo[] Parse(CliToken token, Microsoft.Extensions.FileSystemGlobbing.Abstractions.DirectoryInfoBase? directoryInfo) => Parse(token.Value, directoryInfo);
+
+    /// <summary>
+    /// Parses the file system globbing.
+    /// </summary>
+    /// <param name="glob">The glob.</param>
+    /// <param name="directoryInfo">The directory information.</param>
+    /// <returns>The files matched by the globbing.</returns>
+    internal static FileInfo[] Parse(string glob, Microsoft.Extensions.FileSystemGlobbing.Abstractions.DirectoryInfoBase? directoryInfo) => Parse(Create(glob), directoryInfo);
 
     /// <summary>
     /// Parses the file system globbing.
@@ -33,7 +84,7 @@ public static class FileSystemGlobbingParser
     /// <param name="globs">The globs.</param>
     /// <param name="directoryInfo">The directory information.</param>
     /// <returns>The files matched by the globbing.</returns>
-    public static FileInfo[] Parse(IEnumerable<string> globs, Microsoft.Extensions.FileSystemGlobbing.Abstractions.DirectoryInfoBase? directoryInfo = default)
+    internal static FileInfo[] Parse(IEnumerable<string> globs, Microsoft.Extensions.FileSystemGlobbing.Abstractions.DirectoryInfoBase? directoryInfo)
     {
         return Process(globs, directoryInfo).SelectMany(results => results.Select(file => new FileInfo(file))).ToArray();
 
@@ -126,5 +177,10 @@ public static class FileSystemGlobbingParser
         {
             return name.Replace(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
         }
+    }
+
+    private static IEnumerable<T> Create<T>(T item)
+    {
+        yield return item;
     }
 }

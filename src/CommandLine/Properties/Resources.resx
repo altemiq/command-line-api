@@ -132,4 +132,16 @@
   <data name="InvalidSchemes" xml:space="preserve">
     <value>Scheme for {0} must be one of {1}.</value>
   </data>
+  <data name="MultipleFiles" xml:space="preserve">
+    <value>Multiple files specified.</value>
+  </data>
+  <data name="MultipleUris" xml:space="preserve">
+    <value>Multiple URIs specified.</value>
+  </data>
+  <data name="NoFiles" xml:space="preserve">
+    <value>Failed to get the file.</value>
+  </data>
+  <data name="NoUris" xml:space="preserve">
+    <value>Failed to parse the URI.</value>
+  </data>
 </root>

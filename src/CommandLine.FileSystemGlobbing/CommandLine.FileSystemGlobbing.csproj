@@ -10,4 +10,8 @@
     <PackageReference Include="Microsoft.Extensions.FileSystemGlobbing" VersionOverride="2.1.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="$(AssemblyName).Tests" />
+  </ItemGroup>
+
 </Project>
