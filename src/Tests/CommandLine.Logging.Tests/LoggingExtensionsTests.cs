@@ -39,7 +39,7 @@ public class LoggingExtensionsTests
         // force getting the logger
         _ = configuration.Parse(string.Empty).GetLoggerFactory();
 
-        _ =count.Should().Be(Total);
+        _ = count.Should().Be(Total);
     }
 
     [Fact]

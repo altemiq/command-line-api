@@ -71,6 +71,7 @@ public static class FileInfoParser
     {
         return value switch
         {
+            { Length: 0 } => [],
             { } v when File.Exists(v) => Create(new FileInfo(v)),
             { } v when Directory.Exists(v) => CreateFromDirectory(v, "*.*"),
             { } v when Directory.Exists(GetDirectory(v)) => CreateFromDirectory(GetDirectory(v), Path.GetFileName(v)),

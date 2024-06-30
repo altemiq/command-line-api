@@ -5,35 +5,26 @@
 // -----------------------------------------------------------------------
 
 namespace System.CommandLine;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 public class ArgumentValidationTests
 {
     [Fact]
-    public void FileExists()
-    {
-        var argument = new CliArgument<FileInfo>("FILE").AcceptMissingOnly();
-        var root = new CliRootCommand { argument };
-        var configuration = new CliConfiguration(root);
-
-        var results = configuration.Parse(typeof(ArgumentValidationTests).Assembly.Location);
-        results.Errors.Should().NotBeEmpty();
-    }
+    public void FileExists() => AcceptMissingOnly(new CliArgument<FileInfo>("FILE").AcceptMissingOnly(), typeof(ArgumentValidationTests).Assembly.Location);
 
     [Fact]
-    public void DirectoryExists()
-    {
-        var argument = new CliArgument<DirectoryInfo>("DIRECTORY").AcceptMissingOnly();
-        var root = new CliRootCommand { argument };
-        var configuration = new CliConfiguration(root);
+    public void FilesExists() => AcceptMissingOnly(new CliArgument<FileInfo[]>("FILES").AcceptMissingOnly(), typeof(ArgumentValidationTests).Assembly.Location);
 
-        var results = configuration.Parse(Path.GetDirectoryName(typeof(ArgumentValidationTests).Assembly.Location) ?? string.Empty);
-        results.Errors.Should().NotBeEmpty();
-    }
+    [Fact]
+    public void DirectoryExists() => AcceptMissingOnly(new CliArgument<DirectoryInfo>("DIRECTORY").AcceptMissingOnly(), Path.GetDirectoryName(typeof(ArgumentValidationTests).Assembly.Location) ?? string.Empty);
+
+    [Fact]
+    public void DirectoriesExists() => AcceptMissingOnly(new CliArgument<DirectoryInfo[]>("DIRECTORIES").AcceptMissingOnly(), Path.GetDirectoryName(typeof(ArgumentValidationTests).Assembly.Location) ?? string.Empty);
+
+    [Fact]
+    public void FileSystemInfoExists() => AcceptMissingOnly(new CliArgument<FileSystemInfo>("FILE").AcceptMissingOnly(), typeof(ArgumentValidationTests).Assembly.Location);
+
+    [Fact]
+    public void FileSystemInfosExists() => AcceptMissingOnly(new CliArgument<FileSystemInfo[]>("FILES").AcceptMissingOnly(), typeof(ArgumentValidationTests).Assembly.Location);
 
     [Fact]
     public void CorrectUriScheme()
@@ -43,7 +34,7 @@ public class ArgumentValidationTests
         var configuration = new CliConfiguration(root);
 
         var results = configuration.Parse("https://www.google.com");
-        results.Errors.Should().BeEmpty();
+        _ = results.Errors.Should().BeEmpty();
     }
 
     [Fact]
@@ -54,7 +45,7 @@ public class ArgumentValidationTests
         var configuration = new CliConfiguration(root);
 
         var results = configuration.Parse("https://www.google.com");
-        results.Errors.Should().NotBeEmpty();
+        _ = results.Errors.Should().NotBeEmpty();
     }
 
     [Fact]
@@ -65,7 +56,7 @@ public class ArgumentValidationTests
         var configuration = new CliConfiguration(root);
 
         var results = configuration.Parse("https://www.google.com");
-        results.Errors.Should().BeEmpty();
+        _ = results.Errors.Should().BeEmpty();
     }
 
     [Fact]
@@ -76,6 +67,15 @@ public class ArgumentValidationTests
         var configuration = new CliConfiguration(root);
 
         var results = configuration.Parse("https://www.google.com");
-        results.Errors.Should().NotBeEmpty();
+        _ = results.Errors.Should().NotBeEmpty();
+    }
+
+    private static void AcceptMissingOnly<T>(CliArgument<T> argument, string args)
+    {
+        var root = new CliRootCommand { argument };
+        var configuration = new CliConfiguration(root);
+
+        var results = configuration.Parse(args);
+        _ = results.Errors.Should().NotBeEmpty();
     }
 }
