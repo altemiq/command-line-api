@@ -102,7 +102,7 @@ public static partial class HostingExtensions
     public static Microsoft.Extensions.Hosting.IHostBuilder UseInvocationLifetime(this Microsoft.Extensions.Hosting.IHostBuilder host, Action<InvocationLifetimeOptions>? configureOptions = null) => host
         .ConfigureServices((__, services) =>
         {
-            services.AddSingleton<Microsoft.Extensions.Hosting.IHostLifetime, InvocationLifetime>();
+            services.AddScoped<Microsoft.Extensions.Hosting.IHostLifetime, InvocationLifetime>();
             services.ConfigureInvocationLifetime(configureOptions);
         });
 
