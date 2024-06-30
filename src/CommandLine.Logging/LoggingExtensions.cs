@@ -59,7 +59,7 @@ public static class LoggingExtensions
     /// </summary>
     /// <param name="parseResult">The parse result.</param>
     /// <returns>The log level.</returns>
-    public static LogLevel GetLogLevel(this ParseResult parseResult) => parseResult.GetValue(CliOptions.VerbosityOption).GetLogLevel();
+    public static LogLevel GetLogLevel(this ParseResult parseResult) => parseResult.GetValue<VerbosityOptions>(VerbosityOption.OptionName).GetLogLevel();
 
     private static LogLevel GetLogLevel(this VerbosityOptions options) => options switch
     {
@@ -97,7 +97,7 @@ public static class LoggingExtensions
                 var serviceCollection = new ServiceCollection();
                 _ = serviceCollection.AddLogging(builder =>
                 {
-                    if (parseResult?.GetResult(CliOptions.VerbosityOption) is { } optionResult)
+                    if (parseResult?.RootCommandResult.GetResult(VerbosityOption.OptionName) is Parsing.OptionResult optionResult)
                     {
                         var value = optionResult.GetValueOrDefault<VerbosityOptions>();
                         _ = builder.SetMinimumLevel(value.GetLogLevel());

@@ -5,7 +5,7 @@
 This package provides some common options that include Verbosity
 
 ```csharp
-command.Add(CliOptions.VerbosityOption);
+command.Add(new VerbosityOption());
 ```
 
 ## Required values

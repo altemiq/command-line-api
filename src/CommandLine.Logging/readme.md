@@ -7,7 +7,7 @@ This adds extension methods for `AddLogging` that allows configuring the logging
 This is then used to get configuration in actions using `GetConfiguration`
 
 ```csharp
-var command = new CliCommand("COMMAND") { CliOptions.VerbosityOption };
+var command = new CliCommand("COMMAND") { new VerbosityOption() };
 command.SetHandler(parseResult =>
 {
     var logger = parseResult.CreateLogger("category");
@@ -26,4 +26,4 @@ configuration.AddLogging((parseResult, builder) =>
 configuration.Invoke(args);
 ```
 
-If the `CliOptions.VerbosityOption` is added, this sets the `MinimumLevel` on the builder.
+If a `VerbosityOption` is added, this sets the `MinimumLevel` on the builder.

@@ -144,4 +144,7 @@
   <data name="NoUris" xml:space="preserve">
     <value>Failed to parse the URI.</value>
   </data>
+  <data name="VerbosityOptionDescription" xml:space="preserve">
+    <value>Set the verbosity level. Allowed values are q[uiet], m[inimal], n[ormal], d[etailed], and diag[nostic].</value>
+  </data>
 </root>

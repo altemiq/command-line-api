@@ -48,6 +48,12 @@ internal static class LocalizationResources
     /// <returns>The localised string.</returns>
     public static string InvalidSchemes(string uri, IEnumerable<string> schemes) => GetResourceString(Properties.Resources.Culture, Properties.Resources.InvalidSchemes, uri, string.Join(", ", schemes));
 
+    /// <summary>
+    ///   Interpolates values into a localized string similar to Set the verbosity level. Allowed values are q[uiet], m[inimal], n[ormal], d[etailed], and diag[nostic].
+    /// </summary>
+    /// <returns>The localised string.</returns>
+    public static string VerbosityOptionDescription() => GetResourceString(Properties.Resources.Culture, Properties.Resources.VerbosityOptionDescription);
+
     private static string GetResourceString(IFormatProvider? provider, string? resourceString, params object?[] formatArguments) => (resourceString, formatArguments) switch
     {
         (null, _) => string.Empty,

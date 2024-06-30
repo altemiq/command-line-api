@@ -9,7 +9,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-var root = new CliRootCommand { CliOptions.VerbosityOption };
+var verbosityOption = new VerbosityOption();
+var root = new CliRootCommand { verbosityOption };
 root.SetAction(parseResult =>
 {
     var logger = parseResult.CreateLogger<Program>();
@@ -75,4 +76,4 @@ configuration
         }
     });
 
-await configuration.InvokeAsync($"{CliOptions.VerbosityOption.Name} {nameof(VerbosityOptions.detailed)}").ConfigureAwait(true);
+await configuration.InvokeAsync($"{verbosityOption.Name} {nameof(VerbosityOptions.detailed)}").ConfigureAwait(true);

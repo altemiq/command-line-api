@@ -11,6 +11,8 @@ using Microsoft.Extensions.Logging;
 
 public class LoggingExtensionsTests
 {
+    private readonly CliOption<VerbosityOptions> verbosityOption = new VerbosityOption();
+
     [Fact]
     public void AddLogging()
     {
@@ -56,5 +58,5 @@ public class LoggingExtensionsTests
     [InlineData(VerbosityOptions.detailed, LogLevel.Debug)]
     [InlineData(VerbosityOptions.diag, LogLevel.Trace)]
     [InlineData(VerbosityOptions.diagnostic, LogLevel.Trace)]
-    public void GetLogLevel(VerbosityOptions verbosity, LogLevel level) => new CliConfiguration(new CliRootCommand { CliOptions.VerbosityOption }).Parse($"{CliOptions.VerbosityOption.Name} {verbosity}").GetLogLevel().Should().Be(level);
+    public void GetLogLevel(VerbosityOptions verbosity, LogLevel level) => new CliConfiguration(new CliRootCommand { this.verbosityOption }).Parse($"{this.verbosityOption.Name} {verbosity}").GetLogLevel().Should().Be(level);
 }
