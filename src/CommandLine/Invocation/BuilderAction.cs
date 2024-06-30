@@ -63,6 +63,23 @@ public static class BuilderAction
 
     private static void SetHandlers<TBuilder, TInstance>(CliCommand command, Func<ParseResult?, TBuilder> createBuilder, Func<TBuilder, TInstance> buildInstance, Action<ParseResult?, TBuilder> configure, Action<Func<ParseResult?, TInstance>> setHandler)
     {
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_0_OR_GREATER || NET472_OR_GREATER
+        _ = Configures.AddOrUpdate(
+            (command, typeof(TBuilder), typeof(TInstance)),
+            (_, state) =>
+            {
+                var configurer = new Configurer();
+                configurer.Add(state.Configure);
+                state.SetHandler(Create);
+                return configurer;
+            },
+            (_, configurer, state) =>
+            {
+                configurer.Add(state.Configure);
+                return configurer;
+            },
+            (Configure: configure, SetHandler: setHandler));
+#else
         _ = Configures.AddOrUpdate(
             (command, typeof(TBuilder), typeof(TInstance)),
             _ =>
@@ -77,6 +94,7 @@ public static class BuilderAction
                 configurer.Add(configure);
                 return configurer;
             });
+#endif
 
         TInstance Create(ParseResult? parseResult)
         {
