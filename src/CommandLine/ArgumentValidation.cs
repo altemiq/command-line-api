@@ -140,31 +140,44 @@ public static class ArgumentValidation
         where T : FileSystemInfo
     {
         // both FileInfo and DirectoryInfo are sealed so following checks are enough
-        bool checkFile = typeof(T) != typeof(DirectoryInfo);
-        bool checkDirectory = typeof(T) != typeof(FileInfo);
+        var checkFile = typeof(T) != typeof(DirectoryInfo);
+        var checkDirectory = typeof(T) != typeof(FileInfo);
 
         for (var i = 0; i < result.Tokens.Count; i++)
         {
-            var token = result.Tokens[i];
+            if (CheckToken(result.Tokens[i], checkFile, checkDirectory) is { } errorMessage)
+            {
+                result.AddError(errorMessage);
+            }
+        }
 
-            if (checkFile && checkDirectory)
+        static string? CheckToken(Parsing.CliToken token, bool checkFile, bool checkDirectory)
+        {
+            return CheckTokenValue(token.Value, checkFile, checkDirectory);
+
+            static string? CheckTokenValue(string value, bool checkFile, bool checkDirectory)
             {
-#if NET7_0_OR_GREATER
-                if (Path.Exists(token.Value))
-#else
-                if (Directory.Exists(token.Value) || File.Exists(token.Value))
-#endif
+                if (checkFile && checkDirectory)
                 {
-                    result.AddError(LocalizationResources.FileOrDirectoryExists(token.Value));
+#if NET7_0_OR_GREATER
+                    if (Path.Exists(token.Value))
+#else
+                    if (Directory.Exists(value) || File.Exists(value))
+#endif
+                    {
+                        return LocalizationResources.FileOrDirectoryExists(value);
+                    }
                 }
-            }
-            else if (checkDirectory && Directory.Exists(token.Value))
-            {
-                result.AddError(LocalizationResources.DirectoryExists(token.Value));
-            }
-            else if (checkFile && File.Exists(token.Value))
-            {
-                result.AddError(LocalizationResources.FileExists(token.Value));
+                else if (checkDirectory && Directory.Exists(value))
+                {
+                    return LocalizationResources.DirectoryExists(value);
+                }
+                else if (checkFile && File.Exists(value))
+                {
+                    return LocalizationResources.FileExists(value);
+                }
+
+                return default;
             }
         }
     }
