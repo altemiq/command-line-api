@@ -5,6 +5,10 @@
 // -----------------------------------------------------------------------
 
 namespace System.CommandLine.Hosting;
+
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+
 public class InvocationLifetimeTests
 {
     [Fact]
