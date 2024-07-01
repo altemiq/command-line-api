@@ -58,39 +58,49 @@ public static partial class HostingExtensions
 
         Invocation.BuilderAction.SetHandlers(
             configuration.RootCommand,
-            parseResult =>
-            {
-                var hostBuilder = hostBuilderFactory(parseResult?.UnmatchedTokens.ToArray() ?? []);
-
-                if (parseResult is not null)
-                {
-                    hostBuilder.Properties[typeof(ParseResult)] = parseResult;
-
-                    if (configuration.RootCommand is CliRootCommand root
-                        && root.Directives.SingleOrDefault(d => string.Equals(d.Name, HostingDirectiveName, StringComparison.Ordinal)) is { } directive
-                        && parseResult.GetResult(directive) is { } directiveResult)
-                    {
-                        _ = hostBuilder.ConfigureHostConfiguration(config => config.AddInMemoryCollection(directiveResult.Values.Select(s =>
-                        {
-                            var parts = s.Split(Separator, count: 2);
-                            var key = parts[0];
-                            var value = parts.Length > 1 ? parts[1] : null;
-                            return new KeyValuePair<string, string?>(key, value);
-                        }).ToList()));
-                    }
-
-                    _ = hostBuilder.ConfigureServices((_, services) => services.AddSingleton(parseResult));
-                }
-
-                _ = hostBuilder.UseInvocationLifetime();
-                return hostBuilder;
-            },
-            builder => builder.Build(),
+            parseResult => CreateHostBuilder(configuration, hostBuilderFactory, parseResult),
+            static builder => builder.Build(),
             (parseResult, builder) => configureHost?.Invoke(parseResult, builder),
-            (_, host, cancellationToken) => host.StartAsync(cancellationToken),
-            (_, host, cancellationToken) => host.StopAsync(cancellationToken));
+            static (_, host, cancellationToken) => host.StartAsync(cancellationToken),
+            static (_, host, cancellationToken) => host.StopAsync(cancellationToken));
 
         return configuration;
+
+        static Microsoft.Extensions.Hosting.IHostBuilder CreateHostBuilder(T configuration, Func<string[], Microsoft.Extensions.Hosting.IHostBuilder> hostBuilderFactory, ParseResult? parseResult)
+        {
+            var hostBuilder = hostBuilderFactory(GetUnmatchedTokens(parseResult));
+
+            if (parseResult is not null)
+            {
+                hostBuilder.Properties[typeof(ParseResult)] = parseResult;
+                UpdateHostConfiguration(configuration, parseResult, hostBuilder);
+                _ = hostBuilder.ConfigureServices((_, services) => services.AddSingleton(parseResult));
+            }
+
+            _ = hostBuilder.UseInvocationLifetime();
+            return hostBuilder;
+
+            static string[] GetUnmatchedTokens(ParseResult? parseResult)
+            {
+                return parseResult?.UnmatchedTokens.ToArray() ?? [];
+            }
+
+            static void UpdateHostConfiguration(T configuration, ParseResult parseResult, Microsoft.Extensions.Hosting.IHostBuilder hostBuilder)
+            {
+                if (configuration.RootCommand is CliRootCommand root
+                    && root.Directives.SingleOrDefault(d => string.Equals(d.Name, HostingDirectiveName, StringComparison.Ordinal)) is { } directive
+                    && parseResult.GetResult(directive) is { } directiveResult)
+                {
+                    _ = hostBuilder.ConfigureHostConfiguration(config => config.AddInMemoryCollection(directiveResult.Values.Select(s =>
+                    {
+                        var parts = s.Split(Separator, count: 2);
+                        var key = parts[0];
+                        var value = parts.Length > 1 ? parts[1] : null;
+                        return new KeyValuePair<string, string?>(key, value);
+                    }).ToList()));
+                }
+            }
+        }
     }
 
     /// <summary>

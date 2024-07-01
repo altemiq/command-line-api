@@ -14,17 +14,20 @@ public partial class HostingExtensionsTests
     [Fact]
     public void GetHost()
     {
+        const bool Value = true;
+
         Microsoft.Extensions.Hosting.IHost? host = default;
         var rootCommand = new CliRootCommand();
         rootCommand.SetAction(parseResult => host = parseResult.GetHost());
 
         var configuration = new CliConfiguration(rootCommand);
-        _ = configuration.UseHost();
+        _ = configuration.UseHost(configureHost: (_, builder) => builder.ConfigureServices((_, services) => services.ConfigureInvocationLifetime(opts => opts.SuppressStatusMessages = Value)));
 
         _ = configuration.Invoke([]);
         _ = host.Should().BeAssignableTo<Microsoft.Extensions.Hosting.IHost>()
             .Which.Services.GetService(typeof(Microsoft.Extensions.Hosting.IHostLifetime)).Should().BeAssignableTo<Microsoft.Extensions.Hosting.IHostLifetime>()
-            .Which.Should().BeOfType<InvocationLifetime>();
+            .Which.Should().BeOfType<InvocationLifetime>()
+            .Which.Options.SuppressStatusMessages.Should().Be(Value);
     }
 
     [Fact]
@@ -37,12 +40,14 @@ public partial class HostingExtensionsTests
         var configuration = new CliConfiguration(rootCommand);
         _ = configuration.UseHost();
 
-        _ = configuration.Invoke("[config:Key1=Value1]");
+        _ = configuration.Invoke("[config:Key1=Value1] [config:Key2]");
         _ = host.Should().NotBeNull();
 
-        _ = (host?.Services.GetService(typeof(IConfiguration))
-            .Should().BeOfType<ConfigurationRoot>()
-            .Which.GetValue<string>("Key1").Should().Be("Value1"));
+        var configurationRoot = host?.Services.GetService(typeof(IConfiguration))
+            .Should().BeOfType<ConfigurationRoot>().Which;
+
+        configurationRoot!.GetValue<string>("Key1").Should().Be("Value1");
+        configurationRoot!.GetValue<string>("Key2").Should().Be(null);
     }
 
     [Fact]

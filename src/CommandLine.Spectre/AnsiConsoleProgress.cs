@@ -63,48 +63,9 @@ public static class AnsiConsoleProgress
         void Handler(T message)
         {
             var progressItem = converter(message);
-            if (context is null)
-            {
-                lock (contextLock)
-                {
-                    if (context is null)
-                    {
-                        _ = Task.Run(() => progressFactory()
-                            .Start(ctx =>
-                            {
-                                context = ctx;
-
-                                // add the first task
-                                _ = AddOrUpdate(progressItem);
-
-                                while (!progressTasks.Values.All(progressTask => progressTask.IsFinished))
-                                {
-                                    Thread.Sleep(ThreadUpdateRate);
-                                }
-
-                                context = default;
-                            }));
-
-                        // wait for the context be valid
-                        while (context is null)
-                        {
-                            Thread.Sleep(ThreadUpdateRate);
-                        }
-                    }
-                }
-            }
-
+            EnsureContext(progressItem);
             var progressTask = AddOrUpdate(progressItem);
-
-            var currentUpdate = DateTime.Now;
-            if (currentUpdate - lastUpdate > updateRate)
-            {
-                lastUpdate = currentUpdate;
-                if (progressItem.Percentage is >= 0 and < double.PositiveInfinity)
-                {
-                    progressTask.Value = progressItem.Percentage;
-                }
-            }
+            UpdateProgress(progressTask);
 
             if (double.IsNaN(progressItem.Percentage))
             {
@@ -123,11 +84,11 @@ public static class AnsiConsoleProgress
                     progressItem.Name,
                     static (key, state) => Create(key, state.Context, state.ConfigureTask),
                     static (_, item, _) => item,
-                    (Context: context, ConfigureTask: configureTask));
+                    (Context: context!, ConfigureTask: configureTask));
 #else
                 var processTask = progressTasks.AddOrUpdate(
                     progressItem.Name,
-                    key => Create(key, context, configureTask),
+                    key => Create(key, context!, configureTask),
                     (_, item) => item);
 #endif
 
@@ -144,6 +105,53 @@ public static class AnsiConsoleProgress
                     }
 
                     return context.AddTask($"[green]{key}[/]", options);
+                }
+            }
+
+            void EnsureContext(AnsiConsoleProgressItem progressItem)
+            {
+                if (context is null)
+                {
+                    lock (contextLock)
+                    {
+                        if (context is null)
+                        {
+                            _ = Task.Run(() => progressFactory()
+                                .Start(ctx =>
+                                {
+                                    context = ctx;
+
+                                    // add the first task
+                                    _ = AddOrUpdate(progressItem);
+
+                                    while (!progressTasks.Values.All(progressTask => progressTask.IsFinished))
+                                    {
+                                        Thread.Sleep(ThreadUpdateRate);
+                                    }
+
+                                    context = default;
+                                }));
+
+                            // wait for the context be valid
+                            while (context is null)
+                            {
+                                Thread.Sleep(ThreadUpdateRate);
+                            }
+                        }
+                    }
+                }
+            }
+
+            void UpdateProgress(ProgressTask progressTask)
+            {
+                var currentUpdate = DateTime.Now;
+                if (currentUpdate - lastUpdate > updateRate)
+                {
+                    lastUpdate = currentUpdate;
+                    if (progressItem.Percentage is >= 0 and < double.PositiveInfinity)
+                    {
+                        progressTask.Value = progressItem.Percentage;
+                    }
                 }
             }
         }

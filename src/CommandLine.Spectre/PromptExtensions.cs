@@ -62,30 +62,70 @@ public static class PromptExtensions
             where TEnum : notnull
         {
             // do this on the enum
-            if (typeof(TEnum).GetCustomAttributes(inherit: false).OfType<FlagsAttribute>().Any())
+            return typeof(TEnum).GetCustomAttributes(inherit: false).OfType<FlagsAttribute>().Any()
+                ? GetFlagValue(option, prompt, console)
+                : GetValue(option, prompt, console);
+
+            static TEnum GetFlagValue(global::System.CommandLine.CliOption<TEnum> option, string prompt, IAnsiConsole console)
             {
                 // flags, cal select multiple
                 var multiSelectionPrompt = new MultiSelectionPrompt<TEnum> { Title = prompt, };
                 _ = multiSelectionPrompt.AddChoices(GetChoices(option.CompletionSources, Parse, ignoreDefault: true));
-                var values = multiSelectionPrompt.Show(console);
+                return GetCombinedValues(typeof(TEnum).GetEnumUnderlyingType(), multiSelectionPrompt.Show(console));
 
-                return typeof(TEnum).GetEnumUnderlyingType() switch
+                [Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0046:Use conditional expression for return", Justification = "Checked")]
+                static TEnum GetCombinedValues(Type enumUnderLyingType, IReadOnlyList<TEnum> values)
                 {
-                    var t when t == typeof(sbyte) => (TEnum)EnumCombiner.GetSByte(values),
-                    var t when t == typeof(byte) => (TEnum)EnumCombiner.GetByte(values),
-                    var t when t == typeof(short) => (TEnum)EnumCombiner.GetInt16(values),
-                    var t when t == typeof(ushort) => (TEnum)EnumCombiner.GetUInt16(values),
-                    var t when t == typeof(int) => (TEnum)EnumCombiner.GetInt32(values),
-                    var t when t == typeof(uint) => (TEnum)EnumCombiner.GetUInt32(values),
-                    var t when t == typeof(long) => (TEnum)EnumCombiner.GetInt64(values),
-                    var t when t == typeof(ulong) => (TEnum)EnumCombiner.GetUInt64(values),
-                    _ => throw new NotSupportedException(),
-                };
+                    if (enumUnderLyingType == typeof(sbyte))
+                    {
+                        return (TEnum)EnumCombiner.GetSByte(values);
+                    }
+
+                    if (enumUnderLyingType == typeof(byte))
+                    {
+                        return (TEnum)EnumCombiner.GetByte(values);
+                    }
+
+                    if (enumUnderLyingType == typeof(short))
+                    {
+                        return (TEnum)EnumCombiner.GetInt16(values);
+                    }
+
+                    if (enumUnderLyingType == typeof(ushort))
+                    {
+                        return (TEnum)EnumCombiner.GetUInt16(values);
+                    }
+
+                    if (enumUnderLyingType == typeof(int))
+                    {
+                        return (TEnum)EnumCombiner.GetInt32(values);
+                    }
+
+                    if (enumUnderLyingType == typeof(uint))
+                    {
+                        return (TEnum)EnumCombiner.GetUInt32(values);
+                    }
+
+                    if (enumUnderLyingType == typeof(long))
+                    {
+                        return (TEnum)EnumCombiner.GetInt64(values);
+                    }
+
+                    if (enumUnderLyingType == typeof(ulong))
+                    {
+                        return (TEnum)EnumCombiner.GetUInt64(values);
+                    }
+
+                    throw new NotSupportedException();
+                }
             }
 
-            var selectionPrompt = new SelectionPrompt<TEnum> { Title = prompt };
-            _ = selectionPrompt.AddChoices(GetChoices(option.CompletionSources, Parse));
-            return selectionPrompt.Show(console);
+            static TEnum GetValue(global::System.CommandLine.CliOption<TEnum> option, string prompt, IAnsiConsole console)
+            {
+                var selectionPrompt = new SelectionPrompt<TEnum> { Title = prompt };
+                _ = selectionPrompt.AddChoices(GetChoices(option.CompletionSources, Parse));
+                return selectionPrompt.Show(console);
+            }
 
             static TEnum Parse(string value)
             {

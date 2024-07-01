@@ -30,4 +30,22 @@ public class InvocationLifetimeTests
 
         _ = cancellationTokenSource.IsCancellationRequested.Should().BeTrue();
     }
+
+    [Fact]
+    public async Task DoubleDispose()
+    {
+        var builder = Host.CreateDefaultBuilder();
+        builder.ConfigureServices((_, services) => services.AddScoped<IHostLifetime, InvocationLifetime>());
+
+        var host = await builder.StartAsync();
+
+        var lifetime = host.Services.GetService<IHostLifetime>();
+
+        lifetime.Should()
+            .BeAssignableTo<IDisposable>()
+            .Which.Invoking(d => d.Dispose()).Should().NotThrow()
+            .And.Subject.Should().NotThrow();
+
+        await host.StopAsync();
+    }
 }

@@ -106,6 +106,15 @@ public class PromptExtensionsTests
         _ = parseResult.GetValueOrPrompt(option, "GetValue", console).Should().Be("second");
     }
 
+    [Fact]
+    public void TestWithCustomTypeConverter()
+    {
+        var (parseResult, option, console) = GetResult<TypeWithTypeConverter>("second");
+        option.CompletionSources.Add("first", "second", "third");
+        console.Input.PushKey(ConsoleKey.Enter);
+        _ = parseResult.GetValueOrPrompt(option, "GetValue", console).Should().Be(new TypeWithTypeConverter("second"));
+    }
+
     private static T GetValue<T>(string prompt, string value)
     {
         var (parseResult, option, console) = GetResult<T>(value);
@@ -244,6 +253,46 @@ public class PromptExtensionsTests
                 Delete = 4,
                 Inheritable = 16
             }
+        }
+    }
+
+    [ComponentModel.TypeConverter(typeof(TypeConverter))]
+    private sealed class TypeWithTypeConverter(string input)
+         : IEqualityComparer<TypeWithTypeConverter>
+    {
+        private readonly string input = input;
+
+        public override bool Equals(object? obj) => obj is TypeWithTypeConverter typeWithTypeConverter ? this.Equals(this, typeWithTypeConverter) : base.Equals(obj);
+
+        public bool Equals(TypeWithTypeConverter? x, TypeWithTypeConverter? y)
+        {
+            if (x is null)
+            {
+                if (y is null)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+            else if (y is null)
+            {
+                return false;
+            }
+
+            return x.input == y.input;
+        }
+
+        public override int GetHashCode() => this.GetHashCode(this);
+
+        public int GetHashCode(TypeWithTypeConverter obj) => obj.input.GetHashCode();
+
+        private sealed class TypeConverter : ComponentModel.TypeConverter
+        {
+            public override bool CanConvertFrom(ComponentModel.ITypeDescriptorContext? context, Type sourceType) => sourceType == typeof(string) || base.CanConvertFrom(context, sourceType);
+            public override object? ConvertFrom(ComponentModel.ITypeDescriptorContext? context, Globalization.CultureInfo? culture, object value) => value is string stringValue ? new TypeWithTypeConverter(stringValue) : base.ConvertFrom(context, culture, value);
+            public override bool CanConvertTo(ComponentModel.ITypeDescriptorContext? context, Type? sourceType) => sourceType == typeof(string) || base.CanConvertFrom(context, sourceType!);
+            public override object? ConvertTo(ComponentModel.ITypeDescriptorContext? context, Globalization.CultureInfo? culture, object? value, Type destinationType) => value is TypeWithTypeConverter typeWithTypeConverter && destinationType == typeof(string) ? typeWithTypeConverter.input : base.ConvertTo(context, culture, value, destinationType);
         }
     }
 }

@@ -44,40 +44,52 @@ public static partial class HostingExtensions
 
         BuilderAction.SetHandlers(
             configuration.RootCommand,
-            parseResult =>
-            {
-                var hostBuilder = hostBuilderFactory(parseResult?.UnmatchedTokens.ToArray() ?? []);
-                if (parseResult is not null)
-                {
-                    _ = hostBuilder.Services.AddSingleton(parseResult);
-
-                    if (configuration.RootCommand is CliRootCommand root
-                        && root.Directives.SingleOrDefault(d => string.Equals(d.Name, HostingDirectiveName, StringComparison.Ordinal)) is { } directive
-                        && parseResult.GetResult(directive) is { } directiveResult)
-                    {
-                        hostBuilder.Configuration.Sources.Add(
-                            new MemoryConfigurationSource()
-                            {
-                                InitialData = directiveResult.Values.Select(s =>
-                                {
-                                    var parts = s.Split(Separator, count: 2);
-                                    var key = parts[0];
-                                    var value = parts.Length > 1 ? parts[1] : null;
-                                    return new KeyValuePair<string, string?>(key, value);
-                                }).ToList(),
-                            });
-                    }
-                }
-
-                _ = hostBuilder.UseInvocationLifetime();
-                return hostBuilder;
-            },
-            builder => builder.Build(),
+            parseResult => CreateHostApplicationBuilder(configuration, hostBuilderFactory, parseResult),
+            static builder => builder.Build(),
             (parseResult, builder) => configureHost?.Invoke(parseResult, builder),
-            (_, host, cancellationToken) => host.StartAsync(cancellationToken),
-            (_, host, cancellationToken) => host.StopAsync(cancellationToken));
+            static (_, host, cancellationToken) => host.StartAsync(cancellationToken),
+            static (_, host, cancellationToken) => host.StopAsync(cancellationToken));
 
         return configuration;
+
+        static Microsoft.Extensions.Hosting.HostApplicationBuilder CreateHostApplicationBuilder(T configuration, Func<string[], Microsoft.Extensions.Hosting.HostApplicationBuilder> hostBuilderFactory, ParseResult? parseResult)
+        {
+            var hostBuilder = hostBuilderFactory(GetUnmatchedTokens(parseResult));
+
+            if (parseResult is not null)
+            {
+                UpdateHostConfiguration(configuration, parseResult, hostBuilder);
+                _ = hostBuilder.Services.AddSingleton(parseResult);
+            }
+
+            _ = hostBuilder.UseInvocationLifetime();
+            return hostBuilder;
+
+            static string[] GetUnmatchedTokens(ParseResult? parseResult)
+            {
+                return parseResult?.UnmatchedTokens.ToArray() ?? [];
+            }
+
+            static void UpdateHostConfiguration(T configuration, ParseResult parseResult, Microsoft.Extensions.Hosting.HostApplicationBuilder hostBuilder)
+            {
+                if (configuration.RootCommand is CliRootCommand root
+                    && root.Directives.SingleOrDefault(d => string.Equals(d.Name, HostingDirectiveName, StringComparison.Ordinal)) is { } directive
+                    && parseResult.GetResult(directive) is { } directiveResult)
+                {
+                    hostBuilder.Configuration.Sources.Add(
+                        new MemoryConfigurationSource()
+                        {
+                            InitialData = directiveResult.Values.Select(s =>
+                            {
+                                var parts = s.Split(Separator, count: 2);
+                                var key = parts[0];
+                                var value = parts.Length > 1 ? parts[1] : null;
+                                return new KeyValuePair<string, string?>(key, value);
+                            }).ToList(),
+                        });
+                }
+            }
+        }
     }
 
 #if NET8_0_OR_GREATER
