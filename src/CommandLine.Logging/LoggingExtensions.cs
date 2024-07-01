@@ -97,7 +97,7 @@ public static class LoggingExtensions
                 var serviceCollection = new ServiceCollection();
                 _ = serviceCollection.AddLogging(builder =>
                 {
-                    if (parseResult?.RootCommandResult.GetResult(VerbosityOption.OptionName) is Parsing.OptionResult optionResult)
+                    if (GetOptionResult(parseResult) is { } optionResult)
                     {
                         var value = optionResult.GetValueOrDefault<VerbosityOptions>();
                         _ = builder.SetMinimumLevel(value.GetLogLevel());
@@ -106,6 +106,24 @@ public static class LoggingExtensions
                     if (Configures.TryGetValue(command, out var commandConfigure))
                     {
                         commandConfigure.Configure(parseResult, builder);
+                    }
+
+                    static Parsing.OptionResult? GetOptionResult(ParseResult? parseResult)
+                    {
+                        if (parseResult is null)
+                        {
+                            return null;
+                        }
+
+                        try
+                        {
+                            return parseResult.RootCommandResult.GetResult(VerbosityOption.OptionName) as Parsing.OptionResult;
+                        }
+                        catch
+                        {
+                            return null;
+                            throw;
+                        }
                     }
                 });
 
