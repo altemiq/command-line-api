@@ -13,15 +13,9 @@
 
   <ItemGroup Label="Build">
     <GlobalPackageReference Include="$(Company).SemanticVersioning.MSBuild" Version="2.1.6" />
-    <GlobalPackageReference Include="DotNet.ReproducibleBuilds" Version="1.1.1" />
-    <GlobalPackageReference Include="DotNet.ReproducibleBuilds.Isolated" Version="1.1.1" />
-  </ItemGroup>
-
-  <ItemGroup Label="References">
-    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Condition=" $([MSBuild]::GetTargetFrameworkIdentifier('$(TargetFramework)')) == '.NETFramework' " VersionOverride="1.0.3">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
+    <GlobalPackageReference Include="DotNet.ReproducibleBuilds" Version="1.2.4" />
+    <GlobalPackageReference Include="DotNet.ReproducibleBuilds.Isolated" Version="1.2.4" />
+    <GlobalPackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Condition=" $([MSBuild]::GetTargetFrameworkIdentifier('$(TargetFramework)')) == '.NETFramework' " Version="1.0.3" />
   </ItemGroup>
 
 </Project>
