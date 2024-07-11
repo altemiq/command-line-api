@@ -26,17 +26,22 @@ public static class InstanceAction
     /// <param name="buildInstance">The build the instance.</param>
     public static void SetHandlers<TInstance>(CliCommand command, Func<ParseResult, TInstance> buildInstance)
     {
-        command.Action = command.Action switch
-        {
-            AsynchronousCliAction asyncAction => new InstanceNestedAsynchronousCliAction<TInstance>(buildInstance, asyncAction, Empty<TInstance>.Task, Empty<TInstance>.Task),
-            SynchronousCliAction syncAction => new InstanceNestedSynchronousCliAction<TInstance>(buildInstance, syncAction, Empty<TInstance>.Action, Empty<TInstance>.Action),
-            null => new InstanceSynchronousCliAction<TInstance>(buildInstance, Empty<TInstance>.Action, Empty<TInstance>.Action),
-            var a => a,
-        };
+        SetHandlersCore(command, buildInstance);
 
-        foreach (var subCommand in command.Subcommands)
+        static void SetHandlersCore(CliCommand command, Func<ParseResult, TInstance> buildInstance)
         {
-            SetHandlers(subCommand, buildInstance);
+            command.Action = command.Action switch
+            {
+                AsynchronousCliAction asyncAction => new InstanceNestedAsynchronousCliAction<TInstance>(buildInstance, asyncAction, Empty<TInstance>.Task, Empty<TInstance>.Task),
+                SynchronousCliAction syncAction => new InstanceNestedSynchronousCliAction<TInstance>(buildInstance, syncAction, Empty<TInstance>.Action, Empty<TInstance>.Action),
+                null => new InstanceSynchronousCliAction<TInstance>(buildInstance, Empty<TInstance>.Action, Empty<TInstance>.Action),
+                var a => a,
+            };
+
+            foreach (var subCommand in command.Subcommands)
+            {
+                SetHandlersCore(subCommand, buildInstance);
+            }
         }
     }
 
@@ -50,26 +55,31 @@ public static class InstanceAction
     /// <param name="afterInvoke">The action to call after invoking the nested action.</param>
     public static void SetHandlers<TInstance>(CliCommand command, Func<ParseResult, TInstance> buildInstance, Action<ParseResult, TInstance> beforeInvoke, Action<ParseResult, TInstance> afterInvoke)
     {
-        command.Action = command.Action switch
-        {
-            AsynchronousCliAction asyncAction => new InstanceNestedAsynchronousCliAction<TInstance>(buildInstance, asyncAction, InvokeAsync(beforeInvoke), InvokeAsync(afterInvoke)),
-            SynchronousCliAction syncAction => new InstanceNestedSynchronousCliAction<TInstance>(buildInstance, syncAction, beforeInvoke, afterInvoke),
-            null => new InstanceSynchronousCliAction<TInstance>(buildInstance, beforeInvoke, afterInvoke),
-            var a => a,
-        };
+        SetHandlersCore(command, buildInstance, beforeInvoke, afterInvoke);
 
-        foreach (var subCommand in command.Subcommands)
+        static void SetHandlersCore(CliCommand command, Func<ParseResult, TInstance> buildInstance, Action<ParseResult, TInstance> beforeInvoke, Action<ParseResult, TInstance> afterInvoke)
         {
-            SetHandlers(subCommand, buildInstance);
-        }
-
-        static Func<ParseResult, TInstance, CancellationToken, Task> InvokeAsync(Action<ParseResult, TInstance> action)
-        {
-            return new Func<ParseResult, TInstance, CancellationToken, Task>((parseResult, instance, _) =>
+            command.Action = command.Action switch
             {
-                action(parseResult, instance);
-                return Task.CompletedTask;
-            });
+                AsynchronousCliAction asyncAction => new InstanceNestedAsynchronousCliAction<TInstance>(buildInstance, asyncAction, InvokeAsync(beforeInvoke), InvokeAsync(afterInvoke)),
+                SynchronousCliAction syncAction => new InstanceNestedSynchronousCliAction<TInstance>(buildInstance, syncAction, beforeInvoke, afterInvoke),
+                null => new InstanceSynchronousCliAction<TInstance>(buildInstance, beforeInvoke, afterInvoke),
+                var a => a,
+            };
+
+            foreach (var subCommand in command.Subcommands)
+            {
+                SetHandlersCore(subCommand, buildInstance, beforeInvoke, afterInvoke);
+            }
+
+            static Func<ParseResult, TInstance, CancellationToken, Task> InvokeAsync(Action<ParseResult, TInstance> action)
+            {
+                return new Func<ParseResult, TInstance, CancellationToken, Task>((parseResult, instance, _) =>
+                {
+                    action(parseResult, instance);
+                    return Task.CompletedTask;
+                });
+            }
         }
     }
 
@@ -83,22 +93,27 @@ public static class InstanceAction
     /// <param name="afterInvoke">The action to call after invoking the nested action.</param>
     public static void SetHandlers<TInstance>(CliCommand command, Func<ParseResult, TInstance> buildInstance, Func<ParseResult, TInstance, CancellationToken, Task> beforeInvoke, Func<ParseResult, TInstance, CancellationToken, Task> afterInvoke)
     {
-        command.Action = command.Action switch
-        {
-            AsynchronousCliAction asyncAction => new InstanceNestedAsynchronousCliAction<TInstance>(buildInstance, asyncAction, beforeInvoke, afterInvoke),
-            SynchronousCliAction syncAction => new InstanceNestedSynchronousCliAction<TInstance>(buildInstance, syncAction, Invoke(beforeInvoke), Invoke(afterInvoke)),
-            null => new InstanceAsynchronousCliAction<TInstance>(buildInstance, beforeInvoke, afterInvoke),
-            var a => a,
-        };
+        SetHandlersCore(command, buildInstance, beforeInvoke, afterInvoke);
 
-        foreach (var subCommand in command.Subcommands)
+        static void SetHandlersCore(CliCommand command, Func<ParseResult, TInstance> buildInstance, Func<ParseResult, TInstance, CancellationToken, Task> beforeInvoke, Func<ParseResult, TInstance, CancellationToken, Task> afterInvoke)
         {
-            SetHandlers(subCommand, buildInstance);
-        }
+            command.Action = command.Action switch
+            {
+                AsynchronousCliAction asyncAction => new InstanceNestedAsynchronousCliAction<TInstance>(buildInstance, asyncAction, beforeInvoke, afterInvoke),
+                SynchronousCliAction syncAction => new InstanceNestedSynchronousCliAction<TInstance>(buildInstance, syncAction, Invoke(beforeInvoke), Invoke(afterInvoke)),
+                null => new InstanceAsynchronousCliAction<TInstance>(buildInstance, beforeInvoke, afterInvoke),
+                var a => a,
+            };
 
-        static Action<ParseResult, TInstance> Invoke(Func<ParseResult, TInstance, CancellationToken, Task> func)
-        {
-            return new Action<ParseResult, TInstance>((parseResult, instance) => func(parseResult, instance, CancellationToken.None).GetAwaiter().GetResult());
+            foreach (var subCommand in command.Subcommands)
+            {
+                SetHandlersCore(subCommand, buildInstance, beforeInvoke, afterInvoke);
+            }
+
+            static Action<ParseResult, TInstance> Invoke(Func<ParseResult, TInstance, CancellationToken, Task> func)
+            {
+                return new Action<ParseResult, TInstance>((parseResult, instance) => func(parseResult, instance, CancellationToken.None).GetAwaiter().GetResult());
+            }
         }
     }
 
