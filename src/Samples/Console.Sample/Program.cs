@@ -77,7 +77,7 @@ configuration
         }
     });
 
-await configuration.InvokeAsync($"{verbosityOption.Name} {nameof(VerbosityOptions.detailed)}").ConfigureAwait(true);
+await configuration.InvokeAsync(args).ConfigureAwait(true);
 
 /// <content>
 /// The program class.

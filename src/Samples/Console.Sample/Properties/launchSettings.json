@@ -1,0 +1,43 @@
+{
+  "profiles": {
+    "WSL": {
+      "commandName": "WSL2",
+      "distributionName": ""
+    },
+    "trace": {
+      "commandName": "Project",
+      "commandLineArgs": "--verbosity diagnostic",
+      "environmentVariables": {
+        "Logging__LogLevel__Default": "Trace"
+      }
+    },
+    "debug": {
+      "commandName": "Project",
+      "commandLineArgs": "--verbosity detailed",
+      "environmentVariables": {
+        "Logging__LogLevel__Default": "Debug"
+      }
+    },
+    "information": {
+      "commandName": "Project",
+      "commandLineArgs": "--verbosity normal",
+      "environmentVariables": {
+        "Logging__LogLevel__Default": "Information"
+      }
+    },
+    "warning": {
+      "commandName": "Project",
+      "commandLineArgs": "--verbosity minimal",
+      "environmentVariables": {
+        "Logging__LogLevel__Default": "Warning"
+      }
+    },
+    "error": {
+      "commandName": "Project",
+      "commandLineArgs": "--verbosity quiet",
+      "environmentVariables": {
+        "Logging__LogLevel__Default": "Error"
+      }
+    }
+  }
+}
