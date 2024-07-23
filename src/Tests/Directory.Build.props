@@ -19,13 +19,15 @@
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
   </PropertyGroup>
 
-  <ItemGroup>
-    <AdditionalFiles Include="$([MSBuild]::GetPathOfFileAbove(stylecop.json))" />
-    <None Include="$([MSBuild]::GetPathOfFileAbove(.editorconfig))" />
-  </ItemGroup>
+  <PropertyGroup Label="Build">
+    <!-- Enable Build Acceleration in Visual Studio. -->
+    <AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
 
-  <PropertyGroup Condition=" '$(MSBuildRuntimeType)' == 'Core' ">
-    <NoWarn>$(NoWarn);SA1642;SA1643</NoWarn>
+    <!--
+      If you target a framework earlier than .NET 5 (including .NET Framework and .NET Standard), you should set `ProduceReferenceAssembly` to true in order to speed incremental builds.
+      If you multi-target and any target is before .NET 5, you need this. Even if you target .NET 5 or later, having this property is fine.
+    -->
+    <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
   </PropertyGroup>
 
 </Project>

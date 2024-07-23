@@ -60,8 +60,4 @@
     <GlobalPackageReference Include="GitHubActionsTestLogger" Version="2.4.1" />
   </ItemGroup>
 
-  <ItemGroup Label="Build">
-    <GlobalPackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Condition=" $([MSBuild]::GetTargetFrameworkIdentifier('$(TargetFramework)')) == '.NETFramework' " Version="1.0.3" />
-  </ItemGroup>
-
 </Project>

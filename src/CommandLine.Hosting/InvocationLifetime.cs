@@ -19,8 +19,19 @@ using IHostEnvironment = Microsoft.Extensions.Hosting.IHostingEnvironment;
 /// <summary>
 /// The invocation lifetime.
 /// </summary>
-public class InvocationLifetime : IHostLifetime, IDisposable
+public
+#if NET6_0_OR_GREATER
+    partial
+#endif
+    class InvocationLifetime : IHostLifetime, IDisposable
 {
+#if NETSTANDARD2_0
+    private static readonly Action<ILogger, System.Exception> LogApplicationStarted = LoggerMessage.Define(LogLevel.Information, 1, "Application started. Press Ctrl+C to shut down.");
+    private static readonly Action<ILogger, string, System.Exception> LogHostingEnvironment = Microsoft.Extensions.Logging.LoggerMessage.Define<string>(LogLevel.Information, 2, "Hosting environment: {EnvName}");
+    private static readonly Action<ILogger, string, System.Exception> LogContentRootPath = Microsoft.Extensions.Logging.LoggerMessage.Define<string>(LogLevel.Information, 3, "Content root path: {ContentRoot}");
+    private static readonly Action<ILogger, System.Exception> LogApplicationStopping = Microsoft.Extensions.Logging.LoggerMessage.Define(LogLevel.Information, 4, "Application is shutting down...");
+#endif
+
     private CancellationTokenRegistration invokeCancelRegistration;
     private CancellationTokenRegistration appStartedRegistration;
     private CancellationTokenRegistration appStoppingRegistration;
@@ -118,14 +129,28 @@ public class InvocationLifetime : IHostLifetime, IDisposable
         }
     }
 
+#if NET6_0_OR_GREATER
+    [Microsoft.Extensions.Logging.LoggerMessage(1, LogLevel.Information, "Application started. Press Ctrl+C to shut down.")]
+    private static partial void LogApplicationStarted(ILogger logger, Exception exception);
+
+    [Microsoft.Extensions.Logging.LoggerMessage(2, LogLevel.Information, "Hosting environment: {EnvName}")]
+    private static partial void LogHostingEnvironment(ILogger logger, string envName, Exception exception);
+
+    [Microsoft.Extensions.Logging.LoggerMessage(3, LogLevel.Information, "Content root path: {ContentRoot}")]
+    private static partial void LogContentRootPath(ILogger logger, string contentRoot, Exception exception);
+
+    [Microsoft.Extensions.Logging.LoggerMessage(4, LogLevel.Information, "Application is shutting down...")]
+    private static partial void LogApplicationStopping(ILogger logger, Exception exception);
+#endif
+
     private void OnInvocationCancelled() => this.ApplicationLifetime.StopApplication();
 
     private void OnApplicationStarted()
     {
-        this.Logger.LogInformation("Application started. Press Ctrl+C to shut down.");
-        this.Logger.LogInformation("Hosting environment: {EnvName}", this.Environment.EnvironmentName);
-        this.Logger.LogInformation("Content root path: {ContentRoot}", this.Environment.ContentRootPath);
+        LogApplicationStarted(this.Logger, null!);
+        LogHostingEnvironment(this.Logger, this.Environment.EnvironmentName, null!);
+        LogContentRootPath(this.Logger, this.Environment.ContentRootPath, null!);
     }
 
-    private void OnApplicationStopping() => this.Logger.LogInformation("Application is shutting down...");
+    private void OnApplicationStopping() => LogApplicationStopping(this.Logger, null!);
 }

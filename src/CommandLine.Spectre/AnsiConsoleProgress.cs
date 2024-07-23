@@ -53,7 +53,7 @@ public static class AnsiConsoleProgress
     private static AnsiConsoleProgress<T> Create<T>(System.Func<Progress> progressFactory, Func<T, AnsiConsoleProgressItem> converter, TimeSpan updateRate, Action<string, ProgressTaskSettings>? configureTask)
     {
         const int ThreadUpdateRate = 100;
-        var lastUpdate = DateTime.Now;
+        var lastUpdate = DateTime.UtcNow;
         ProgressContext? context = default;
         var progressTasks = new Collections.Concurrent.ConcurrentDictionary<string, ProgressTask>(StringComparer.Ordinal);
         var contextLock = new object();
@@ -144,7 +144,7 @@ public static class AnsiConsoleProgress
 
             void UpdateProgress(ProgressTask progressTask)
             {
-                var currentUpdate = DateTime.Now;
+                var currentUpdate = DateTime.UtcNow;
                 if (currentUpdate - lastUpdate > updateRate)
                 {
                     lastUpdate = currentUpdate;

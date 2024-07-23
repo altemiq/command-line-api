@@ -1,10 +1,8 @@
 ﻿<Project>
 
   <PropertyGroup>
-    <Company>Altemiq</Company>
     <SolutionNamespace>System</SolutionNamespace>
     <RootNamespace>$(SolutionNamespace).$(MSBuildProjectName)</RootNamespace>
-    <AssemblyName>$(Company).$(MSBuildProjectName)</AssemblyName>
 
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
 
@@ -19,6 +17,10 @@
 
     <!-- Packages lock file -->
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    
+    <!-- Generate strongly typed resources -->
+    <GenerateStronglyTypedResources>true</GenerateStronglyTypedResources>
+    <ResourceNamespace>$(RootNamespace)</ResourceNamespace>
   </PropertyGroup>
 
   <PropertyGroup Label="Build">
@@ -36,21 +38,16 @@
     <Authors>Ross King</Authors>
     <Description>$(Company) CommandLine assemblies.</Description>
     <Product>CommandLine assemblies</Product>
-    <Copyright>Copyright © $(Company) Pty Ltd 2023</Copyright>
     <PackageTags>CommandLine;Console</PackageTags>
     <_ReadmeFile>readme.md</_ReadmeFile>
     <PackageReadmeFile Condition="Exists('$(_ReadmeFile)')">$(_ReadmeFile)</PackageReadmeFile>
   </PropertyGroup>
 
   <PropertyGroup Label=".NET Analyzers">
-    <EnableNETAnalyzers>True</EnableNETAnalyzers>
-    <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
     <AnalysisLevel>preview</AnalysisLevel>
   </PropertyGroup>
 
   <ItemGroup>
-    <AdditionalFiles Include="$([MSBuild]::GetPathOfFileAbove(stylecop.json))" />
-    <None Include="$([MSBuild]::GetPathOfFileAbove(.editorconfig))" />
     <None Include="$(_ReadmeFile)" Pack="true" PackagePath="\" Condition=" '$(PackageReadmeFile)' != '' " />
   </ItemGroup>
 
