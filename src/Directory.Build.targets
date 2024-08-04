@@ -1,5 +1,9 @@
 ﻿<Project>
 
+  <PropertyGroup Label="Packaging">
+    <Description>$(Company) CommandLine assemblies.</Description>
+  </PropertyGroup>
+
   <PropertyGroup>
     <CreateManifestResourceNamesDependsOn>_CreateStronglyTypedManifestResourceNames;$(CreateManifestResourceNamesDependsOn)</CreateManifestResourceNamesDependsOn>
     <CoreCompileDependsOn>PrepareResources;$(CoreCompileDependsOn)</CoreCompileDependsOn>

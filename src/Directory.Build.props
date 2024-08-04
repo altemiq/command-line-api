@@ -36,7 +36,6 @@
 
   <PropertyGroup Label="Packaging">
     <Authors>Ross King</Authors>
-    <Description>$(Company) CommandLine assemblies.</Description>
     <Product>CommandLine assemblies</Product>
     <PackageTags>CommandLine;Console</PackageTags>
     <_ReadmeFile>readme.md</_ReadmeFile>

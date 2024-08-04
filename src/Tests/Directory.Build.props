@@ -5,7 +5,7 @@
     <RootNamespace>System.$(MSBuildProjectName.Replace('.Tests', ''))</RootNamespace>
     <AssemblyName>$(Company).$(MSBuildProjectName)</AssemblyName>
 
-    <LangVersion>preview</LangVersion>
+    <LangVersion>latest</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
 
     <!-- Nullable -->

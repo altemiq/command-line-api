@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="$(Company).Runtime" VersionOverride="1.0.0" />
+    <PackageReference Include="Altemiq.Runtime" VersionOverride="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>

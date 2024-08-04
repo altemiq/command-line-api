@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <InternalsVisibleTo Include="$(Company).CommandLine.Spectre" />
+    <InternalsVisibleTo Include="$(AssemblyName).Spectre" />
   </ItemGroup>
 
 </Project>
