@@ -183,16 +183,16 @@
           "xunit.extensibility.core": "[2.9.0]"
         }
       },
-      "commandline": {
+      "Altemiq.CommandLine": {
         "type": "Project",
         "dependencies": {
           "System.CommandLine": "[2.0.0-beta4.23407.1, )"
         }
       },
-      "commandline.configuration": {
+      "Altemiq.CommandLine.Configuration": {
         "type": "Project",
         "dependencies": {
-          "CommandLine": "[1.0.0, )",
+          "Altemiq.CommandLine": "[1.0.0, )",
           "Microsoft.Extensions.Configuration": "[2.1.0, )"
         }
       }
@@ -363,16 +363,16 @@
           "xunit.extensibility.core": "[2.9.0]"
         }
       },
-      "commandline": {
+      "Altemiq.CommandLine": {
         "type": "Project",
         "dependencies": {
           "System.CommandLine": "[2.0.0-beta4.23407.1, )"
         }
       },
-      "commandline.configuration": {
+      "Altemiq.CommandLine.Configuration": {
         "type": "Project",
         "dependencies": {
-          "CommandLine": "[1.0.0, )",
+          "Altemiq.CommandLine": "[1.0.0, )",
           "Microsoft.Extensions.Configuration": "[2.1.0, )"
         }
       }
@@ -543,16 +543,16 @@
           "xunit.extensibility.core": "[2.9.0]"
         }
       },
-      "commandline": {
+      "Altemiq.CommandLine": {
         "type": "Project",
         "dependencies": {
           "System.CommandLine": "[2.0.0-beta4.23407.1, )"
         }
       },
-      "commandline.configuration": {
+      "Altemiq.CommandLine.Configuration": {
         "type": "Project",
         "dependencies": {
-          "CommandLine": "[1.0.0, )",
+          "Altemiq.CommandLine": "[1.0.0, )",
           "Microsoft.Extensions.Configuration": "[2.1.0, )"
         }
       }

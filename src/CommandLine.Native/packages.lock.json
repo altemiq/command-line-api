@@ -4,16 +4,16 @@
     ".NETStandard,Version=v2.0": {
       "Altemiq.DotNet.CodingStandard": {
         "type": "Direct",
-        "requested": "[1.0.24, )",
-        "resolved": "1.0.24",
-        "contentHash": "BrYNlwLdWaLIKnEtAb48uaCSD6Sz7EoMqYNqTQpnI1yvH5L0phvtou741SV65Z4FnKyTUhvdDzXNSt72vrEASw==",
+        "requested": "[1.0.26, )",
+        "resolved": "1.0.26",
+        "contentHash": "A7elSkR/G/id2+qLlm4V7ute6nHybav3FE1r2rd1Sdmqq52NNv1IYCum6OxOrQKvXPZu5PFxmCrlDfuDGbocVg==",
         "dependencies": {
-          "DotNet.ReproducibleBuilds": "1.2.4",
-          "DotNet.ReproducibleBuilds.Isolated": "1.2.4",
+          "DotNet.ReproducibleBuilds": "1.2.25",
+          "DotNet.ReproducibleBuilds.Isolated": "1.2.25",
           "Meziantou.Analyzer": "2.0.163",
           "Microsoft.CodeAnalysis.BannedApiAnalyzers": "3.3.4",
           "Roslynator.Analyzers": "4.12.4",
-          "SonarAnalyzer.CSharp": "9.31.0.96804",
+          "SonarAnalyzer.CSharp": "9.32.0.97167",
           "StyleCop.Analyzers.Unstable": "1.2.0.556"
         }
       },
@@ -45,13 +45,13 @@
       },
       "DotNet.ReproducibleBuilds": {
         "type": "Transitive",
-        "resolved": "1.2.4",
-        "contentHash": "Ch9U74tQA2fQH+U0hcYH7WyIFUfAq7jrjgSHVu2FAcYiMBtbrCMyq2nGA/ZZnB2jSaUeOOYiCjxeaDVB7Ssbdw=="
+        "resolved": "1.2.25",
+        "contentHash": "xCXiw7BCxHJ8pF6wPepRUddlh2dlQlbr81gXA72hdk4FLHkKXas7EH/n+fk5UCA/YfMqG1Z6XaPiUjDbUNBUzg=="
       },
       "DotNet.ReproducibleBuilds.Isolated": {
         "type": "Transitive",
-        "resolved": "1.2.4",
-        "contentHash": "C6Bmzse8mTfDXHUFpJ/tHftLPDkkQEavQIHWcE321xx1TdEJ/rdX7DOivKS1OqS86FQy5zAgRMjwYMRNYwFT5g=="
+        "resolved": "1.2.25",
+        "contentHash": "jaAno7qr9Cgx+/DitnJXYJ3JGkqhwtH0tgKqeBtAg9kmKayvUH63EELAtxbBZr56ntyuHBfy536FlXu+UpbDlw=="
       },
       "Meziantou.Analyzer": {
         "type": "Transitive",
@@ -104,8 +104,8 @@
       },
       "SonarAnalyzer.CSharp": {
         "type": "Transitive",
-        "resolved": "9.31.0.96804",
-        "contentHash": "VsAT+UaPfkWsroyhMbh4cPvy8i6/uOJtBsr9tyyy2REKzibvU2yCXP3PiGaJNidPV0QdTYk7/PRzDE59IQnNRA=="
+        "resolved": "9.32.0.97167",
+        "contentHash": "Yxk86RV+8ynJpUhku1Yw2hITFmnmXKkXJ73cIFSy85ol5SnWREQg9RuTyV8nI7V7+pyLKpCfRmD7P0widsgjkg=="
       },
       "StyleCop.Analyzers.Unstable": {
         "type": "Transitive",
@@ -175,7 +175,7 @@
           "System.Runtime.CompilerServices.Unsafe": "4.5.3"
         }
       },
-      "commandline": {
+      "Altemiq.CommandLine": {
         "type": "Project",
         "dependencies": {
           "System.CommandLine": "[2.0.0-beta4.23407.1, )"
