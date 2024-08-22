@@ -70,5 +70,5 @@ public class HostedServiceTests
             this.Stopped = true;
             return Task.CompletedTask;
         }
-        }
+    }
 }

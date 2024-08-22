@@ -140,14 +140,12 @@ public static class FileSystemGlobbingParser
                             // there is no root below this
                             return (string.Empty, root);
                         }
-                        else
-                        {
+
 #if NETSTANDARD2_0
                         return (root.Substring(0, directorySeparatorIndex), root.Substring(directorySeparatorIndex + 1));
 #else
-                            return (root[..directorySeparatorIndex], root[(directorySeparatorIndex + 1)..]);
+                        return (root[..directorySeparatorIndex], root[(directorySeparatorIndex + 1)..]);
 #endif
-                        }
                     }
                 }
             }

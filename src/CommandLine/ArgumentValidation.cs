@@ -157,24 +157,27 @@ public static class ArgumentValidation
 
             static string? CheckTokenValue(string value, bool checkFile, bool checkDirectory)
             {
-                if (checkFile && checkDirectory)
+                if (checkFile)
                 {
-#if NET7_0_OR_GREATER
-                    if (Path.Exists(token.Value))
-#else
-                    if (Directory.Exists(value) || File.Exists(value))
-#endif
+                    if (checkDirectory)
                     {
-                        return LocalizationResources.FileOrDirectoryExists(value);
+#if NET7_0_OR_GREATER
+                        if (Path.Exists(token.Value))
+#else
+                        if (Directory.Exists(value) || File.Exists(value))
+#endif
+                        {
+                            return LocalizationResources.FileOrDirectoryExists(value);
+                        }
+                    }
+                    else if (File.Exists(value))
+                    {
+                        return LocalizationResources.FileExists(value);
                     }
                 }
                 else if (checkDirectory && Directory.Exists(value))
                 {
                     return LocalizationResources.DirectoryExists(value);
-                }
-                else if (checkFile && File.Exists(value))
-                {
-                    return LocalizationResources.FileExists(value);
                 }
 
                 return default;

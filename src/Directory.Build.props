@@ -17,7 +17,7 @@
 
     <!-- Packages lock file -->
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
-    
+
     <!-- Generate strongly typed resources -->
     <GenerateStronglyTypedResources>true</GenerateStronglyTypedResources>
     <ResourceNamespace>$(RootNamespace)</ResourceNamespace>
