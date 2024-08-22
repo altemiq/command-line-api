@@ -57,7 +57,7 @@ jobs:
         -- RunConfiguration.CollectSourceInformation=true
 
     - name: Report Generator
-      uses: danielpalme/ReportGenerator-GitHub-Action@5
+      uses: danielpalme/ReportGenerator-GitHub-Action@v5
       with:
         reports: '${{ github.workspace }}/coverage/results/*/coverage.cobertura.xml'
         targetdir: '${{ github.workspace }}/coverage/reports'
@@ -164,7 +164,7 @@ jobs:
       run: dotnet nuget push *.nupkg --source https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json --api-key ${{ secrets.GITHUB_TOKEN }} --skip-duplicate
       
     # delete-artifact
-    - uses: GeekyEggo/delete-artifact@v4
+    - uses: GeekyEggo/delete-artifact@v5
       if: ${{ steps.push.conclusion == 'success' }}
       with:
         name: NuPkg
