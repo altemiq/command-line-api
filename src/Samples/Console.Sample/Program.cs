@@ -6,7 +6,9 @@
 
 using System.CommandLine.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+#if !NET8_0_OR_GREATER
 using Microsoft.Extensions.Hosting;
+#endif
 using Microsoft.Extensions.Logging;
 
 var verbosityOption = new VerbosityOption();

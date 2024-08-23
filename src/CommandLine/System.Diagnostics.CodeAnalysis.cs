@@ -4,8 +4,6 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-#if !NETSTANDARD2_1_OR_GREATER && !NETCOREAPP3_0_OR_GREATER
-
 #pragma warning disable CA1801, CA1822, SA1402, SA1600, SA1649, IDE0130
 
 namespace System.Diagnostics.CodeAnalysis;
@@ -65,5 +63,3 @@ internal sealed class NotNullWhenAttribute(bool returnValue) : Attribute
 {
     public bool ReturnValue => returnValue;
 }
-
-#endif

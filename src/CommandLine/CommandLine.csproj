@@ -12,4 +12,18 @@
     <InternalsVisibleTo Include="$(AssemblyName).Spectre" />
   </ItemGroup>
 
+  <Choose>
+    <When Condition=" $([MSBuild]::IsTargetFrameworkCompatible('netstandard2.0', '$(TargetFramework)')) ">
+      <ItemGroup>
+        <Compile Remove="Parsing\IndexParser.cs" />
+        <Compile Remove="Parsing\RangeParser.cs" />
+      </ItemGroup>
+    </When>
+    <When Condition=" $([MSBuild]::IsTargetFrameworkCompatible('netstandard2.1', '$(TargetFramework)')) ">
+      <ItemGroup>
+        <Compile Remove="System.Diagnostics.CodeAnalysis.cs" />
+      </ItemGroup>
+    </When>
+  </Choose>
+
 </Project>

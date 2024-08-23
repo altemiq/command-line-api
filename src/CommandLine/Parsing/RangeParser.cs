@@ -4,7 +4,6 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_0_OR_GREATER
 namespace System.CommandLine.Parsing;
 
 /// <summary>
@@ -75,4 +74,3 @@ public static class RangeParser
     /// <returns>The parsed values.</returns>
     public static Range[] ParseAll(IEnumerable<string> values) => values.Select(Parse).ToArray();
 }
-#endif

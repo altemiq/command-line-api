@@ -4,7 +4,6 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_0_OR_GREATER
 namespace System.CommandLine.Parsing;
 
 /// <summary>
@@ -65,4 +64,3 @@ public static class IndexParser
         return new Index(int.Parse(fromEnd ? value[1..] : value, provider: Globalization.CultureInfo.InvariantCulture), fromEnd);
     }
 }
-#endif
