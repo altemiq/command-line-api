@@ -1,0 +1,5 @@
+# C# files
+[InvocationLifetimeOptions.cs]
+
+# S2094: Classes should not be empty
+dotnet_diagnostic.S2094.severity = none

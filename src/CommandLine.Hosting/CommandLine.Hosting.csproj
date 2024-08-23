@@ -8,6 +8,10 @@
     <PackageReference Include="Microsoft.Extensions.Hosting" VersionOverride="2.1.0" />
   </ItemGroup>
 
+  <ItemGroup Condition="!$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net7.0'))">
+    <Compile Remove="HostingExtensions.ApplicationHost.cs" />
+  </ItemGroup>
+
   <ItemGroup Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net7.0'))">
     <PackageReference Update="Microsoft.Extensions.Hosting" VersionOverride="7.0.0" />
   </ItemGroup>

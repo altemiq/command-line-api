@@ -4,7 +4,6 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-#if NET7_0_OR_GREATER
 namespace System.CommandLine.Hosting;
 
 using System.CommandLine.Invocation;
@@ -144,4 +143,3 @@ public static partial class HostingExtensions
     }
 #endif
 }
-#endif
