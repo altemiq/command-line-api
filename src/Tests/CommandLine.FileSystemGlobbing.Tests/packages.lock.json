@@ -158,7 +158,7 @@
           "xunit.extensibility.core": "[2.9.0]"
         }
       },
-      "Altemiq.CommandLine.FileSystemGlobbing": {
+      "commandline.filesystemglobbing": {
         "type": "Project",
         "dependencies": {
           "Microsoft.Extensions.FileSystemGlobbing": "[2.1.0, )",
@@ -315,7 +315,7 @@
           "xunit.extensibility.core": "[2.9.0]"
         }
       },
-      "Altemiq.CommandLine.FileSystemGlobbing": {
+      "commandline.filesystemglobbing": {
         "type": "Project",
         "dependencies": {
           "Microsoft.Extensions.FileSystemGlobbing": "[2.1.0, )",
@@ -472,7 +472,7 @@
           "xunit.extensibility.core": "[2.9.0]"
         }
       },
-      "Altemiq.CommandLine.FileSystemGlobbing": {
+      "commandline.filesystemglobbing": {
         "type": "Project",
         "dependencies": {
           "Microsoft.Extensions.FileSystemGlobbing": "[2.1.0, )",
