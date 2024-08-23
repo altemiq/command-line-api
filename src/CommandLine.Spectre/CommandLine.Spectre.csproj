@@ -16,5 +16,17 @@
   <ItemGroup>
     <Using Include="Spectre.Console" />
   </ItemGroup>
+  <Choose>
+    <When Condition=" $([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net5.0')) ">
+      <ItemGroup>
+        <Compile Remove="AnsiConsoleProgressItem.Struct.cs" />
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <Compile Remove="AnsiConsoleProgressItem.Record.cs" />
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
 
 </Project>
