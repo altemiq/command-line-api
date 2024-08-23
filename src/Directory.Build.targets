@@ -9,4 +9,8 @@
     <MSBuildWarningsNotAsErrors>$(MSBuildWarningsNotAsErrors);SV0001</MSBuildWarningsNotAsErrors>
   </PropertyGroup>
 
+  <ItemGroup Condition=" '$(RestorePackagesWithLockFile)' == 'true' ">
+    <None Update="**/packages.lock.json" Visible="false" />
+  </ItemGroup>
+
 </Project>
