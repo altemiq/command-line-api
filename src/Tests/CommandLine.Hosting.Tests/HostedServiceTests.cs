@@ -22,13 +22,7 @@ public class HostedServiceTests
         const string CommandName = "command";
         var hostedService = new HostedService();
         var configuration = new CliConfiguration(new CliRootCommand { new CliCommand(CommandName) });
-        configuration.UseHost((parseResult, builder) =>
-        {
-            builder.ConfigureServices(services =>
-            {
-                services.AddHostedService(_ => hostedService);
-            });
-        });
+        configuration.UseHost((parseResult, builder) => builder.ConfigureServices(services => services.AddHostedService(_ => hostedService)));
 
         configuration.Invoke(CommandName);
 
@@ -42,10 +36,7 @@ public class HostedServiceTests
     {
         var hostedService = new HostedService();
         var configuration = new CliConfiguration(new CliRootCommand());
-        configuration.UseApplicationHost((parseResult, builder) =>
-        {
-            builder.Services.AddHostedService(_ => hostedService);
-        });
+        configuration.UseApplicationHost((parseResult, builder) => builder.Services.AddHostedService(_ => hostedService));
 
         configuration.Invoke(string.Empty);
 
