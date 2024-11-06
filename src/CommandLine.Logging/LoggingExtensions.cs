@@ -77,7 +77,7 @@ public static class LoggingExtensions
 
         public static void SetHandlers(CliCommand command, Action<ParseResult?, ILoggingBuilder> configure)
         {
-            Configures.AddOrUpdate(
+            _ = Configures.AddOrUpdate(
                 command,
                 command =>
                 {

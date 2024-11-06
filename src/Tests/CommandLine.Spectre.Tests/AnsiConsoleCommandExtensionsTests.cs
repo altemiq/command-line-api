@@ -11,11 +11,11 @@ public class AnsiConsoleCommandExtensionsTests
     [Fact]
     public void AddFigletToRoot()
     {
-        var console = new TestConsole();
-        var command = new CliRootCommand();
+        TestConsole console = new();
+        CliRootCommand command = [];
         _ = command.AddFiglet("value", Color.Blue, console);
 
-        var configuration = new CliConfiguration(command);
+        CliConfiguration configuration = new(command);
 
         _ = configuration.Parse("--help").Invoke();
 
@@ -25,17 +25,17 @@ public class AnsiConsoleCommandExtensionsTests
     [Fact]
     public void AddFigletTooEarly()
     {
-        var command = new CliCommand(nameof(AddFigletTooEarly));
+        CliCommand command = new(nameof(AddFigletTooEarly));
         _ = command.Invoking(c => c.AddFiglet("value", Color.Blue)).Should().Throw<InvalidOperationException>();
     }
 
     [Fact]
     public void AddFigletToSubCommand()
     {
-        var console = new TestConsole();
-        var command = new CliCommand(nameof(AddFigletToSubCommand));
+        TestConsole console = new();
+        CliCommand command = new(nameof(AddFigletToSubCommand));
 
-        var configuration = new CliConfiguration(new CliRootCommand { command });
+        CliConfiguration configuration = new(new CliRootCommand { command });
         _ = command.AddFiglet("value", Color.Blue, console);
 
         _ = configuration.Parse($"{nameof(AddFigletToSubCommand)} --help").Invoke();
@@ -46,10 +46,10 @@ public class AnsiConsoleCommandExtensionsTests
     [Fact]
     public void AddFigletToSubCommandAndInvokeRoot()
     {
-        var console = new TestConsole();
-        var command = new CliCommand(nameof(AddFigletToSubCommandAndInvokeRoot));
+        TestConsole console = new();
+        CliCommand command = new(nameof(AddFigletToSubCommandAndInvokeRoot));
 
-        var configuration = new CliConfiguration(new CliRootCommand { command });
+        CliConfiguration configuration = new(new CliRootCommand { command });
         _ = command.AddFiglet("value", Color.Blue, console);
 
         _ = configuration.Parse("--help").Invoke();

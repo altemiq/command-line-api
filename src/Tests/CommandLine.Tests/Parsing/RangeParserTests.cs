@@ -12,7 +12,9 @@ public class RangeParserTests
     private static readonly CliCommand argumentCommand = new("base") { new CliArgument<string>("RANGE") };
     private static readonly CliCommand optionCommand = new("base") { new CliOption<Range>(RangeOptionName) { CustomParser = RangeParser.Parse } };
 
-    public static TheoryData<string, SerializableRange> Ranges() => new()
+    public static TheoryData<string, SerializableRange> Ranges()
+    {
+        return new()
     {
         { "..", new(new Range(start: Index.Start, end: Index.End)) },
         { "0..", new(new Range(start: Index.Start, end: Index.End)) },
@@ -23,13 +25,14 @@ public class RangeParserTests
         { "3..^5", new(new Range(start: new Index(value: 3), end: new Index(value: 5, fromEnd: true))) },
         { "^5..^2", new(new Range(start: new Index(value: 5, fromEnd: true), end: new Index(value: 2, fromEnd: true))) },
     };
+    }
 
     [Fact]
     public void TestSerializableRange()
     {
-        var serializable = new SerializableRange(new Range(start: Index.Start, end: Index.End));
-        var serialized = Xunit.Sdk.SerializationHelper.Serialize(serializable);
-        var deserialized = Xunit.Sdk.SerializationHelper.Deserialize<SerializableRange>(serialized);
+        SerializableRange serializable = new(new Range(start: Index.Start, end: Index.End));
+        string serialized = Xunit.Sdk.SerializationHelper.Serialize(serializable);
+        SerializableRange deserialized = Xunit.Sdk.SerializationHelper.Deserialize<SerializableRange>(serialized);
         _ = deserialized.Should().Be(serializable);
     }
 
@@ -37,40 +40,61 @@ public class RangeParserTests
     [Fact]
     public void TestSerializableIndex()
     {
-        var serializable = new SerializableIndex(new Index(1, true));
-        var serialized = Xunit.Sdk.SerializationHelper.Serialize(serializable);
-        var deserialized = Xunit.Sdk.SerializationHelper.Deserialize<SerializableIndex>(serialized);
+        SerializableIndex serializable = new(new Index(1, true));
+        string serialized = Xunit.Sdk.SerializationHelper.Serialize(serializable);
+        SerializableIndex deserialized = Xunit.Sdk.SerializationHelper.Deserialize<SerializableIndex>(serialized);
         _ = deserialized.Should().Be(serializable);
     }
 
     [Theory]
     [MemberData(nameof(Ranges))]
-    public void ParseRange(string input, SerializableRange expected) => RangeParser.Parse(input).Should().Be(expected, RangeEqualityComparer.Instance);
+    public void ParseRange(string input, SerializableRange expected)
+    {
+        _ = RangeParser.Parse(input).Should().Be(expected, RangeEqualityComparer.Instance);
+    }
 
     [Theory]
     [MemberData(nameof(Ranges))]
-    public void ParseArgument(string input, SerializableRange expected) => RangeParser.Parse(argumentCommand.Parse(input).CommandResult.Children.OfType<ArgumentResult>().First()).Should().Be(expected, RangeEqualityComparer.Instance);
+    public void ParseArgument(string input, SerializableRange expected)
+    {
+        _ = RangeParser.Parse(argumentCommand.Parse(input).CommandResult.Children.OfType<ArgumentResult>().First()).Should().Be(expected, RangeEqualityComparer.Instance);
+    }
 
     [Theory]
     [MemberData(nameof(Ranges))]
-    public void ParseOption(string input, SerializableRange expected) => optionCommand.Parse(RangeOptionName + " " + input).GetValue<Range>(RangeOptionName).Should().Be(expected, RangeEqualityComparer.Instance);
+    public void ParseOption(string input, SerializableRange expected)
+    {
+        _ = optionCommand.Parse(RangeOptionName + " " + input).GetValue<Range>(RangeOptionName).Should().Be(expected, RangeEqualityComparer.Instance);
+    }
 
     private class RangeEqualityComparer : IEqualityComparer<Range>
     {
         public static readonly RangeEqualityComparer Instance = new();
 
-        public bool Equals(Range x, Range y) => x.Equals(y);
+        public bool Equals(Range x, Range y)
+        {
+            return x.Equals(y);
+        }
 
-        public int GetHashCode([Diagnostics.CodeAnalysis.DisallowNull] Range obj) => obj.GetHashCode();
+        public int GetHashCode([Diagnostics.CodeAnalysis.DisallowNull] Range obj)
+        {
+            return obj.GetHashCode();
+        }
     }
 
     private class IndexEqualityComparer : IEqualityComparer<Index>
     {
         public static readonly IndexEqualityComparer Instance = new();
 
-        public bool Equals(Index x, Index y) => x.Equals(y);
+        public bool Equals(Index x, Index y)
+        {
+            return x.Equals(y);
+        }
 
-        public int GetHashCode([Diagnostics.CodeAnalysis.DisallowNull] Index obj) => obj.GetHashCode();
+        public int GetHashCode([Diagnostics.CodeAnalysis.DisallowNull] Index obj)
+        {
+            return obj.GetHashCode();
+        }
     }
 
     public class SerializableRange : Xunit.Abstractions.IXunitSerializable
@@ -81,40 +105,58 @@ public class RangeParserTests
         {
         }
 
-        public SerializableRange(Range range) => this.range = range;
+        public SerializableRange(Range range)
+        {
+            this.range = range;
+        }
 
         public void Deserialize(Xunit.Abstractions.IXunitSerializationInfo info)
         {
-            var startValue = info.GetValue<int>($"{nameof(this.range)}.{nameof(this.range.Start)}.{nameof(this.range.Start.Value)}");
-            var startIsFromEnd = info.GetValue<bool>($"{nameof(this.range)}.{nameof(this.range.Start)}.{nameof(this.range.Start.IsFromEnd)}");
-            var endValue = info.GetValue<int>($"{nameof(this.range)}.{nameof(this.range.End)}.{nameof(this.range.End.Value)}");
-            var endIsFromEnd = info.GetValue<bool>($"{nameof(this.range)}.{nameof(this.range.End)}.{nameof(this.range.End.IsFromEnd)}");
+            int startValue = info.GetValue<int>($"{nameof(range)}.{nameof(range.Start)}.{nameof(range.Start.Value)}");
+            bool startIsFromEnd = info.GetValue<bool>($"{nameof(range)}.{nameof(range.Start)}.{nameof(range.Start.IsFromEnd)}");
+            int endValue = info.GetValue<int>($"{nameof(range)}.{nameof(range.End)}.{nameof(range.End.Value)}");
+            bool endIsFromEnd = info.GetValue<bool>($"{nameof(range)}.{nameof(range.End)}.{nameof(range.End.IsFromEnd)}");
 
-            this.range = new Range(new Index(startValue, startIsFromEnd), new Index(endValue, endIsFromEnd));
+            range = new Range(new Index(startValue, startIsFromEnd), new Index(endValue, endIsFromEnd));
         }
 
         public void Serialize(Xunit.Abstractions.IXunitSerializationInfo info)
         {
-            info.AddValue($"{nameof(this.range)}.{nameof(this.range.Start)}.{nameof(this.range.Start.Value)}", this.range.Start.Value, typeof(int));
-            info.AddValue($"{nameof(this.range)}.{nameof(this.range.Start)}.{nameof(this.range.Start.IsFromEnd)}", this.range.Start.IsFromEnd, typeof(bool));
-            info.AddValue($"{nameof(this.range)}.{nameof(this.range.End)}.{nameof(this.range.End.Value)}", this.range.End.Value, typeof(int));
-            info.AddValue($"{nameof(this.range)}.{nameof(this.range.End)}.{nameof(this.range.End.IsFromEnd)}", this.range.End.IsFromEnd, typeof(bool));
+            info.AddValue($"{nameof(range)}.{nameof(range.Start)}.{nameof(range.Start.Value)}", range.Start.Value, typeof(int));
+            info.AddValue($"{nameof(range)}.{nameof(range.Start)}.{nameof(range.Start.IsFromEnd)}", range.Start.IsFromEnd, typeof(bool));
+            info.AddValue($"{nameof(range)}.{nameof(range.End)}.{nameof(range.End.Value)}", range.End.Value, typeof(int));
+            info.AddValue($"{nameof(range)}.{nameof(range.End)}.{nameof(range.End.IsFromEnd)}", range.End.IsFromEnd, typeof(bool));
         }
 
-        public static implicit operator Range(SerializableRange range) => range.range;
-
-        public static implicit operator SerializableRange(Range range) => new(range);
-
-        public override string ToString() => this.range.ToString();
-
-        public override bool Equals(object? obj) => obj switch
+        public static implicit operator Range(SerializableRange range)
         {
-            SerializableRange range => RangeEqualityComparer.Instance.Equals(this.range, range.range),
-            Range range => RangeEqualityComparer.Instance.Equals(this.range, range),
-            _ => base.Equals(obj),
-        };
+            return range.range;
+        }
 
-        public override int GetHashCode() => RangeEqualityComparer.Instance.GetHashCode(this);
+        public static implicit operator SerializableRange(Range range)
+        {
+            return new(range);
+        }
+
+        public override string ToString()
+        {
+            return range.ToString();
+        }
+
+        public override bool Equals(object? obj)
+        {
+            return obj switch
+            {
+                SerializableRange range => RangeEqualityComparer.Instance.Equals(this.range, range.range),
+                Range range => RangeEqualityComparer.Instance.Equals(this.range, range),
+                _ => base.Equals(obj),
+            };
+        }
+
+        public override int GetHashCode()
+        {
+            return RangeEqualityComparer.Instance.GetHashCode(this);
+        }
     }
 
     public class SerializableIndex : Xunit.Abstractions.IXunitSerializable
@@ -125,34 +167,52 @@ public class RangeParserTests
         {
         }
 
-        public SerializableIndex(Index index) => this.index = index;
+        public SerializableIndex(Index index)
+        {
+            this.index = index;
+        }
 
         public void Deserialize(Xunit.Abstractions.IXunitSerializationInfo info)
         {
-            var value = info.GetValue<int>($"{nameof(this.index)}.{nameof(this.index.Value)}");
-            var isFromEnd = info.GetValue<bool>($"{nameof(this.index)}.{nameof(this.index.IsFromEnd)}");
-            this.index = new Index(value, isFromEnd);
+            int value = info.GetValue<int>($"{nameof(index)}.{nameof(index.Value)}");
+            bool isFromEnd = info.GetValue<bool>($"{nameof(index)}.{nameof(index.IsFromEnd)}");
+            index = new Index(value, isFromEnd);
         }
 
         public void Serialize(Xunit.Abstractions.IXunitSerializationInfo info)
         {
-            info.AddValue($"{nameof(this.index)}.{nameof(this.index.Value)}", this.index.Value, typeof(int));
-            info.AddValue($"{nameof(this.index)}.{nameof(this.index.IsFromEnd)}", this.index.IsFromEnd, typeof(bool));
+            info.AddValue($"{nameof(index)}.{nameof(index.Value)}", index.Value, typeof(int));
+            info.AddValue($"{nameof(index)}.{nameof(index.IsFromEnd)}", index.IsFromEnd, typeof(bool));
         }
 
-        public static implicit operator Index(SerializableIndex index) => index.index;
-
-        public static implicit operator SerializableIndex(Index index) => new(index);
-
-        public override string ToString() => this.index.ToString();
-
-        public override bool Equals(object? obj) => obj switch
+        public static implicit operator Index(SerializableIndex index)
         {
-            SerializableIndex index => IndexEqualityComparer.Instance.Equals(this.index, index.index),
-            Index index => IndexEqualityComparer.Instance.Equals(this.index, index),
-            _ => base.Equals(obj),
-        };
+            return index.index;
+        }
 
-        public override int GetHashCode() => IndexEqualityComparer.Instance.GetHashCode(this);
+        public static implicit operator SerializableIndex(Index index)
+        {
+            return new(index);
+        }
+
+        public override string ToString()
+        {
+            return index.ToString();
+        }
+
+        public override bool Equals(object? obj)
+        {
+            return obj switch
+            {
+                SerializableIndex index => IndexEqualityComparer.Instance.Equals(this.index, index.index),
+                Index index => IndexEqualityComparer.Instance.Equals(this.index, index),
+                _ => base.Equals(obj),
+            };
+        }
+
+        public override int GetHashCode()
+        {
+            return IndexEqualityComparer.Instance.GetHashCode(this);
+        }
     }
 }

@@ -13,14 +13,14 @@ public class PromptExtensionsTests
     [Fact]
     public void TestSpecifiedBoolean()
     {
-        var (parseResult, option, console) = GetResult<bool>("y", "--option true");
+        (ParseResult parseResult, CliOption<bool> option, TestConsole console) = GetResult<bool>("y", "--option true");
         _ = parseResult.GetValueOrPrompt(option, "Specify boolean value: ", console).Should().BeTrue();
     }
 
     [Fact]
     public void TestBoolean()
     {
-        var (parseResult, option, console) = GetResult<bool>("y");
+        (ParseResult parseResult, CliOption<bool> option, TestConsole console) = GetResult<bool>("y");
         console.Input.PushKey(ConsoleKey.Enter);
         _ = parseResult.GetValueOrPrompt(option, "Specify boolean value: ", console).Should().BeTrue();
     }
@@ -28,7 +28,7 @@ public class PromptExtensionsTests
     [Fact]
     public void TestDefaultBoolean()
     {
-        var (parseResult, option, console) = GetResult<bool>();
+        (ParseResult parseResult, CliOption<bool> option, TestConsole console) = GetResult<bool>();
         option.DefaultValueFactory = _ => true;
         console.Input.PushKey(ConsoleKey.Enter);
         _ = parseResult.GetValueOrPrompt(option, "Get default value: ", console).Should().BeTrue();
@@ -36,7 +36,7 @@ public class PromptExtensionsTests
     [Fact]
     public void TestSpecifiedString()
     {
-        var (parseResult, option, console) = GetResult<string>(args: "--option value");
+        (ParseResult parseResult, CliOption<string> option, TestConsole console) = GetResult<string>(args: "--option value");
         _ = parseResult.GetValueOrPrompt(option, "Enter string value: ", console).Should().Be("value");
     }
 
@@ -72,7 +72,7 @@ public class PromptExtensionsTests
     public void TestEnum()
     {
         const FileMode fileMode = FileMode.Open;
-        var (parseResult, option, console) = GetResult<FileMode>();
+        (ParseResult parseResult, CliOption<FileMode> option, TestConsole console) = GetResult<FileMode>();
         _ = console.Interactive();
         console.Input.PushKey(ConsoleKey.DownArrow);
         console.Input.PushKey(ConsoleKey.DownArrow);
@@ -91,7 +91,7 @@ public class PromptExtensionsTests
     [InlineData(typeof(Enums.UInt64.FileShare))]
     public void TestFlag(Type type)
     {
-        var expected = Enum.ToObject(type, Convert.ChangeType(1 | 4, type.GetEnumUnderlyingType()));
+        object expected = Enum.ToObject(type, Convert.ChangeType(1 | 4, type.GetEnumUnderlyingType()));
         _ = typeof(PromptExtensionsTests).GetMethod(nameof(TestFlagCore), Reflection.BindingFlags.Static | Reflection.BindingFlags.NonPublic)
             .Should().BeAssignableTo<Reflection.MethodInfo>()
             .Which.MakeGenericMethod(type).Invoke(null, [expected]);
@@ -100,7 +100,7 @@ public class PromptExtensionsTests
     [Fact]
     public void TestWithCompletions()
     {
-        var (parseResult, option, console) = GetResult<string>("second");
+        (ParseResult parseResult, CliOption<string> option, TestConsole console) = GetResult<string>("second");
         option.CompletionSources.Add("first", "second", "third");
         console.Input.PushKey(ConsoleKey.Enter);
         _ = parseResult.GetValueOrPrompt(option, "GetValue", console).Should().Be("second");
@@ -109,7 +109,7 @@ public class PromptExtensionsTests
     [Fact]
     public void TestWithCustomTypeConverter()
     {
-        var (parseResult, option, console) = GetResult<TypeWithTypeConverter>("second");
+        (ParseResult parseResult, CliOption<TypeWithTypeConverter> option, TestConsole console) = GetResult<TypeWithTypeConverter>("second");
         option.CompletionSources.Add("first", "second", "third");
         console.Input.PushKey(ConsoleKey.Enter);
         _ = parseResult.GetValueOrPrompt(option, "GetValue", console).Should().Be(new TypeWithTypeConverter("second"));
@@ -117,13 +117,13 @@ public class PromptExtensionsTests
 
     private static T GetValue<T>(string prompt, string value)
     {
-        var (parseResult, option, console) = GetResult<T>(value);
+        (ParseResult parseResult, CliOption<T> option, TestConsole console) = GetResult<T>(value);
         console.Input.PushKey(ConsoleKey.Enter);
         return parseResult.GetValueOrPrompt(option, prompt, console);
     }
     private static T GetValue<T>(string prompt, T defaultValue)
     {
-        var (parseResult, option, console) = GetResult<T>();
+        (ParseResult parseResult, CliOption<T> option, TestConsole console) = GetResult<T>();
         console.Input.PushKey(ConsoleKey.Enter);
         option.DefaultValueFactory = _ => defaultValue;
         return parseResult.GetValueOrPrompt(option, prompt, console);
@@ -131,20 +131,20 @@ public class PromptExtensionsTests
 
     private static (ParseResult, CliOption<T>, TestConsole) GetResult<T>(string? value = default, string? args = default)
     {
-        var console = new TestConsole();
+        TestConsole console = new();
         if (value is not null)
         {
             console.Input.PushText(value);
         }
 
-        var option = new CliOption<T>("--option");
-        var configuration = new CliConfiguration(new CliRootCommand { option });
+        CliOption<T> option = new("--option");
+        CliConfiguration configuration = new(new CliRootCommand { option });
         return (configuration.Parse(args ?? string.Empty), option, console);
     }
 
     private static void TestFlagCore<T>(T expected)
     {
-        var (parseResult, option, console) = GetResult<T>();
+        (ParseResult parseResult, CliOption<T> option, TestConsole console) = GetResult<T>();
         _ = console.Interactive();
         console.Input.PushKey(ConsoleKey.Spacebar);
         console.Input.PushKey(ConsoleKey.DownArrow);
@@ -262,18 +262,16 @@ public class PromptExtensionsTests
     {
         private readonly string input = input;
 
-        public override bool Equals(object? obj) => obj is TypeWithTypeConverter typeWithTypeConverter ? this.Equals(this, typeWithTypeConverter) : base.Equals(obj);
+        public override bool Equals(object? obj)
+        {
+            return obj is TypeWithTypeConverter typeWithTypeConverter ? Equals(this, typeWithTypeConverter) : base.Equals(obj);
+        }
 
         public bool Equals(TypeWithTypeConverter? x, TypeWithTypeConverter? y)
         {
             if (x is null)
             {
-                if (y is null)
-                {
-                    return true;
-                }
-
-                return false;
+                return y is null;
             }
             else if (y is null)
             {
@@ -283,16 +281,37 @@ public class PromptExtensionsTests
             return x.input == y.input;
         }
 
-        public override int GetHashCode() => this.GetHashCode(this);
+        public override int GetHashCode()
+        {
+            return GetHashCode(this);
+        }
 
-        public int GetHashCode(TypeWithTypeConverter obj) => obj.input.GetHashCode();
+        public int GetHashCode(TypeWithTypeConverter obj)
+        {
+            return obj.input.GetHashCode();
+        }
 
         private sealed class TypeConverter : ComponentModel.TypeConverter
         {
-            public override bool CanConvertFrom(ComponentModel.ITypeDescriptorContext? context, Type sourceType) => sourceType == typeof(string) || base.CanConvertFrom(context, sourceType);
-            public override object? ConvertFrom(ComponentModel.ITypeDescriptorContext? context, Globalization.CultureInfo? culture, object value) => value is string stringValue ? new TypeWithTypeConverter(stringValue) : base.ConvertFrom(context, culture, value);
-            public override bool CanConvertTo(ComponentModel.ITypeDescriptorContext? context, Type? sourceType) => sourceType == typeof(string) || base.CanConvertFrom(context, sourceType!);
-            public override object? ConvertTo(ComponentModel.ITypeDescriptorContext? context, Globalization.CultureInfo? culture, object? value, Type destinationType) => value is TypeWithTypeConverter typeWithTypeConverter && destinationType == typeof(string) ? typeWithTypeConverter.input : base.ConvertTo(context, culture, value, destinationType);
+            public override bool CanConvertFrom(ComponentModel.ITypeDescriptorContext? context, Type sourceType)
+            {
+                return sourceType == typeof(string) || base.CanConvertFrom(context, sourceType);
+            }
+
+            public override object? ConvertFrom(ComponentModel.ITypeDescriptorContext? context, Globalization.CultureInfo? culture, object value)
+            {
+                return value is string stringValue ? new TypeWithTypeConverter(stringValue) : base.ConvertFrom(context, culture, value);
+            }
+
+            public override bool CanConvertTo(ComponentModel.ITypeDescriptorContext? context, Type? sourceType)
+            {
+                return sourceType == typeof(string) || base.CanConvertFrom(context, sourceType!);
+            }
+
+            public override object? ConvertTo(ComponentModel.ITypeDescriptorContext? context, Globalization.CultureInfo? culture, object? value, Type destinationType)
+            {
+                return value is TypeWithTypeConverter typeWithTypeConverter && destinationType == typeof(string) ? typeWithTypeConverter.input : base.ConvertTo(context, culture, value, destinationType);
+            }
         }
     }
 }

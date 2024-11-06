@@ -6,13 +6,16 @@
 
 namespace System.CommandLine.Logging;
 
-using System.CommandLine;
 using Microsoft.Extensions.Logging;
+using System.CommandLine;
 
 public class LoggingBuilderExtensionsTests
 {
     [Fact]
-    public void CreateLogger() => CreateLoggerFactory().CreateLogger("Program").Should().NotBeNull();
+    public void CreateLogger()
+    {
+        _ = CreateLoggerFactory().CreateLogger("Program").Should().NotBeNull();
+    }
 
     [Theory]
     [InlineData(LogLevel.Information, LogLevel.Information, 4)]
@@ -23,11 +26,11 @@ public class LoggingBuilderExtensionsTests
     [InlineData(LogLevel.None, LogLevel.Warning, 0)]
     public void LogValue(LogLevel minLevel, LogLevel level, int expectedLength)
     {
-        var writer = new StringWriter();
-        var configuration = new CliConfiguration(new CliRootCommand()) { Output = writer };
-        var factory = LoggerFactory.Create(builder => builder.AddCliConfiguration(configuration).SetMinimumLevel(minLevel));
+        StringWriter writer = new();
+        CliConfiguration configuration = new(new CliRootCommand()) { Output = writer };
+        ILoggerFactory factory = LoggerFactory.Create(builder => builder.AddCliConfiguration(configuration).SetMinimumLevel(minLevel));
 
-        var logger = factory.CreateLogger("Test");
+        ILogger logger = factory.CreateLogger("Test");
         logger.Log(level, "Test");
 
         if (expectedLength > 0)

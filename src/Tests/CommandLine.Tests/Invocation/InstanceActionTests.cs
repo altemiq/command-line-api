@@ -14,11 +14,11 @@ public class InstanceActionTests
     [InlineData(Action.Asynchronous)]
     public void Instance(Action action)
     {
-        var command = CliCommandExtensions.SetAction(new CliCommand("command") { new CliCommand("subcommand") }, action);
+        CliCommand command = CliCommandExtensions.SetAction(new CliCommand("command") { new CliCommand("subcommand") }, action);
 
         InstanceAction.SetHandlers(command, parseResult => new object());
 
-        var configuration = new CliConfiguration(command);
+        CliConfiguration configuration = new(command);
         _ = configuration.Invoke(string.Empty);
 
         _ = InstanceAction.GetInstance<object>(command).Should().NotBeNull();
@@ -30,13 +30,13 @@ public class InstanceActionTests
     [InlineData(Action.Asynchronous)]
     public void InstanceWithSynchronousBeforeAfter(Action action)
     {
-        var command = CliCommandExtensions.SetAction(new CliCommand("command") { new CliCommand("subcommand") }, action);
-        var after = false;
-        var before = false;
+        CliCommand command = CliCommandExtensions.SetAction(new CliCommand("command") { new CliCommand("subcommand") }, action);
+        bool after = false;
+        bool before = false;
 
         InstanceAction.SetHandlers(command, _ => new object(), (_, _) => before = true, (_, _) => after = true);
 
-        var configuration = new CliConfiguration(command);
+        CliConfiguration configuration = new(command);
         _ = configuration.Invoke(string.Empty);
 
         _ = InstanceAction.GetInstance<object>(command).Should().NotBeNull();
@@ -50,13 +50,13 @@ public class InstanceActionTests
     [InlineData(Action.Asynchronous)]
     public void InstanceWithAsynchronousBeforeAfter(Action action)
     {
-        var command = CliCommandExtensions.SetAction(new CliCommand("command") { new CliCommand("subcommand") }, action);
-        var after = false;
-        var before = false;
+        CliCommand command = CliCommandExtensions.SetAction(new CliCommand("command") { new CliCommand("subcommand") }, action);
+        bool after = false;
+        bool before = false;
 
         InstanceAction.SetHandlers(command, _ => new object(), (_, _, _) => Task.FromResult(before = true), (_, _, _) => Task.FromResult(after = true));
 
-        var configuration = new CliConfiguration(command);
+        CliConfiguration configuration = new(command);
         _ = configuration.Invoke(string.Empty);
 
         _ = InstanceAction.GetInstance<object>(command).Should().NotBeNull();

@@ -14,8 +14,8 @@ public class InvocationLifetimeTests
     [Fact]
     public async Task WithCancellation()
     {
-        var cancellationTokenSource = new CancellationTokenSource();
-        var command = new CliRootCommand();
+        CancellationTokenSource cancellationTokenSource = new();
+        CliRootCommand command = [];
         command.SetAction(async (_, cancellationToken) =>
         {
             cancellationTokenSource.Cancel();
@@ -27,7 +27,7 @@ public class InvocationLifetimeTests
             }
         });
 
-        var configuration = new CliConfiguration(command);
+        CliConfiguration configuration = new(command);
         _ = configuration.UseHost();
 
         _ = await configuration.InvokeAsync(string.Empty, cancellationTokenSource.Token);
@@ -38,14 +38,14 @@ public class InvocationLifetimeTests
     [Fact]
     public async Task DoubleDispose()
     {
-        var builder = Host.CreateDefaultBuilder();
-        builder.ConfigureServices((_, services) => services.AddScoped<IHostLifetime, InvocationLifetime>());
+        IHostBuilder builder = Host.CreateDefaultBuilder();
+        _ = builder.ConfigureServices((_, services) => services.AddScoped<IHostLifetime, InvocationLifetime>());
 
-        var host = await builder.StartAsync();
+        IHost host = await builder.StartAsync();
 
-        var lifetime = host.Services.GetService<IHostLifetime>();
+        IHostLifetime? lifetime = host.Services.GetService<IHostLifetime>();
 
-        lifetime.Should()
+        _ = lifetime.Should()
             .BeAssignableTo<IDisposable>()
             .Which.Invoking(d => d.Dispose()).Should().NotThrow()
             .And.Subject.Should().NotThrow();

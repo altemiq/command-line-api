@@ -11,14 +11,14 @@ public class AnsiConsoleProgressTests
     [Fact]
     public async Task TestWithSimpleTasks()
     {
-        var console = new TestConsole();
+        TestConsole console = new();
 
-        var consoleProgress = AnsiConsoleProgress.Create(console, new AnsiConsoleProgressOptions { UpdateRate = TimeSpan.FromMilliseconds(1) });
+        AnsiConsoleProgress<AnsiConsoleProgressItem> consoleProgress = AnsiConsoleProgress.Create(console, new AnsiConsoleProgressOptions { UpdateRate = TimeSpan.FromMilliseconds(1) });
 
         UpdateProgress(consoleProgress);
 
         // wait for is complete to be true
-        using var source = new CancellationTokenSource();
+        using CancellationTokenSource source = new();
         source.CancelAfter(1000);
         await Task.Run(() =>
         {

@@ -12,7 +12,7 @@ public class HelpCommandExtensionsTests
     public void ConfigureHelp()
     {
         Help.HelpBuilder? builder = default;
-        var command = new CliRootCommand();
+        CliRootCommand command = [];
         _ = command.ConfigureHelp(b => builder = b);
 
         _ = builder.Should().NotBeNull();
@@ -22,7 +22,7 @@ public class HelpCommandExtensionsTests
     public void NoHelpAction()
     {
         Help.HelpBuilder? builder = default;
-        var command = new CliRootCommand();
+        CliRootCommand command = [];
         command.Options.Clear();
         command.Directives.Clear();
 
@@ -35,7 +35,7 @@ public class HelpCommandExtensionsTests
     public void NoRootCommand()
     {
         Help.HelpBuilder? builder = default;
-        var command = new CliCommand(nameof(NoRootCommand));
+        CliCommand command = new(nameof(NoRootCommand));
         _ = command.ConfigureHelp(b => builder = b);
 
         _ = builder.Should().BeNull();
@@ -45,11 +45,11 @@ public class HelpCommandExtensionsTests
     public void NestedCommand()
     {
         Help.HelpBuilder? builder = default;
-        var command = new CliCommand(nameof(NestedCommand));
-        var rootCommand = new CliRootCommand
-        {
+        CliCommand command = new(nameof(NestedCommand));
+        CliRootCommand rootCommand =
+        [
             command,
-        };
+        ];
 
         _ = command.ConfigureHelp(b => builder = b);
 

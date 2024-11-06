@@ -9,25 +9,34 @@ namespace System.CommandLine.Parsing;
 public class UriParserTests
 {
     [Fact]
-    public void CreateUri() => UriParser.CreateUri(new FileInfo(typeof(UriParserTests).Assembly.Location)).Should().NotBeNull();
+    public void CreateUri()
+    {
+        _ = UriParser.CreateUri(new FileInfo(typeof(UriParserTests).Assembly.Location)).Should().NotBeNull();
+    }
 
     [Fact]
     public void CreateFileInfo()
     {
-        var builder = new UriBuilder
+        UriBuilder builder = new()
         {
             Scheme = Uri.UriSchemeFile,
             Path = typeof(UriParserTests).Assembly.Location,
             Host = string.Empty,
         };
 
-        UriParser.TryCreateFileInfo(builder.Uri, out var fileInfo).Should().BeTrue();
-        fileInfo!.FullName.Should().Be(typeof(UriParserTests).Assembly.Location);
+        _ = UriParser.TryCreateFileInfo(builder.Uri, out FileInfo? fileInfo).Should().BeTrue();
+        _ = fileInfo!.FullName.Should().Be(typeof(UriParserTests).Assembly.Location);
     }
 
     [Fact]
-    public void ParseFromDirectory() => UriParser.ParseAll(Path.GetDirectoryName(typeof(UriParserTests).Assembly.Location)).Should().HaveCountGreaterThan(1);
+    public void ParseFromDirectory()
+    {
+        _ = UriParser.ParseAll(Path.GetDirectoryName(typeof(UriParserTests).Assembly.Location)).Should().HaveCountGreaterThan(1);
+    }
 
     [Fact]
-    public void ParseFromGlob() => UriParser.ParseAll(Path.Join(Path.GetDirectoryName(typeof(UriParserTests).Assembly.Location), "*.*")).Should().HaveCountGreaterThan(1);
+    public void ParseFromGlob()
+    {
+        _ = UriParser.ParseAll(Path.Join(Path.GetDirectoryName(typeof(UriParserTests).Assembly.Location), "*.*")).Should().HaveCountGreaterThan(1);
+    }
 }

@@ -14,10 +14,10 @@ public class ServicesExtensionsTests
     public void GetServices()
     {
         IServiceProvider? serviceProvider = default;
-        var rootCommand = new CliRootCommand();
+        CliRootCommand rootCommand = [];
         rootCommand.SetAction(result => serviceProvider = result.GetServices());
 
-        var configuration = new CliConfiguration(rootCommand);
+        CliConfiguration configuration = new(rootCommand);
         _ = configuration.UseServices(configure => { });
 
         _ = configuration.Invoke([]);
@@ -28,7 +28,7 @@ public class ServicesExtensionsTests
     public void GetService()
     {
         IDisposable? disposable = default;
-        var rootCommand = new CliRootCommand();
+        CliRootCommand rootCommand = [];
         rootCommand.SetAction(result =>
         {
             if (result.GetServices() is { } serviceProvider)
@@ -37,7 +37,7 @@ public class ServicesExtensionsTests
             }
         });
 
-        var configuration = new CliConfiguration(rootCommand);
+        CliConfiguration configuration = new(rootCommand);
         _ = configuration.UseServices(configure => configure.AddSingleton<IDisposable, Disposable>());
 
         _ = configuration.Invoke([]);
@@ -47,6 +47,9 @@ public class ServicesExtensionsTests
 
     private sealed class Disposable : IDisposable
     {
-        void IDisposable.Dispose() => throw new NotImplementedException();
+        void IDisposable.Dispose()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

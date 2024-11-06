@@ -11,9 +11,9 @@ public class AnsiConsoleConfigurationExtensionsTests
     [Fact]
     public void AddFiglet()
     {
-        var console = new TestConsole();
+        TestConsole console = new();
 
-        var configuration = new CliConfiguration(new CliRootCommand()).AddFiglet("value", Color.Blue, console);
+        CliConfiguration configuration = new CliConfiguration(new CliRootCommand()).AddFiglet("value", Color.Blue, console);
 
         _ = configuration.Parse("--help").Invoke();
 

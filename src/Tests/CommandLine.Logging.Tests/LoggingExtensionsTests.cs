@@ -16,7 +16,7 @@ public class LoggingExtensionsTests
     [Fact]
     public void AddLogging()
     {
-        var configuration = new CliConfiguration(new CliRootCommand());
+        CliConfiguration configuration = new(new CliRootCommand());
         _ = configuration.AddLogging((parseResult, builder) =>
         {
             if (parseResult?.Configuration is { } configuration)
@@ -25,7 +25,7 @@ public class LoggingExtensionsTests
             }
         });
 
-        var parseResult = configuration.Parse(string.Empty);
+        ParseResult parseResult = configuration.Parse(string.Empty);
         _ = parseResult.CreateLogger("Test").Should().NotBeNull();
     }
 
@@ -34,7 +34,7 @@ public class LoggingExtensionsTests
     {
         const int Total = 10;
         int count = default;
-        var configuration = new CliConfiguration(new CliRootCommand());
+        CliConfiguration configuration = new(new CliRootCommand());
 
         _ = await Task.WhenAll(Enumerable.Range(0, Total).Select(_ => Task.Run(() => configuration.AddLogging(builder => Interlocked.Increment(ref count)))));
 
@@ -45,7 +45,10 @@ public class LoggingExtensionsTests
     }
 
     [Fact]
-    public void FailGetLogger() => new CliConfiguration(new CliRootCommand()).Parse(string.Empty).Invoking(pr => pr.GetLoggerFactory()).Should().Throw<InvalidOperationException>();
+    public void FailGetLogger()
+    {
+        _ = new CliConfiguration(new CliRootCommand()).Parse(string.Empty).Invoking(pr => pr.GetLoggerFactory()).Should().Throw<InvalidOperationException>();
+    }
 
     [Theory]
     [InlineData(VerbosityOptions.q, LogLevel.Error)]
@@ -58,5 +61,8 @@ public class LoggingExtensionsTests
     [InlineData(VerbosityOptions.detailed, LogLevel.Debug)]
     [InlineData(VerbosityOptions.diag, LogLevel.Trace)]
     [InlineData(VerbosityOptions.diagnostic, LogLevel.Trace)]
-    public void GetLogLevel(VerbosityOptions verbosity, LogLevel level) => new CliConfiguration(new CliRootCommand { this.verbosityOption }).Parse($"{this.verbosityOption.Name} {verbosity}").GetLogLevel().Should().Be(level);
+    public void GetLogLevel(VerbosityOptions verbosity, LogLevel level)
+    {
+        _ = new CliConfiguration(new CliRootCommand { verbosityOption }).Parse($"{verbosityOption.Name} {verbosity}").GetLogLevel().Should().Be(level);
+    }
 }

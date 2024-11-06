@@ -12,10 +12,10 @@ public class ServiceExtensionsTests
     public void GetServices()
     {
         IServiceProvider? serviceProvider = default;
-        var rootCommand = new CliRootCommand();
+        CliRootCommand rootCommand = [];
         rootCommand.SetAction(result => serviceProvider = result.GetServices());
 
-        var configuration = new CliConfiguration(rootCommand);
+        CliConfiguration configuration = new(rootCommand);
         _ = configuration.UseServices(services => { });
 
         _ = configuration.Invoke([]);
