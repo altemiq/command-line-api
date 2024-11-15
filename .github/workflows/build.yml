@@ -40,7 +40,7 @@ jobs:
       if: steps.cache.outputs.cache-hit != 'true'
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 8.0.x
+        dotnet-version: 9.0.x
         source-url: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
         config-file: ${{ github.workspace }}/src/nuget.config
       env:
@@ -76,6 +76,7 @@ jobs:
           6.0.x
           7.0.x
           8.0.x
+          9.0.x
         source-url: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
         config-file: ${{ github.workspace }}/src/nuget.config
       env:
@@ -132,7 +133,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 8.0.x
+        dotnet-version: 9.0.x
         source-url: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
         config-file: ${{ github.workspace }}/src/nuget.config
       env:

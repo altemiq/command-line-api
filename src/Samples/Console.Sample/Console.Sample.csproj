@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFrameworks>net8.0;net472</TargetFrameworks>
+    <TargetFrameworks>net9.0;net8.0;net472</TargetFrameworks>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
