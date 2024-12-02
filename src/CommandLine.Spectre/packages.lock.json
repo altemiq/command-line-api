@@ -4,7 +4,7 @@
     ".NETFramework,Version=v4.7.2": {
       "Altemiq.DotNet.CodingStandard": {
         "type": "Direct",
-        "requested": "[1.0.47, )",
+        "requested": "[1.0.51, )",
         "resolved": "1.0.56",
         "contentHash": "irQxaj6UtRZ5ZrH3eoR6mlRnSdj+d9cWMQDYJTSSW+v7mqY7O8qPavb5vv9QVyazDwJYhhDz66/cM/dAs6PU/A==",
         "dependencies": {
@@ -120,7 +120,7 @@
         "resolved": "0.2.0",
         "contentHash": "H7no2W0vuLJTvSPanlrijtG3UdJNVoeWBOp2a5dJFVa2tqSQuP5GfbJw1xAtPG9agRW310nFTUUsyPz5tuVIxw=="
       },
-      "Altemiq.CommandLine": {
+      "commandline": {
         "type": "Project",
         "dependencies": {
           "System.CommandLine": "[2.0.0-beta4.23407.1, )"
@@ -130,7 +130,7 @@
     ".NETStandard,Version=v2.0": {
       "Altemiq.DotNet.CodingStandard": {
         "type": "Direct",
-        "requested": "[1.0.47, )",
+        "requested": "[1.0.51, )",
         "resolved": "1.0.56",
         "contentHash": "irQxaj6UtRZ5ZrH3eoR6mlRnSdj+d9cWMQDYJTSSW+v7mqY7O8qPavb5vv9QVyazDwJYhhDz66/cM/dAs6PU/A==",
         "dependencies": {
@@ -246,7 +246,7 @@
         "resolved": "0.2.0",
         "contentHash": "H7no2W0vuLJTvSPanlrijtG3UdJNVoeWBOp2a5dJFVa2tqSQuP5GfbJw1xAtPG9agRW310nFTUUsyPz5tuVIxw=="
       },
-      "Altemiq.CommandLine": {
+      "commandline": {
         "type": "Project",
         "dependencies": {
           "System.CommandLine": "[2.0.0-beta4.23407.1, )"
@@ -256,7 +256,7 @@
     ".NETCoreApp,Version=v5.0": {
       "Altemiq.DotNet.CodingStandard": {
         "type": "Direct",
-        "requested": "[1.0.47, )",
+        "requested": "[1.0.51, )",
         "resolved": "1.0.56",
         "contentHash": "irQxaj6UtRZ5ZrH3eoR6mlRnSdj+d9cWMQDYJTSSW+v7mqY7O8qPavb5vv9QVyazDwJYhhDz66/cM/dAs6PU/A==",
         "dependencies": {
@@ -337,7 +337,7 @@
         "resolved": "0.2.0",
         "contentHash": "H7no2W0vuLJTvSPanlrijtG3UdJNVoeWBOp2a5dJFVa2tqSQuP5GfbJw1xAtPG9agRW310nFTUUsyPz5tuVIxw=="
       },
-      "Altemiq.CommandLine": {
+      "commandline": {
         "type": "Project",
         "dependencies": {
           "System.CommandLine": "[2.0.0-beta4.23407.1, )"

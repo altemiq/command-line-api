@@ -4,7 +4,7 @@
     ".NETCoreApp,Version=v3.0": {
       "Altemiq.DotNet.CodingStandard": {
         "type": "Direct",
-        "requested": "[1.0.47, )",
+        "requested": "[1.0.51, )",
         "resolved": "1.0.56",
         "contentHash": "irQxaj6UtRZ5ZrH3eoR6mlRnSdj+d9cWMQDYJTSSW+v7mqY7O8qPavb5vv9QVyazDwJYhhDz66/cM/dAs6PU/A==",
         "dependencies": {
@@ -82,7 +82,7 @@
     ".NETStandard,Version=v2.0": {
       "Altemiq.DotNet.CodingStandard": {
         "type": "Direct",
-        "requested": "[1.0.47, )",
+        "requested": "[1.0.51, )",
         "resolved": "1.0.56",
         "contentHash": "irQxaj6UtRZ5ZrH3eoR6mlRnSdj+d9cWMQDYJTSSW+v7mqY7O8qPavb5vv9QVyazDwJYhhDz66/cM/dAs6PU/A==",
         "dependencies": {
@@ -194,7 +194,7 @@
     ".NETStandard,Version=v2.1": {
       "Altemiq.DotNet.CodingStandard": {
         "type": "Direct",
-        "requested": "[1.0.47, )",
+        "requested": "[1.0.51, )",
         "resolved": "1.0.56",
         "contentHash": "irQxaj6UtRZ5ZrH3eoR6mlRnSdj+d9cWMQDYJTSSW+v7mqY7O8qPavb5vv9QVyazDwJYhhDz66/cM/dAs6PU/A==",
         "dependencies": {

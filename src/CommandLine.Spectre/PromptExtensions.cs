@@ -226,89 +226,29 @@ public static class PromptExtensions
             return value;
         }
 #else
-        public static object GetSByte<TEnum>(IEnumerable<TEnum> values)
+        public static object GetSByte<TEnum>(IEnumerable<TEnum> values) => Get<sbyte, TEnum>(values, (value, v) => (sbyte)(value | v));
+
+        public static object GetByte<TEnum>(IEnumerable<TEnum> values) => Get<byte, TEnum>(values, (value, v) => (byte)(value | v));
+
+        public static object GetInt16<TEnum>(IEnumerable<TEnum> values) => Get<short, TEnum>(values, (value, v) => (short)(value | v));
+
+        public static object GetUInt16<TEnum>(IEnumerable<TEnum> values) => Get<ushort, TEnum>(values, (value, v) => (ushort)(value | v));
+
+        public static object GetInt32<TEnum>(IEnumerable<TEnum> values) => Get<int, TEnum>(values, (value, v) => value | v);
+
+        public static object GetUInt32<TEnum>(IEnumerable<TEnum> values) => Get<uint, TEnum>(values, (value, v) => value | v);
+
+        public static object GetInt64<TEnum>(IEnumerable<TEnum> values) => Get<long, TEnum>(values, (value, v) => value | v);
+
+        public static object GetUInt64<TEnum>(IEnumerable<TEnum> values) => Get<ulong, TEnum>(values, (value, v) => value | v);
+
+        private static object Get<T, TEnum>(IEnumerable<TEnum> values, Func<T, T, T> orFunc)
+           where T : struct
         {
-            sbyte value = default;
-            foreach (var v in values.Cast<sbyte>())
+            T value = default;
+            foreach (var v in values.Cast<T>())
             {
-                value |= v;
-            }
-
-            return value;
-        }
-
-        public static object GetByte<TEnum>(IEnumerable<TEnum> values)
-        {
-            byte value = default;
-            foreach (var v in values.Cast<byte>())
-            {
-                value |= v;
-            }
-
-            return value;
-        }
-
-        public static object GetInt16<TEnum>(IEnumerable<TEnum> values)
-        {
-            short value = default;
-            foreach (var v in values.Cast<short>())
-            {
-                value |= v;
-            }
-
-            return value;
-        }
-
-        public static object GetUInt16<TEnum>(IEnumerable<TEnum> values)
-        {
-            ushort value = default;
-            foreach (var v in values.Cast<ushort>())
-            {
-                value |= v;
-            }
-
-            return value;
-        }
-
-        public static object GetInt32<TEnum>(IEnumerable<TEnum> values)
-        {
-            int value = default;
-            foreach (var v in values.Cast<int>())
-            {
-                value |= v;
-            }
-
-            return value;
-        }
-
-        public static object GetUInt32<TEnum>(IEnumerable<TEnum> values)
-        {
-            uint value = default;
-            foreach (var v in values.Cast<uint>())
-            {
-                value |= v;
-            }
-
-            return value;
-        }
-
-        public static object GetInt64<TEnum>(IEnumerable<TEnum> values)
-        {
-            long value = default;
-            foreach (var v in values.Cast<long>())
-            {
-                value |= v;
-            }
-
-            return value;
-        }
-
-        public static object GetUInt64<TEnum>(IEnumerable<TEnum> values)
-        {
-            ulong value = default;
-            foreach (var v in values.Cast<ulong>())
-            {
-                value |= v;
+                value = orFunc(value, v);
             }
 
             return value;

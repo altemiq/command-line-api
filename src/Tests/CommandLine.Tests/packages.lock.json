@@ -152,7 +152,7 @@
           "xunit.extensibility.core": "[2.9.2]"
         }
       },
-      "Altemiq.CommandLine": {
+      "commandline": {
         "type": "Project",
         "dependencies": {
           "System.CommandLine": "[2.0.0-beta4.23407.1, )"
@@ -302,7 +302,7 @@
           "xunit.extensibility.core": "[2.9.2]"
         }
       },
-      "Altemiq.CommandLine": {
+      "commandline": {
         "type": "Project",
         "dependencies": {
           "System.CommandLine": "[2.0.0-beta4.23407.1, )"
@@ -452,7 +452,7 @@
           "xunit.extensibility.core": "[2.9.2]"
         }
       },
-      "Altemiq.CommandLine": {
+      "commandline": {
         "type": "Project",
         "dependencies": {
           "System.CommandLine": "[2.0.0-beta4.23407.1, )"
@@ -602,7 +602,7 @@
           "xunit.extensibility.core": "[2.9.2]"
         }
       },
-      "Altemiq.CommandLine": {
+      "commandline": {
         "type": "Project",
         "dependencies": {
           "System.CommandLine": "[2.0.0-beta4.23407.1, )"

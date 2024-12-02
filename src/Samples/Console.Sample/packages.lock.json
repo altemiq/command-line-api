@@ -4,7 +4,7 @@
     ".NETFramework,Version=v4.7.2": {
       "Altemiq.DotNet.CodingStandard": {
         "type": "Direct",
-        "requested": "[1.0.47, )",
+        "requested": "[1.0.51, )",
         "resolved": "1.0.56",
         "contentHash": "irQxaj6UtRZ5ZrH3eoR6mlRnSdj+d9cWMQDYJTSSW+v7mqY7O8qPavb5vv9QVyazDwJYhhDz66/cM/dAs6PU/A==",
         "dependencies": {
@@ -278,40 +278,40 @@
         "resolved": "4.5.0",
         "contentHash": "okurQJO6NRE/apDIP23ajJ0hpiNmJ+f0BwOlB/cSqTLQlw5upkf+5+96+iG2Jw40G1fCVCyPz/FhIABUjMR+RQ=="
       },
-      "Altemiq.CommandLine": {
+      "commandline": {
         "type": "Project",
         "dependencies": {
           "System.CommandLine": "[2.0.0-beta4.23407.1, )"
         }
       },
-      "Altemiq.CommandLine.FileSystemGlobbing": {
+      "commandline.filesystemglobbing": {
         "type": "Project",
         "dependencies": {
           "Microsoft.Extensions.FileSystemGlobbing": "[2.1.0, )",
           "System.CommandLine": "[2.0.0-beta4.23407.1, )"
         }
       },
-      "Altemiq.CommandLine.Hosting": {
+      "commandline.hosting": {
         "type": "Project",
         "dependencies": {
-          "Altemiq.CommandLine": "[1.0.0, )",
-          "Altemiq.CommandLine.FileSystemGlobbing": "[1.0.0, )",
-          "Altemiq.CommandLine.Logging": "[1.0.0, )",
+          "CommandLine": "[1.0.0, )",
+          "CommandLine.FileSystemGlobbing": "[1.0.0, )",
+          "CommandLine.Logging": "[1.0.0, )",
           "Microsoft.Extensions.Hosting": "[2.1.0, )"
         }
       },
-      "Altemiq.CommandLine.Logging": {
+      "commandline.logging": {
         "type": "Project",
         "dependencies": {
-          "Altemiq.CommandLine": "[1.0.0, )",
+          "CommandLine": "[1.0.0, )",
           "Microsoft.Extensions.DependencyInjection": "[2.1.0, )",
           "Microsoft.Extensions.Logging": "[2.1.0, )"
         }
       },
-      "Altemiq.CommandLine.Spectre": {
+      "commandline.spectre": {
         "type": "Project",
         "dependencies": {
-          "Altemiq.CommandLine": "[1.0.0, )",
+          "CommandLine": "[1.0.0, )",
           "Spectre.Console": "[0.42.0, )"
         }
       }
@@ -319,7 +319,7 @@
     "net8.0": {
       "Altemiq.DotNet.CodingStandard": {
         "type": "Direct",
-        "requested": "[1.0.47, )",
+        "requested": "[1.0.51, )",
         "resolved": "1.0.56",
         "contentHash": "irQxaj6UtRZ5ZrH3eoR6mlRnSdj+d9cWMQDYJTSSW+v7mqY7O8qPavb5vv9QVyazDwJYhhDz66/cM/dAs6PU/A==",
         "dependencies": {
@@ -674,40 +674,40 @@
         "resolved": "8.0.1",
         "contentHash": "n1ZP7NM2Gkn/MgD8+eOT5MulMj6wfeQMNS2Pizvq5GHCZfjlFMXV2irQlQmJhwA2VABC57M0auudO89Iu2uRLg=="
       },
-      "Altemiq.CommandLine": {
+      "commandline": {
         "type": "Project",
         "dependencies": {
           "System.CommandLine": "[2.0.0-beta4.23407.1, )"
         }
       },
-      "Altemiq.CommandLine.FileSystemGlobbing": {
+      "commandline.filesystemglobbing": {
         "type": "Project",
         "dependencies": {
           "Microsoft.Extensions.FileSystemGlobbing": "[2.1.0, )",
           "System.CommandLine": "[2.0.0-beta4.23407.1, )"
         }
       },
-      "Altemiq.CommandLine.Hosting": {
+      "commandline.hosting": {
         "type": "Project",
         "dependencies": {
-          "Altemiq.CommandLine": "[1.0.0, )",
-          "Altemiq.CommandLine.FileSystemGlobbing": "[1.0.0, )",
-          "Altemiq.CommandLine.Logging": "[1.0.0, )",
+          "CommandLine": "[1.0.0, )",
+          "CommandLine.FileSystemGlobbing": "[1.0.0, )",
+          "CommandLine.Logging": "[1.0.0, )",
           "Microsoft.Extensions.Hosting": "[8.0.1, )"
         }
       },
-      "Altemiq.CommandLine.Logging": {
+      "commandline.logging": {
         "type": "Project",
         "dependencies": {
-          "Altemiq.CommandLine": "[1.0.0, )",
+          "CommandLine": "[1.0.0, )",
           "Microsoft.Extensions.DependencyInjection": "[2.1.0, )",
           "Microsoft.Extensions.Logging": "[2.1.0, )"
         }
       },
-      "Altemiq.CommandLine.Spectre": {
+      "commandline.spectre": {
         "type": "Project",
         "dependencies": {
-          "Altemiq.CommandLine": "[1.0.0, )",
+          "CommandLine": "[1.0.0, )",
           "Spectre.Console": "[0.42.0, )"
         }
       }
@@ -715,7 +715,7 @@
     "net9.0": {
       "Altemiq.DotNet.CodingStandard": {
         "type": "Direct",
-        "requested": "[1.0.47, )",
+        "requested": "[1.0.51, )",
         "resolved": "1.0.56",
         "contentHash": "irQxaj6UtRZ5ZrH3eoR6mlRnSdj+d9cWMQDYJTSSW+v7mqY7O8qPavb5vv9QVyazDwJYhhDz66/cM/dAs6PU/A==",
         "dependencies": {
@@ -1070,40 +1070,40 @@
         "resolved": "9.0.0",
         "contentHash": "qd01+AqPhbAG14KtdtIqFk+cxHQFZ/oqRSCoxU1F+Q6Kv0cl726sl7RzU9yLFGd4BUOKdN4XojXF0pQf/R6YeA=="
       },
-      "Altemiq.CommandLine": {
+      "commandline": {
         "type": "Project",
         "dependencies": {
           "System.CommandLine": "[2.0.0-beta4.23407.1, )"
         }
       },
-      "Altemiq.CommandLine.FileSystemGlobbing": {
+      "commandline.filesystemglobbing": {
         "type": "Project",
         "dependencies": {
           "Microsoft.Extensions.FileSystemGlobbing": "[2.1.0, )",
           "System.CommandLine": "[2.0.0-beta4.23407.1, )"
         }
       },
-      "Altemiq.CommandLine.Hosting": {
+      "commandline.hosting": {
         "type": "Project",
         "dependencies": {
-          "Altemiq.CommandLine": "[1.0.0, )",
-          "Altemiq.CommandLine.FileSystemGlobbing": "[1.0.0, )",
-          "Altemiq.CommandLine.Logging": "[1.0.0, )",
+          "CommandLine": "[1.0.0, )",
+          "CommandLine.FileSystemGlobbing": "[1.0.0, )",
+          "CommandLine.Logging": "[1.0.0, )",
           "Microsoft.Extensions.Hosting": "[9.0.0, )"
         }
       },
-      "Altemiq.CommandLine.Logging": {
+      "commandline.logging": {
         "type": "Project",
         "dependencies": {
-          "Altemiq.CommandLine": "[1.0.0, )",
+          "CommandLine": "[1.0.0, )",
           "Microsoft.Extensions.DependencyInjection": "[2.1.0, )",
           "Microsoft.Extensions.Logging": "[2.1.0, )"
         }
       },
-      "Altemiq.CommandLine.Spectre": {
+      "commandline.spectre": {
         "type": "Project",
         "dependencies": {
-          "Altemiq.CommandLine": "[1.0.0, )",
+          "CommandLine": "[1.0.0, )",
           "Spectre.Console": "[0.42.0, )"
         }
       }

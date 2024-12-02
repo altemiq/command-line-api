@@ -21,7 +21,7 @@
     <Otherwise>
       <ItemGroup>
         <Compile Remove="HostingExtensions.ApplicationHost.cs" />
-      </ItemGroup>    
+      </ItemGroup>
     </Otherwise>
   </Choose>
 
