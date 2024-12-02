@@ -107,8 +107,8 @@ public static class ExtensionMethods
             {
                 { Parent: Parsing.CommandResult commandResult } => commandResult.Command,
                 { Parent: Parsing.SymbolResult parentSymbolResult } => GetCommandCore(parentSymbolResult),
-                Parsing.ArgumentResult { Parent: null } argumentResult => GetCommandFromSymbol(argumentResult.Argument),
-                Parsing.OptionResult { Parent: null } optionResult => GetCommandFromSymbol(optionResult.Option),
+                Parsing.ArgumentResult { Argument: { } argument } => GetCommandFromSymbol(argument),
+                Parsing.OptionResult { Option: { } option } => GetCommandFromSymbol(option),
                 _ => default,
             };
 
