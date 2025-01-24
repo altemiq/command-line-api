@@ -7,7 +7,7 @@
 namespace System.CommandLine;
 
 /// <summary>
-/// <see cref="Help"/> <see cref="CliConfiguration"/> extensions.
+/// <see cref="Help"/> <see cref="CommandLineConfiguration"/> extensions.
 /// </summary>
 public static class HelpConfigurationExtensions
 {
@@ -19,7 +19,7 @@ public static class HelpConfigurationExtensions
     /// <param name="configure">The configure function.</param>
     /// <returns>The configuration for chaining.</returns>
     public static T ConfigureHelp<T>(this T configuration, Action<Help.HelpBuilder> configure)
-        where T : CliConfiguration
+        where T : CommandLineConfiguration
     {
         _ = configuration.RootCommand.ConfigureHelp(configure);
         return configuration;

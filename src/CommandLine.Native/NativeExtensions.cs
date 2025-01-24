@@ -19,7 +19,7 @@ public static class NativeExtensions
     /// <param name="configuration">The configuration.</param>
     /// <returns>The input configuration.</returns>
     public static T ResolveNative<T>(this T configuration)
-        where T : CliConfiguration
+        where T : CommandLineConfiguration
     {
         NativeAction.SetHandlers(configuration.RootCommand);
         return configuration;
@@ -27,13 +27,13 @@ public static class NativeExtensions
 
     private static class NativeAction
     {
-        public static void SetHandlers(CliCommand command)
+        public static void SetHandlers(Command command)
         {
             command.Action = command.Action switch
             {
-                Invocation.AsynchronousCliAction asyncAction => new NativeNestedAsynchronousCliAction(asyncAction),
-                Invocation.SynchronousCliAction syncAction => new NativeNestedSynchronousCliAction(syncAction),
-                null => new NativeSynchronousCliAction(),
+                Invocation.AsynchronousCommandLineAction asyncAction => new NativeNestedAsynchronousAction(asyncAction),
+                Invocation.SynchronousCommandLineAction syncAction => new NativeNestedSynchronousAction(syncAction),
+                null => new NativeSynchronousAction(),
                 var a => a,
             };
 
@@ -55,11 +55,11 @@ public static class NativeExtensions
 
         private static void AfterInvoke() => Altemiq.Runtime.Resolve.Remove();
 
-        private sealed class NativeNestedAsynchronousCliAction(Invocation.AsynchronousCliAction actualAction) : Invocation.NestedAsynchronousCliAction(actualAction, (_, cancellationToken) => Task.Run(BeforeInvoke, cancellationToken), (_, cancellationToken) => Task.Run(AfterInvoke, cancellationToken));
+        private sealed class NativeNestedAsynchronousAction(Invocation.AsynchronousCommandLineAction actualAction) : Invocation.NestedAsynchronousCommandLineAction(actualAction, (_, cancellationToken) => Task.Run(BeforeInvoke, cancellationToken), (_, cancellationToken) => Task.Run(AfterInvoke, cancellationToken));
 
-        private sealed class NativeNestedSynchronousCliAction(Invocation.SynchronousCliAction actualAction) : Invocation.NestedSynchronousCliAction(actualAction, _ => BeforeInvoke(), _ => AfterInvoke());
+        private sealed class NativeNestedSynchronousAction(Invocation.SynchronousCommandLineAction actualAction) : Invocation.NestedSynchronousCommandLineAction(actualAction, _ => BeforeInvoke(), _ => AfterInvoke());
 
-        private sealed class NativeSynchronousCliAction : Invocation.SynchronousCliAction
+        private sealed class NativeSynchronousAction : Invocation.SynchronousCommandLineAction
         {
             public override int Invoke(ParseResult parseResult)
             {

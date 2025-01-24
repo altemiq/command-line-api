@@ -15,7 +15,7 @@ public class InvocationLifetimeTests
     public async Task WithCancellation()
     {
         CancellationTokenSource cancellationTokenSource = new();
-        CliRootCommand command = [];
+        RootCommand command = [];
         command.SetAction(async (_, cancellationToken) =>
         {
             cancellationTokenSource.Cancel();
@@ -27,7 +27,7 @@ public class InvocationLifetimeTests
             }
         });
 
-        CliConfiguration configuration = new(command);
+        CommandLineConfiguration configuration = new(command);
         _ = configuration.UseHost();
 
         _ = await configuration.InvokeAsync(string.Empty, cancellationTokenSource.Token);

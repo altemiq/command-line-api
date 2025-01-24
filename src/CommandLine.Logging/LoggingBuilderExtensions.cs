@@ -17,15 +17,15 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 public static class LoggingBuilderExtensions
 {
     /// <summary>
-    /// Adds the <see cref="System.CommandLine.CliConfiguration"/> as a provider.
+    /// Adds the <see cref="System.CommandLine.CommandLineConfiguration"/> as a provider.
     /// </summary>
     /// <param name="builder">The builder.</param>
     /// <param name="configuration">The configuration.</param>
     /// <returns>The logging builder.</returns>
-    public static ILoggingBuilder AddCliConfiguration(this ILoggingBuilder builder, System.CommandLine.CliConfiguration configuration)
+    public static ILoggingBuilder AddCommandLineConfiguration(this ILoggingBuilder builder, System.CommandLine.CommandLineConfiguration configuration)
     {
         builder.Services.Add(ServiceDescriptor.Singleton(configuration));
-        builder.Services.TryAddEnumerable(ServiceDescriptor.Singleton<ILoggerProvider, System.CommandLine.Logging.CliConfigurationLoggerProvider>());
+        builder.Services.TryAddEnumerable(ServiceDescriptor.Singleton<ILoggerProvider, System.CommandLine.Logging.CommandLineConfigurationLoggerProvider>());
         return builder;
     }
 }

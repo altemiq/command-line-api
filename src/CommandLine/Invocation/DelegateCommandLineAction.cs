@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="DelegateAction.cs" company="Altemiq">
+// <copyright file="DelegateCommandLineAction.cs" company="Altemiq">
 // Copyright (c) Altemiq. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -9,7 +9,7 @@ namespace System.CommandLine.Invocation;
 /// <summary>
 /// The delegate action.
 /// </summary>
-public static class DelegateAction
+public static class DelegateCommandLineAction
 {
     /// <summary>
     /// Sets the handlers.
@@ -19,17 +19,17 @@ public static class DelegateAction
     /// <param name="func">The asynchronous delegate.</param>
     /// <param name="preferSynchronous">Set to <see langword="true"/> to prefer <paramref name="action"/> when no action is present.</param>
     public static void SetHandlers(
-        CliCommand command,
+        Command command,
         Action<ParseResult> action,
         Func<ParseResult, CancellationToken, Task> func,
         bool preferSynchronous = false)
     {
         command.Action = command.Action switch
         {
-            AsynchronousCliAction asyncAction => new Handlers.DelegateNestedAsynchronousCliAction(func, asyncAction),
-            SynchronousCliAction syncAction => new Handlers.DelegateNestedSynchronousCliAction(action, syncAction),
-            null when preferSynchronous => new Handlers.DelegateSynchronousCliAction(action),
-            null => new Handlers.DelegateAsynchronousCliAction(func),
+            AsynchronousCommandLineAction asyncAction => new Handlers.DelegateNestedAsynchronousCommandLineAction(func, asyncAction),
+            SynchronousCommandLineAction syncAction => new Handlers.DelegateNestedSynchronousCommandLineAction(action, syncAction),
+            null when preferSynchronous => new Handlers.DelegateSynchronousCommandLineAction(action),
+            null => new Handlers.DelegateAsynchronousCommandLineAction(func),
             var a => a,
         };
 
@@ -44,13 +44,13 @@ public static class DelegateAction
     /// </summary>
     /// <param name="command">The command.</param>
     /// <param name="action">The delegate.</param>
-    public static void SetHandlers(CliCommand command, Action<ParseResult> action)
+    public static void SetHandlers(Command command, Action<ParseResult> action)
     {
         command.Action = command.Action switch
         {
-            AsynchronousCliAction asyncAction => new Handlers.DelegateNestedAsynchronousCliAction((parseResult, cancellationToken) => Task.Run(() => action(parseResult), cancellationToken), asyncAction),
-            SynchronousCliAction syncAction => new Handlers.DelegateNestedSynchronousCliAction(action, syncAction),
-            null => new Handlers.DelegateSynchronousCliAction(action),
+            AsynchronousCommandLineAction asyncAction => new Handlers.DelegateNestedAsynchronousCommandLineAction((parseResult, cancellationToken) => Task.Run(() => action(parseResult), cancellationToken), asyncAction),
+            SynchronousCommandLineAction syncAction => new Handlers.DelegateNestedSynchronousCommandLineAction(action, syncAction),
+            null => new Handlers.DelegateSynchronousCommandLineAction(action),
             var a => a,
         };
 
@@ -65,12 +65,12 @@ public static class DelegateAction
     /// </summary>
     /// <param name="command">The command.</param>
     /// <param name="func">The delegate.</param>
-    public static void SetHandlers(CliCommand command, Func<ParseResult, CancellationToken, Task> func)
+    public static void SetHandlers(Command command, Func<ParseResult, CancellationToken, Task> func)
     {
         command.Action = command.Action switch
         {
-            AsynchronousCliAction asyncAction => new Handlers.DelegateNestedAsynchronousCliAction(func, asyncAction),
-            null => new Handlers.DelegateAsynchronousCliAction(func),
+            AsynchronousCommandLineAction asyncAction => new Handlers.DelegateNestedAsynchronousCommandLineAction(func, asyncAction),
+            null => new Handlers.DelegateAsynchronousCommandLineAction(func),
             var a => a,
         };
 
@@ -82,7 +82,7 @@ public static class DelegateAction
 
     private static class Handlers
     {
-        public sealed class DelegateSynchronousCliAction(Action<ParseResult> action) : SynchronousCliAction
+        public sealed class DelegateSynchronousCommandLineAction(Action<ParseResult> action) : SynchronousCommandLineAction
         {
             public override int Invoke(ParseResult parseResult)
             {
@@ -91,7 +91,7 @@ public static class DelegateAction
             }
         }
 
-        public sealed class DelegateAsynchronousCliAction(Func<ParseResult, CancellationToken, Task> func) : AsynchronousCliAction
+        public sealed class DelegateAsynchronousCommandLineAction(Func<ParseResult, CancellationToken, Task> func) : AsynchronousCommandLineAction
         {
             public override async Task<int> InvokeAsync(ParseResult parseResult, CancellationToken cancellationToken = default)
             {
@@ -100,7 +100,7 @@ public static class DelegateAction
             }
         }
 
-        public sealed class DelegateNestedAsynchronousCliAction(Func<ParseResult, CancellationToken, Task> func, AsynchronousCliAction cliAction) : NestedAsynchronousCliAction(cliAction)
+        public sealed class DelegateNestedAsynchronousCommandLineAction(Func<ParseResult, CancellationToken, Task> func, AsynchronousCommandLineAction action) : NestedAsynchronousCommandLineAction(action)
         {
             public override async Task<int> InvokeAsync(ParseResult parseResult, CancellationToken cancellationToken = default)
             {
@@ -109,7 +109,7 @@ public static class DelegateAction
             }
         }
 
-        public sealed class DelegateNestedSynchronousCliAction(Action<ParseResult> action, SynchronousCliAction cliAction) : NestedSynchronousCliAction(cliAction)
+        public sealed class DelegateNestedSynchronousCommandLineAction(Action<ParseResult> action, SynchronousCommandLineAction commandLineAction) : NestedSynchronousCommandLineAction(commandLineAction)
         {
             public override int Invoke(ParseResult parseResult)
             {

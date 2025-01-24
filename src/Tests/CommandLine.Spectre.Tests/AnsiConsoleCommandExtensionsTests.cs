@@ -12,10 +12,10 @@ public class AnsiConsoleCommandExtensionsTests
     public void AddFigletToRoot()
     {
         TestConsole console = new();
-        CliRootCommand command = [];
+        RootCommand command = [];
         _ = command.AddFiglet("value", Color.Blue, console);
 
-        CliConfiguration configuration = new(command);
+        CommandLineConfiguration configuration = new(command);
 
         _ = configuration.Parse("--help").Invoke();
 
@@ -25,7 +25,7 @@ public class AnsiConsoleCommandExtensionsTests
     [Fact]
     public void AddFigletTooEarly()
     {
-        CliCommand command = new(nameof(AddFigletTooEarly));
+        Command command = new(nameof(AddFigletTooEarly));
         _ = command.Invoking(c => c.AddFiglet("value", Color.Blue)).Should().Throw<InvalidOperationException>();
     }
 
@@ -33,9 +33,9 @@ public class AnsiConsoleCommandExtensionsTests
     public void AddFigletToSubCommand()
     {
         TestConsole console = new();
-        CliCommand command = new(nameof(AddFigletToSubCommand));
+        Command command = new(nameof(AddFigletToSubCommand));
 
-        CliConfiguration configuration = new(new CliRootCommand { command });
+        CommandLineConfiguration configuration = new(new RootCommand { command });
         _ = command.AddFiglet("value", Color.Blue, console);
 
         _ = configuration.Parse($"{nameof(AddFigletToSubCommand)} --help").Invoke();
@@ -47,9 +47,9 @@ public class AnsiConsoleCommandExtensionsTests
     public void AddFigletToSubCommandAndInvokeRoot()
     {
         TestConsole console = new();
-        CliCommand command = new(nameof(AddFigletToSubCommandAndInvokeRoot));
+        Command command = new(nameof(AddFigletToSubCommandAndInvokeRoot));
 
-        CliConfiguration configuration = new(new CliRootCommand { command });
+        CommandLineConfiguration configuration = new(new RootCommand { command });
         _ = command.AddFiglet("value", Color.Blue, console);
 
         _ = configuration.Parse("--help").Invoke();

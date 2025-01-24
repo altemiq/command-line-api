@@ -1,12 +1,12 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="CliOptionsTests.cs" company="Altemiq">
+// <copyright file="OptionsTests.cs" company="Altemiq">
 // Copyright (c) Altemiq. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
 namespace System.CommandLine;
 
-public class CliOptionsTests
+public class OptionsTests
 {
     [Fact]
     public void Verbosity()

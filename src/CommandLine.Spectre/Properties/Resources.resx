@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="HelpCommandNotFound" xml:space="preserve">
-    <value>Could not find the help action. Ensure this can been called after adding to the CliRootCommand.</value>
+    <value>Could not find the help action. Ensure this can been called after adding to the RootCommand.</value>
   </data>
   <data name="TypeConverterNotFound" xml:space="preserve">
     <value>Could not find type converter for {0}.</value>

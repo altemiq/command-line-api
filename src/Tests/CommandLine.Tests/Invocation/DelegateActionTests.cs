@@ -15,12 +15,12 @@ public class DelegateActionTests
     [InlineData(Action.Asynchronous)]
     public void SynchronousDelegate(Action action)
     {
-        CliCommand command = CliCommandExtensions.SetAction(new CliCommand("command") { new CliCommand("subcommand") }, action);
+        Command command = CommandExtensions.SetAction(new Command("command") { new Command("subcommand") }, action);
 
         bool value = default;
-        DelegateAction.SetHandlers(command, parseResult => value = true);
+        DelegateCommandLineAction.SetHandlers(command, parseResult => value = true);
 
-        CliConfiguration configuration = new(command);
+        CommandLineConfiguration configuration = new(command);
         _ = configuration.Invoke(string.Empty);
 
         _ = value.Should().BeTrue();
@@ -31,16 +31,16 @@ public class DelegateActionTests
     [InlineData(Action.Asynchronous)]
     public async Task AsynchronousDelegate(Action action)
     {
-        CliCommand command = CliCommandExtensions.SetAction(new CliCommand("command") { new CliCommand("subcommand") }, action);
+        Command command = CommandExtensions.SetAction(new Command("command") { new Command("subcommand") }, action);
 
         bool value = default;
-        DelegateAction.SetHandlers(command, (parseResult, cancellationToken) =>
+        DelegateCommandLineAction.SetHandlers(command, (parseResult, cancellationToken) =>
         {
             value = true;
             return Task.CompletedTask;
         });
 
-        CliConfiguration configuration = new(command);
+        CommandLineConfiguration configuration = new(command);
         _ = await configuration.InvokeAsync(string.Empty);
 
         _ = value.Should().BeTrue();
@@ -55,16 +55,16 @@ public class DelegateActionTests
     [InlineData(Action.Asynchronous, false)]
     public async Task BothDelegates(Action action, bool preferSynchronous)
     {
-        CliCommand command = CliCommandExtensions.SetAction(new CliCommand("command") { new CliCommand("subcommand") }, action);
+        Command command = CommandExtensions.SetAction(new Command("command") { new Command("subcommand") }, action);
 
         bool value = default;
-        DelegateAction.SetHandlers(command, _ => value = true, (parseResult, cancellationToken) =>
+        DelegateCommandLineAction.SetHandlers(command, _ => value = true, (parseResult, cancellationToken) =>
         {
             value = true;
             return Task.CompletedTask;
         }, preferSynchronous);
 
-        CliConfiguration configuration = new(command);
+        CommandLineConfiguration configuration = new(command);
         _ = await configuration.InvokeAsync(string.Empty);
 
         _ = value.Should().BeTrue();

@@ -23,7 +23,7 @@ public static class ConfigurationExtensions
     public static T UseConfiguration<T>(
         this T configuration,
         Action<IConfigurationBuilder> configure)
-        where T : CliConfiguration => UseConfiguration(configuration, (_, builder) => configure(builder));
+        where T : CommandLineConfiguration => UseConfiguration(configuration, (_, builder) => configure(builder));
 
     /// <summary>
     /// Uses configuration for the configuration.
@@ -35,9 +35,9 @@ public static class ConfigurationExtensions
     public static T UseConfiguration<T>(
         this T configuration,
         Action<ParseResult?, IConfigurationBuilder> configure)
-        where T : CliConfiguration
+        where T : CommandLineConfiguration
     {
-        Invocation.BuilderAction.SetHandlers<ConfigurationBuilder, IConfiguration>(configuration.RootCommand, builder => builder.Build(), configure);
+        Invocation.BuilderCommandLineAction.SetHandlers<ConfigurationBuilder, IConfiguration>(configuration.RootCommand, builder => builder.Build(), configure);
         return configuration;
     }
 
@@ -53,7 +53,7 @@ public static class ConfigurationExtensions
         this T configuration,
         Func<IConfigurationBuilder> createBuilder,
         Action<IConfigurationBuilder> configure)
-        where T : CliConfiguration => UseConfiguration(configuration, createBuilder, (_, builder) => configure(builder));
+        where T : CommandLineConfiguration => UseConfiguration(configuration, createBuilder, (_, builder) => configure(builder));
 
     /// <summary>
     /// Uses configuration for the configuration.
@@ -67,7 +67,7 @@ public static class ConfigurationExtensions
         this T configuration,
         Func<ParseResult?, IConfigurationBuilder> createBuilder,
         Action<IConfigurationBuilder> configure)
-        where T : CliConfiguration => UseConfiguration(configuration, createBuilder, (_, builder) => configure(builder));
+        where T : CommandLineConfiguration => UseConfiguration(configuration, createBuilder, (_, builder) => configure(builder));
 
     /// <summary>
     /// Uses configuration for the configuration.
@@ -81,7 +81,7 @@ public static class ConfigurationExtensions
         this T configuration,
         Func<IConfigurationBuilder> createBuilder,
         Action<ParseResult?, IConfigurationBuilder> configure)
-        where T : CliConfiguration => UseConfiguration(configuration, _ => createBuilder(), configure);
+        where T : CommandLineConfiguration => UseConfiguration(configuration, _ => createBuilder(), configure);
 
     /// <summary>
     /// Uses configuration for the configuration.
@@ -95,9 +95,9 @@ public static class ConfigurationExtensions
         this T configuration,
         Func<ParseResult?, IConfigurationBuilder> createBuilder,
         Action<ParseResult?, IConfigurationBuilder> configure)
-        where T : CliConfiguration
+        where T : CommandLineConfiguration
     {
-        Invocation.BuilderAction.SetHandlers(configuration.RootCommand, createBuilder, builder => builder.Build(), configure);
+        Invocation.BuilderCommandLineAction.SetHandlers(configuration.RootCommand, createBuilder, builder => builder.Build(), configure);
         return configuration;
     }
 
@@ -106,19 +106,19 @@ public static class ConfigurationExtensions
     /// </summary>
     /// <param name="parseResult">The parse result.</param>
     /// <returns>The configuration.</returns>
-    public static IConfiguration? GetConfiguration(this ParseResult parseResult) => Invocation.InstanceAction.GetInstance<IConfiguration>(parseResult);
+    public static IConfiguration? GetConfiguration(this ParseResult parseResult) => Invocation.InstanceCommandLineAction.GetInstance<IConfiguration>(parseResult);
 
     /// <summary>
     /// Gets the configuration from the command.
     /// </summary>
     /// <param name="command">The command.</param>
     /// <returns>The configuration.</returns>
-    public static IConfiguration? GetConfiguration(this CliCommand command) => Invocation.InstanceAction.GetInstance<IConfiguration>(command);
+    public static IConfiguration? GetConfiguration(this Command command) => Invocation.InstanceCommandLineAction.GetInstance<IConfiguration>(command);
 
     /// <summary>
     /// Gets the configuration from the action.
     /// </summary>
     /// <param name="action">The action.</param>
     /// <returns>The configuration.</returns>
-    public static IConfiguration? GetConfiguration(this Invocation.CliAction action) => Invocation.InstanceAction.GetInstance<IConfiguration>(action);
+    public static IConfiguration? GetConfiguration(this Invocation.CommandLineAction action) => Invocation.InstanceCommandLineAction.GetInstance<IConfiguration>(action);
 }

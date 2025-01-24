@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="INestedAction.cs" company="Altemiq">
+// <copyright file="INestedCommandLineAction.cs" company="Altemiq">
 // Copyright (c) Altemiq. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -7,12 +7,12 @@
 namespace System.CommandLine.Invocation;
 
 /// <summary>
-/// A nested <see cref="CliAction"/>.
+/// A nested <see cref="Action"/>.
 /// </summary>
-public interface INestedAction
+public interface INestedCommandLineAction
 {
     /// <summary>
     /// Gets the action.
     /// </summary>
-    CliAction Action { get; }
+    CommandLineAction Action { get; }
 }

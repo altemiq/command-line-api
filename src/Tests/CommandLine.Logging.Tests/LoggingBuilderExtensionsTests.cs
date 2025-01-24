@@ -27,8 +27,8 @@ public class LoggingBuilderExtensionsTests
     public void LogValue(LogLevel minLevel, LogLevel level, int expectedLength)
     {
         StringWriter writer = new();
-        CliConfiguration configuration = new(new CliRootCommand()) { Output = writer };
-        ILoggerFactory factory = LoggerFactory.Create(builder => builder.AddCliConfiguration(configuration).SetMinimumLevel(minLevel));
+        CommandLineConfiguration configuration = new(new RootCommand()) { Output = writer };
+        ILoggerFactory factory = LoggerFactory.Create(builder => builder.AddCommandLineConfiguration(configuration).SetMinimumLevel(minLevel));
 
         ILogger logger = factory.CreateLogger("Test");
         logger.Log(level, "Test");
@@ -41,9 +41,9 @@ public class LoggingBuilderExtensionsTests
         _ = writer.GetStringBuilder().Length.Should().Be(expectedLength);
     }
 
-    private static ILoggerFactory CreateLoggerFactory(CliConfiguration? configuration = default)
+    private static ILoggerFactory CreateLoggerFactory(CommandLineConfiguration? configuration = default)
     {
-        configuration ??= new CliConfiguration(new CliRootCommand());
-        return LoggerFactory.Create(builder => builder.AddCliConfiguration(configuration));
+        configuration ??= new CommandLineConfiguration(new RootCommand());
+        return LoggerFactory.Create(builder => builder.AddCommandLineConfiguration(configuration));
     }
 }

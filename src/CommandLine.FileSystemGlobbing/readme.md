@@ -3,5 +3,5 @@
 This has methods to be used as the custom parser to allow for full file system globbing.
 
 ```csharp
-var argument = new CliArgument<FileInfo[]>("FILES") { CustomParser = CommandLine.Parsing.FileSystemGlobbingParser.Parse };
+var argument = new Argument<FileInfo[]>("FILES") { CustomParser = CommandLine.Parsing.FileSystemGlobbingParser.Parse };
 ```

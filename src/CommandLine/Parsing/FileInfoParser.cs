@@ -7,7 +7,7 @@
 namespace System.CommandLine.Parsing;
 
 /// <summary>
-/// <see cref="FileInfo" /> parsers for <see cref="CliArgument{T}.CustomParser"/> or <see cref="CliOption{T}.CustomParser"/>.
+/// <see cref="FileInfo" /> parsers for <see cref="Argument{T}.CustomParser"/> or <see cref="Option{T}.CustomParser"/>.
 /// </summary>
 public static class FileInfoParser
 {
@@ -23,7 +23,7 @@ public static class FileInfoParser
     /// </summary>
     /// <param name="tokens">The tokens.</param>
     /// <returns>The file information.</returns>
-    public static FileInfo[] ParseAll(IEnumerable<CliToken> tokens) => ParseAll(tokens.Select(token => token.Value));
+    public static FileInfo[] ParseAll(IEnumerable<Token> tokens) => ParseAll(tokens.Select(token => token.Value));
 
     /// <summary>
     /// Parses the file information from the values.
@@ -37,7 +37,7 @@ public static class FileInfoParser
     /// </summary>
     /// <param name="token">The token.</param>
     /// <returns>The file information.</returns>
-    public static FileInfo[] ParseAll(CliToken token) => ParseAll(token.Value);
+    public static FileInfo[] ParseAll(Token token) => ParseAll(token.Value);
 
     /// <summary>
     /// Parses the file information from the value.
@@ -58,7 +58,7 @@ public static class FileInfoParser
     /// </summary>
     /// <param name="token">The token.</param>
     /// <returns>The file information.</returns>
-    public static FileInfo Parse(CliToken token) => Parse(token.Value);
+    public static FileInfo Parse(Token token) => Parse(token.Value);
 
     /// <summary>
     /// Parses the file information from the value.

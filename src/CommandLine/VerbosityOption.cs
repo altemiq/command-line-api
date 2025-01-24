@@ -9,7 +9,7 @@ namespace System.CommandLine;
 /// <summary>
 /// The verbosity option.
 /// </summary>
-public sealed class VerbosityOption : CliOption<VerbosityOptions>
+public sealed class VerbosityOption : Option<VerbosityOptions>
 {
     /// <summary>
     /// The name of the option.

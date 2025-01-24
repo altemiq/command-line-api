@@ -7,7 +7,7 @@
 namespace System.CommandLine;
 
 /// <summary>
-/// <see cref="Help"/> <see cref="CliSymbol"/> extensions.
+/// <see cref="Help"/> <see cref="Symbol"/> extensions.
 /// </summary>
 public static class HelpSymbolExtensions
 {
@@ -20,16 +20,16 @@ public static class HelpSymbolExtensions
     /// <param name="secondColumnText">A delegate to display second help column (typically the description).</param>
     /// <param name="defaultValue">The displayed default value for the symbol.</param>
     /// <returns>The input symbol.</returns>
-    /// <remarks>This should only be called once attached to a <see cref="CliCommand"/> which has been attached to the <see cref="CliRootCommand"/>.</remarks>
+    /// <remarks>This should only be called once attached to a <see cref="Command"/> which has been attached to the <see cref="RootCommand"/>.</remarks>
     public static T CustomizeHelp<T>(
         this T symbol,
         string? firstColumnText = null,
         string? secondColumnText = null,
         string? defaultValue = null)
-        where T : CliSymbol
+        where T : Symbol
     {
         // get the help action
-        if (Internal.ActionHelpers.GetHelpAction(symbol) is { } helpAction)
+        if (Internal.CommandLineActionHelpers.GetHelpAction(symbol) is { } helpAction)
         {
             helpAction.Builder.CustomizeSymbol(
                 symbol,
@@ -50,16 +50,16 @@ public static class HelpSymbolExtensions
     /// <param name="secondColumnText">A delegate to display second help column (typically the description).</param>
     /// <param name="defaultValue">A delegate to display the default value for the symbol.</param>
     /// <returns>The input symbol.</returns>
-    /// <remarks>This should only be called once attached to a <see cref="CliCommand"/> which has been attached to the <see cref="CliRootCommand"/>.</remarks>
+    /// <remarks>This should only be called once attached to a <see cref="Command"/> which has been attached to the <see cref="RootCommand"/>.</remarks>
     public static T CustomizeHelp<T>(
         this T symbol,
         Func<Help.HelpContext, string?>? firstColumnText = null,
         Func<Help.HelpContext, string?>? secondColumnText = null,
         Func<Help.HelpContext, string?>? defaultValue = null)
-        where T : CliSymbol
+        where T : Symbol
     {
         // get the help action
-        if (Internal.ActionHelpers.GetHelpAction(symbol) is { } helpAction)
+        if (Internal.CommandLineActionHelpers.GetHelpAction(symbol) is { } helpAction)
         {
             helpAction.Builder.CustomizeSymbol(
                 symbol,

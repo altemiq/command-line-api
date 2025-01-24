@@ -17,10 +17,10 @@ public partial class HostingExtensionsTests
         const bool Value = true;
 
         Microsoft.Extensions.Hosting.IHost? host = default;
-        CliRootCommand rootCommand = [];
+        RootCommand rootCommand = [];
         rootCommand.SetAction(parseResult => host = parseResult.GetHost());
 
-        CliConfiguration configuration = new(rootCommand);
+        CommandLineConfiguration configuration = new(rootCommand);
         _ = configuration.UseApplicationHost(configureHost: (parseResult, configure) => configure.Services.ConfigureInvocationLifetime(opts => opts.SuppressStatusMessages = Value));
 
         _ = configuration.Invoke([]);
@@ -34,10 +34,10 @@ public partial class HostingExtensionsTests
     public void GetHostFromApplicationBuilderWithDirectives()
     {
         Microsoft.Extensions.Hosting.IHost? host = default;
-        CliRootCommand rootCommand = [];
+        RootCommand rootCommand = [];
         rootCommand.SetAction(parseResult => host = parseResult.GetHost());
 
-        CliConfiguration configuration = new(rootCommand);
+        CommandLineConfiguration configuration = new(rootCommand);
         _ = configuration.UseApplicationHost();
 
         _ = configuration.Invoke("[config:Key1=Value1] [config:Key2]");
@@ -54,10 +54,10 @@ public partial class HostingExtensionsTests
     public void GetHostApplicationLifetime()
     {
         Microsoft.Extensions.Hosting.IHostApplicationLifetime? hostApplicationLifetime = default;
-        CliRootCommand rootCommand = [];
+        RootCommand rootCommand = [];
         rootCommand.SetAction(parseResult => hostApplicationLifetime = parseResult.GetServices()?.GetService(typeof(Microsoft.Extensions.Hosting.IHostApplicationLifetime)) as Microsoft.Extensions.Hosting.IHostApplicationLifetime);
 
-        CliConfiguration configuration = new(rootCommand);
+        CommandLineConfiguration configuration = new(rootCommand);
         _ = configuration.UseApplicationHost();
 
         _ = configuration.Invoke(string.Empty);

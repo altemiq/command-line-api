@@ -7,7 +7,7 @@
 namespace System.CommandLine.Parsing;
 
 /// <summary>
-/// <see cref="Microsoft.Extensions.FileSystemGlobbing" /> parsers for <see cref="CliArgument{T}.CustomParser"/> or <see cref="CliOption{T}.CustomParser"/>.
+/// <see cref="Microsoft.Extensions.FileSystemGlobbing" /> parsers for <see cref="Argument{T}.CustomParser"/> or <see cref="Option{T}.CustomParser"/>.
 /// </summary>
 public static class FileSystemGlobbingParser
 {
@@ -23,14 +23,14 @@ public static class FileSystemGlobbingParser
     /// </summary>
     /// <param name="tokens">The tokens.</param>
     /// <returns>The files matched by the globbing.</returns>
-    public static FileInfo[] Parse(IEnumerable<CliToken> tokens) => Parse(tokens, default);
+    public static FileInfo[] Parse(IEnumerable<Token> tokens) => Parse(tokens, default);
 
     /// <summary>
     /// Parses the file system globbing.
     /// </summary>
     /// <param name="token">The token.</param>
     /// <returns>The files matched by the globbing.</returns>
-    public static FileInfo[] Parse(CliToken token) => Parse(token, default);
+    public static FileInfo[] Parse(Token token) => Parse(token, default);
 
     /// <summary>
     /// Parses the file system globbing.
@@ -60,7 +60,7 @@ public static class FileSystemGlobbingParser
     /// <param name="tokens">The tokens.</param>
     /// <param name="directoryInfo">The directory information.</param>
     /// <returns>The files matched by the globbing.</returns>
-    internal static FileInfo[] Parse(IEnumerable<CliToken> tokens, Microsoft.Extensions.FileSystemGlobbing.Abstractions.DirectoryInfoBase? directoryInfo) => Parse(tokens.Select(token => token.Value), directoryInfo);
+    internal static FileInfo[] Parse(IEnumerable<Token> tokens, Microsoft.Extensions.FileSystemGlobbing.Abstractions.DirectoryInfoBase? directoryInfo) => Parse(tokens.Select(token => token.Value), directoryInfo);
 
     /// <summary>
     /// Parses the file system globbing.
@@ -68,7 +68,7 @@ public static class FileSystemGlobbingParser
     /// <param name="token">The token.</param>
     /// <param name="directoryInfo">The directory information.</param>
     /// <returns>The files matched by the globbing.</returns>
-    internal static FileInfo[] Parse(CliToken token, Microsoft.Extensions.FileSystemGlobbing.Abstractions.DirectoryInfoBase? directoryInfo) => Parse(token.Value, directoryInfo);
+    internal static FileInfo[] Parse(Token token, Microsoft.Extensions.FileSystemGlobbing.Abstractions.DirectoryInfoBase? directoryInfo) => Parse(token.Value, directoryInfo);
 
     /// <summary>
     /// Parses the file system globbing.

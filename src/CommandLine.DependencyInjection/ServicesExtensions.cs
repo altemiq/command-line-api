@@ -23,7 +23,7 @@ public static class ServicesExtensions
     public static T UseServices<T>(
         this T configuration,
         Action<IServiceCollection> configure)
-        where T : CliConfiguration => UseServices(configuration, (_, builder) => configure(builder));
+        where T : CommandLineConfiguration => UseServices(configuration, (_, builder) => configure(builder));
 
     /// <summary>
     /// Uses services for the configuration.
@@ -35,9 +35,9 @@ public static class ServicesExtensions
     public static T UseServices<T>(
         this T configuration,
         Action<ParseResult?, IServiceCollection> configure)
-        where T : CliConfiguration
+        where T : CommandLineConfiguration
     {
-        Invocation.BuilderAction.SetHandlers<ServiceCollection, IServiceProvider>(configuration.RootCommand, builder => builder.BuildServiceProvider(), configure);
+        Invocation.BuilderCommandLineAction.SetHandlers<ServiceCollection, IServiceProvider>(configuration.RootCommand, builder => builder.BuildServiceProvider(), configure);
         return configuration;
     }
 
@@ -46,19 +46,19 @@ public static class ServicesExtensions
     /// </summary>
     /// <param name="parseResult">The parse result.</param>
     /// <returns>The service provider.</returns>
-    public static IServiceProvider? GetServices(this ParseResult parseResult) => Invocation.InstanceAction.GetInstance<IServiceProvider>(parseResult);
+    public static IServiceProvider? GetServices(this ParseResult parseResult) => Invocation.InstanceCommandLineAction.GetInstance<IServiceProvider>(parseResult);
 
     /// <summary>
     /// Gets the service provider from the command.
     /// </summary>
     /// <param name="command">The command.</param>
     /// <returns>The service provider.</returns>
-    public static IServiceProvider? GetServices(this CliCommand command) => Invocation.InstanceAction.GetInstance<IServiceProvider>(command);
+    public static IServiceProvider? GetServices(this Command command) => Invocation.InstanceCommandLineAction.GetInstance<IServiceProvider>(command);
 
     /// <summary>
     /// Gets the service provider from the action.
     /// </summary>
     /// <param name="action">The action.</param>
     /// <returns>The service provider.</returns>
-    public static IServiceProvider? GetServices(this Invocation.CliAction action) => Invocation.InstanceAction.GetInstance<IServiceProvider>(action);
+    public static IServiceProvider? GetServices(this Invocation.CommandLineAction action) => Invocation.InstanceCommandLineAction.GetInstance<IServiceProvider>(action);
 }

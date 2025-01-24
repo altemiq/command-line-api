@@ -35,10 +35,10 @@ This sets up a wrapping action, around the current action, that will call the sp
 This is useful to set an action to run before the specified action, such as configuring native PATHs, etc.
 
 ```csharp
-var command = new CliCommand("COMMAND");
+var command = new Command("COMMAND");
 command.SetAction(parseResult =>
 {
-    /* perform CLI action */
+    /* perform command line action */
 });
 
 Invocation.DelegateAction.SetHandlers(
@@ -60,10 +60,10 @@ This sets up a wrapping action, around the current action, that will create as i
 This is useful to set an action to run before the specified action that an instance the relies on the parse result.
 
 ```csharp
-var command = new CliCommand("COMMAND");
+var command = new Command("COMMAND");
 command.SetAction(parseResult =>
 {
-    /* perform CLI action */
+    /* perform command line action */
 });
 
 Invocation.InstanceAction.SetHandlers(
@@ -81,10 +81,10 @@ This sets up a wrapping action, around the current action, that will call the sp
 This is useful to set an action to run before the specified action that require the builder pattern, such as logging, or hosting.
 
 ```csharp
-var command = new CliCommand("COMMAND");
+var command = new Command("COMMAND");
 command.SetAction(parseResult =>
 {
-    /* perform CLI action */
+    /* perform command line action */
 });
 
 Invocation.BuilderAction.SetHandlers(

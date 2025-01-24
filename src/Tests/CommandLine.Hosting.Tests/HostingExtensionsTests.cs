@@ -17,10 +17,10 @@ public partial class HostingExtensionsTests
         const bool Value = true;
 
         Microsoft.Extensions.Hosting.IHost? host = default;
-        CliRootCommand rootCommand = [];
+        RootCommand rootCommand = [];
         rootCommand.SetAction(parseResult => host = parseResult.GetHost());
 
-        CliConfiguration configuration = new(rootCommand);
+        CommandLineConfiguration configuration = new(rootCommand);
         _ = configuration.UseHost(configureHost: (_, builder) => builder.ConfigureServices((_, services) => services.ConfigureInvocationLifetime(opts => opts.SuppressStatusMessages = Value)));
 
         _ = configuration.Invoke([]);
@@ -34,10 +34,10 @@ public partial class HostingExtensionsTests
     public void GetHostWithDirectives()
     {
         Microsoft.Extensions.Hosting.IHost? host = default;
-        CliRootCommand rootCommand = [];
+        RootCommand rootCommand = [];
         rootCommand.SetAction(parseResult => host = parseResult.GetHost());
 
-        CliConfiguration configuration = new(rootCommand);
+        CommandLineConfiguration configuration = new(rootCommand);
         _ = configuration.UseHost();
 
         _ = configuration.Invoke("[config:Key1=Value1] [config:Key2]");
@@ -54,10 +54,10 @@ public partial class HostingExtensionsTests
     public void GetConfiguration()
     {
         IConfiguration? config = default;
-        CliRootCommand rootCommand = [];
+        RootCommand rootCommand = [];
         rootCommand.SetAction(result => config = result.GetConfiguration());
 
-        CliConfiguration configuration = new(rootCommand);
+        CommandLineConfiguration configuration = new(rootCommand);
         _ = configuration.UseConfiguration();
 
         _ = configuration.Invoke([]);
@@ -70,10 +70,10 @@ public partial class HostingExtensionsTests
     public void GetServices(bool withArgs)
     {
         IServiceProvider? serviceProvider = default;
-        CliRootCommand rootCommand = [];
+        RootCommand rootCommand = [];
         rootCommand.SetAction(result => serviceProvider = result.GetServices());
 
-        CliConfiguration configuration = new(rootCommand);
+        CommandLineConfiguration configuration = new(rootCommand);
         _ = withArgs
             ? configuration.UseServices(args => Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args))
             : configuration.UseServices();
@@ -87,14 +87,14 @@ public partial class HostingExtensionsTests
     {
         IServiceProvider? serviceProvider = default;
         IConfiguration? config = default;
-        CliRootCommand rootCommand = [];
+        RootCommand rootCommand = [];
         rootCommand.SetAction(result =>
         {
             serviceProvider = result.GetServices();
             config = result.GetConfiguration();
         });
 
-        CliConfiguration configuration = new(rootCommand);
+        CommandLineConfiguration configuration = new(rootCommand);
         int count = 0;
         _ = configuration.UseServices(() =>
         {
@@ -120,11 +120,11 @@ public partial class HostingExtensionsTests
     public void UseConfigurationInDefaultValueFromArgument()
     {
         IConfiguration? config = default;
-        CliArgument<string> argument = new("ARG")
+        Argument<string> argument = new("ARG")
         {
             DefaultValueFactory = argumentResult =>
             {
-                CliCommand? command = argumentResult.GetCommand();
+                Command? command = argumentResult.GetCommand();
                 if (command is not null && command.Action is { } action)
                 {
                     config = action.GetConfiguration();
@@ -134,7 +134,7 @@ public partial class HostingExtensionsTests
             }
         };
 
-        CliConfiguration configuration = new(new CliRootCommand { argument });
+        CommandLineConfiguration configuration = new(new RootCommand { argument });
         _ = configuration.UseConfiguration();
 
         _ = configuration.Invoke([]);
@@ -145,7 +145,7 @@ public partial class HostingExtensionsTests
     public void UseConfigurationInDefaultValueFromOption()
     {
         IConfiguration? config = default;
-        CliOption<string> argument = new("--option")
+        Option<string> argument = new("--option")
         {
             DefaultValueFactory = argumentResult =>
             {
@@ -159,7 +159,7 @@ public partial class HostingExtensionsTests
             Recursive = true,
         };
 
-        CliConfiguration configuration = new(new CliRootCommand { argument });
+        CommandLineConfiguration configuration = new(new RootCommand { argument });
         _ = configuration.UseConfiguration();
 
         _ = configuration.Invoke(string.Empty);
@@ -174,20 +174,20 @@ public partial class HostingExtensionsTests
     public void UseConfigurationInHelp(string name, bool withArgs)
     {
         IConfiguration? config = default;
-        CliCommand? command = default;
+        Command? command = default;
 
-        CliOption<string> argument = new("--option")
+        Option<string> argument = new("--option")
         {
             DefaultValueFactory = _ => default!,
             Recursive = true,
         };
 
-        CliCommand firstSubCommand = new("first") { argument };
+        Command firstSubCommand = new("first") { argument };
         firstSubCommand.SetAction(_ => { });
-        CliCommand secondSubCommand = new("second") { argument };
+        Command secondSubCommand = new("second") { argument };
         secondSubCommand.SetAction(_ => { });
 
-        CliRootCommand rootCommand =
+        RootCommand rootCommand =
         [
             firstSubCommand,
             secondSubCommand,
@@ -200,14 +200,14 @@ public partial class HostingExtensionsTests
             return default;
         });
 
-        CliConfiguration configuration = new(rootCommand);
+        CommandLineConfiguration configuration = new(rootCommand);
         _ = withArgs
             ? configuration.UseConfiguration((args) => Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args))
             : configuration.UseConfiguration();
 
         _ = configuration.Invoke($"{name} --help");
 
-        _ = command.Should().NotBeNull().And.Subject.As<CliCommand>().Name.Should().Be(name);
+        _ = command.Should().NotBeNull().And.Subject.As<Command>().Name.Should().Be(name);
         _ = config.Should().NotBeNull();
     }
 
@@ -222,8 +222,8 @@ public partial class HostingExtensionsTests
                 Microsoft.Extensions.Hosting.IHostBuilder hostBuilder = Substitute.For<Microsoft.Extensions.Hosting.IHostBuilder>();
                 _ = hostBuilder.Build().Returns(host);
 
-                CliRootCommand root = [];
-                CliConfiguration configuration = new(root);
+                RootCommand root = [];
+                CommandLineConfiguration configuration = new(root);
                 _ = configuration.UseHost(args => hostBuilder);
 
                 _ = await configuration.InvokeAsync(string.Empty);
@@ -239,9 +239,9 @@ public partial class HostingExtensionsTests
                 Microsoft.Extensions.Hosting.IHostBuilder hostBuilder = Substitute.For<Microsoft.Extensions.Hosting.IHostBuilder>();
                 _ = hostBuilder.Build().Returns(host);
 
-                CliRootCommand root = [];
+                RootCommand root = [];
                 root.SetAction(parseResult => { });
-                CliConfiguration configuration = new(root);
+                CommandLineConfiguration configuration = new(root);
                 _ = configuration.UseHost(args => hostBuilder);
 
                 _ = await configuration.InvokeAsync(string.Empty);
@@ -257,9 +257,9 @@ public partial class HostingExtensionsTests
                 Microsoft.Extensions.Hosting.IHostBuilder hostBuilder = Substitute.For<Microsoft.Extensions.Hosting.IHostBuilder>();
                 _ = hostBuilder.Build().Returns(host);
 
-                CliRootCommand root = [];
+                RootCommand root = [];
                 root.SetAction((parseResult, cancellationToken) => Task.CompletedTask);
-                CliConfiguration configuration = new(root);
+                CommandLineConfiguration configuration = new(root);
                 _ = configuration.UseHost(args => hostBuilder);
 
                 _ = await configuration.InvokeAsync(string.Empty);

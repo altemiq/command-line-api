@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="ActionHelpers.cs" company="Altemiq">
+// <copyright file="CommandLineActionHelpers.cs" company="Altemiq">
 // Copyright (c) Altemiq. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -7,16 +7,16 @@
 namespace System.CommandLine.Internal;
 
 /// <summary>
-/// The <see cref="Invocation.CliAction"/> helpers.
+/// The <see cref="Invocation.CommandLineAction"/> helpers.
 /// </summary>
-internal static class ActionHelpers
+internal static class CommandLineActionHelpers
 {
     /// <summary>
     /// Gets the help action for the specified symbol.
     /// </summary>
     /// <param name="symbol">The symbol.</param>
     /// <returns>The help action.</returns>
-    public static Help.HelpAction? GetHelpAction(CliSymbol symbol) => CommandHelpers.GetRootCommand(symbol) is { } rootCommand
+    public static Help.HelpAction? GetHelpAction(Symbol symbol) => CommandHelpers.GetRootCommand(symbol) is { } rootCommand
         ? GetHelpAction(rootCommand)
         : default;
 
@@ -25,23 +25,23 @@ internal static class ActionHelpers
     /// </summary>
     /// <param name="command">The command.</param>
     /// <returns>The help action.</returns>
-    public static Help.HelpAction? GetHelpAction(CliCommand command)
+    public static Help.HelpAction? GetHelpAction(Command command)
     {
         return command.Options
             .OfType<Help.HelpOption>()
             .Select(GetHelpAction)
             .FirstOrDefault(action => action is not null);
 
-        static Help.HelpAction? GetHelpAction(CliOption option)
+        static Help.HelpAction? GetHelpAction(Option option)
         {
             return GetHelpActionCore(option.Action);
 
-            static Help.HelpAction? GetHelpActionCore(Invocation.CliAction? action)
+            static Help.HelpAction? GetHelpActionCore(Invocation.CommandLineAction? action)
             {
                 return action switch
                 {
                     Help.HelpAction helpAction => helpAction,
-                    Invocation.INestedAction nestedAction => GetHelpActionCore(nestedAction.Action),
+                    Invocation.INestedCommandLineAction nestedAction => GetHelpActionCore(nestedAction.Action),
                     _ => default,
                 };
             }

@@ -17,7 +17,7 @@ public class HostedServiceTests
     {
         const string CommandName = "command";
         HostedService hostedService = new();
-        CliConfiguration configuration = new(new CliRootCommand { new CliCommand(CommandName) });
+        CommandLineConfiguration configuration = new(new RootCommand { new Command(CommandName) });
         _ = configuration.UseHost((parseResult, builder) => builder.ConfigureServices(services => services.AddHostedService(_ => hostedService)));
 
         _ = configuration.Invoke(CommandName);
@@ -31,7 +31,7 @@ public class HostedServiceTests
     public void UseHostedServiceThroughApplicationHost()
     {
         HostedService hostedService = new();
-        CliConfiguration configuration = new(new CliRootCommand());
+        CommandLineConfiguration configuration = new(new RootCommand());
         _ = configuration.UseApplicationHost((parseResult, builder) => builder.Services.AddHostedService(_ => hostedService));
 
         _ = configuration.Invoke(string.Empty);

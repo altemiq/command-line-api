@@ -13,7 +13,7 @@ public class AnsiConsoleConfigurationExtensionsTests
     {
         TestConsole console = new();
 
-        CliConfiguration configuration = new CliConfiguration(new CliRootCommand()).AddFiglet("value", Color.Blue, console);
+        CommandLineConfiguration configuration = new CommandLineConfiguration(new RootCommand()).AddFiglet("value", Color.Blue, console);
 
         _ = configuration.Parse("--help").Invoke();
 

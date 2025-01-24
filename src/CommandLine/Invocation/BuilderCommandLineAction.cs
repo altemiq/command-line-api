@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="BuilderAction.cs" company="Altemiq">
+// <copyright file="BuilderCommandLineAction.cs" company="Altemiq">
 // Copyright (c) Altemiq. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -9,9 +9,9 @@ namespace System.CommandLine.Invocation;
 /// <summary>
 /// The builder action.
 /// </summary>
-public static class BuilderAction
+public static class BuilderCommandLineAction
 {
-    private static readonly Collections.Concurrent.ConcurrentDictionary<(CliCommand, Type, Type), Configurer> Configures = [];
+    private static readonly Collections.Concurrent.ConcurrentDictionary<(Command, Type, Type), Configurer> Configures = [];
 
     /// <summary>
     /// Sets the handlers.
@@ -21,7 +21,7 @@ public static class BuilderAction
     /// <param name="command">The command.</param>
     /// <param name="createInstance">The instance.</param>
     /// <param name="configure">The action to confure the builder.</param>
-    public static void SetHandlers<TBuilder, TInstance>(CliCommand command, Func<TBuilder, TInstance> createInstance, Action<ParseResult?, TBuilder> configure)
+    public static void SetHandlers<TBuilder, TInstance>(Command command, Func<TBuilder, TInstance> createInstance, Action<ParseResult?, TBuilder> configure)
         where TBuilder : new() => SetHandlers(command, _ => new TBuilder(), createInstance, configure);
 
     /// <summary>
@@ -33,7 +33,7 @@ public static class BuilderAction
     /// <param name="createBuilder">The function to create the builder.</param>
     /// <param name="buildInstance">The build the instance.</param>
     /// <param name="configure">The action to confure the builder.</param>
-    public static void SetHandlers<TBuilder, TInstance>(CliCommand command, Func<ParseResult?, TBuilder> createBuilder, Func<TBuilder, TInstance> buildInstance, Action<ParseResult?, TBuilder> configure) => SetHandlers(command, createBuilder, buildInstance, configure, create => InstanceAction.SetHandlers(command, create));
+    public static void SetHandlers<TBuilder, TInstance>(Command command, Func<ParseResult?, TBuilder> createBuilder, Func<TBuilder, TInstance> buildInstance, Action<ParseResult?, TBuilder> configure) => SetHandlers(command, createBuilder, buildInstance, configure, create => InstanceCommandLineAction.SetHandlers(command, create));
 
     /// <summary>
     /// Sets the handlers.
@@ -46,7 +46,7 @@ public static class BuilderAction
     /// <param name="configure">The action to confure the builder.</param>
     /// <param name="beforeInvoke">The action to call before invoking the nested action.</param>
     /// <param name="afterInvoke">The action to call after invoking the nested action.</param>
-    public static void SetHandlers<TBuilder, TInstance>(CliCommand command, Func<ParseResult?, TBuilder> createBuilder, Func<TBuilder, TInstance> buildInstance, Action<ParseResult?, TBuilder> configure, Action<ParseResult, TInstance> beforeInvoke, Action<ParseResult, TInstance> afterInvoke) => SetHandlers(command, createBuilder, buildInstance, configure, create => InstanceAction.SetHandlers(command, create, beforeInvoke, afterInvoke));
+    public static void SetHandlers<TBuilder, TInstance>(Command command, Func<ParseResult?, TBuilder> createBuilder, Func<TBuilder, TInstance> buildInstance, Action<ParseResult?, TBuilder> configure, Action<ParseResult, TInstance> beforeInvoke, Action<ParseResult, TInstance> afterInvoke) => SetHandlers(command, createBuilder, buildInstance, configure, create => InstanceCommandLineAction.SetHandlers(command, create, beforeInvoke, afterInvoke));
 
     /// <summary>
     /// Sets the handlers.
@@ -59,9 +59,9 @@ public static class BuilderAction
     /// <param name="configure">The action to confure the builder.</param>
     /// <param name="beforeInvoke">The action to call before invoking the nested action.</param>
     /// <param name="afterInvoke">The action to call after invoking the nested action.</param>
-    public static void SetHandlers<TBuilder, TInstance>(CliCommand command, Func<ParseResult?, TBuilder> createBuilder, Func<TBuilder, TInstance> buildInstance, Action<ParseResult?, TBuilder> configure, Func<ParseResult, TInstance, CancellationToken, Task> beforeInvoke, Func<ParseResult, TInstance, CancellationToken, Task> afterInvoke) => SetHandlers(command, createBuilder, buildInstance, configure, create => InstanceAction.SetHandlers(command, create, beforeInvoke, afterInvoke));
+    public static void SetHandlers<TBuilder, TInstance>(Command command, Func<ParseResult?, TBuilder> createBuilder, Func<TBuilder, TInstance> buildInstance, Action<ParseResult?, TBuilder> configure, Func<ParseResult, TInstance, CancellationToken, Task> beforeInvoke, Func<ParseResult, TInstance, CancellationToken, Task> afterInvoke) => SetHandlers(command, createBuilder, buildInstance, configure, create => InstanceCommandLineAction.SetHandlers(command, create, beforeInvoke, afterInvoke));
 
-    private static void SetHandlers<TBuilder, TInstance>(CliCommand command, Func<ParseResult?, TBuilder> createBuilder, Func<TBuilder, TInstance> buildInstance, Action<ParseResult?, TBuilder> configure, Action<Func<ParseResult?, TInstance>> setHandler)
+    private static void SetHandlers<TBuilder, TInstance>(Command command, Func<ParseResult?, TBuilder> createBuilder, Func<TBuilder, TInstance> buildInstance, Action<ParseResult?, TBuilder> configure, Action<Func<ParseResult?, TInstance>> setHandler)
     {
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_0_OR_GREATER || NET472_OR_GREATER
         _ = Configures.AddOrUpdate(

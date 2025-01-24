@@ -7,7 +7,7 @@
 namespace System.CommandLine.Parsing;
 
 /// <summary>
-/// <see cref="Range" /> parsers for <see cref="CliArgument{T}.CustomParser"/> or <see cref="CliOption{T}.CustomParser"/>.
+/// <see cref="Range" /> parsers for <see cref="Argument{T}.CustomParser"/> or <see cref="Option{T}.CustomParser"/>.
 /// </summary>
 public static class RangeParser
 {
@@ -25,7 +25,7 @@ public static class RangeParser
     /// </summary>
     /// <param name="token">The token.</param>
     /// <returns>The parsed value.</returns>
-    public static Range Parse(CliToken token) => Parse(token.Value);
+    public static Range Parse(Token token) => Parse(token.Value);
 
     /// <summary>
     /// Parses the range.
@@ -65,7 +65,7 @@ public static class RangeParser
     /// </summary>
     /// <param name="tokens">The tokens.</param>
     /// <returns>The parsed values.</returns>
-    public static Range[] ParseAll(IEnumerable<CliToken> tokens) => ParseAll(tokens.Select(token => token.Value));
+    public static Range[] ParseAll(IEnumerable<Token> tokens) => ParseAll(tokens.Select(token => token.Value));
 
     /// <summary>
     /// Parses the ranges.

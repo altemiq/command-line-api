@@ -23,7 +23,7 @@ public static partial class HostingExtensions
     /// <param name="configureHost">The function to configure the host.</param>
     /// <returns>The configuration for chaining.</returns>
     public static T UseApplicationHost<T>(this T configuration, Action<ParseResult?, Microsoft.Extensions.Hosting.HostApplicationBuilder>? configureHost = default)
-        where T : CliConfiguration => UseApplicationHost(configuration, Microsoft.Extensions.Hosting.Host.CreateApplicationBuilder, configureHost);
+        where T : CommandLineConfiguration => UseApplicationHost(configuration, Microsoft.Extensions.Hosting.Host.CreateApplicationBuilder, configureHost);
 
     /// <summary>
     /// Use the application host builder to create a host.
@@ -34,14 +34,14 @@ public static partial class HostingExtensions
     /// <param name="configureHost">The function to configure the host.</param>
     /// <returns>The configuration for chaining.</returns>
     public static T UseApplicationHost<T>(this T configuration, Func<string[], Microsoft.Extensions.Hosting.HostApplicationBuilder> hostBuilderFactory, Action<ParseResult?, Microsoft.Extensions.Hosting.HostApplicationBuilder>? configureHost = default)
-        where T : CliConfiguration
+        where T : CommandLineConfiguration
     {
-        if (configuration.RootCommand is CliRootCommand root)
+        if (configuration.RootCommand is RootCommand root)
         {
-            root.Add(new CliDirective(HostingDirectiveName));
+            root.Add(new Directive(HostingDirectiveName));
         }
 
-        BuilderAction.SetHandlers(
+        BuilderCommandLineAction.SetHandlers(
             configuration.RootCommand,
             parseResult => CreateHostApplicationBuilder(configuration, hostBuilderFactory, parseResult),
             static builder => builder.Build(),
@@ -71,7 +71,7 @@ public static partial class HostingExtensions
 
             static void UpdateHostConfiguration(T configuration, ParseResult parseResult, Microsoft.Extensions.Hosting.HostApplicationBuilder hostBuilder)
             {
-                if (configuration.RootCommand is CliRootCommand root
+                if (configuration.RootCommand is RootCommand root
                     && root.Directives.SingleOrDefault(d => string.Equals(d.Name, HostingDirectiveName, StringComparison.Ordinal)) is { } directive
                     && parseResult.GetResult(directive) is { } directiveResult)
                 {

@@ -11,8 +11,8 @@ public class ExtensionMethodsTests
     [Fact]
     public void GetRequiredValueFromOptionName()
     {
-        CliOption<string> option = new("--option");
-        CliConfiguration configuration = new(new CliRootCommand { option });
+        Option<string> option = new("--option");
+        CommandLineConfiguration configuration = new(new RootCommand { option });
 
         _ = configuration.Parse("--option value").GetRequiredValue<string>("--option").Should().Be("value");
     }
@@ -20,8 +20,8 @@ public class ExtensionMethodsTests
     [Fact]
     public void GetRequiredValueFromOption()
     {
-        CliOption<string> option = new("--option");
-        CliConfiguration configuration = new(new CliRootCommand { option });
+        Option<string> option = new("--option");
+        CommandLineConfiguration configuration = new(new RootCommand { option });
 
         _ = configuration.Parse("--option value").GetRequiredValue(option).Should().Be("value");
     }
@@ -29,8 +29,8 @@ public class ExtensionMethodsTests
     [Fact]
     public void GetRequiredValueFromOptionWhenMissing()
     {
-        CliOption<string> option = new("--option");
-        CliConfiguration configuration = new(new CliRootCommand { option });
+        Option<string> option = new("--option");
+        CommandLineConfiguration configuration = new(new RootCommand { option });
 
         _ = configuration.Parse(string.Empty).Invoking(parseResult => parseResult.GetRequiredValue(option)).Should().Throw<ArgumentNullException>();
     }
@@ -38,8 +38,8 @@ public class ExtensionMethodsTests
     [Fact]
     public void GetRequiredValueFromArgument()
     {
-        CliArgument<string> argument = new("ARG");
-        CliConfiguration configuration = new(new CliRootCommand { argument });
+        Argument<string> argument = new("ARG");
+        CommandLineConfiguration configuration = new(new RootCommand { argument });
 
         _ = configuration.Parse("value").GetRequiredValue(argument).Should().Be("value");
     }
@@ -47,8 +47,8 @@ public class ExtensionMethodsTests
     [Fact]
     public void GetRequiredValueFromArgumentWhenMissing()
     {
-        CliArgument<string> argument = new("ARG") { DefaultValueFactory = _ => default! };
-        CliConfiguration configuration = new(new CliRootCommand { argument });
+        Argument<string> argument = new("ARG") { DefaultValueFactory = _ => default! };
+        CommandLineConfiguration configuration = new(new RootCommand { argument });
 
         _ = configuration.Parse(string.Empty).Invoking(parseResult => parseResult.GetRequiredValue(argument)).Should().Throw<ArgumentNullException>();
     }
@@ -56,8 +56,8 @@ public class ExtensionMethodsTests
     [Fact]
     public void GetRequiredResultFromOption()
     {
-        CliOption<string> option = new("--option");
-        CliConfiguration configuration = new(new CliRootCommand { option });
+        Option<string> option = new("--option");
+        CommandLineConfiguration configuration = new(new RootCommand { option });
 
         _ = configuration.Parse("--option value").Invoking(parseResult => parseResult.GetRequiredResult(option)).Should().NotThrow();
     }
@@ -65,8 +65,8 @@ public class ExtensionMethodsTests
     [Fact]
     public void GetRequiredResultFromArgument()
     {
-        CliArgument<string> argument = new("ARG");
-        CliConfiguration configuration = new(new CliRootCommand { argument });
+        Argument<string> argument = new("ARG");
+        CommandLineConfiguration configuration = new(new RootCommand { argument });
 
         _ = configuration.Parse("value").Invoking(parseResult => parseResult.GetRequiredResult(argument)).Should().NotThrow();
     }
@@ -74,8 +74,8 @@ public class ExtensionMethodsTests
     [Fact]
     public void GetRequiredResultFromCommand()
     {
-        CliRootCommand command = [];
-        CliConfiguration configuration = new(command);
+        RootCommand command = [];
+        CommandLineConfiguration configuration = new(command);
 
         _ = configuration.Parse("value").Invoking(parseResult => parseResult.GetRequiredResult(command)).Should().NotThrow();
     }
@@ -83,28 +83,28 @@ public class ExtensionMethodsTests
     [Fact]
     public void GetRequiredResultFromDirective()
     {
-        CliRootCommand command = [];
-        CliConfiguration configuration = new(command);
+        RootCommand command = [];
+        CommandLineConfiguration configuration = new(command);
 
-        CliDirective directive = command.Directives.First();
+        Directive directive = command.Directives.First();
         _ = configuration.Parse($"[{directive.Name}]").Invoking(parseResult => parseResult.GetRequiredResult(directive)).Should().NotThrow();
     }
 
     [Fact]
     public void GetRequiredResultFromSymbol()
     {
-        CliRootCommand command = [];
-        CliConfiguration configuration = new(command);
-        CliSymbol symbol = command;
+        RootCommand command = [];
+        CommandLineConfiguration configuration = new(command);
+        Symbol symbol = command;
         _ = configuration.Parse("value").Invoking(parseResult => parseResult.GetRequiredResult(symbol).Should()).Should().NotThrow();
     }
 
     [Fact]
     public void GetRequiredCommandFromSymbolResult()
     {
-        CliOption<string> option = new("--option");
-        CliRootCommand command = [option];
-        CliConfiguration configuration = new(command);
+        Option<string> option = new("--option");
+        RootCommand command = [option];
+        CommandLineConfiguration configuration = new(command);
 
         _ = configuration.Parse("--option value")
             .GetResult(option).Should().BeOfType<Parsing.OptionResult>()
@@ -114,8 +114,8 @@ public class ExtensionMethodsTests
     [Fact]
     public void GetRequiredCommandFromOption()
     {
-        CliCommand? commandFromOptionDefault = default;
-        CliOption<string> option = new("--api")
+        Command? commandFromOptionDefault = default;
+        Option<string> option = new("--api")
         {
             DefaultValueFactory = argumentResult =>
             {
@@ -123,8 +123,8 @@ public class ExtensionMethodsTests
                 return "This is the default value";
             },
         };
-        CliRootCommand command = [option];
-        CliConfiguration configuration = new(command)
+        RootCommand command = [option];
+        CommandLineConfiguration configuration = new(command)
         {
             Output = TextWriter.Null,
             Error = TextWriter.Null,
@@ -140,8 +140,8 @@ public class ExtensionMethodsTests
     [Fact]
     public void GetRequiredCommandFromArgument()
     {
-        CliCommand? commandFromOptionDefault = default;
-        CliArgument<string> argument = new("API")
+        Command? commandFromOptionDefault = default;
+        Argument<string> argument = new("API")
         {
             DefaultValueFactory = argumentResult =>
             {
@@ -149,8 +149,8 @@ public class ExtensionMethodsTests
                 return "This is the default value";
             },
         };
-        CliRootCommand command = [argument];
-        CliConfiguration configuration = new(command)
+        RootCommand command = [argument];
+        CommandLineConfiguration configuration = new(command)
         {
             Output = TextWriter.Null,
             Error = TextWriter.Null,
@@ -170,7 +170,7 @@ public class ExtensionMethodsTests
     [Fact]
     public void GetRequiredCommandFromNull()
     {
-        Func<CliCommand> act = () => ExtensionMethods.GetRequiredCommand(null!);
+        Func<Command> act = () => ExtensionMethods.GetRequiredCommand(null!);
         _ = act.Should().Throw<ArgumentNullException>();
     }
 }

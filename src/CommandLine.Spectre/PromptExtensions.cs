@@ -12,14 +12,14 @@ namespace System.CommandLine;
 public static class PromptExtensions
 {
     /// <summary>
-    /// Gets the parsed value or prompts for the value for <see cref="CliOption{Boolean}"/>.
+    /// Gets the parsed value or prompts for the value for <see cref="Option{Boolean}"/>.
     /// </summary>
     /// <param name="parseResult">The parse result.</param>
     /// <param name="option">The option to get the value for.</param>
     /// <param name="prompt">The prompt for the user.</param>
     /// <param name="console">The console to use or <see cref="global::Spectre.Console.AnsiConsole.Console"/> if <see langword="null" />.</param>
     /// <returns>The parsed value or the prompted value for <paramref name="option"/>.</returns>
-    public static bool GetValueOrPrompt(this ParseResult parseResult, CliOption<bool> option, string prompt, IAnsiConsole? console = default)
+    public static bool GetValueOrPrompt(this ParseResult parseResult, Option<bool> option, string prompt, IAnsiConsole? console = default)
     {
         if (parseResult.GetResult(option) is { Implicit: false } optionResult)
         {
@@ -37,7 +37,7 @@ public static class PromptExtensions
     }
 
     /// <summary>
-    /// Gets the parsed value or prompts for the value for <see cref="CliOption"/>.
+    /// Gets the parsed value or prompts for the value for <see cref="Option"/>.
     /// </summary>
     /// <typeparam name="T">The type of value.</typeparam>
     /// <param name="parseResult">The parse result.</param>
@@ -45,7 +45,7 @@ public static class PromptExtensions
     /// <param name="prompt">The prompt for the user.</param>
     /// <param name="console">The console to use or <see cref="global::Spectre.Console.AnsiConsole.Console"/> if <see langword="null" />.</param>
     /// <returns>The parsed value or the prompted value for <paramref name="option"/>.</returns>
-    public static T GetValueOrPrompt<T>(this ParseResult parseResult, CliOption<T> option, string prompt, IAnsiConsole? console = default)
+    public static T GetValueOrPrompt<T>(this ParseResult parseResult, Option<T> option, string prompt, IAnsiConsole? console = default)
     {
         if (parseResult.GetResult(option) is { Implicit: false } optionResult)
         {
@@ -58,7 +58,7 @@ public static class PromptExtensions
 #pragma warning restore CS8714
             : GetValueOrPromptGeneric(option, prompt, AnsiConsole.GetConsoleOrDefault(console));
 
-        static TEnum GetValueOrPromptEnum<TEnum>(CliOption<TEnum> option, string prompt, IAnsiConsole console)
+        static TEnum GetValueOrPromptEnum<TEnum>(Option<TEnum> option, string prompt, IAnsiConsole console)
             where TEnum : notnull
         {
             // do this on the enum
@@ -66,7 +66,7 @@ public static class PromptExtensions
                 ? GetFlagValue(option, prompt, console)
                 : GetValue(option, prompt, console);
 
-            static TEnum GetFlagValue(global::System.CommandLine.CliOption<TEnum> option, string prompt, IAnsiConsole console)
+            static TEnum GetFlagValue(global::System.CommandLine.Option<TEnum> option, string prompt, IAnsiConsole console)
             {
                 // flags, cal select multiple
                 var multiSelectionPrompt = new MultiSelectionPrompt<TEnum> { Title = prompt, };
@@ -120,7 +120,7 @@ public static class PromptExtensions
                 }
             }
 
-            static TEnum GetValue(global::System.CommandLine.CliOption<TEnum> option, string prompt, IAnsiConsole console)
+            static TEnum GetValue(global::System.CommandLine.Option<TEnum> option, string prompt, IAnsiConsole console)
             {
                 var selectionPrompt = new SelectionPrompt<TEnum> { Title = prompt };
                 _ = selectionPrompt.AddChoices(GetChoices(option.CompletionSources, Parse));
@@ -133,7 +133,7 @@ public static class PromptExtensions
             }
         }
 
-        static T GetValueOrPromptGeneric(CliOption<T> option, string prompt, IAnsiConsole console)
+        static T GetValueOrPromptGeneric(Option<T> option, string prompt, IAnsiConsole console)
         {
             var textPrompt = new TextPrompt<T>(prompt) { ShowDefaultValue = false, ShowChoices = false };
 

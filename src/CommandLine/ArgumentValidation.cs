@@ -7,7 +7,7 @@
 namespace System.CommandLine;
 
 /// <summary>
-/// Provides extension methods for <see cref="CliArgument" />.
+/// Provides extension methods for <see cref="Argument" />.
 /// </summary>
 public static class ArgumentValidation
 {
@@ -17,7 +17,7 @@ public static class ArgumentValidation
     /// <param name="argument">The argument.</param>
     /// <param name="scheme">The requied scheme.</param>
     /// <returns>The input argument.</returns>
-    public static CliArgument<Uri> AcceptScheme(this CliArgument<Uri> argument, string scheme)
+    public static Argument<Uri> AcceptScheme(this Argument<Uri> argument, string scheme)
     {
         argument.Validators.Add(result =>
         {
@@ -40,7 +40,7 @@ public static class ArgumentValidation
     /// <param name="argument">The argument.</param>
     /// <param name="schemes">The requied schemes.</param>
     /// <returns>The input argument.</returns>
-    public static CliArgument<Uri> AcceptSchemes(this CliArgument<Uri> argument, params string[] schemes)
+    public static Argument<Uri> AcceptSchemes(this Argument<Uri> argument, params string[] schemes)
     {
         argument.Validators.Add(result =>
         {
@@ -62,28 +62,28 @@ public static class ArgumentValidation
     /// </summary>
     /// <param name="argument">The argument.</param>
     /// <returns>The input argument.</returns>
-    public static CliArgument<Uri> AcceptHttp(this CliArgument<Uri> argument) => AcceptScheme(argument, Uri.UriSchemeHttp);
+    public static Argument<Uri> AcceptHttp(this Argument<Uri> argument) => AcceptScheme(argument, Uri.UriSchemeHttp);
 
     /// <summary>
     /// Validates that the <see cref="Uri"/> has its <see cref="Uri.Scheme"/> set to <see cref="Uri.UriSchemeHttps"/>.
     /// </summary>
     /// <param name="argument">The argument.</param>
     /// <returns>The input argument.</returns>
-    public static CliArgument<Uri> AcceptHttps(this CliArgument<Uri> argument) => AcceptScheme(argument, Uri.UriSchemeHttps);
+    public static Argument<Uri> AcceptHttps(this Argument<Uri> argument) => AcceptScheme(argument, Uri.UriSchemeHttps);
 
     /// <summary>
     /// Validates that the <see cref="Uri"/> has its <see cref="Uri.Scheme"/> set to <see cref="Uri.UriSchemeHttp"/> or <see cref="Uri.UriSchemeHttps"/>.
     /// </summary>
     /// <param name="argument">The argument.</param>
     /// <returns>The input argument.</returns>
-    public static CliArgument<Uri> AcceptHttpOrHttps(this CliArgument<Uri> argument) => AcceptSchemes(argument, Uri.UriSchemeHttp, Uri.UriSchemeHttps);
+    public static Argument<Uri> AcceptHttpOrHttps(this Argument<Uri> argument) => AcceptSchemes(argument, Uri.UriSchemeHttp, Uri.UriSchemeHttps);
 
     /// <summary>
     /// Configures an argument to accept only values corresponding to a missing file.
     /// </summary>
     /// <param name="argument">The argument to configure.</param>
     /// <returns>The configured argument.</returns>
-    public static CliArgument<FileInfo> AcceptMissingOnly(this CliArgument<FileInfo> argument)
+    public static Argument<FileInfo> AcceptMissingOnly(this Argument<FileInfo> argument)
     {
         argument.Validators.Add(FileOrDirectoryDoesNotExist<FileInfo>);
         return argument;
@@ -94,7 +94,7 @@ public static class ArgumentValidation
     /// </summary>
     /// <param name="argument">The argument to configure.</param>
     /// <returns>The configured argument.</returns>
-    public static CliArgument<DirectoryInfo> AcceptMissingOnly(this CliArgument<DirectoryInfo> argument)
+    public static Argument<DirectoryInfo> AcceptMissingOnly(this Argument<DirectoryInfo> argument)
     {
         argument.Validators.Add(FileOrDirectoryDoesNotExist<DirectoryInfo>);
         return argument;
@@ -105,7 +105,7 @@ public static class ArgumentValidation
     /// </summary>
     /// <param name="argument">The argument to configure.</param>
     /// <returns>The configured argument.</returns>
-    public static CliArgument<FileSystemInfo> AcceptMissingOnly(this CliArgument<FileSystemInfo> argument)
+    public static Argument<FileSystemInfo> AcceptMissingOnly(this Argument<FileSystemInfo> argument)
     {
         argument.Validators.Add(FileOrDirectoryDoesNotExist<FileSystemInfo>);
         return argument;
@@ -117,7 +117,7 @@ public static class ArgumentValidation
     /// <typeparam name="T">The type of <see cref="FileSystemInfo"/>.</typeparam>
     /// <param name="argument">The argument to configure.</param>
     /// <returns>The configured argument.</returns>
-    public static CliArgument<T> AcceptMissingOnly<T>(this CliArgument<T> argument)
+    public static Argument<T> AcceptMissingOnly<T>(this Argument<T> argument)
         where T : IEnumerable<FileSystemInfo>
     {
         if (typeof(IEnumerable<FileInfo>).IsAssignableFrom(typeof(T)))
@@ -151,7 +151,7 @@ public static class ArgumentValidation
             }
         }
 
-        static string? CheckToken(Parsing.CliToken token, bool checkFile, bool checkDirectory)
+        static string? CheckToken(Parsing.Token token, bool checkFile, bool checkDirectory)
         {
             return CheckTokenValue(token.Value, checkFile, checkDirectory);
 

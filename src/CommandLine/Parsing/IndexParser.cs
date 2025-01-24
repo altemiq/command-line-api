@@ -7,7 +7,7 @@
 namespace System.CommandLine.Parsing;
 
 /// <summary>
-/// <see cref="Index" /> parsers for <see cref="CliArgument{T}.CustomParser"/> or <see cref="CliOption{T}.CustomParser"/>.
+/// <see cref="Index" /> parsers for <see cref="Argument{T}.CustomParser"/> or <see cref="Option{T}.CustomParser"/>.
 /// </summary>
 public static class IndexParser
 {
@@ -23,7 +23,7 @@ public static class IndexParser
     /// </summary>
     /// <param name="token">The token.</param>
     /// <returns>The parsed value.</returns>
-    public static Index Parse(CliToken token) => Parse(token.Value);
+    public static Index Parse(Token token) => Parse(token.Value);
 
     /// <summary>
     /// Parses the index.
@@ -44,7 +44,7 @@ public static class IndexParser
     /// </summary>
     /// <param name="tokens">The tokens to parse.</param>
     /// <returns>The parsed value.</returns>
-    public static Index[] ParseAll(IEnumerable<CliToken> tokens) => ParseAll(tokens.Select(token => token.Value));
+    public static Index[] ParseAll(IEnumerable<Token> tokens) => ParseAll(tokens.Select(token => token.Value));
 
     /// <summary>
     /// Parses the indexes.

@@ -7,7 +7,7 @@
 namespace System.CommandLine.Internal;
 
 /// <summary>
-/// The <see cref="CliCommand"/> helpers.
+/// The <see cref="Command"/> helpers.
 /// </summary>
 internal static class CommandHelpers
 {
@@ -16,10 +16,10 @@ internal static class CommandHelpers
     /// </summary>
     /// <param name="symbol">The symbol.</param>
     /// <returns>The root command, if found; otherwise <see langword="null"/>.</returns>
-    public static CliRootCommand? GetRootCommand(CliSymbol? symbol) => symbol switch
+    public static RootCommand? GetRootCommand(Symbol? symbol) => symbol switch
     {
         null => default,
-        CliRootCommand rootCommand => rootCommand,
+        RootCommand rootCommand => rootCommand,
         { Parents: var parents } => parents.Select(GetRootCommand).FirstOrDefault(p => p is not null),
     };
 }

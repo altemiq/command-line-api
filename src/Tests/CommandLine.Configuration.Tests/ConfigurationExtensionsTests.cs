@@ -12,12 +12,12 @@ public class ConfigurationExtensionsTests
     public void GetConfiguration()
     {
         Microsoft.Extensions.Configuration.IConfiguration? config = default;
-        CliRootCommand rootCommand = [];
+        RootCommand rootCommand = [];
         rootCommand.SetAction(result => config = result.GetConfiguration());
 
         ParseResult? parseResult = default;
         Microsoft.Extensions.Configuration.IConfigurationBuilder? builder = default;
-        CliConfiguration configuration = new(rootCommand);
+        CommandLineConfiguration configuration = new(rootCommand);
         _ = configuration.UseConfiguration((parseResult_, builder_) =>
         {
             parseResult = parseResult_;

@@ -28,7 +28,7 @@ public static partial class HostingExtensions
     public static T UseHost<T>(
         this T configuration,
         Action<ParseResult?, Microsoft.Extensions.Hosting.IHostBuilder>? configureHost = default)
-        where T : CliConfiguration => UseHost(
+        where T : CommandLineConfiguration => UseHost(
             configuration,
 #if NET7_0_OR_GREATER
             Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder,
@@ -49,14 +49,14 @@ public static partial class HostingExtensions
         this T configuration,
         Func<string[], Microsoft.Extensions.Hosting.IHostBuilder> hostBuilderFactory,
         Action<ParseResult?, Microsoft.Extensions.Hosting.IHostBuilder>? configureHost = default)
-        where T : CliConfiguration
+        where T : CommandLineConfiguration
     {
-        if (configuration.RootCommand is CliRootCommand root)
+        if (configuration.RootCommand is RootCommand root)
         {
-            root.Add(new CliDirective(HostingDirectiveName));
+            root.Add(new Directive(HostingDirectiveName));
         }
 
-        Invocation.BuilderAction.SetHandlers(
+        Invocation.BuilderCommandLineAction.SetHandlers(
             configuration.RootCommand,
             parseResult => CreateHostBuilder(configuration, hostBuilderFactory, parseResult),
             static builder => builder.Build(),
@@ -87,7 +87,7 @@ public static partial class HostingExtensions
 
             static void UpdateHostConfiguration(T configuration, ParseResult parseResult, Microsoft.Extensions.Hosting.IHostBuilder hostBuilder)
             {
-                if (configuration.RootCommand is CliRootCommand root
+                if (configuration.RootCommand is RootCommand root
                     && root.Directives.SingleOrDefault(d => string.Equals(d.Name, HostingDirectiveName, StringComparison.Ordinal)) is { } directive
                     && parseResult.GetResult(directive) is { } directiveResult)
                 {
@@ -146,19 +146,19 @@ public static partial class HostingExtensions
     /// </summary>
     /// <param name="parseResult">The parse result.</param>
     /// <returns>The host.</returns>
-    public static Microsoft.Extensions.Hosting.IHost? GetHost(this ParseResult parseResult) => Invocation.InstanceAction.GetInstance<Microsoft.Extensions.Hosting.IHost>(parseResult);
+    public static Microsoft.Extensions.Hosting.IHost? GetHost(this ParseResult parseResult) => Invocation.InstanceCommandLineAction.GetInstance<Microsoft.Extensions.Hosting.IHost>(parseResult);
 
     /// <summary>
     /// Gets the host from the command.
     /// </summary>
     /// <param name="command">The command.</param>
     /// <returns>The host.</returns>
-    public static Microsoft.Extensions.Hosting.IHost? GetHost(this CliCommand command) => Invocation.InstanceAction.GetInstance<Microsoft.Extensions.Hosting.IHost>(command);
+    public static Microsoft.Extensions.Hosting.IHost? GetHost(this Command command) => Invocation.InstanceCommandLineAction.GetInstance<Microsoft.Extensions.Hosting.IHost>(command);
 
     /// <summary>
     /// Gets the host from the action.
     /// </summary>
     /// <param name="action">The action.</param>
     /// <returns>The host.</returns>
-    public static Microsoft.Extensions.Hosting.IHost? GetHost(this Invocation.CliAction action) => Invocation.InstanceAction.GetInstance<Microsoft.Extensions.Hosting.IHost>(action);
+    public static Microsoft.Extensions.Hosting.IHost? GetHost(this Invocation.CommandLineAction action) => Invocation.InstanceCommandLineAction.GetInstance<Microsoft.Extensions.Hosting.IHost>(action);
 }

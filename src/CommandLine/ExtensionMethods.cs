@@ -32,7 +32,7 @@ public static class ExtensionMethods
     /// <returns>The value.</returns>
     /// <exception cref="ArgumentNullException">Result from <paramref name="argument"/> is <see langword="null"/>.</exception>
     [Runtime.CompilerServices.MethodImpl(Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public static T GetRequiredValue<T>(this ParseResult parseResult, CliArgument<T> argument)
+    public static T GetRequiredValue<T>(this ParseResult parseResult, Argument<T> argument)
         where T : notnull => parseResult.GetValue(argument).ThrowIfNull();
 
     /// <summary>
@@ -44,7 +44,7 @@ public static class ExtensionMethods
     /// <returns>The value.</returns>
     /// <exception cref="ArgumentNullException">Result from <paramref name="option"/> is <see langword="null"/>.</exception>
     [Runtime.CompilerServices.MethodImpl(Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public static T GetRequiredValue<T>(this ParseResult parseResult, CliOption<T> option)
+    public static T GetRequiredValue<T>(this ParseResult parseResult, Option<T> option)
         where T : notnull => parseResult.GetValue(option).ThrowIfNull();
 
     /// <summary>
@@ -54,7 +54,7 @@ public static class ExtensionMethods
     /// <param name="argument">The argument for which to find a result.</param>
     /// <returns>A result for the specified argument.</returns>
     /// <exception cref="ArgumentNullException">Failed to find the result.</exception>
-    public static Parsing.ArgumentResult GetRequiredResult(this ParseResult parseResult, CliArgument argument) => parseResult.GetResult(argument).ThrowIfNull();
+    public static Parsing.ArgumentResult GetRequiredResult(this ParseResult parseResult, Argument argument) => parseResult.GetResult(argument).ThrowIfNull();
 
     /// <summary>
     /// Gets the result for the specified command.
@@ -63,7 +63,7 @@ public static class ExtensionMethods
     /// <param name="command">The command for which to find a result.</param>
     /// <returns>A result for the specified command.</returns>
     /// <exception cref="ArgumentNullException">Failed to find the result.</exception>
-    public static Parsing.CommandResult GetRequiredResult(this ParseResult parseResult, CliCommand command) => parseResult.GetResult(command).ThrowIfNull();
+    public static Parsing.CommandResult GetRequiredResult(this ParseResult parseResult, Command command) => parseResult.GetResult(command).ThrowIfNull();
 
     /// <summary>
     /// Gets the result for the specified option.
@@ -72,7 +72,7 @@ public static class ExtensionMethods
     /// <param name="option">The option for which to find a result.</param>
     /// <returns>A result for the specified option.</returns>
     /// <exception cref="ArgumentNullException">Failed to find the result.</exception>
-    public static Parsing.OptionResult GetRequiredResult(this ParseResult parseResult, CliOption option) => parseResult.GetResult(option).ThrowIfNull();
+    public static Parsing.OptionResult GetRequiredResult(this ParseResult parseResult, Option option) => parseResult.GetResult(option).ThrowIfNull();
 
     /// <summary>
     /// Gets the result for the specified directive.
@@ -81,7 +81,7 @@ public static class ExtensionMethods
     /// <param name="directive">The directive for which to find a result.</param>
     /// <returns>A result for the specified directive.</returns>
     /// <exception cref="ArgumentNullException">Failed to find the result.</exception>
-    public static Parsing.DirectiveResult GetRequiredResult(this ParseResult parseResult, CliDirective directive) => parseResult.GetResult(directive).ThrowIfNull();
+    public static Parsing.DirectiveResult GetRequiredResult(this ParseResult parseResult, Directive directive) => parseResult.GetResult(directive).ThrowIfNull();
 
     /// <summary>
     /// Gets the result for the specified symbol.
@@ -90,18 +90,18 @@ public static class ExtensionMethods
     /// <param name="symbol">The symbol for which to find a result.</param>
     /// <returns>A result for the specified symbol.</returns>
     /// <exception cref="ArgumentNullException">Failed to find the result.</exception>
-    public static Parsing.SymbolResult GetRequiredResult(this ParseResult parseResult, CliSymbol symbol) => parseResult.GetResult(symbol).ThrowIfNull();
+    public static Parsing.SymbolResult GetRequiredResult(this ParseResult parseResult, Symbol symbol) => parseResult.GetResult(symbol).ThrowIfNull();
 
     /// <summary>
     /// Gets the command, if any, from the symbol result.
     /// </summary>
     /// <param name="symbolResult">The symbol result.</param>
     /// <returns>A command for the specified symbol, or <see langword="null"/> if it was not provided and no default was configured.</returns>
-    public static CliCommand? GetCommand(this Parsing.SymbolResult symbolResult)
+    public static Command? GetCommand(this Parsing.SymbolResult symbolResult)
     {
         return GetCommandCore(symbolResult);
 
-        static CliCommand? GetCommandCore(Parsing.SymbolResult? symbolResult)
+        static Command? GetCommandCore(Parsing.SymbolResult? symbolResult)
         {
             return symbolResult switch
             {
@@ -112,16 +112,16 @@ public static class ExtensionMethods
                 _ => default,
             };
 
-            static CliCommand? GetCommandFromSymbol(CliSymbol symbol)
+            static Command? GetCommandFromSymbol(Symbol symbol)
             {
                 foreach (var parent in symbol.Parents)
                 {
-                    if (parent is CliCommand command)
+                    if (parent is Command command)
                     {
                         return command;
                     }
 
-                    if (parent is CliSymbol parentSymbol && GetCommandFromSymbol(parentSymbol) is { } parentCommand)
+                    if (parent is Symbol parentSymbol && GetCommandFromSymbol(parentSymbol) is { } parentCommand)
                     {
                         return parentCommand;
                     }
@@ -138,7 +138,7 @@ public static class ExtensionMethods
     /// <param name="symbolResult">The symbol result.</param>
     /// <returns>A command for the specified symbol.</returns>
     /// <exception cref="ArgumentNullException">Failed to find the result.</exception>
-    public static CliCommand GetRequiredCommand(this Parsing.SymbolResult symbolResult) => symbolResult.GetCommand().ThrowIfNull();
+    public static Command GetRequiredCommand(this Parsing.SymbolResult symbolResult) => symbolResult.GetCommand().ThrowIfNull();
 
     [Runtime.CompilerServices.MethodImpl(Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     private static T ThrowIfNull<T>(this T? value)

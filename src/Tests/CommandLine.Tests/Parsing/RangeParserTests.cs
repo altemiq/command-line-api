@@ -9,8 +9,8 @@ namespace System.CommandLine.Parsing;
 public class RangeParserTests
 {
     private const string RangeOptionName = "--range";
-    private static readonly CliCommand argumentCommand = new("base") { new CliArgument<string>("RANGE") };
-    private static readonly CliCommand optionCommand = new("base") { new CliOption<Range>(RangeOptionName) { CustomParser = RangeParser.Parse } };
+    private static readonly Command argumentCommand = new("base") { new Argument<string>("RANGE") };
+    private static readonly Command optionCommand = new("base") { new Option<Range>(RangeOptionName) { CustomParser = RangeParser.Parse } };
 
     public static TheoryData<string, SerializableRange> Ranges()
     {

@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="CliConfigurationLogger.cs" company="Altemiq">
+// <copyright file="CommandLineConfigurationLogger.cs" company="Altemiq">
 // Copyright (c) Altemiq. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -7,11 +7,11 @@
 namespace System.CommandLine.Logging;
 
 /// <summary>
-/// The <see cref="CliConfiguration"/> <see cref="ILogger"/>.
+/// The <see cref="CommandLineConfiguration"/> <see cref="ILogger"/>.
 /// </summary>
 /// <param name="configuration">The configuration.</param>
 /// <param name="scopeProvider">The scope provider.</param>
-internal sealed class CliConfigurationLogger(CliConfiguration configuration, IExternalScopeProvider? scopeProvider) : ILogger
+internal sealed class CommandLineConfigurationLogger(CommandLineConfiguration configuration, IExternalScopeProvider? scopeProvider) : ILogger
 {
     /// <summary>
     /// Gets or sets the scope provider.

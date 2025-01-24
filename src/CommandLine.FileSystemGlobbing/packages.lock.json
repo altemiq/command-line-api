@@ -31,9 +31,9 @@
       },
       "System.CommandLine": {
         "type": "Direct",
-        "requested": "[2.0.0-beta4.23407.1, )",
-        "resolved": "2.0.0-beta4.23407.1",
-        "contentHash": "uhT8LJz12lBakhANCVJtdzBeuM+WpHovvRcSW7BrtVDLGoj6WiSdUYrysxEA71OX9UnpG6yWiWo8zJ3ekVFqMw==",
+        "requested": "[2.0.0-beta4.25072.1, )",
+        "resolved": "2.0.0-beta4.25072.1",
+        "contentHash": "u2Gkp23Rh7eIjPzthoTvMf9GXVjOacy24osqUke0FUcPV67ELmYHGlJtzR8H0z2bv+f23b4e6V4z4Mlu7B6Ojw==",
         "dependencies": {
           "System.Memory": "4.5.4"
         }
@@ -118,9 +118,9 @@
       },
       "System.CommandLine": {
         "type": "Direct",
-        "requested": "[2.0.0-beta4.23407.1, )",
-        "resolved": "2.0.0-beta4.23407.1",
-        "contentHash": "uhT8LJz12lBakhANCVJtdzBeuM+WpHovvRcSW7BrtVDLGoj6WiSdUYrysxEA71OX9UnpG6yWiWo8zJ3ekVFqMw==",
+        "requested": "[2.0.0-beta4.25072.1, )",
+        "resolved": "2.0.0-beta4.25072.1",
+        "contentHash": "u2Gkp23Rh7eIjPzthoTvMf9GXVjOacy24osqUke0FUcPV67ELmYHGlJtzR8H0z2bv+f23b4e6V4z4Mlu7B6Ojw==",
         "dependencies": {
           "System.Memory": "4.5.4"
         }
@@ -221,9 +221,9 @@
       },
       "System.CommandLine": {
         "type": "Direct",
-        "requested": "[2.0.0-beta4.23407.1, )",
-        "resolved": "2.0.0-beta4.23407.1",
-        "contentHash": "uhT8LJz12lBakhANCVJtdzBeuM+WpHovvRcSW7BrtVDLGoj6WiSdUYrysxEA71OX9UnpG6yWiWo8zJ3ekVFqMw==",
+        "requested": "[2.0.0-beta4.25072.1, )",
+        "resolved": "2.0.0-beta4.25072.1",
+        "contentHash": "u2Gkp23Rh7eIjPzthoTvMf9GXVjOacy24osqUke0FUcPV67ELmYHGlJtzR8H0z2bv+f23b4e6V4z4Mlu7B6Ojw==",
         "dependencies": {
           "System.Memory": "4.5.4"
         }

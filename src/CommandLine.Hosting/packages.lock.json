@@ -196,8 +196,8 @@
       },
       "System.CommandLine": {
         "type": "Transitive",
-        "resolved": "2.0.0-beta4.23407.1",
-        "contentHash": "uhT8LJz12lBakhANCVJtdzBeuM+WpHovvRcSW7BrtVDLGoj6WiSdUYrysxEA71OX9UnpG6yWiWo8zJ3ekVFqMw==",
+        "resolved": "2.0.0-beta4.25072.1",
+        "contentHash": "u2Gkp23Rh7eIjPzthoTvMf9GXVjOacy24osqUke0FUcPV67ELmYHGlJtzR8H0z2bv+f23b4e6V4z4Mlu7B6Ojw==",
         "dependencies": {
           "System.Memory": "4.5.4"
         }
@@ -225,14 +225,14 @@
       "commandline": {
         "type": "Project",
         "dependencies": {
-          "System.CommandLine": "[2.0.0-beta4.23407.1, )"
+          "System.CommandLine": "[2.0.0-beta4.25072.1, )"
         }
       },
       "commandline.filesystemglobbing": {
         "type": "Project",
         "dependencies": {
           "Microsoft.Extensions.FileSystemGlobbing": "[2.1.0, )",
-          "System.CommandLine": "[2.0.0-beta4.23407.1, )"
+          "System.CommandLine": "[2.0.0-beta4.25072.1, )"
         }
       },
       "commandline.logging": {
@@ -561,13 +561,21 @@
       },
       "System.CommandLine": {
         "type": "Transitive",
-        "resolved": "2.0.0-beta4.23407.1",
-        "contentHash": "uhT8LJz12lBakhANCVJtdzBeuM+WpHovvRcSW7BrtVDLGoj6WiSdUYrysxEA71OX9UnpG6yWiWo8zJ3ekVFqMw=="
+        "resolved": "2.0.0-beta4.25072.1",
+        "contentHash": "u2Gkp23Rh7eIjPzthoTvMf9GXVjOacy24osqUke0FUcPV67ELmYHGlJtzR8H0z2bv+f23b4e6V4z4Mlu7B6Ojw==",
+        "dependencies": {
+          "System.Memory": "4.5.4"
+        }
       },
       "System.Diagnostics.EventLog": {
         "type": "Transitive",
         "resolved": "7.0.0",
         "contentHash": "eUDP47obqQm3SFJfP6z+Fx2nJ4KKTQbXB4Q9Uesnzw9SbYdhjyoGXuvDn/gEmFY6N5Z3bFFbpAQGA7m6hrYJCw=="
+      },
+      "System.Memory": {
+        "type": "Transitive",
+        "resolved": "4.5.4",
+        "contentHash": "1MbJTHS1lZ4bS4FmsJjnuGJOu88ZzTT2rLvrhW7Ygic+pC0NWA+3hgAen0HRdsocuQXCkUTdFn9yHJJhsijDXw=="
       },
       "System.Text.Encodings.Web": {
         "type": "Transitive",
@@ -585,14 +593,14 @@
       "commandline": {
         "type": "Project",
         "dependencies": {
-          "System.CommandLine": "[2.0.0-beta4.23407.1, )"
+          "System.CommandLine": "[2.0.0-beta4.25072.1, )"
         }
       },
       "commandline.filesystemglobbing": {
         "type": "Project",
         "dependencies": {
           "Microsoft.Extensions.FileSystemGlobbing": "[2.1.0, )",
-          "System.CommandLine": "[2.0.0-beta4.23407.1, )"
+          "System.CommandLine": "[2.0.0-beta4.25072.1, )"
         }
       },
       "commandline.logging": {
@@ -942,8 +950,8 @@
       },
       "System.CommandLine": {
         "type": "Transitive",
-        "resolved": "2.0.0-beta4.23407.1",
-        "contentHash": "uhT8LJz12lBakhANCVJtdzBeuM+WpHovvRcSW7BrtVDLGoj6WiSdUYrysxEA71OX9UnpG6yWiWo8zJ3ekVFqMw=="
+        "resolved": "2.0.0-beta4.25072.1",
+        "contentHash": "u2Gkp23Rh7eIjPzthoTvMf9GXVjOacy24osqUke0FUcPV67ELmYHGlJtzR8H0z2bv+f23b4e6V4z4Mlu7B6Ojw=="
       },
       "System.Diagnostics.EventLog": {
         "type": "Transitive",
@@ -953,14 +961,14 @@
       "commandline": {
         "type": "Project",
         "dependencies": {
-          "System.CommandLine": "[2.0.0-beta4.23407.1, )"
+          "System.CommandLine": "[2.0.0-beta4.25072.1, )"
         }
       },
       "commandline.filesystemglobbing": {
         "type": "Project",
         "dependencies": {
           "Microsoft.Extensions.FileSystemGlobbing": "[2.1.0, )",
-          "System.CommandLine": "[2.0.0-beta4.23407.1, )"
+          "System.CommandLine": "[2.0.0-beta4.25072.1, )"
         }
       },
       "commandline.logging": {
@@ -1310,8 +1318,8 @@
       },
       "System.CommandLine": {
         "type": "Transitive",
-        "resolved": "2.0.0-beta4.23407.1",
-        "contentHash": "uhT8LJz12lBakhANCVJtdzBeuM+WpHovvRcSW7BrtVDLGoj6WiSdUYrysxEA71OX9UnpG6yWiWo8zJ3ekVFqMw=="
+        "resolved": "2.0.0-beta4.25072.1",
+        "contentHash": "u2Gkp23Rh7eIjPzthoTvMf9GXVjOacy24osqUke0FUcPV67ELmYHGlJtzR8H0z2bv+f23b4e6V4z4Mlu7B6Ojw=="
       },
       "System.Diagnostics.EventLog": {
         "type": "Transitive",
@@ -1321,14 +1329,14 @@
       "commandline": {
         "type": "Project",
         "dependencies": {
-          "System.CommandLine": "[2.0.0-beta4.23407.1, )"
+          "System.CommandLine": "[2.0.0-beta4.25072.1, )"
         }
       },
       "commandline.filesystemglobbing": {
         "type": "Project",
         "dependencies": {
           "Microsoft.Extensions.FileSystemGlobbing": "[2.1.0, )",
-          "System.CommandLine": "[2.0.0-beta4.23407.1, )"
+          "System.CommandLine": "[2.0.0-beta4.25072.1, )"
         }
       },
       "commandline.logging": {

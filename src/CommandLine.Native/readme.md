@@ -3,6 +3,6 @@
 This package adds support for native dependencies.
 
 ```csharp
-var configuration = new CliConfiguration();
+var configuration = new CommandLineConfiguration();
 configuration.ResolveNative();
 ```

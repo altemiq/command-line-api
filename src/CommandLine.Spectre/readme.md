@@ -19,9 +19,9 @@ This respects default values, and completion sources for the option.
 This has helper methods for adding figlet text to the help action.
 
 ```csharp
-var command = new CliCommand("COMMAND");
+var command = new Command("COMMAND");
 
-var rootCommand = new CliRootCommand { command };
+var rootCommand = new RootCommand { command };
 
 command.AddFiglet("figlet", Colors.Blue);
 ```

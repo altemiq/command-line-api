@@ -7,18 +7,18 @@ This adds extension methods for `AddLogging` that allows configuring the logging
 This is then used to get configuration in actions using `GetConfiguration`
 
 ```csharp
-var command = new CliCommand("COMMAND") { new VerbosityOption() };
+var command = new Command("COMMAND") { new VerbosityOption() };
 command.SetHandler(parseResult =>
 {
     var logger = parseResult.CreateLogger("category");
     var level = parseResult.GetLogLevel();
 });
 
-var configuration = new CliConfiguration(command);
+var configuration = new CommandLineConfiguration(command);
 configuration.AddLogging((parseResult, builder) =>
 {
-    // Add the CliConfiguration as a logging provider
-    builder.AddCliConfiguration(parseResult.Configuration);
+    // Add the CommandLineConfiguration as a logging provider
+    builder.AddCommandLineConfiguration(parseResult.Configuration);
 
     /* configure the logging */
 });

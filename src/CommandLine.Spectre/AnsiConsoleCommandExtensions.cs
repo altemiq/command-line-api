@@ -7,7 +7,7 @@
 namespace System.CommandLine;
 
 /// <summary>
-/// The <see cref="global::Spectre.Console.AnsiConsole"/> <see cref="CliCommand"/> extensions.
+/// The <see cref="global::Spectre.Console.AnsiConsole"/> <see cref="Command"/> extensions.
 /// </summary>
 public static class AnsiConsoleCommandExtensions
 {
@@ -21,7 +21,7 @@ public static class AnsiConsoleCommandExtensions
     /// <param name="console">The console.</param>
     /// <returns>The command for chaining.</returns>
     public static T AddFiglet<T>(this T command, string text, ConsoleColor color, IAnsiConsole? console = default)
-        where T : CliCommand => AddFiglet(command, text, Color.FromConsoleColor(color), console);
+        where T : Command => AddFiglet(command, text, Color.FromConsoleColor(color), console);
 
     /// <summary>
     /// Adds the specified figlet to the command help.
@@ -33,7 +33,7 @@ public static class AnsiConsoleCommandExtensions
     /// <param name="console">The console.</param>
     /// <returns>The command for chaining.</returns>
     public static T AddFiglet<T>(this T command, string text, Drawing.Color color, IAnsiConsole? console = default)
-        where T : CliCommand => AddFiglet(command, text, new Color(color.R, color.G, color.B), console);
+        where T : Command => AddFiglet(command, text, new Color(color.R, color.G, color.B), console);
 
     /// <summary>
     /// Adds the specified figlet to the command help.
@@ -45,7 +45,7 @@ public static class AnsiConsoleCommandExtensions
     /// <param name="console">The console.</param>
     /// <returns>The command for chaining.</returns>
     public static T AddFiglet<T>(this T command, string text, Color color, IAnsiConsole? console = default)
-        where T : CliCommand => AddFiglet(command, () => new FigletText(text).Color(color), console);
+        where T : Command => AddFiglet(command, () => new FigletText(text).Color(color), console);
 
     /// <summary>
     /// Adds the specified figlet to the command help.
@@ -58,7 +58,7 @@ public static class AnsiConsoleCommandExtensions
     /// <param name="console">The console.</param>
     /// <returns>The command for chaining.</returns>
     public static T AddFiglet<T>(this T command, FigletFont font, string text, Color color, IAnsiConsole? console = default)
-        where T : CliCommand => AddFiglet(command, () => new FigletText(font, text).Color(color), console);
+        where T : Command => AddFiglet(command, () => new FigletText(font, text).Color(color), console);
 
     /// <summary>
     /// Adds the specified figlet to the command help.
@@ -69,12 +69,12 @@ public static class AnsiConsoleCommandExtensions
     /// <param name="console">The console.</param>
     /// <returns>The command for chaining.</returns>
     public static T AddFiglet<T>(this T command, FigletText text, IAnsiConsole? console = default)
-        where T : CliCommand => AddFiglet(command, () => text, console);
+        where T : Command => AddFiglet(command, () => text, console);
 
     private static T AddFiglet<T>(T command, Func<FigletText> getText, IAnsiConsole? console = default)
-        where T : CliCommand
+        where T : Command
     {
-        if (Internal.ActionHelpers.GetHelpAction((CliSymbol)command) is { } helpAction)
+        if (Internal.CommandLineActionHelpers.GetHelpAction((Symbol)command) is { } helpAction)
         {
             helpAction.Builder.CustomizeLayout(_ => Help.HelpBuilder.Default.GetLayout().Prepend(helpContext =>
             {

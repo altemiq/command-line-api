@@ -7,12 +7,12 @@
 namespace System.CommandLine;
 
 /// <summary>
-/// The <see cref="global::Spectre.Console.AnsiConsole"/> <see cref="CliConfiguration"/> extensions.
+/// The <see cref="global::Spectre.Console.AnsiConsole"/> <see cref="CommandLineConfiguration"/> extensions.
 /// </summary>
 public static class AnsiConsoleConfigurationExtensions
 {
     /// <summary>
-    /// Adds the specified figlet to the <see cref="CliRootCommand"/> help.
+    /// Adds the specified figlet to the <see cref="RootCommand"/> help.
     /// </summary>
     /// <typeparam name="T">The type of configuration.</typeparam>
     /// <param name="configuration">The configuration.</param>
@@ -21,14 +21,14 @@ public static class AnsiConsoleConfigurationExtensions
     /// <param name="console">The console.</param>
     /// <returns>The configuration for chaining.</returns>
     public static T AddFiglet<T>(this T configuration, string text, Color color, IAnsiConsole? console = default)
-        where T : CliConfiguration
+        where T : CommandLineConfiguration
     {
         _ = configuration.RootCommand.AddFiglet(text, color, console);
         return configuration;
     }
 
     /// <summary>
-    /// Adds the specified figlet to the <see cref="CliRootCommand"/> help.
+    /// Adds the specified figlet to the <see cref="RootCommand"/> help.
     /// </summary>
     /// <typeparam name="T">The type of configuration.</typeparam>
     /// <param name="configuration">The configuration.</param>
@@ -38,14 +38,14 @@ public static class AnsiConsoleConfigurationExtensions
     /// <param name="console">The console.</param>
     /// <returns>The configuration for chaining.</returns>
     public static T AddFiglet<T>(this T configuration, FigletFont font, string text, Color color, IAnsiConsole? console = default)
-        where T : CliConfiguration
+        where T : CommandLineConfiguration
     {
         _ = configuration.RootCommand.AddFiglet(font, text, color, console);
         return configuration;
     }
 
     /// <summary>
-    /// Adds the specified figlet to the <see cref="CliRootCommand"/> help.
+    /// Adds the specified figlet to the <see cref="RootCommand"/> help.
     /// </summary>
     /// <typeparam name="T">The type of configuration.</typeparam>
     /// <param name="configuration">The configuration.</param>
@@ -53,7 +53,7 @@ public static class AnsiConsoleConfigurationExtensions
     /// <param name="console">The console.</param>
     /// <returns>The configuration for chaining.</returns>
     public static T AddFiglet<T>(this T configuration, FigletText text, IAnsiConsole? console = default)
-        where T : CliConfiguration
+        where T : CommandLineConfiguration
     {
         _ = configuration.RootCommand.AddFiglet(text, console);
         return configuration;

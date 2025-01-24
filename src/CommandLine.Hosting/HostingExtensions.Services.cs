@@ -19,7 +19,7 @@ public static partial class HostingExtensions
     /// <returns>The configured configuration.</returns>
     public static T UseServices<T>(
         this T configuration)
-        where T : CliConfiguration => UseServices(configuration, _ => { });
+        where T : CommandLineConfiguration => UseServices(configuration, _ => { });
 
     /// <summary>
     /// Uses configuration for the configuration.
@@ -31,7 +31,7 @@ public static partial class HostingExtensions
     public static T UseServices<T>(
         this T configuration,
         Action<Microsoft.Extensions.DependencyInjection.IServiceCollection> configure)
-        where T : CliConfiguration => UseServices(configuration, () => new Microsoft.Extensions.Hosting.HostBuilder(), configure);
+        where T : CommandLineConfiguration => UseServices(configuration, () => new Microsoft.Extensions.Hosting.HostBuilder(), configure);
 
     /// <summary>
     /// Uses configuration for the configuration.
@@ -43,7 +43,7 @@ public static partial class HostingExtensions
     public static T UseServices<T>(
         this T configuration,
         Action<ParseResult?, Microsoft.Extensions.DependencyInjection.IServiceCollection> configure)
-        where T : CliConfiguration => UseServices(configuration, () => new Microsoft.Extensions.Hosting.HostBuilder(), configure);
+        where T : CommandLineConfiguration => UseServices(configuration, () => new Microsoft.Extensions.Hosting.HostBuilder(), configure);
 
     /// <summary>
     /// Uses configuration for the configuration.
@@ -55,7 +55,7 @@ public static partial class HostingExtensions
     public static T UseServices<T>(
         this T configuration,
         Func<Microsoft.Extensions.Hosting.IHostBuilder> hostBuilderFactory)
-        where T : CliConfiguration => UseServices(configuration, hostBuilderFactory, (_, _) => { });
+        where T : CommandLineConfiguration => UseServices(configuration, hostBuilderFactory, (_, _) => { });
 
     /// <summary>
     /// Uses configuration for the configuration.
@@ -67,7 +67,7 @@ public static partial class HostingExtensions
     public static T UseServices<T>(
         this T configuration,
         Func<string[], Microsoft.Extensions.Hosting.IHostBuilder> hostBuilderFactory)
-        where T : CliConfiguration => UseServices(configuration, hostBuilderFactory, (_, _) => { });
+        where T : CommandLineConfiguration => UseServices(configuration, hostBuilderFactory, (_, _) => { });
 
     /// <summary>
     /// Uses configuration for the configuration.
@@ -81,7 +81,7 @@ public static partial class HostingExtensions
         this T configuration,
         Func<Microsoft.Extensions.Hosting.IHostBuilder> hostBuilderFactory,
         Action<Microsoft.Extensions.DependencyInjection.IServiceCollection> configure)
-        where T : CliConfiguration => UseServices(configuration, hostBuilderFactory, (_, builder) => configure(builder));
+        where T : CommandLineConfiguration => UseServices(configuration, hostBuilderFactory, (_, builder) => configure(builder));
 
     /// <summary>
     /// Uses configuration for the configuration.
@@ -95,7 +95,7 @@ public static partial class HostingExtensions
         this T configuration,
         Func<string[], Microsoft.Extensions.Hosting.IHostBuilder> hostBuilderFactory,
         Action<Microsoft.Extensions.DependencyInjection.IServiceCollection> configure)
-        where T : CliConfiguration => UseServices(configuration, hostBuilderFactory, (_, builder) => configure(builder));
+        where T : CommandLineConfiguration => UseServices(configuration, hostBuilderFactory, (_, builder) => configure(builder));
 
     /// <summary>
     /// Uses configuration for the configuration.
@@ -109,9 +109,9 @@ public static partial class HostingExtensions
         this T configuration,
         Func<Microsoft.Extensions.Hosting.IHostBuilder> hostBuilderFactory,
         Action<ParseResult?, Microsoft.Extensions.DependencyInjection.IServiceCollection> configure)
-        where T : CliConfiguration
+        where T : CommandLineConfiguration
     {
-        Invocation.BuilderAction.SetHandlers(
+        Invocation.BuilderCommandLineAction.SetHandlers(
             configuration.RootCommand,
             _ => hostBuilderFactory(),
             builder => builder.Build(),
@@ -131,9 +131,9 @@ public static partial class HostingExtensions
         this T configuration,
         Func<string[], Microsoft.Extensions.Hosting.IHostBuilder> hostBuilderFactory,
         Action<ParseResult?, Microsoft.Extensions.DependencyInjection.IServiceCollection> configure)
-        where T : CliConfiguration
+        where T : CommandLineConfiguration
     {
-        Invocation.BuilderAction.SetHandlers(
+        Invocation.BuilderCommandLineAction.SetHandlers(
             configuration.RootCommand,
             parseResult => hostBuilderFactory(parseResult?.UnmatchedTokens.ToArray() ?? []),
             builder => builder.Build(),
@@ -146,21 +146,21 @@ public static partial class HostingExtensions
     /// </summary>
     /// <param name="parseResult">The parse result.</param>
     /// <returns>The service provider.</returns>
-    public static IServiceProvider? GetServices(this ParseResult parseResult) => Invocation.InstanceAction.GetInstance<Microsoft.Extensions.Hosting.IHost>(parseResult)?.GetServices();
+    public static IServiceProvider? GetServices(this ParseResult parseResult) => Invocation.InstanceCommandLineAction.GetInstance<Microsoft.Extensions.Hosting.IHost>(parseResult)?.GetServices();
 
     /// <summary>
     /// Gets the service provider from the command.
     /// </summary>
     /// <param name="command">The command.</param>
     /// <returns>The service provider.</returns>
-    public static IServiceProvider? GetServices(this CliCommand command) => Invocation.InstanceAction.GetInstance<Microsoft.Extensions.Hosting.IHost>(command)?.GetServices();
+    public static IServiceProvider? GetServices(this Command command) => Invocation.InstanceCommandLineAction.GetInstance<Microsoft.Extensions.Hosting.IHost>(command)?.GetServices();
 
     /// <summary>
     /// Gets the service provider from the action.
     /// </summary>
     /// <param name="action">The action.</param>
     /// <returns>The service provider.</returns>
-    public static IServiceProvider? GetServices(this Invocation.CliAction action) => Invocation.InstanceAction.GetInstance<Microsoft.Extensions.Hosting.IHost>(action)?.GetServices();
+    public static IServiceProvider? GetServices(this Invocation.CommandLineAction action) => Invocation.InstanceCommandLineAction.GetInstance<Microsoft.Extensions.Hosting.IHost>(action)?.GetServices();
 
     private static IServiceProvider GetServices(this Microsoft.Extensions.Hosting.IHost host) => host.Services;
 }

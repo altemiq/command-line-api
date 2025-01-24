@@ -12,7 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 var verbosityOption = new VerbosityOption();
-var root = new CliRootCommand { verbosityOption };
+var root = new RootCommand { verbosityOption };
 root.SetAction(parseResult =>
 {
     var exception = new InvalidOperationException("This is an exception!");
@@ -52,14 +52,14 @@ root.SetAction(parseResult =>
     }
 });
 
-var configuration = new CliConfiguration(root);
+var configuration = new CommandLineConfiguration(root);
 configuration
 #if NET8_0_OR_GREATER
     .UseApplicationHost((parseResult, builder) =>
     {
         if (parseResult is { Configuration: { } configuration })
         {
-            builder.Logging.AddCliConfiguration(configuration);
+            builder.Logging.AddCommandLineConfiguration(configuration);
         }
     })
 #else
@@ -67,7 +67,7 @@ configuration
     {
         if (parseResult is { Configuration: { } configuration })
         {
-            loggingBuilder.AddCliConfiguration(configuration);
+            loggingBuilder.AddCommandLineConfiguration(configuration);
         }
     }))
 #endif
@@ -75,7 +75,7 @@ configuration
     {
         if (parseResult is { Configuration: { } configuration })
         {
-            configure.AddCliConfiguration(configuration);
+            configure.AddCommandLineConfiguration(configuration);
         }
     });
 

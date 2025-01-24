@@ -15,24 +15,24 @@ using Microsoft.Extensions.Logging;
 public static class LoggingExtensions
 {
     /// <summary>
-    /// Adds logging to the <see cref="CliConfiguration"/> instance.
+    /// Adds logging to the <see cref="CommandLineConfiguration"/> instance.
     /// </summary>
     /// <typeparam name="T">The type of configuration.</typeparam>
     /// <param name="configuration">The configuration.</param>
     /// <param name="configure">The action to configure the builder.</param>
     /// <returns>The input configuration.</returns>
     public static T AddLogging<T>(this T configuration, Action<ILoggingBuilder> configure)
-        where T : CliConfiguration => configuration.AddLogging((_, builder) => configure(builder));
+        where T : CommandLineConfiguration => configuration.AddLogging((_, builder) => configure(builder));
 
     /// <summary>
-    /// Adds logging to the <see cref="CliConfiguration"/> instance.
+    /// Adds logging to the <see cref="CommandLineConfiguration"/> instance.
     /// </summary>
     /// <typeparam name="T">The type of configuration.</typeparam>
     /// <param name="configuration">The configuration.</param>
     /// <param name="configure">The action to configure the builder.</param>
     /// <returns>The input configuration.</returns>
     public static T AddLogging<T>(this T configuration, Action<ParseResult?, ILoggingBuilder> configure)
-        where T : CliConfiguration
+        where T : CommandLineConfiguration
     {
         LoggerAction.SetHandlers(configuration.RootCommand, configure);
         return configuration;
@@ -43,7 +43,7 @@ public static class LoggingExtensions
     /// </summary>
     /// <param name="parseResult">The parse result.</param>
     /// <returns>The logger factory.</returns>
-    public static ILoggerFactory GetLoggerFactory(this ParseResult parseResult) => Invocation.InstanceAction.GetInstance<ILoggerFactory>(parseResult) ?? throw new InvalidOperationException(Logging.Properties.Resources.FailedToCreateLoggerFactory);
+    public static ILoggerFactory GetLoggerFactory(this ParseResult parseResult) => Invocation.InstanceCommandLineAction.GetInstance<ILoggerFactory>(parseResult) ?? throw new InvalidOperationException(Logging.Properties.Resources.FailedToCreateLoggerFactory);
 
     /// <inheritdoc cref="ILoggerFactory.CreateLogger(string)" />
     public static ILogger CreateLogger(this ParseResult parseResult, string categoryName) => parseResult.GetLoggerFactory().CreateLogger(categoryName);
@@ -73,9 +73,9 @@ public static class LoggingExtensions
 
     private static class LoggerAction
     {
-        private static readonly Collections.Concurrent.ConcurrentDictionary<CliCommand, Configurer> Configures = [];
+        private static readonly Collections.Concurrent.ConcurrentDictionary<Command, Configurer> Configures = [];
 
-        public static void SetHandlers(CliCommand command, Action<ParseResult?, ILoggingBuilder> configure)
+        public static void SetHandlers(Command command, Action<ParseResult?, ILoggingBuilder> configure)
         {
             _ = Configures.AddOrUpdate(
                 command,
@@ -83,7 +83,7 @@ public static class LoggingExtensions
                 {
                     var configurer = new Configurer();
                     configurer.Add(configure);
-                    Invocation.InstanceAction.SetHandlers(command, Create);
+                    Invocation.InstanceCommandLineAction.SetHandlers(command, Create);
                     return configurer;
                 },
                 (_, configurer) =>

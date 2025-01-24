@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="InstanceAction.cs" company="Altemiq">
+// <copyright file="InstanceCommandLineAction.cs" company="Altemiq">
 // Copyright (c) Altemiq. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -9,7 +9,7 @@ namespace System.CommandLine.Invocation;
 /// <summary>
 /// The instance action.
 /// </summary>
-public static class InstanceAction
+public static class InstanceCommandLineAction
 {
 #pragma warning disable SA1600 // Elements should be documented
     private interface IInstance<out T>
@@ -24,17 +24,17 @@ public static class InstanceAction
     /// <typeparam name="TInstance">The type of instance.</typeparam>
     /// <param name="command">The command.</param>
     /// <param name="buildInstance">The build the instance.</param>
-    public static void SetHandlers<TInstance>(CliCommand command, Func<ParseResult, TInstance> buildInstance)
+    public static void SetHandlers<TInstance>(Command command, Func<ParseResult, TInstance> buildInstance)
     {
         SetHandlersCore(command, buildInstance);
 
-        static void SetHandlersCore(CliCommand command, Func<ParseResult, TInstance> buildInstance)
+        static void SetHandlersCore(Command command, Func<ParseResult, TInstance> buildInstance)
         {
             command.Action = command.Action switch
             {
-                AsynchronousCliAction asyncAction => new InstanceNestedAsynchronousCliAction<TInstance>(buildInstance, asyncAction, Empty<TInstance>.Task, Empty<TInstance>.Task),
-                SynchronousCliAction syncAction => new InstanceNestedSynchronousCliAction<TInstance>(buildInstance, syncAction, Empty<TInstance>.Action, Empty<TInstance>.Action),
-                null => new InstanceSynchronousCliAction<TInstance>(buildInstance, Empty<TInstance>.Action, Empty<TInstance>.Action),
+                AsynchronousCommandLineAction asyncAction => new InstanceNestedAsynchronousCommandLineAction<TInstance>(buildInstance, asyncAction, Empty<TInstance>.Task, Empty<TInstance>.Task),
+                SynchronousCommandLineAction syncAction => new InstanceNestedSynchronousCommandLineAction<TInstance>(buildInstance, syncAction, Empty<TInstance>.Action, Empty<TInstance>.Action),
+                null => new InstanceSynchronousCommandLineAction<TInstance>(buildInstance, Empty<TInstance>.Action, Empty<TInstance>.Action),
                 var a => a,
             };
 
@@ -53,17 +53,17 @@ public static class InstanceAction
     /// <param name="buildInstance">The build the instance.</param>
     /// <param name="beforeInvoke">The action to call before invoking the nested action.</param>
     /// <param name="afterInvoke">The action to call after invoking the nested action.</param>
-    public static void SetHandlers<TInstance>(CliCommand command, Func<ParseResult, TInstance> buildInstance, Action<ParseResult, TInstance> beforeInvoke, Action<ParseResult, TInstance> afterInvoke)
+    public static void SetHandlers<TInstance>(Command command, Func<ParseResult, TInstance> buildInstance, Action<ParseResult, TInstance> beforeInvoke, Action<ParseResult, TInstance> afterInvoke)
     {
         SetHandlersCore(command, buildInstance, beforeInvoke, afterInvoke);
 
-        static void SetHandlersCore(CliCommand command, Func<ParseResult, TInstance> buildInstance, Action<ParseResult, TInstance> beforeInvoke, Action<ParseResult, TInstance> afterInvoke)
+        static void SetHandlersCore(Command command, Func<ParseResult, TInstance> buildInstance, Action<ParseResult, TInstance> beforeInvoke, Action<ParseResult, TInstance> afterInvoke)
         {
             command.Action = command.Action switch
             {
-                AsynchronousCliAction asyncAction => new InstanceNestedAsynchronousCliAction<TInstance>(buildInstance, asyncAction, InvokeAsync(beforeInvoke), InvokeAsync(afterInvoke)),
-                SynchronousCliAction syncAction => new InstanceNestedSynchronousCliAction<TInstance>(buildInstance, syncAction, beforeInvoke, afterInvoke),
-                null => new InstanceSynchronousCliAction<TInstance>(buildInstance, beforeInvoke, afterInvoke),
+                AsynchronousCommandLineAction asyncAction => new InstanceNestedAsynchronousCommandLineAction<TInstance>(buildInstance, asyncAction, InvokeAsync(beforeInvoke), InvokeAsync(afterInvoke)),
+                SynchronousCommandLineAction syncAction => new InstanceNestedSynchronousCommandLineAction<TInstance>(buildInstance, syncAction, beforeInvoke, afterInvoke),
+                null => new InstanceSynchronousCommandLineAction<TInstance>(buildInstance, beforeInvoke, afterInvoke),
                 var a => a,
             };
 
@@ -91,17 +91,17 @@ public static class InstanceAction
     /// <param name="buildInstance">The build the instance.</param>
     /// <param name="beforeInvoke">The action to call before invoking the nested action.</param>
     /// <param name="afterInvoke">The action to call after invoking the nested action.</param>
-    public static void SetHandlers<TInstance>(CliCommand command, Func<ParseResult, TInstance> buildInstance, Func<ParseResult, TInstance, CancellationToken, Task> beforeInvoke, Func<ParseResult, TInstance, CancellationToken, Task> afterInvoke)
+    public static void SetHandlers<TInstance>(Command command, Func<ParseResult, TInstance> buildInstance, Func<ParseResult, TInstance, CancellationToken, Task> beforeInvoke, Func<ParseResult, TInstance, CancellationToken, Task> afterInvoke)
     {
         SetHandlersCore(command, buildInstance, beforeInvoke, afterInvoke);
 
-        static void SetHandlersCore(CliCommand command, Func<ParseResult, TInstance> buildInstance, Func<ParseResult, TInstance, CancellationToken, Task> beforeInvoke, Func<ParseResult, TInstance, CancellationToken, Task> afterInvoke)
+        static void SetHandlersCore(Command command, Func<ParseResult, TInstance> buildInstance, Func<ParseResult, TInstance, CancellationToken, Task> beforeInvoke, Func<ParseResult, TInstance, CancellationToken, Task> afterInvoke)
         {
             command.Action = command.Action switch
             {
-                AsynchronousCliAction asyncAction => new InstanceNestedAsynchronousCliAction<TInstance>(buildInstance, asyncAction, beforeInvoke, afterInvoke),
-                SynchronousCliAction syncAction => new InstanceNestedSynchronousCliAction<TInstance>(buildInstance, syncAction, Invoke(beforeInvoke), Invoke(afterInvoke)),
-                null => new InstanceAsynchronousCliAction<TInstance>(buildInstance, beforeInvoke, afterInvoke),
+                AsynchronousCommandLineAction asyncAction => new InstanceNestedAsynchronousCommandLineAction<TInstance>(buildInstance, asyncAction, beforeInvoke, afterInvoke),
+                SynchronousCommandLineAction syncAction => new InstanceNestedSynchronousCommandLineAction<TInstance>(buildInstance, syncAction, Invoke(beforeInvoke), Invoke(afterInvoke)),
+                null => new InstanceAsynchronousCommandLineAction<TInstance>(buildInstance, beforeInvoke, afterInvoke),
                 var a => a,
             };
 
@@ -131,7 +131,7 @@ public static class InstanceAction
     /// <typeparam name="TInstance">The type of instance.</typeparam>
     /// <param name="command">The command.</param>
     /// <returns>The instance.</returns>
-    public static TInstance? GetInstance<TInstance>(CliCommand command) => GetInstanceFromAction<TInstance>(default, command.Action);
+    public static TInstance? GetInstance<TInstance>(Command command) => GetInstanceFromAction<TInstance>(default, command.Action);
 
     /// <summary>
     /// Gets the instance from the action.
@@ -139,12 +139,12 @@ public static class InstanceAction
     /// <typeparam name="TInstance">The type of instance.</typeparam>
     /// <param name="action">The action.</param>
     /// <returns>The instance.</returns>
-    public static TInstance? GetInstance<TInstance>(CliAction action) => GetInstanceFromAction<TInstance>(default, action);
+    public static TInstance? GetInstance<TInstance>(CommandLineAction action) => GetInstanceFromAction<TInstance>(default, action);
 
-    private static TInstance? GetInstanceFromAction<TInstance>(ParseResult? parseResult, CliAction? action) => action switch
+    private static TInstance? GetInstanceFromAction<TInstance>(ParseResult? parseResult, CommandLineAction? action) => action switch
     {
         IInstance<TInstance> instance => instance.Get(parseResult),
-        INestedAction nested => GetInstanceFromAction<TInstance>(parseResult, nested.Action),
+        INestedCommandLineAction nested => GetInstanceFromAction<TInstance>(parseResult, nested.Action),
         _ => default,
     };
 
@@ -157,7 +157,7 @@ public static class InstanceAction
         public static Action<ParseResult, T> Action => (_, _) => { };
     }
 
-    private sealed class InstanceSynchronousCliAction<TInstance>(Func<ParseResult, TInstance> create, Action<ParseResult, TInstance> beforeInvoke, Action<ParseResult, TInstance> afterInvoke) : SynchronousCliAction, IInstance<TInstance>
+    private sealed class InstanceSynchronousCommandLineAction<TInstance>(Func<ParseResult, TInstance> create, Action<ParseResult, TInstance> beforeInvoke, Action<ParseResult, TInstance> afterInvoke) : SynchronousCommandLineAction, IInstance<TInstance>
     {
         private readonly Func<ParseResult, TInstance> create = create;
         private TInstance? instance;
@@ -179,7 +179,7 @@ public static class InstanceAction
         private void EnsureInstance(ParseResult? parseResult) => this.instance ??= this.create(parseResult!);
     }
 
-    private sealed class InstanceAsynchronousCliAction<TInstance>(Func<ParseResult, TInstance> create, Func<ParseResult, TInstance, CancellationToken, Task> beforeInvoke, Func<ParseResult, TInstance, CancellationToken, Task> afterInvoke) : AsynchronousCliAction, IInstance<TInstance>
+    private sealed class InstanceAsynchronousCommandLineAction<TInstance>(Func<ParseResult, TInstance> create, Func<ParseResult, TInstance, CancellationToken, Task> beforeInvoke, Func<ParseResult, TInstance, CancellationToken, Task> afterInvoke) : AsynchronousCommandLineAction, IInstance<TInstance>
     {
         private readonly Func<ParseResult, TInstance> create = create;
         private TInstance? instance;
@@ -201,8 +201,8 @@ public static class InstanceAction
         private void EnsureInstance(ParseResult? parseResult) => this.instance ??= this.create(parseResult!);
     }
 
-    private sealed class InstanceNestedAsynchronousCliAction<TInstance>(Func<ParseResult, TInstance> create, AsynchronousCliAction action, Func<ParseResult, TInstance, CancellationToken, Task> beforeInvoke, Func<ParseResult, TInstance, CancellationToken, Task> afterInvoke)
-        : NestedAsynchronousCliAction(
+    private sealed class InstanceNestedAsynchronousCommandLineAction<TInstance>(Func<ParseResult, TInstance> create, AsynchronousCommandLineAction action, Func<ParseResult, TInstance, CancellationToken, Task> beforeInvoke, Func<ParseResult, TInstance, CancellationToken, Task> afterInvoke)
+        : NestedAsynchronousCommandLineAction(
             action,
             (action, parseResult, cancellationToken) => beforeInvoke(parseResult, ThrowIfNull(GetInstanceFromAction<TInstance>(parseResult, action)), cancellationToken),
             (action, parseResult, cancellationToken) => afterInvoke(parseResult, ThrowIfNull(GetInstanceFromAction<TInstance>(parseResult, action)), cancellationToken)), IInstance<TInstance>
@@ -225,8 +225,8 @@ public static class InstanceAction
         private void EnsureInstance(ParseResult? parseResult) => this.instance ??= this.create(parseResult!);
     }
 
-    private sealed class InstanceNestedSynchronousCliAction<TInstance>(Func<ParseResult, TInstance> create, SynchronousCliAction actualAction, Action<ParseResult, TInstance> beforeInvoke, Action<ParseResult, TInstance> afterInvoke)
-        : NestedSynchronousCliAction(
+    private sealed class InstanceNestedSynchronousCommandLineAction<TInstance>(Func<ParseResult, TInstance> create, SynchronousCommandLineAction actualAction, Action<ParseResult, TInstance> beforeInvoke, Action<ParseResult, TInstance> afterInvoke)
+        : NestedSynchronousCommandLineAction(
             actualAction,
             (action, parseResult) => beforeInvoke(parseResult, ThrowIfNull(GetInstanceFromAction<TInstance>(parseResult, action))),
             (action, parseResult) => afterInvoke(parseResult, ThrowIfNull(GetInstanceFromAction<TInstance>(parseResult, action)))), IInstance<TInstance>

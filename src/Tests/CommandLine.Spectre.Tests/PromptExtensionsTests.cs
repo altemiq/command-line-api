@@ -13,14 +13,14 @@ public class PromptExtensionsTests
     [Fact]
     public void TestSpecifiedBoolean()
     {
-        (ParseResult parseResult, CliOption<bool> option, TestConsole console) = GetResult<bool>("y", "--option true");
+        (ParseResult parseResult, Option<bool> option, TestConsole console) = GetResult<bool>("y", "--option true");
         _ = parseResult.GetValueOrPrompt(option, "Specify boolean value: ", console).Should().BeTrue();
     }
 
     [Fact]
     public void TestBoolean()
     {
-        (ParseResult parseResult, CliOption<bool> option, TestConsole console) = GetResult<bool>("y");
+        (ParseResult parseResult, Option<bool> option, TestConsole console) = GetResult<bool>("y");
         console.Input.PushKey(ConsoleKey.Enter);
         _ = parseResult.GetValueOrPrompt(option, "Specify boolean value: ", console).Should().BeTrue();
     }
@@ -28,7 +28,7 @@ public class PromptExtensionsTests
     [Fact]
     public void TestDefaultBoolean()
     {
-        (ParseResult parseResult, CliOption<bool> option, TestConsole console) = GetResult<bool>();
+        (ParseResult parseResult, Option<bool> option, TestConsole console) = GetResult<bool>();
         option.DefaultValueFactory = _ => true;
         console.Input.PushKey(ConsoleKey.Enter);
         _ = parseResult.GetValueOrPrompt(option, "Get default value: ", console).Should().BeTrue();
@@ -36,7 +36,7 @@ public class PromptExtensionsTests
     [Fact]
     public void TestSpecifiedString()
     {
-        (ParseResult parseResult, CliOption<string> option, TestConsole console) = GetResult<string>(args: "--option value");
+        (ParseResult parseResult, Option<string> option, TestConsole console) = GetResult<string>(args: "--option value");
         _ = parseResult.GetValueOrPrompt(option, "Enter string value: ", console).Should().Be("value");
     }
 
@@ -72,7 +72,7 @@ public class PromptExtensionsTests
     public void TestEnum()
     {
         const FileMode fileMode = FileMode.Open;
-        (ParseResult parseResult, CliOption<FileMode> option, TestConsole console) = GetResult<FileMode>();
+        (ParseResult parseResult, Option<FileMode> option, TestConsole console) = GetResult<FileMode>();
         _ = console.Interactive();
         console.Input.PushKey(ConsoleKey.DownArrow);
         console.Input.PushKey(ConsoleKey.DownArrow);
@@ -100,7 +100,7 @@ public class PromptExtensionsTests
     [Fact]
     public void TestWithCompletions()
     {
-        (ParseResult parseResult, CliOption<string> option, TestConsole console) = GetResult<string>("second");
+        (ParseResult parseResult, Option<string> option, TestConsole console) = GetResult<string>("second");
         option.CompletionSources.Add("first", "second", "third");
         console.Input.PushKey(ConsoleKey.Enter);
         _ = parseResult.GetValueOrPrompt(option, "GetValue", console).Should().Be("second");
@@ -109,7 +109,7 @@ public class PromptExtensionsTests
     [Fact]
     public void TestWithCustomTypeConverter()
     {
-        (ParseResult parseResult, CliOption<TypeWithTypeConverter> option, TestConsole console) = GetResult<TypeWithTypeConverter>("second");
+        (ParseResult parseResult, Option<TypeWithTypeConverter> option, TestConsole console) = GetResult<TypeWithTypeConverter>("second");
         option.CompletionSources.Add("first", "second", "third");
         console.Input.PushKey(ConsoleKey.Enter);
         _ = parseResult.GetValueOrPrompt(option, "GetValue", console).Should().Be(new TypeWithTypeConverter("second"));
@@ -117,19 +117,19 @@ public class PromptExtensionsTests
 
     private static T GetValue<T>(string prompt, string value)
     {
-        (ParseResult parseResult, CliOption<T> option, TestConsole console) = GetResult<T>(value);
+        (ParseResult parseResult, Option<T> option, TestConsole console) = GetResult<T>(value);
         console.Input.PushKey(ConsoleKey.Enter);
         return parseResult.GetValueOrPrompt(option, prompt, console);
     }
     private static T GetValue<T>(string prompt, T defaultValue)
     {
-        (ParseResult parseResult, CliOption<T> option, TestConsole console) = GetResult<T>();
+        (ParseResult parseResult, Option<T> option, TestConsole console) = GetResult<T>();
         console.Input.PushKey(ConsoleKey.Enter);
         option.DefaultValueFactory = _ => defaultValue;
         return parseResult.GetValueOrPrompt(option, prompt, console);
     }
 
-    private static (ParseResult, CliOption<T>, TestConsole) GetResult<T>(string? value = default, string? args = default)
+    private static (ParseResult, Option<T>, TestConsole) GetResult<T>(string? value = default, string? args = default)
     {
         TestConsole console = new();
         if (value is not null)
@@ -137,14 +137,14 @@ public class PromptExtensionsTests
             console.Input.PushText(value);
         }
 
-        CliOption<T> option = new("--option");
-        CliConfiguration configuration = new(new CliRootCommand { option });
+        Option<T> option = new("--option");
+        CommandLineConfiguration configuration = new(new RootCommand { option });
         return (configuration.Parse(args ?? string.Empty), option, console);
     }
 
     private static void TestFlagCore<T>(T expected)
     {
-        (ParseResult parseResult, CliOption<T> option, TestConsole console) = GetResult<T>();
+        (ParseResult parseResult, Option<T> option, TestConsole console) = GetResult<T>();
         _ = console.Interactive();
         console.Input.PushKey(ConsoleKey.Spacebar);
         console.Input.PushKey(ConsoleKey.DownArrow);

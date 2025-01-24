@@ -7,7 +7,7 @@
 namespace System.CommandLine;
 
 /// <summary>
-/// The <see cref="Help"/> <see cref="CliCommand"/> extensions.
+/// The <see cref="Help"/> <see cref="Command"/> extensions.
 /// </summary>
 public static class HelpCommandExtensions
 {
@@ -19,9 +19,9 @@ public static class HelpCommandExtensions
     /// <param name="configure">The configure function.</param>
     /// <returns>The command for chaining.</returns>
     public static T ConfigureHelp<T>(this T command, Action<Help.HelpBuilder> configure)
-        where T : CliCommand
+        where T : Command
     {
-        if (Internal.ActionHelpers.GetHelpAction((CliSymbol)command) is { } helpAction)
+        if (Internal.CommandLineActionHelpers.GetHelpAction((Symbol)command) is { } helpAction)
         {
             configure(helpAction.Builder);
         }

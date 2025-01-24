@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="NestedAsynchronousCliAction.cs" company="Altemiq">
+// <copyright file="NestedAsynchronousCommandLineAction.cs" company="Altemiq">
 // Copyright (c) Altemiq. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -7,24 +7,24 @@
 namespace System.CommandLine.Invocation;
 
 /// <summary>
-/// A nested <see cref="AsynchronousCliAction"/>.
+/// A nested <see cref="AsynchronousCommandLineAction"/>.
 /// </summary>
 /// <remarks>
-/// Initialises a new instance of the <see cref="NestedAsynchronousCliAction"/> class.
+/// Initialises a new instance of the <see cref="NestedAsynchronousCommandLineAction"/> class.
 /// </remarks>
-/// <param name="action">The <see cref="CliAction"/>.</param>
-public class NestedAsynchronousCliAction(AsynchronousCliAction action) : AsynchronousCliAction, INestedAction<AsynchronousCliAction>, INestedAction
+/// <param name="action">The <see cref="CommandLineAction"/>.</param>
+public class NestedAsynchronousCommandLineAction(AsynchronousCommandLineAction action) : AsynchronousCommandLineAction, INestedCommandLineAction<AsynchronousCommandLineAction>, INestedCommandLineAction
 {
-    private readonly Func<AsynchronousCliAction, ParseResult, CancellationToken, Task>? beforeInvoke;
-    private readonly Func<AsynchronousCliAction, ParseResult, CancellationToken, Task>? afterInvoke;
+    private readonly Func<AsynchronousCommandLineAction, ParseResult, CancellationToken, Task>? beforeInvoke;
+    private readonly Func<AsynchronousCommandLineAction, ParseResult, CancellationToken, Task>? afterInvoke;
 
     /// <summary>
-    /// Initialises a new instance of the <see cref="NestedAsynchronousCliAction"/> class.
+    /// Initialises a new instance of the <see cref="NestedAsynchronousCommandLineAction"/> class.
     /// </summary>
-    /// <param name="action">The <see cref="CliAction"/>.</param>
+    /// <param name="action">The <see cref="CommandLineAction"/>.</param>
     /// <param name="beforeInvoke">The action to call before invoking the nested action.</param>
     /// <param name="afterInvoke">The action to call after invoking the nested action.</param>
-    public NestedAsynchronousCliAction(AsynchronousCliAction action, Func<ParseResult, CancellationToken, Task> beforeInvoke, Func<ParseResult, CancellationToken, Task> afterInvoke)
+    public NestedAsynchronousCommandLineAction(AsynchronousCommandLineAction action, Func<ParseResult, CancellationToken, Task> beforeInvoke, Func<ParseResult, CancellationToken, Task> afterInvoke)
         : this(action)
     {
         this.beforeInvoke = (_, parseResult, cancellationToken) => beforeInvoke(parseResult, cancellationToken);
@@ -32,12 +32,12 @@ public class NestedAsynchronousCliAction(AsynchronousCliAction action) : Asynchr
     }
 
     /// <summary>
-    /// Initialises a new instance of the <see cref="NestedAsynchronousCliAction"/> class.
+    /// Initialises a new instance of the <see cref="NestedAsynchronousCommandLineAction"/> class.
     /// </summary>
-    /// <param name="action">The <see cref="CliAction"/>.</param>
+    /// <param name="action">The <see cref="System.Action"/>.</param>
     /// <param name="beforeInvoke">The action to call before invoking the nested action.</param>
     /// <param name="afterInvoke">The action to call after invoking the nested action.</param>
-    internal NestedAsynchronousCliAction(AsynchronousCliAction action, Func<AsynchronousCliAction, ParseResult, CancellationToken, Task> beforeInvoke, Func<AsynchronousCliAction, ParseResult, CancellationToken, Task> afterInvoke)
+    internal NestedAsynchronousCommandLineAction(AsynchronousCommandLineAction action, Func<AsynchronousCommandLineAction, ParseResult, CancellationToken, Task> beforeInvoke, Func<AsynchronousCommandLineAction, ParseResult, CancellationToken, Task> afterInvoke)
         : this(action)
     {
         this.beforeInvoke = beforeInvoke;
@@ -45,10 +45,10 @@ public class NestedAsynchronousCliAction(AsynchronousCliAction action) : Asynchr
     }
 
     /// <inheritdoc/>
-    public AsynchronousCliAction Action { get; } = action;
+    public AsynchronousCommandLineAction Action { get; } = action;
 
     /// <inheritdoc/>
-    CliAction INestedAction.Action => this.Action;
+    CommandLineAction INestedCommandLineAction.Action => this.Action;
 
     /// <inheritdoc/>
     public override async Task<int> InvokeAsync(ParseResult parseResult, CancellationToken cancellationToken = default)

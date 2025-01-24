@@ -14,14 +14,14 @@ public class InstanceActionTests
     [InlineData(Action.Asynchronous)]
     public void Instance(Action action)
     {
-        CliCommand command = CliCommandExtensions.SetAction(new CliCommand("command") { new CliCommand("subcommand") }, action);
+        Command command = CommandExtensions.SetAction(new Command("command") { new Command("subcommand") }, action);
 
-        InstanceAction.SetHandlers(command, parseResult => new object());
+        InstanceCommandLineAction.SetHandlers(command, parseResult => new object());
 
-        CliConfiguration configuration = new(command);
+        CommandLineConfiguration configuration = new(command);
         _ = configuration.Invoke(string.Empty);
 
-        _ = InstanceAction.GetInstance<object>(command).Should().NotBeNull();
+        _ = InstanceCommandLineAction.GetInstance<object>(command).Should().NotBeNull();
     }
 
     [Theory]
@@ -30,16 +30,16 @@ public class InstanceActionTests
     [InlineData(Action.Asynchronous)]
     public void InstanceWithSynchronousBeforeAfter(Action action)
     {
-        CliCommand command = CliCommandExtensions.SetAction(new CliCommand("command") { new CliCommand("subcommand") }, action);
+        Command command = CommandExtensions.SetAction(new Command("command") { new Command("subcommand") }, action);
         bool after = false;
         bool before = false;
 
-        InstanceAction.SetHandlers(command, _ => new object(), (_, _) => before = true, (_, _) => after = true);
+        InstanceCommandLineAction.SetHandlers(command, _ => new object(), (_, _) => before = true, (_, _) => after = true);
 
-        CliConfiguration configuration = new(command);
+        CommandLineConfiguration configuration = new(command);
         _ = configuration.Invoke(string.Empty);
 
-        _ = InstanceAction.GetInstance<object>(command).Should().NotBeNull();
+        _ = InstanceCommandLineAction.GetInstance<object>(command).Should().NotBeNull();
         _ = before.Should().BeTrue();
         _ = after.Should().BeTrue();
     }
@@ -50,16 +50,16 @@ public class InstanceActionTests
     [InlineData(Action.Asynchronous)]
     public void InstanceWithAsynchronousBeforeAfter(Action action)
     {
-        CliCommand command = CliCommandExtensions.SetAction(new CliCommand("command") { new CliCommand("subcommand") }, action);
+        Command command = CommandExtensions.SetAction(new Command("command") { new Command("subcommand") }, action);
         bool after = false;
         bool before = false;
 
-        InstanceAction.SetHandlers(command, _ => new object(), (_, _, _) => Task.FromResult(before = true), (_, _, _) => Task.FromResult(after = true));
+        InstanceCommandLineAction.SetHandlers(command, _ => new object(), (_, _, _) => Task.FromResult(before = true), (_, _, _) => Task.FromResult(after = true));
 
-        CliConfiguration configuration = new(command);
+        CommandLineConfiguration configuration = new(command);
         _ = configuration.Invoke(string.Empty);
 
-        _ = InstanceAction.GetInstance<object>(command).Should().NotBeNull();
+        _ = InstanceCommandLineAction.GetInstance<object>(command).Should().NotBeNull();
         _ = before.Should().BeTrue();
         _ = after.Should().BeTrue();
     }
