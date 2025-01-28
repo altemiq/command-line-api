@@ -10,8 +10,8 @@ using Microsoft.Extensions.DependencyInjection;
 
 public class ServicesExtensionsTests
 {
-    [Fact]
-    public void GetServices()
+    [Test]
+    public async Task GetServices()
     {
         IServiceProvider? serviceProvider = default;
         RootCommand rootCommand = [];
@@ -21,11 +21,11 @@ public class ServicesExtensionsTests
         _ = configuration.UseServices(configure => { });
 
         _ = configuration.Invoke([]);
-        _ = serviceProvider.Should().NotBeNull();
+        _ = await Assert.That(serviceProvider).IsNotNull();
     }
 
-    [Fact]
-    public void GetService()
+    [Test]
+    public async Task GetService()
     {
         IDisposable? disposable = default;
         RootCommand rootCommand = [];
@@ -41,7 +41,7 @@ public class ServicesExtensionsTests
         _ = configuration.UseServices(configure => configure.AddSingleton<IDisposable, Disposable>());
 
         _ = configuration.Invoke([]);
-        _ = disposable.Should().NotBeNull();
+        _ = await Assert.That(disposable).IsNotNull();
 
     }
 

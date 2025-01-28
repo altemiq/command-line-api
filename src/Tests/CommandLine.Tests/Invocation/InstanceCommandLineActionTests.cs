@@ -6,13 +6,13 @@
 
 namespace System.CommandLine.Invocation;
 
-public class InstanceActionTests
+public class InstanceCommandLineActionTests
 {
-    [Theory]
-    [InlineData(Action.None)]
-    [InlineData(Action.Synchronous)]
-    [InlineData(Action.Asynchronous)]
-    public void Instance(Action action)
+    [Test]
+    [Arguments(Action.None)]
+    [Arguments(Action.Synchronous)]
+    [Arguments(Action.Asynchronous)]
+    public async Task Instance(Action action)
     {
         Command command = CommandExtensions.SetAction(new Command("command") { new Command("subcommand") }, action);
 
@@ -21,14 +21,14 @@ public class InstanceActionTests
         CommandLineConfiguration configuration = new(command);
         _ = configuration.Invoke(string.Empty);
 
-        _ = InstanceCommandLineAction.GetInstance<object>(command).Should().NotBeNull();
+        _ = await Assert.That(InstanceCommandLineAction.GetInstance<object>(command)).IsNotNull();
     }
 
-    [Theory]
-    [InlineData(Action.None)]
-    [InlineData(Action.Synchronous)]
-    [InlineData(Action.Asynchronous)]
-    public void InstanceWithSynchronousBeforeAfter(Action action)
+    [Test]
+    [Arguments(Action.None)]
+    [Arguments(Action.Synchronous)]
+    [Arguments(Action.Asynchronous)]
+    public async Task InstanceWithSynchronousBeforeAfter(Action action)
     {
         Command command = CommandExtensions.SetAction(new Command("command") { new Command("subcommand") }, action);
         bool after = false;
@@ -39,16 +39,16 @@ public class InstanceActionTests
         CommandLineConfiguration configuration = new(command);
         _ = configuration.Invoke(string.Empty);
 
-        _ = InstanceCommandLineAction.GetInstance<object>(command).Should().NotBeNull();
-        _ = before.Should().BeTrue();
-        _ = after.Should().BeTrue();
+        _ = await Assert.That(InstanceCommandLineAction.GetInstance<object>(command)).IsNotNull();
+        _ = await Assert.That(before).IsTrue();
+        _ = await Assert.That(after).IsTrue();
     }
 
-    [Theory]
-    [InlineData(Action.None)]
-    [InlineData(Action.Synchronous)]
-    [InlineData(Action.Asynchronous)]
-    public void InstanceWithAsynchronousBeforeAfter(Action action)
+    [Test]
+    [Arguments(Action.None)]
+    [Arguments(Action.Synchronous)]
+    [Arguments(Action.Asynchronous)]
+    public async Task InstanceWithAsynchronousBeforeAfter(Action action)
     {
         Command command = CommandExtensions.SetAction(new Command("command") { new Command("subcommand") }, action);
         bool after = false;
@@ -59,8 +59,8 @@ public class InstanceActionTests
         CommandLineConfiguration configuration = new(command);
         _ = configuration.Invoke(string.Empty);
 
-        _ = InstanceCommandLineAction.GetInstance<object>(command).Should().NotBeNull();
-        _ = before.Should().BeTrue();
-        _ = after.Should().BeTrue();
+        _ = await Assert.That(InstanceCommandLineAction.GetInstance<object>(command)).IsNotNull();
+        _ = await Assert.That(before).IsTrue();
+        _ = await Assert.That(after).IsTrue();
     }
 }

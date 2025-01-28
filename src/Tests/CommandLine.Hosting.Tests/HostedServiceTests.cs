@@ -12,8 +12,8 @@ using System.Threading.Tasks;
 
 public class HostedServiceTests
 {
-    [Fact]
-    public void UseHostedServiceThroughHost()
+    [Test]
+    public async Task UseHostedServiceThroughHost()
     {
         const string CommandName = "command";
         HostedService hostedService = new();
@@ -22,13 +22,13 @@ public class HostedServiceTests
 
         _ = configuration.Invoke(CommandName);
 
-        _ = hostedService.Started.Should().BeTrue();
-        _ = hostedService.Stopped.Should().BeTrue();
+        _ = await Assert.That(hostedService.Started).IsTrue();
+        _ = await Assert.That(hostedService.Stopped).IsTrue();
     }
 
 #if NET7_0_OR_GREATER
-    [Fact]
-    public void UseHostedServiceThroughApplicationHost()
+    [Test]
+    public async Task UseHostedServiceThroughApplicationHost()
     {
         HostedService hostedService = new();
         CommandLineConfiguration configuration = new(new RootCommand());
@@ -36,8 +36,8 @@ public class HostedServiceTests
 
         _ = configuration.Invoke(string.Empty);
 
-        _ = hostedService.Started.Should().BeTrue();
-        _ = hostedService.Stopped.Should().BeTrue();
+        _ = await Assert.That(hostedService.Started).IsTrue();
+        _ = await Assert.That(hostedService.Stopped).IsTrue();
     }
 #endif
 

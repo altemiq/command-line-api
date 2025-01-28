@@ -10,66 +10,66 @@ using global::Spectre.Console.Testing;
 
 public class PromptExtensionsTests
 {
-    [Fact]
-    public void TestSpecifiedBoolean()
+    [Test]
+    public async Task TestSpecifiedBoolean()
     {
         (ParseResult parseResult, Option<bool> option, TestConsole console) = GetResult<bool>("y", "--option true");
-        _ = parseResult.GetValueOrPrompt(option, "Specify boolean value: ", console).Should().BeTrue();
+        _ = await Assert.That(parseResult.GetValueOrPrompt(option, "Specify boolean value: ", console)).IsTrue();
     }
 
-    [Fact]
-    public void TestBoolean()
+    [Test]
+    public async Task TestBoolean()
     {
         (ParseResult parseResult, Option<bool> option, TestConsole console) = GetResult<bool>("y");
         console.Input.PushKey(ConsoleKey.Enter);
-        _ = parseResult.GetValueOrPrompt(option, "Specify boolean value: ", console).Should().BeTrue();
+        _ = await Assert.That(parseResult.GetValueOrPrompt(option, "Specify boolean value: ", console)).IsTrue();
     }
 
-    [Fact]
-    public void TestDefaultBoolean()
+    [Test]
+    public async Task TestDefaultBoolean()
     {
         (ParseResult parseResult, Option<bool> option, TestConsole console) = GetResult<bool>();
         option.DefaultValueFactory = _ => true;
         console.Input.PushKey(ConsoleKey.Enter);
-        _ = parseResult.GetValueOrPrompt(option, "Get default value: ", console).Should().BeTrue();
+        _ = await Assert.That(parseResult.GetValueOrPrompt(option, "Get default value: ", console)).IsTrue();
     }
-    [Fact]
-    public void TestSpecifiedString()
+    [Test]
+    public async Task TestSpecifiedString()
     {
         (ParseResult parseResult, Option<string> option, TestConsole console) = GetResult<string>(args: "--option value");
-        _ = parseResult.GetValueOrPrompt(option, "Enter string value: ", console).Should().Be("value");
+        _ = await Assert.That(parseResult.GetValueOrPrompt(option, "Enter string value: ", console)).IsEqualTo("value");
     }
 
-    [Fact]
-    public void TestString()
+    [Test]
+    public async Task TestString()
     {
         const string value = nameof(value);
-        _ = GetValue("Enter string value:", value).Should().Be(value);
+        _ = await Assert.That(GetValue("Enter string value:", value)).IsEqualTo(value);
     }
 
-    [Fact]
-    public void TestDefaultString()
+    [Test]
+    public async Task TestDefaultString()
     {
         const string value = nameof(value);
-        _ = GetValue("Get default value: ", value).Should().Be(value);
+        _ = await Assert.That(GetValue("Get default value: ", value)).IsEqualTo(value);
     }
 
-    [Fact]
-    public void TestInt32()
+    [Test]
+    public async Task TestInt32()
     {
         const int value = 123;
-        _ = GetValue<int>("Enter integer value: ", value.ToString()).Should().Be(value);
+        _ = await Assert.That(GetValue<int>("Enter integer value: ", value.ToString())).IsEqualTo(value);
     }
 
-    [Fact]
-    public void TestDefaultInt32()
+    [Test]
+    public async Task TestDefaultInt32()
     {
         const int value = 123;
-        _ = GetValue("Get default value: ", value).Should().Be(value);
+        _ = await Assert.That(GetValue("Get default value: ", value)).IsEqualTo(value);
     }
 
-    [Fact]
-    public void TestEnum()
+    [Test]
+    public async Task TestEnum()
     {
         const FileMode fileMode = FileMode.Open;
         (ParseResult parseResult, Option<FileMode> option, TestConsole console) = GetResult<FileMode>();
@@ -77,42 +77,43 @@ public class PromptExtensionsTests
         console.Input.PushKey(ConsoleKey.DownArrow);
         console.Input.PushKey(ConsoleKey.DownArrow);
         console.Input.PushKey(ConsoleKey.Enter);
-        _ = parseResult.GetValueOrPrompt(option, "Select enum value: ", console).Should().Be(fileMode);
+        _ = await Assert.That(parseResult.GetValueOrPrompt(option, "Select enum value: ", console)).IsEqualTo(fileMode);
     }
 
-    [Theory]
-    [InlineData(typeof(Enums.SByte.FileShare))]
-    [InlineData(typeof(Enums.Byte.FileShare))]
-    [InlineData(typeof(Enums.Int16.FileShare))]
-    [InlineData(typeof(Enums.UInt16.FileShare))]
-    [InlineData(typeof(FileShare))]
-    [InlineData(typeof(Enums.UInt32.FileShare))]
-    [InlineData(typeof(Enums.Int64.FileShare))]
-    [InlineData(typeof(Enums.UInt64.FileShare))]
-    public void TestFlag(Type type)
+    [Test]
+    [Arguments(typeof(Enums.SByte.FileShare))]
+    [Arguments(typeof(Enums.Byte.FileShare))]
+    [Arguments(typeof(Enums.Int16.FileShare))]
+    [Arguments(typeof(Enums.UInt16.FileShare))]
+    [Arguments(typeof(FileShare))]
+    [Arguments(typeof(Enums.UInt32.FileShare))]
+    [Arguments(typeof(Enums.Int64.FileShare))]
+    [Arguments(typeof(Enums.UInt64.FileShare))]
+    public async Task TestFlag(Type type)
     {
         object expected = Enum.ToObject(type, Convert.ChangeType(1 | 4, type.GetEnumUnderlyingType()));
-        _ = typeof(PromptExtensionsTests).GetMethod(nameof(TestFlagCore), Reflection.BindingFlags.Static | Reflection.BindingFlags.NonPublic)
-            .Should().BeAssignableTo<Reflection.MethodInfo>()
-            .Which.MakeGenericMethod(type).Invoke(null, [expected]);
+        Reflection.MethodInfo? testFlagCore = typeof(PromptExtensionsTests).GetMethod(nameof(TestFlagCore), Reflection.BindingFlags.Static | Reflection.BindingFlags.NonPublic);
+        _ = await Assert.That(testFlagCore).IsNotNull();
+        Task task = (Task)testFlagCore!.MakeGenericMethod(type).Invoke(null, [expected])!;
+        await task;
     }
 
-    [Fact]
-    public void TestWithCompletions()
+    [Test]
+    public async Task TestWithCompletions()
     {
         (ParseResult parseResult, Option<string> option, TestConsole console) = GetResult<string>("second");
         option.CompletionSources.Add("first", "second", "third");
         console.Input.PushKey(ConsoleKey.Enter);
-        _ = parseResult.GetValueOrPrompt(option, "GetValue", console).Should().Be("second");
+        _ = await Assert.That(parseResult.GetValueOrPrompt(option, "GetValue", console)).IsEqualTo("second");
     }
 
-    [Fact]
-    public void TestWithCustomTypeConverter()
+    [Test]
+    public async Task TestWithCustomTypeConverter()
     {
         (ParseResult parseResult, Option<TypeWithTypeConverter> option, TestConsole console) = GetResult<TypeWithTypeConverter>("second");
         option.CompletionSources.Add("first", "second", "third");
         console.Input.PushKey(ConsoleKey.Enter);
-        _ = parseResult.GetValueOrPrompt(option, "GetValue", console).Should().Be(new TypeWithTypeConverter("second"));
+        _ = await Assert.That(parseResult.GetValueOrPrompt(option, "GetValue", console)).IsEqualTo(new TypeWithTypeConverter("second"));
     }
 
     private static T GetValue<T>(string prompt, string value)
@@ -142,7 +143,7 @@ public class PromptExtensionsTests
         return (configuration.Parse(args ?? string.Empty), option, console);
     }
 
-    private static void TestFlagCore<T>(T expected)
+    private static async Task TestFlagCore<T>(T expected)
     {
         (ParseResult parseResult, Option<T> option, TestConsole console) = GetResult<T>();
         _ = console.Interactive();
@@ -152,10 +153,10 @@ public class PromptExtensionsTests
         console.Input.PushKey(ConsoleKey.DownArrow);
         console.Input.PushKey(ConsoleKey.Spacebar);
         console.Input.PushKey(ConsoleKey.Enter);
-        _ = parseResult.GetValueOrPrompt(option, "Select enum value: ", console).Should().Be(expected);
+        _ = await Assert.That(parseResult.GetValueOrPrompt(option, "Select enum value: ", console)).IsEqualTo(expected);
     }
 
-    private static class Enums
+    public static class Enums
     {
         public static class SByte
         {

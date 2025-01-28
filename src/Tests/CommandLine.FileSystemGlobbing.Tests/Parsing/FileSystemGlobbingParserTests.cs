@@ -8,8 +8,8 @@ namespace System.CommandLine.FileSystemGlobbing.Parsing;
 
 public class FileSystemGlobbingParserTests
 {
-    [Fact]
-    public void FileSystemGlobbing()
+    [Test]
+    public async Task FileSystemGlobbing()
     {
         string rootDir = Path.Join(Path.GetPathRoot(Environment.CurrentDirectory), "Files to Search");
 
@@ -25,11 +25,7 @@ public class FileSystemGlobbingParserTests
         CommandLineConfiguration configuration = new(root);
         ParseResult parseResult = configuration.Parse("\"" + Path.Combine(rootDir, "**", "*.txt") + "\"");
 
-        _ = parseResult.GetValue(argument).Should().NotBeNull()
-            .And.Subject.Select(x => x.FullName).Should()
-                .Contain(first).And
-                .Contain(second).And
-                .Contain(third).And
-                .NotContain(forth);
+        _ = await Assert.That(parseResult.GetValue(argument)).IsNotNull().And
+            .ContainsOnly(x => x.FullName.Equals(first) || x.FullName.Equals(second) || x.FullName.Equals(third));
     }
 }

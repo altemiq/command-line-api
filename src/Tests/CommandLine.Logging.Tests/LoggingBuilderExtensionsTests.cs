@@ -6,25 +6,25 @@
 
 namespace System.CommandLine.Logging;
 
-using Microsoft.Extensions.Logging;
 using System.CommandLine;
+using Microsoft.Extensions.Logging;
 
 public class LoggingBuilderExtensionsTests
 {
-    [Fact]
-    public void CreateLogger()
+    [Test]
+    public async Task CreateLogger()
     {
-        _ = CreateLoggerFactory().CreateLogger("Program").Should().NotBeNull();
+        _ = await Assert.That(CreateLoggerFactory().CreateLogger("Program")).IsNotNull();
     }
 
-    [Theory]
-    [InlineData(LogLevel.Information, LogLevel.Information, 4)]
-    [InlineData(LogLevel.Warning, LogLevel.Information, 0)]
-    [InlineData(LogLevel.Information, LogLevel.Warning, 4)]
-    [InlineData(LogLevel.Debug, LogLevel.Trace, 0)]
-    [InlineData(LogLevel.Trace, LogLevel.Debug, 4)]
-    [InlineData(LogLevel.None, LogLevel.Warning, 0)]
-    public void LogValue(LogLevel minLevel, LogLevel level, int expectedLength)
+    [Test]
+    [Arguments(LogLevel.Information, LogLevel.Information, 4)]
+    [Arguments(LogLevel.Warning, LogLevel.Information, 0)]
+    [Arguments(LogLevel.Information, LogLevel.Warning, 4)]
+    [Arguments(LogLevel.Debug, LogLevel.Trace, 0)]
+    [Arguments(LogLevel.Trace, LogLevel.Debug, 4)]
+    [Arguments(LogLevel.None, LogLevel.Warning, 0)]
+    public async Task LogValue(LogLevel minLevel, LogLevel level, int expectedLength)
     {
         StringWriter writer = new();
         CommandLineConfiguration configuration = new(new RootCommand()) { Output = writer };
@@ -38,7 +38,7 @@ public class LoggingBuilderExtensionsTests
             expectedLength += Environment.NewLine.Length;
         }
 
-        _ = writer.GetStringBuilder().Length.Should().Be(expectedLength);
+        _ = await Assert.That(writer.GetStringBuilder().Length).IsEqualTo(expectedLength);
     }
 
     private static ILoggerFactory CreateLoggerFactory(CommandLineConfiguration? configuration = default)

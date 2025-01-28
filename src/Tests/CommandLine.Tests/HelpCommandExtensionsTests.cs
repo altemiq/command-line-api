@@ -8,18 +8,18 @@ namespace System.CommandLine;
 
 public class HelpCommandExtensionsTests
 {
-    [Fact]
-    public void ConfigureHelp()
+    [Test]
+    public async Task ConfigureHelp()
     {
         Help.HelpBuilder? builder = default;
         RootCommand command = [];
         _ = command.ConfigureHelp(b => builder = b);
 
-        _ = builder.Should().NotBeNull();
+        _ = await Assert.That(builder).IsNotNull();
     }
 
-    [Fact]
-    public void NoHelpAction()
+    [Test]
+    public async Task NoHelpAction()
     {
         Help.HelpBuilder? builder = default;
         RootCommand command = [];
@@ -28,21 +28,21 @@ public class HelpCommandExtensionsTests
 
         _ = command.ConfigureHelp(b => builder = b);
 
-        _ = builder.Should().BeNull();
+        _ = await Assert.That(builder).IsNull();
     }
 
-    [Fact]
-    public void NoRootCommand()
+    [Test]
+    public async Task NoRootCommand()
     {
         Help.HelpBuilder? builder = default;
         Command command = new(nameof(NoRootCommand));
         _ = command.ConfigureHelp(b => builder = b);
 
-        _ = builder.Should().BeNull();
+        _ = await Assert.That(builder).IsNull();
     }
 
-    [Fact]
-    public void NestedCommand()
+    [Test]
+    public async Task NestedCommand()
     {
         Help.HelpBuilder? builder = default;
         Command command = new(nameof(NestedCommand));
@@ -53,6 +53,6 @@ public class HelpCommandExtensionsTests
 
         _ = command.ConfigureHelp(b => builder = b);
 
-        _ = builder.Should().NotBeNull();
+        _ = await Assert.That(builder).IsNotNull();
     }
 }

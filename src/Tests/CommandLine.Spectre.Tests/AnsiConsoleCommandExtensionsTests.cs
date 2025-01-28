@@ -6,10 +6,12 @@
 
 namespace System.CommandLine.Spectre;
 
+using TUnit.Assertions.AssertConditions.Throws;
+
 public class AnsiConsoleCommandExtensionsTests
 {
-    [Fact]
-    public void AddFigletToRoot()
+    [Test]
+    public async Task AddFigletToRoot()
     {
         TestConsole console = new();
         RootCommand command = [];
@@ -19,18 +21,18 @@ public class AnsiConsoleCommandExtensionsTests
 
         _ = configuration.Parse("--help").Invoke();
 
-        _ = console.Lines.Skip(1).Should().NotBeEmpty();
+        _ = await Assert.That(console.Lines.Skip(1)).IsNotEmpty();
     }
 
-    [Fact]
-    public void AddFigletTooEarly()
+    [Test]
+    public async Task AddFigletTooEarly()
     {
         Command command = new(nameof(AddFigletTooEarly));
-        _ = command.Invoking(c => c.AddFiglet("value", Color.Blue)).Should().Throw<InvalidOperationException>();
+        _ = await Assert.That(() => command.AddFiglet("value", Color.Blue)).Throws<InvalidOperationException>();
     }
 
-    [Fact]
-    public void AddFigletToSubCommand()
+    [Test]
+    public async Task AddFigletToSubCommand()
     {
         TestConsole console = new();
         Command command = new(nameof(AddFigletToSubCommand));
@@ -40,11 +42,11 @@ public class AnsiConsoleCommandExtensionsTests
 
         _ = configuration.Parse($"{nameof(AddFigletToSubCommand)} --help").Invoke();
 
-        _ = console.Lines.Skip(1).Should().NotBeEmpty();
+        _ = await Assert.That(console.Lines.Skip(1)).IsNotEmpty();
     }
 
-    [Fact]
-    public void AddFigletToSubCommandAndInvokeRoot()
+    [Test]
+    public async Task AddFigletToSubCommandAndInvokeRoot()
     {
         TestConsole console = new();
         Command command = new(nameof(AddFigletToSubCommandAndInvokeRoot));
@@ -54,6 +56,6 @@ public class AnsiConsoleCommandExtensionsTests
 
         _ = configuration.Parse("--help").Invoke();
 
-        _ = console.Lines.Skip(1).Should().BeEmpty();
+        _ = await Assert.That(console.Lines.Skip(1)).IsEmpty();
     }
 }

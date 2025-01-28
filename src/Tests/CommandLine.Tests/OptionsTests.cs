@@ -8,12 +8,13 @@ namespace System.CommandLine;
 
 public class OptionsTests
 {
-    [Fact]
-    public void Verbosity()
+    [Test]
+    public async Task Verbosity()
     {
         VerbosityOption verbosity = new();
-        _ = verbosity.Recursive.Should().BeTrue();
-        _ = verbosity.HasDefaultValue.Should().BeTrue();
-        _ = verbosity.DefaultValueFactory.Should().NotBeNull();
+        await Assert.That(verbosity)
+            .Satisfies(v => v.Recursive, recursive => recursive.IsTrue()).And
+            .Satisfies(v => v.HasDefaultValue, hasDefaultValue => hasDefaultValue.IsTrue()).And
+            .Satisfies(v => v.DefaultValueFactory, defaultValueFactory => defaultValueFactory.IsNotNull());
     }
 }

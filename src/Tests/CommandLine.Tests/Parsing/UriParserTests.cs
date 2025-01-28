@@ -8,14 +8,14 @@ namespace System.CommandLine.Parsing;
 
 public class UriParserTests
 {
-    [Fact]
-    public void CreateUri()
+    [Test]
+    public async Task CreateUri()
     {
-        _ = UriParser.CreateUri(new FileInfo(typeof(UriParserTests).Assembly.Location)).Should().NotBeNull();
+        _ = await Assert.That(UriParser.CreateUri(new FileInfo(typeof(UriParserTests).Assembly.Location))).IsNotNull();
     }
 
-    [Fact]
-    public void CreateFileInfo()
+    [Test]
+    public async Task CreateFileInfo()
     {
         UriBuilder builder = new()
         {
@@ -24,19 +24,19 @@ public class UriParserTests
             Host = string.Empty,
         };
 
-        _ = UriParser.TryCreateFileInfo(builder.Uri, out FileInfo? fileInfo).Should().BeTrue();
-        _ = fileInfo!.FullName.Should().Be(typeof(UriParserTests).Assembly.Location);
+        _ = await Assert.That(UriParser.TryCreateFileInfo(builder.Uri, out FileInfo? fileInfo)).IsTrue();
+        _ = await Assert.That(fileInfo!.FullName).IsEqualTo(typeof(UriParserTests).Assembly.Location);
     }
 
-    [Fact]
-    public void ParseFromDirectory()
+    [Test]
+    public async Task ParseFromDirectory()
     {
-        _ = UriParser.ParseAll(Path.GetDirectoryName(typeof(UriParserTests).Assembly.Location)).Should().HaveCountGreaterThan(1);
+        _ = await Assert.That(UriParser.ParseAll(Path.GetDirectoryName(typeof(UriParserTests).Assembly.Location))).HasCount().GreaterThan(1);
     }
 
-    [Fact]
-    public void ParseFromGlob()
+    [Test]
+    public async Task ParseFromGlob()
     {
-        _ = UriParser.ParseAll(Path.Join(Path.GetDirectoryName(typeof(UriParserTests).Assembly.Location), "*.*")).Should().HaveCountGreaterThan(1);
+        _ = await Assert.That(UriParser.ParseAll(Path.Join(Path.GetDirectoryName(typeof(UriParserTests).Assembly.Location), "*.*"))).HasCount().GreaterThan(1);
     }
 }

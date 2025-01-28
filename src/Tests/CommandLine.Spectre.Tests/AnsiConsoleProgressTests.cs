@@ -8,7 +8,7 @@ namespace System.CommandLine.Spectre;
 
 public class AnsiConsoleProgressTests
 {
-    [Fact]
+    [Test]
     public async Task TestWithSimpleTasks()
     {
         TestConsole console = new();
@@ -28,8 +28,8 @@ public class AnsiConsoleProgressTests
             }
         }, source.Token);
 
-        _ = consoleProgress.IsComplete.Should().BeTrue();
-        _ = source.IsCancellationRequested.Should().BeFalse();
+        _ = await Assert.That(consoleProgress.IsComplete).IsTrue();
+        _ = await Assert.That(source.IsCancellationRequested).IsFalse();
 
         static void UpdateProgress(IProgress<AnsiConsoleProgressItem> progress)
         {

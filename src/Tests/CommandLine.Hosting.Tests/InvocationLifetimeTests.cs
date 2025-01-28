@@ -8,10 +8,11 @@ namespace System.CommandLine.Hosting;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using TUnit.Assertions.AssertConditions.Throws;
 
 public class InvocationLifetimeTests
 {
-    [Fact]
+    [Test]
     public async Task WithCancellation()
     {
         CancellationTokenSource cancellationTokenSource = new();
@@ -32,10 +33,10 @@ public class InvocationLifetimeTests
 
         _ = await configuration.InvokeAsync(string.Empty, cancellationTokenSource.Token);
 
-        _ = cancellationTokenSource.IsCancellationRequested.Should().BeTrue();
+        _ = await Assert.That(cancellationTokenSource.IsCancellationRequested).IsTrue();
     }
 
-    [Fact]
+    [Test]
     public async Task DoubleDispose()
     {
         IHostBuilder builder = Host.CreateDefaultBuilder();
@@ -45,10 +46,9 @@ public class InvocationLifetimeTests
 
         IHostLifetime? lifetime = host.Services.GetService<IHostLifetime>();
 
-        _ = lifetime.Should()
-            .BeAssignableTo<IDisposable>()
-            .Which.Invoking(d => d.Dispose()).Should().NotThrow()
-            .And.Subject.Should().NotThrow();
+        var disposable = await Assert.That(lifetime).IsAssignableTo<IDisposable>();
+        await Assert.That(() => disposable?.Dispose()).ThrowsNothing();
+        await Assert.That(() => disposable?.Dispose()).ThrowsNothing();
 
         await host.StopAsync();
     }

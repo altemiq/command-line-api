@@ -8,8 +8,8 @@ namespace System.CommandLine.Configuration;
 
 public class ConfigurationExtensionsTests
 {
-    [Fact]
-    public void GetConfiguration()
+    [Test]
+    public async Task GetConfiguration()
     {
         Microsoft.Extensions.Configuration.IConfiguration? config = default;
         RootCommand rootCommand = [];
@@ -25,8 +25,8 @@ public class ConfigurationExtensionsTests
         });
 
         _ = configuration.Invoke([]);
-        _ = config.Should().NotBeNull();
-        _ = parseResult.Should().NotBeNull();
-        _ = builder.Should().NotBeNull();
+        _ = await Assert.That(config).IsNotNull();
+        _ = await Assert.That(parseResult).IsNotNull();
+        _ = await Assert.That(builder).IsNotNull();
     }
 }

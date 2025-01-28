@@ -11,8 +11,8 @@ using Microsoft.Extensions.Configuration;
 public partial class HostingExtensionsTests
 {
 #if NET7_0_OR_GREATER
-    [Fact]
-    public void GetHostFromApplicationBuilder()
+    [Test]
+    public async Task GetHostFromApplicationBuilder()
     {
         const bool Value = true;
 
@@ -24,14 +24,18 @@ public partial class HostingExtensionsTests
         _ = configuration.UseApplicationHost(configureHost: (parseResult, configure) => configure.Services.ConfigureInvocationLifetime(opts => opts.SuppressStatusMessages = Value));
 
         _ = configuration.Invoke([]);
-        _ = host.Should().BeAssignableTo<Microsoft.Extensions.Hosting.IHost>()
-            .Which.Services.GetService(typeof(Microsoft.Extensions.Hosting.IHostLifetime)).Should().BeAssignableTo<Microsoft.Extensions.Hosting.IHostLifetime>()
-            .Which.Should().BeOfType<InvocationLifetime>()
-            .Which.Options.SuppressStatusMessages.Should().Be(Value);
+        await Assert.That(host).IsAssignableTo<Microsoft.Extensions.Hosting.IHost>().And
+            .Satisfies(
+                h => ((Microsoft.Extensions.Hosting.IHost)h!).Services.GetService(typeof(Microsoft.Extensions.Hosting.IHostLifetime)),
+                hl => hl.IsAssignableTo<Microsoft.Extensions.Hosting.IHostLifetime>().And
+                    .IsTypeOf<InvocationLifetime>().And
+                    .Satisfies(
+                        o => ((InvocationLifetime)o!).Options.SuppressStatusMessages,
+                        suppressStatusMessages => suppressStatusMessages.IsEqualTo(Value)));
     }
 
-    [Fact]
-    public void GetHostFromApplicationBuilderWithDirectives()
+    [Test]
+    public async Task GetHostFromApplicationBuilderWithDirectives()
     {
         Microsoft.Extensions.Hosting.IHost? host = default;
         RootCommand rootCommand = [];
@@ -41,17 +45,16 @@ public partial class HostingExtensionsTests
         _ = configuration.UseApplicationHost();
 
         _ = configuration.Invoke("[config:Key1=Value1] [config:Key2]");
-        _ = host.Should().NotBeNull();
+        await Assert.That( host).IsNotNull();
 
-        ConfigurationManager? configurationManager = host?.Services.GetService(typeof(IConfiguration))
-            .Should().BeOfType<ConfigurationManager>().Which;
+        var configurationManager = await Assert.That(host?.Services.GetService(typeof(IConfiguration))).IsTypeOf<ConfigurationManager>();
 
-        _ = configurationManager!.GetValue<string>("Key1").Should().Be("Value1");
-        _ = configurationManager!.GetValue<string>("Key2").Should().Be(null);
+        await Assert.That(configurationManager!.GetValue<string>("Key1")).IsEqualTo("Value1");
+        await Assert.That(configurationManager!.GetValue<string>("Key2")).IsEqualTo(null);
     }
 
-    [Fact]
-    public void GetHostApplicationLifetime()
+    [Test]
+    public async Task GetHostApplicationLifetime()
     {
         Microsoft.Extensions.Hosting.IHostApplicationLifetime? hostApplicationLifetime = default;
         RootCommand rootCommand = [];
@@ -62,7 +65,7 @@ public partial class HostingExtensionsTests
 
         _ = configuration.Invoke(string.Empty);
 
-        _ = hostApplicationLifetime.Should().NotBeNull();
+        await Assert.That(hostApplicationLifetime).IsNotNull();
     }
 #endif
 }

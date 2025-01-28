@@ -6,113 +6,113 @@
 
 namespace System.CommandLine;
 
+using TUnit.Assertions.AssertConditions.Throws;
+
 public class ExtensionMethodsTests
 {
-    [Fact]
-    public void GetRequiredValueFromOptionName()
+    [Test]
+    public async Task GetRequiredValueFromOptionName()
     {
         Option<string> option = new("--option");
         CommandLineConfiguration configuration = new(new RootCommand { option });
 
-        _ = configuration.Parse("--option value").GetRequiredValue<string>("--option").Should().Be("value");
+        _ = await Assert.That(configuration.Parse("--option value").GetRequiredValue<string>("--option")).IsEqualTo("value");
     }
 
-    [Fact]
-    public void GetRequiredValueFromOption()
+    [Test]
+    public async Task GetRequiredValueFromOption()
     {
         Option<string> option = new("--option");
         CommandLineConfiguration configuration = new(new RootCommand { option });
 
-        _ = configuration.Parse("--option value").GetRequiredValue(option).Should().Be("value");
+        _ = await Assert.That(configuration.Parse("--option value").GetRequiredValue(option)).IsEqualTo("value");
     }
 
-    [Fact]
-    public void GetRequiredValueFromOptionWhenMissing()
+    [Test]
+    public async Task GetRequiredValueFromOptionWhenMissing()
     {
         Option<string> option = new("--option");
         CommandLineConfiguration configuration = new(new RootCommand { option });
-
-        _ = configuration.Parse(string.Empty).Invoking(parseResult => parseResult.GetRequiredValue(option)).Should().Throw<ArgumentNullException>();
+        await Assert.That(() => configuration.Parse(string.Empty).GetRequiredValue(option)).Throws<ArgumentNullException>();
     }
 
-    [Fact]
-    public void GetRequiredValueFromArgument()
+    [Test]
+    public async Task GetRequiredValueFromArgument()
     {
         Argument<string> argument = new("ARG");
         CommandLineConfiguration configuration = new(new RootCommand { argument });
 
-        _ = configuration.Parse("value").GetRequiredValue(argument).Should().Be("value");
+        _ = await Assert.That(configuration.Parse("value").GetRequiredValue(argument)).IsEqualTo("value");
     }
 
-    [Fact]
-    public void GetRequiredValueFromArgumentWhenMissing()
+    [Test]
+    public async Task GetRequiredValueFromArgumentWhenMissing()
     {
         Argument<string> argument = new("ARG") { DefaultValueFactory = _ => default! };
         CommandLineConfiguration configuration = new(new RootCommand { argument });
 
-        _ = configuration.Parse(string.Empty).Invoking(parseResult => parseResult.GetRequiredValue(argument)).Should().Throw<ArgumentNullException>();
+        _ = await Assert.That(() => configuration.Parse(string.Empty).GetRequiredValue(argument)).Throws<ArgumentNullException>();
     }
 
-    [Fact]
-    public void GetRequiredResultFromOption()
+    [Test]
+    public async Task GetRequiredResultFromOption()
     {
         Option<string> option = new("--option");
         CommandLineConfiguration configuration = new(new RootCommand { option });
 
-        _ = configuration.Parse("--option value").Invoking(parseResult => parseResult.GetRequiredResult(option)).Should().NotThrow();
+        _ = await Assert.That(() => configuration.Parse("--option value").GetRequiredResult(option)).ThrowsNothing();
     }
 
-    [Fact]
-    public void GetRequiredResultFromArgument()
+    [Test]
+    public async Task GetRequiredResultFromArgument()
     {
         Argument<string> argument = new("ARG");
         CommandLineConfiguration configuration = new(new RootCommand { argument });
 
-        _ = configuration.Parse("value").Invoking(parseResult => parseResult.GetRequiredResult(argument)).Should().NotThrow();
+        _ = await Assert.That(() => configuration.Parse("value").GetRequiredResult(argument)).ThrowsNothing();
     }
 
-    [Fact]
-    public void GetRequiredResultFromCommand()
+    [Test]
+    public async Task GetRequiredResultFromCommand()
     {
         RootCommand command = [];
         CommandLineConfiguration configuration = new(command);
 
-        _ = configuration.Parse("value").Invoking(parseResult => parseResult.GetRequiredResult(command)).Should().NotThrow();
+        _ = await Assert.That(() => configuration.Parse("value").GetRequiredResult(command)).ThrowsNothing();
     }
 
-    [Fact]
-    public void GetRequiredResultFromDirective()
+    [Test]
+    public async Task GetRequiredResultFromDirective()
     {
         RootCommand command = [];
         CommandLineConfiguration configuration = new(command);
 
         Directive directive = command.Directives.First();
-        _ = configuration.Parse($"[{directive.Name}]").Invoking(parseResult => parseResult.GetRequiredResult(directive)).Should().NotThrow();
+        _ = await Assert.That(() => configuration.Parse($"[{directive.Name}]").GetRequiredResult(directive)).ThrowsNothing();
     }
 
-    [Fact]
-    public void GetRequiredResultFromSymbol()
+    [Test]
+    public async Task GetRequiredResultFromSymbol()
     {
         RootCommand command = [];
         CommandLineConfiguration configuration = new(command);
         Symbol symbol = command;
-        _ = configuration.Parse("value").Invoking(parseResult => parseResult.GetRequiredResult(symbol).Should()).Should().NotThrow();
+        _ = await Assert.That(() => configuration.Parse("value").GetRequiredResult(symbol)).ThrowsNothing();
     }
 
-    [Fact]
-    public void GetRequiredCommandFromSymbolResult()
+    [Test]
+    public async Task GetRequiredCommandFromSymbolResult()
     {
         Option<string> option = new("--option");
         RootCommand command = [option];
         CommandLineConfiguration configuration = new(command);
 
-        _ = configuration.Parse("--option value")
-            .GetResult(option).Should().BeOfType<Parsing.OptionResult>()
-            .Which.Invoking(result => result.GetRequiredCommand()).Should().NotThrow();
+        var result = await Assert.That(configuration.Parse("--option value").GetResult(option)).IsTypeOf<Parsing.OptionResult>();
+        _ = await Assert.That(result!.GetRequiredCommand).ThrowsNothing();
     }
 
-    [Fact]
-    public void GetRequiredCommandFromOption()
+    [Test]
+    public async Task GetRequiredCommandFromOption()
     {
         Command? commandFromOptionDefault = default;
         Option<string> option = new("--api")
@@ -132,13 +132,13 @@ public class ExtensionMethodsTests
 
         ParseResult parsedConfiguration = configuration.Parse("--help");
         int result = parsedConfiguration.Invoke();
-        _ = commandFromOptionDefault.Should().NotBeNull();
+        _ = await Assert.That(commandFromOptionDefault).IsNotNull();
     }
 
 
 
-    [Fact]
-    public void GetRequiredCommandFromArgument()
+    [Test]
+    public async Task GetRequiredCommandFromArgument()
     {
         Command? commandFromOptionDefault = default;
         Argument<string> argument = new("API")
@@ -158,19 +158,18 @@ public class ExtensionMethodsTests
 
         ParseResult parsedConfiguration = configuration.Parse("--help");
         int result = parsedConfiguration.Invoke();
-        _ = commandFromOptionDefault.Should().NotBeNull();
+        _ = await Assert.That(commandFromOptionDefault).IsNotNull();
     }
 
-    [Fact]
-    public void GetCommandFromNull()
+    [Test]
+    public async Task GetCommandFromNull()
     {
-        _ = ExtensionMethods.GetCommand(default!).Should().BeNull();
+        _ = await Assert.That(ExtensionMethods.GetCommand(default!)).IsNull();
     }
 
-    [Fact]
-    public void GetRequiredCommandFromNull()
+    [Test]
+    public async Task GetRequiredCommandFromNull()
     {
-        Func<Command> act = () => ExtensionMethods.GetRequiredCommand(null!);
-        _ = act.Should().Throw<ArgumentNullException>();
+        _ = await Assert.That(() => ExtensionMethods.GetRequiredCommand(null!)).Throws<ArgumentNullException>();
     }
 }

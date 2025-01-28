@@ -8,92 +8,92 @@ namespace System.CommandLine;
 
 public class ArgumentValidationTests
 {
-    [Fact]
-    public void FileExists()
+    [Test]
+    public async Task FileExists()
     {
-        AcceptMissingOnly(new Argument<FileInfo>("FILE").AcceptMissingOnly(), typeof(ArgumentValidationTests).Assembly.Location);
+        await AcceptMissingOnly(new Argument<FileInfo>("FILE").AcceptMissingOnly(), typeof(TestAttribute).Assembly.Location);
     }
 
-    [Fact]
-    public void FilesExists()
+    [Test]
+    public async Task FilesExists()
     {
-        AcceptMissingOnly(new Argument<FileInfo[]>("FILES").AcceptMissingOnly(), typeof(ArgumentValidationTests).Assembly.Location);
+        await AcceptMissingOnly(new Argument<FileInfo[]>("FILES").AcceptMissingOnly(), typeof(TestAttribute).Assembly.Location);
     }
 
-    [Fact]
-    public void DirectoryExists()
+    [Test]
+    public async Task DirectoryExists()
     {
-        AcceptMissingOnly(new Argument<DirectoryInfo>("DIRECTORY").AcceptMissingOnly(), Path.GetDirectoryName(typeof(ArgumentValidationTests).Assembly.Location) ?? string.Empty);
+        await AcceptMissingOnly(new Argument<DirectoryInfo>("DIRECTORY").AcceptMissingOnly(), Path.GetDirectoryName(typeof(TestAttribute).Assembly.Location) ?? string.Empty);
     }
 
-    [Fact]
-    public void DirectoriesExists()
+    [Test]
+    public async Task DirectoriesExists()
     {
-        AcceptMissingOnly(new Argument<DirectoryInfo[]>("DIRECTORIES").AcceptMissingOnly(), Path.GetDirectoryName(typeof(ArgumentValidationTests).Assembly.Location) ?? string.Empty);
+        await AcceptMissingOnly(new Argument<DirectoryInfo[]>("DIRECTORIES").AcceptMissingOnly(), Path.GetDirectoryName(typeof(TestAttribute).Assembly.Location) ?? string.Empty);
     }
 
-    [Fact]
-    public void FileSystemInfoExists()
+    [Test]
+    public async Task FileSystemInfoExists()
     {
-        AcceptMissingOnly(new Argument<FileSystemInfo>("FILE").AcceptMissingOnly(), typeof(ArgumentValidationTests).Assembly.Location);
+        await AcceptMissingOnly(new Argument<FileSystemInfo>("FILE").AcceptMissingOnly(), typeof(TestAttribute).Assembly.Location);
     }
 
-    [Fact]
-    public void FileSystemInfosExists()
+    [Test]
+    public async Task FileSystemInfosExists()
     {
-        AcceptMissingOnly(new Argument<FileSystemInfo[]>("FILES").AcceptMissingOnly(), typeof(ArgumentValidationTests).Assembly.Location);
+        await AcceptMissingOnly(new Argument<FileSystemInfo[]>("FILES").AcceptMissingOnly(), typeof(TestAttribute).Assembly.Location);
     }
 
-    [Fact]
-    public void CorrectUriScheme()
+    [Test]
+    public async Task CorrectUriScheme()
     {
         Argument<Uri> argument = new Argument<Uri>("URI").AcceptHttps();
         RootCommand root = [argument];
         CommandLineConfiguration configuration = new(root);
 
         ParseResult results = configuration.Parse("https://www.google.com");
-        _ = results.Errors.Should().BeEmpty();
+        _ = await Assert.That(results.Errors).IsEmpty();
     }
 
-    [Fact]
-    public void IncorrectUriScheme()
+    [Test]
+    public async Task IncorrectUriScheme()
     {
         Argument<Uri> argument = new Argument<Uri>("URI").AcceptHttp();
         RootCommand root = [argument];
         CommandLineConfiguration configuration = new(root);
 
         ParseResult results = configuration.Parse("https://www.google.com");
-        _ = results.Errors.Should().NotBeEmpty();
+        _ = await Assert.That(results.Errors).IsNotEmpty();
     }
 
-    [Fact]
-    public void CorrectUriSchemes()
+    [Test]
+    public async Task CorrectUriSchemes()
     {
         Argument<Uri> argument = new Argument<Uri>("URI").AcceptHttpOrHttps();
         RootCommand root = [argument];
         CommandLineConfiguration configuration = new(root);
 
         ParseResult results = configuration.Parse("https://www.google.com");
-        _ = results.Errors.Should().BeEmpty();
+        _ = await Assert.That(results.Errors).IsEmpty();
     }
 
-    [Fact]
-    public void IncorrectUriSchemes()
+    [Test]
+    public async Task IncorrectUriSchemes()
     {
         Argument<Uri> argument = new Argument<Uri>("URI").AcceptSchemes(Uri.UriSchemeGopher, Uri.UriSchemeSsh);
         RootCommand root = [argument];
         CommandLineConfiguration configuration = new(root);
 
         ParseResult results = configuration.Parse("https://www.google.com");
-        _ = results.Errors.Should().NotBeEmpty();
+        _ = await Assert.That(results.Errors).IsNotEmpty();
     }
 
-    private static void AcceptMissingOnly<T>(Argument<T> argument, string args)
+    private static async Task AcceptMissingOnly<T>(Argument<T> argument, string args)
     {
         RootCommand root = [argument];
         CommandLineConfiguration configuration = new(root);
 
         ParseResult results = configuration.Parse(args);
-        _ = results.Errors.Should().NotBeEmpty();
+        _ = await Assert.That(results.Errors).IsNotEmpty();
     }
 }

@@ -8,13 +8,14 @@ namespace System.CommandLine.Logging;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using TUnit.Assertions.AssertConditions.Throws;
 
 public class LoggingExtensionsTests
 {
     private readonly Option<VerbosityOptions> verbosityOption = new VerbosityOption();
 
-    [Fact]
-    public void AddLogging()
+    [Test]
+    public async Task AddLogging()
     {
         CommandLineConfiguration configuration = new(new RootCommand());
         _ = configuration.AddLogging((parseResult, builder) =>
@@ -26,10 +27,10 @@ public class LoggingExtensionsTests
         });
 
         ParseResult parseResult = configuration.Parse(string.Empty);
-        _ = parseResult.CreateLogger("Test").Should().NotBeNull();
+        _ = await Assert.That(parseResult.CreateLogger("Test")).IsNotNull();
     }
 
-    [Fact]
+    [Test]
     public async Task AddLoggingMultipleTimes()
     {
         const int Total = 10;
@@ -41,28 +42,28 @@ public class LoggingExtensionsTests
         // force getting the logger
         _ = configuration.Parse(string.Empty).GetLoggerFactory();
 
-        _ = count.Should().BeGreaterThan(1);
+        _ = await Assert.That(count).IsGreaterThan(1);
     }
 
-    [Fact]
-    public void FailGetLogger()
+    [Test]
+    public async Task FailGetLogger()
     {
-        _ = new CommandLineConfiguration(new RootCommand()).Parse(string.Empty).Invoking(pr => pr.GetLoggerFactory()).Should().Throw<InvalidOperationException>();
+        _ = await Assert.That(() => new CommandLineConfiguration(new RootCommand()).Parse(string.Empty).GetLoggerFactory()).Throws<InvalidOperationException>();
     }
 
-    [Theory]
-    [InlineData(VerbosityOptions.q, LogLevel.Error)]
-    [InlineData(VerbosityOptions.quiet, LogLevel.Error)]
-    [InlineData(VerbosityOptions.m, LogLevel.Warning)]
-    [InlineData(VerbosityOptions.minimal, LogLevel.Warning)]
-    [InlineData(VerbosityOptions.n, LogLevel.Information)]
-    [InlineData(VerbosityOptions.normal, LogLevel.Information)]
-    [InlineData(VerbosityOptions.d, LogLevel.Debug)]
-    [InlineData(VerbosityOptions.detailed, LogLevel.Debug)]
-    [InlineData(VerbosityOptions.diag, LogLevel.Trace)]
-    [InlineData(VerbosityOptions.diagnostic, LogLevel.Trace)]
-    public void GetLogLevel(VerbosityOptions verbosity, LogLevel level)
+    [Test]
+    [Arguments(VerbosityOptions.q, LogLevel.Error)]
+    [Arguments(VerbosityOptions.quiet, LogLevel.Error)]
+    [Arguments(VerbosityOptions.m, LogLevel.Warning)]
+    [Arguments(VerbosityOptions.minimal, LogLevel.Warning)]
+    [Arguments(VerbosityOptions.n, LogLevel.Information)]
+    [Arguments(VerbosityOptions.normal, LogLevel.Information)]
+    [Arguments(VerbosityOptions.d, LogLevel.Debug)]
+    [Arguments(VerbosityOptions.detailed, LogLevel.Debug)]
+    [Arguments(VerbosityOptions.diag, LogLevel.Trace)]
+    [Arguments(VerbosityOptions.diagnostic, LogLevel.Trace)]
+    public async Task GetLogLevel(VerbosityOptions verbosity, LogLevel level)
     {
-        _ = new CommandLineConfiguration(new RootCommand { verbosityOption }).Parse($"{verbosityOption.Name} {verbosity}").GetLogLevel().Should().Be(level);
+        _ = await Assert.That(new CommandLineConfiguration(new RootCommand { verbosityOption }).Parse($"{verbosityOption.Name} {verbosity}").GetLogLevel()).IsEqualTo(level);
     }
 }

@@ -6,45 +6,45 @@
 
 namespace System.CommandLine.Parsing;
 
+using TUnit.Assertions.AssertConditions.Throws;
+
 public class FileInfoParserTests
 {
-    [Fact]
-    public void ParseFile()
+    [Test]
+    public async Task ParseFile()
     {
-        _ = FileInfoParser.Parse(typeof(FileInfoParserTests).Assembly.Location).Should().NotBeNull();
+        _ = await Assert.That(FileInfoParser.Parse(typeof(FileInfoParserTests).Assembly.Location)).IsNotNull();
     }
 
-    [Fact]
-    public void ParseDirectory()
+    [Test]
+    public async Task ParseDirectory()
     {
-        _ = FileInfoParser.ParseAll(Path.GetDirectoryName(typeof(FileInfoParserTests).Assembly.Location)).Should().HaveCountGreaterThan(1);
+        _ = await Assert.That(FileInfoParser.ParseAll(Path.GetDirectoryName(typeof(FileInfoParserTests).Assembly.Location))).HasCount().GreaterThan(1);
     }
 
-    [Fact]
-    public void ParsePattern()
+    [Test]
+    public async Task ParsePattern()
     {
-        _ = FileInfoParser.ParseAll(Path.Combine(Path.GetDirectoryName(typeof(FileInfoParserTests).Assembly.Location)!, "*.dll")).Should().HaveCountGreaterThan(1);
+        _ = await Assert.That(FileInfoParser.ParseAll(Path.Combine(Path.GetDirectoryName(typeof(FileInfoParserTests).Assembly.Location)!, "*.dll"))).HasCount().GreaterThan(1);
     }
 
-    [Theory]
-    [InlineData(null)]
-    [InlineData("")]
-    public void ParseEmpty(string? path)
+    [Test]
+    [Arguments(null)]
+    [Arguments("")]
+    public async Task ParseEmpty(string? path)
     {
-        _ = FileInfoParser.ParseAll(path).Should().BeEmpty();
+        _ = await Assert.That(FileInfoParser.ParseAll(path)).IsEmpty();
     }
 
-    [Fact]
-    public void ParseMultiple()
+    [Test]
+    public async Task ParseMultiple()
     {
-        Action action = () => FileInfoParser.Parse(Path.GetDirectoryName(typeof(FileInfoParserTests).Assembly.Location)).Should();
-        _ = action.Should().Throw<InvalidOperationException>();
+        await Assert.That(() => FileInfoParser.Parse(Path.GetDirectoryName(typeof(FileInfoParserTests).Assembly.Location))).Throws<InvalidOperationException>();
     }
 
-    [Fact]
-    public void ParseNone()
+    [Test]
+    public async Task ParseNone()
     {
-        Action action = () => FileInfoParser.Parse(Path.ChangeExtension(typeof(FileInfoParserTests).Assembly.Location, ".bad"));
-        _ = action.Should().Throw<FileNotFoundException>();
+        await Assert.That(() => FileInfoParser.Parse(Path.ChangeExtension(typeof(FileInfoParserTests).Assembly.Location, ".bad"))).Throws<FileNotFoundException>();
     }
 }

@@ -8,8 +8,8 @@ namespace System.CommandLine.Spectre;
 
 public class AnsiConsoleConfigurationExtensionsTests
 {
-    [Fact]
-    public void AddFiglet()
+    [Test]
+    public async Task AddFiglet()
     {
         TestConsole console = new();
 
@@ -17,6 +17,6 @@ public class AnsiConsoleConfigurationExtensionsTests
 
         _ = configuration.Parse("--help").Invoke();
 
-        _ = console.Lines.Skip(1).Should().NotBeEmpty();
+        _ = await Assert.That(console.Lines.Skip(1)).IsNotEmpty();
     }
 }

@@ -8,8 +8,8 @@ namespace System.CommandLine.Services;
 
 public class ServiceExtensionsTests
 {
-    [Fact]
-    public void GetServices()
+    [Test]
+    public async Task GetServices()
     {
         IServiceProvider? serviceProvider = default;
         RootCommand rootCommand = [];
@@ -19,7 +19,7 @@ public class ServiceExtensionsTests
         _ = configuration.UseServices(services => { });
 
         _ = configuration.Invoke([]);
-        _ = serviceProvider.Should().NotBeNull();
+        _ = await Assert.That(serviceProvider).IsNotNull();
 
     }
 }

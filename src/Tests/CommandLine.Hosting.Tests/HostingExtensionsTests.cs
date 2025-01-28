@@ -11,8 +11,8 @@ using NSubstitute;
 
 public partial class HostingExtensionsTests
 {
-    [Fact]
-    public void GetHost()
+    [Test]
+    public async Task GetHost()
     {
         const bool Value = true;
 
@@ -24,14 +24,14 @@ public partial class HostingExtensionsTests
         _ = configuration.UseHost(configureHost: (_, builder) => builder.ConfigureServices((_, services) => services.ConfigureInvocationLifetime(opts => opts.SuppressStatusMessages = Value)));
 
         _ = configuration.Invoke([]);
-        _ = host.Should().BeAssignableTo<Microsoft.Extensions.Hosting.IHost>()
-            .Which.Services.GetService(typeof(Microsoft.Extensions.Hosting.IHostLifetime)).Should().BeAssignableTo<Microsoft.Extensions.Hosting.IHostLifetime>()
-            .Which.Should().BeOfType<InvocationLifetime>()
-            .Which.Options.SuppressStatusMessages.Should().Be(Value);
+        _ = await Assert.That(host).IsAssignableTo<Microsoft.Extensions.Hosting.IHost>()
+            .And.Satisfies(
+                x => ((Microsoft.Extensions.Hosting.IHost)x!).Services.GetService(typeof(Microsoft.Extensions.Hosting.IHostLifetime)),
+                hostLifeTime => hostLifeTime.IsAssignableTo<Microsoft.Extensions.Hosting.IHostLifetime>().And.IsTypeOf<InvocationLifetime>().And.Satisfies(x => ((InvocationLifetime)x!).Options.SuppressStatusMessages, options => options.IsEqualTo(Value)));
     }
 
-    [Fact]
-    public void GetHostWithDirectives()
+    [Test]
+    public async Task GetHostWithDirectives()
     {
         Microsoft.Extensions.Hosting.IHost? host = default;
         RootCommand rootCommand = [];
@@ -41,17 +41,16 @@ public partial class HostingExtensionsTests
         _ = configuration.UseHost();
 
         _ = configuration.Invoke("[config:Key1=Value1] [config:Key2]");
-        _ = host.Should().NotBeNull();
+        _ = await Assert.That(host).IsNotNull();
 
-        ConfigurationRoot? configurationRoot = host?.Services.GetService(typeof(IConfiguration))
-            .Should().BeOfType<ConfigurationRoot>().Which;
+        ConfigurationRoot? configurationRoot = await Assert.That(host?.Services.GetService(typeof(IConfiguration))).IsTypeOf<ConfigurationRoot>();
 
-        _ = configurationRoot!.GetValue<string>("Key1").Should().Be("Value1");
-        _ = configurationRoot!.GetValue<string>("Key2").Should().Be(null);
+        _ = await Assert.That(configurationRoot!.GetValue<string>("Key1")).IsEqualTo("Value1");
+        _ = await Assert.That(configurationRoot!.GetValue<string>("Key2")).IsEqualTo(null);
     }
 
-    [Fact]
-    public void GetConfiguration()
+    [Test]
+    public async Task GetConfiguration()
     {
         IConfiguration? config = default;
         RootCommand rootCommand = [];
@@ -61,13 +60,13 @@ public partial class HostingExtensionsTests
         _ = configuration.UseConfiguration();
 
         _ = configuration.Invoke([]);
-        _ = config.Should().NotBeNull();
+        _ = await Assert.That(config).IsNotNull();
     }
 
-    [Theory]
-    [InlineData(true)]
-    [InlineData(false)]
-    public void GetServices(bool withArgs)
+    [Test]
+    [Arguments(true)]
+    [Arguments(false)]
+    public async Task GetServices(bool withArgs)
     {
         IServiceProvider? serviceProvider = default;
         RootCommand rootCommand = [];
@@ -79,11 +78,11 @@ public partial class HostingExtensionsTests
             : configuration.UseServices();
 
         _ = configuration.Invoke([]);
-        _ = serviceProvider.Should().NotBeNull();
+        _ = await Assert.That(serviceProvider).IsNotNull();
     }
 
-    [Fact]
-    public void GetConfigurationAndServices()
+    [Test]
+    public async Task GetConfigurationAndServices()
     {
         IServiceProvider? serviceProvider = default;
         IConfiguration? config = default;
@@ -111,13 +110,13 @@ public partial class HostingExtensionsTests
         configure => { });
 
         _ = configuration.Invoke([]);
-        _ = count.Should().Be(1);
-        _ = serviceProvider.Should().NotBeNull();
-        _ = config.Should().NotBeNull();
+        _ = await Assert.That(count).IsEqualTo(1);
+        _ = await Assert.That(serviceProvider).IsNotNull();
+        _ = await Assert.That(config).IsNotNull();
     }
 
-    [Fact]
-    public void UseConfigurationInDefaultValueFromArgument()
+    [Test]
+    public async Task UseConfigurationInDefaultValueFromArgument()
     {
         IConfiguration? config = default;
         Argument<string> argument = new("ARG")
@@ -138,11 +137,11 @@ public partial class HostingExtensionsTests
         _ = configuration.UseConfiguration();
 
         _ = configuration.Invoke([]);
-        _ = config.Should().NotBeNull();
+        _ = await Assert.That(config).IsNotNull();
     }
 
-    [Fact]
-    public void UseConfigurationInDefaultValueFromOption()
+    [Test]
+    public async Task UseConfigurationInDefaultValueFromOption()
     {
         IConfiguration? config = default;
         Option<string> argument = new("--option")
@@ -163,15 +162,15 @@ public partial class HostingExtensionsTests
         _ = configuration.UseConfiguration();
 
         _ = configuration.Invoke(string.Empty);
-        _ = config.Should().NotBeNull();
+        _ = await Assert.That(config).IsNotNull();
     }
 
-    [Theory]
-    [InlineData("first", true)]
-    [InlineData("second", true)]
-    [InlineData("first", false)]
-    [InlineData("second", false)]
-    public void UseConfigurationInHelp(string name, bool withArgs)
+    [Test]
+    [Arguments("first", true)]
+    [Arguments("second", true)]
+    [Arguments("first", false)]
+    [Arguments("second", false)]
+    public async Task UseConfigurationInHelp(string name, bool withArgs)
     {
         IConfiguration? config = default;
         Command? command = default;
@@ -207,15 +206,15 @@ public partial class HostingExtensionsTests
 
         _ = configuration.Invoke($"{name} --help");
 
-        _ = command.Should().NotBeNull().And.Subject.As<Command>().Name.Should().Be(name);
-        _ = config.Should().NotBeNull();
+        _ = await Assert.That(command).IsNotNull().And.Satisfies(c => c!.Name, commandName => commandName.IsEqualTo(name)!);
+        _ = await Assert.That(config).IsNotNull();
     }
 
     public partial class EnsureStartAndStopAreCalled
     {
         public class Host
         {
-            [Fact]
+            [Test]
             public async Task WithNoAction()
             {
                 Microsoft.Extensions.Hosting.IHost host = Substitute.For<Microsoft.Extensions.Hosting.IHost>();
@@ -232,7 +231,7 @@ public partial class HostingExtensionsTests
                 await host.Received().StopAsync(Arg.Any<CancellationToken>());
             }
 
-            [Fact]
+            [Test]
             public async Task WithSynchronousAction()
             {
                 Microsoft.Extensions.Hosting.IHost host = Substitute.For<Microsoft.Extensions.Hosting.IHost>();
@@ -250,7 +249,7 @@ public partial class HostingExtensionsTests
                 await host.Received().StopAsync(Arg.Any<CancellationToken>());
             }
 
-            [Fact]
+            [Test]
             public async Task WithAsynchronousAction()
             {
                 Microsoft.Extensions.Hosting.IHost host = Substitute.For<Microsoft.Extensions.Hosting.IHost>();

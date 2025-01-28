@@ -8,20 +8,20 @@ namespace System.CommandLine;
 
 public class HelpConfigurationExtensionsTests
 {
-    [Fact]
-    public void CustomizeHelp()
+    [Test]
+    public async Task CustomizeHelp()
     {
         RootCommand command = [];
-        _ = command.CustomizeHelp("first", "second", "default").Should().NotBeNull();
+        _ = await Assert.That(command.CustomizeHelp("first", "second", "default")).IsNotNull();
     }
 
-    [Fact]
-    public void ConfigureHelp()
+    [Test]
+    public async Task ConfigureHelp()
     {
         Help.HelpBuilder? builder = default;
         CommandLineConfiguration configuration = new(new RootCommand());
         _ = configuration.ConfigureHelp(b => builder = b);
 
-        _ = builder.Should().NotBeNull();
+        _ = await Assert.That(builder).IsNotNull();
     }
 }

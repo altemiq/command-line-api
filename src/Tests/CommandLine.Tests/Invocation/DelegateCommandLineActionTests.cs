@@ -7,13 +7,13 @@
 namespace System.CommandLine.Invocation;
 
 
-public class DelegateActionTests
+public class DelegateCommandLineActionTests
 {
-    [Theory]
-    [InlineData(Action.None)]
-    [InlineData(Action.Synchronous)]
-    [InlineData(Action.Asynchronous)]
-    public void SynchronousDelegate(Action action)
+    [Test]
+    [Arguments(Action.None)]
+    [Arguments(Action.Synchronous)]
+    [Arguments(Action.Asynchronous)]
+    public async Task SynchronousDelegate(Action action)
     {
         Command command = CommandExtensions.SetAction(new Command("command") { new Command("subcommand") }, action);
 
@@ -23,12 +23,12 @@ public class DelegateActionTests
         CommandLineConfiguration configuration = new(command);
         _ = configuration.Invoke(string.Empty);
 
-        _ = value.Should().BeTrue();
+        _ = await Assert.That(value).IsTrue();
     }
 
-    [Theory]
-    [InlineData(Action.None)]
-    [InlineData(Action.Asynchronous)]
+    [Test]
+    [Arguments(Action.None)]
+    [Arguments(Action.Asynchronous)]
     public async Task AsynchronousDelegate(Action action)
     {
         Command command = CommandExtensions.SetAction(new Command("command") { new Command("subcommand") }, action);
@@ -43,16 +43,16 @@ public class DelegateActionTests
         CommandLineConfiguration configuration = new(command);
         _ = await configuration.InvokeAsync(string.Empty);
 
-        _ = value.Should().BeTrue();
+        _ = await Assert.That(value).IsTrue();
     }
 
-    [Theory]
-    [InlineData(Action.None, true)]
-    [InlineData(Action.Synchronous, true)]
-    [InlineData(Action.Asynchronous, true)]
-    [InlineData(Action.None, false)]
-    [InlineData(Action.Synchronous, false)]
-    [InlineData(Action.Asynchronous, false)]
+    [Test]
+    [Arguments(Action.None, true)]
+    [Arguments(Action.Synchronous, true)]
+    [Arguments(Action.Asynchronous, true)]
+    [Arguments(Action.None, false)]
+    [Arguments(Action.Synchronous, false)]
+    [Arguments(Action.Asynchronous, false)]
     public async Task BothDelegates(Action action, bool preferSynchronous)
     {
         Command command = CommandExtensions.SetAction(new Command("command") { new Command("subcommand") }, action);
@@ -67,6 +67,6 @@ public class DelegateActionTests
         CommandLineConfiguration configuration = new(command);
         _ = await configuration.InvokeAsync(string.Empty);
 
-        _ = value.Should().BeTrue();
+        _ = await Assert.That(value).IsTrue();
     }
 }
