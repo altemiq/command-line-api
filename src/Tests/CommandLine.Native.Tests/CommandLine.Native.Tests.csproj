@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net9.0;net8.0</TargetFrameworks>
+    <TargetFrameworks Condition="$([MSBuild]::IsOsPlatform('Windows'))">$(TargetFrameworks);net472</TargetFrameworks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\CommandLine.Native\CommandLine.Native.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="runtimes\*\native\_._" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

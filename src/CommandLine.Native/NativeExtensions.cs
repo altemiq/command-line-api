@@ -9,7 +9,6 @@ namespace System.CommandLine;
 /// <summary>
 /// The native extensions.
 /// </summary>
-[Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
 public static class NativeExtensions
 {
     /// <summary>

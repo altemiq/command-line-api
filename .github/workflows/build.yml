@@ -73,8 +73,6 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: |
-          6.0.x
-          7.0.x
           8.0.x
           9.0.x
         source-url: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
@@ -88,14 +86,15 @@ jobs:
       run: >
         dotnet test
         --logger GitHubActions
-        --collect "XPlat code coverage"
+        --
         --results-directory ${{ github.workspace }}/coverage/results
-        -- RunConfiguration.CollectSourceInformation=true
+        --coverage
+        --coverage-output-format cobertura
 
     - name: Report Generator
       uses: danielpalme/ReportGenerator-GitHub-Action@v5
       with:
-        reports: '${{ github.workspace }}/coverage/results/*/coverage.cobertura.xml'
+        reports: ${{ github.workspace }}/coverage/results/*.cobertura.xml
         targetdir: '${{ github.workspace }}/coverage/reports'
         reporttypes: 'HtmlInline;Cobertura;MarkdownSummaryGithub'
         verbosity: 'Verbose'

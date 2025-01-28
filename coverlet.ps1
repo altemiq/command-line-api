@@ -5,7 +5,7 @@ if (Test-Path -Path $results -Type Container) {
 }
 
 # Run dotnet test
-dotnet test $PSScriptRoot\src --no-build --results-directory $results --collect:"XPlat Code Coverage"
+dotnet test $PSScriptRoot\src --no-build -- --results-directory $results --coverage --coverage-output-format cobertura
 
 # install the report generator
 dotnet tool install -g dotnet-reportgenerator-globaltool
@@ -16,4 +16,4 @@ if (Test-Path -Path $reports -Type Container) {
 }
 
 # run the report generator
-reportGenerator -reports:"$results/*/coverage.cobertura.xml" -targetdir:$reports -reporttypes:"HtmlInline;Cobertura;MarkdownSummary" -verbosity:Verbose
+reportGenerator -reports:"$results/*.cobertura.xml" -targetdir:$reports -reporttypes:"HtmlInline;Cobertura;MarkdownSummary" -verbosity:Verbose
