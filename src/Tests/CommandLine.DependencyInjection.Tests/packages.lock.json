@@ -133,16 +133,16 @@
           "TUnit.Core": "0.12.0"
         }
       },
-      "commandline": {
+      "Altavec.CommandLine": {
         "type": "Project",
         "dependencies": {
           "System.CommandLine": "[2.0.0-beta4.25072.1, )"
         }
       },
-      "commandline.dependencyinjection": {
+      "Altavec.CommandLine.DependencyInjection": {
         "type": "Project",
         "dependencies": {
-          "CommandLine": "[1.0.0, )",
+          "Altavec.CommandLine": "[1.0.0, )",
           "Microsoft.Extensions.DependencyInjection": "[2.1.0, )"
         }
       },
@@ -285,16 +285,16 @@
           "TUnit.Core": "0.12.0"
         }
       },
-      "commandline": {
+      "Altavec.CommandLine": {
         "type": "Project",
         "dependencies": {
           "System.CommandLine": "[2.0.0-beta4.25072.1, )"
         }
       },
-      "commandline.dependencyinjection": {
+      "Altavec.CommandLine.DependencyInjection": {
         "type": "Project",
         "dependencies": {
-          "CommandLine": "[1.0.0, )",
+          "Altavec.CommandLine": "[1.0.0, )",
           "Microsoft.Extensions.DependencyInjection": "[2.1.0, )"
         }
       },
