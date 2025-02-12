@@ -26,8 +26,8 @@ public partial class HostingExtensionsTests
         _ = configuration.Invoke([]);
         _ = await Assert.That(host).IsAssignableTo<Microsoft.Extensions.Hosting.IHost>()
             .And.Satisfies(
-                x => ((Microsoft.Extensions.Hosting.IHost)x!).Services.GetService(typeof(Microsoft.Extensions.Hosting.IHostLifetime)),
-                hostLifeTime => hostLifeTime.IsAssignableTo<Microsoft.Extensions.Hosting.IHostLifetime>().And.IsTypeOf<InvocationLifetime>().And.Satisfies(x => ((InvocationLifetime)x!).Options.SuppressStatusMessages, options => options.IsEqualTo(Value)));
+                x => x.Services.GetService(typeof(Microsoft.Extensions.Hosting.IHostLifetime)),
+                hostLifeTime => hostLifeTime.IsAssignableTo<Microsoft.Extensions.Hosting.IHostLifetime>().And.IsTypeOf<InvocationLifetime>().And.Satisfies(x => ((InvocationLifetime)x!).Options.SuppressStatusMessages, options => options.IsEqualTo(Value)).And.IsNotNull<object?>());
     }
 
     [Test]
@@ -206,7 +206,7 @@ public partial class HostingExtensionsTests
 
         _ = configuration.Invoke($"{name} --help");
 
-        _ = await Assert.That(command).IsNotNull().And.Satisfies(c => c!.Name, commandName => commandName.IsEqualTo(name)!);
+        _ = await Assert.That(command).IsTypeOf<Command>().And.Satisfies(c => c.Name, commandName => commandName.IsEqualTo(name)!);
         _ = await Assert.That(config).IsNotNull();
     }
 

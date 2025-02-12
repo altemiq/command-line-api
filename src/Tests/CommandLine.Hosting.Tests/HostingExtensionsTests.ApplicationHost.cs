@@ -26,12 +26,13 @@ public partial class HostingExtensionsTests
         _ = configuration.Invoke([]);
         await Assert.That(host).IsAssignableTo<Microsoft.Extensions.Hosting.IHost>().And
             .Satisfies(
-                h => ((Microsoft.Extensions.Hosting.IHost)h!).Services.GetService(typeof(Microsoft.Extensions.Hosting.IHostLifetime)),
+                h => h.Services.GetService(typeof(Microsoft.Extensions.Hosting.IHostLifetime)),
                 hl => hl.IsAssignableTo<Microsoft.Extensions.Hosting.IHostLifetime>().And
                     .IsTypeOf<InvocationLifetime>().And
                     .Satisfies(
-                        o => ((InvocationLifetime)o!).Options.SuppressStatusMessages,
-                        suppressStatusMessages => suppressStatusMessages.IsEqualTo(Value)));
+                        o => o.Options.SuppressStatusMessages,
+                        suppressStatusMessages => suppressStatusMessages.IsEqualTo(Value)).And
+                    .IsNotNull<object?>());
     }
 
     [Test]
