@@ -2,7 +2,7 @@
 
 public class NativeExtensionsTests
 {
-    private static readonly string PathVariable = Altavec.Runtime.InteropServices.RuntimeInformation.PathVariable;
+    private static readonly string PathVariable = Altemiq.Runtime.InteropServices.RuntimeInformation.PathVariable;
 
     [Test]
     public async Task Test()

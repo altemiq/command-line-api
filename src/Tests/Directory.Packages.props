@@ -12,19 +12,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageVersion Include="Altavec.Runtime" Version="1.2.1" />
+    <PackageVersion Include="Altemiq.Runtime" Version="1.2.1" />
     <PackageVersion Include="System.CommandLine" Version="2.0.0-beta4.25072.1" />
   </ItemGroup>
 
   <Choose>
     <When Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net9.0'))">
       <ItemGroup>
-        <PackageVersion Include="Microsoft.Extensions.Configuration" Version="9.0.1" />
-        <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="9.0.1" />
-        <PackageVersion Include="Microsoft.Extensions.DependencyModel" Version="9.0.1" />
-        <PackageVersion Include="Microsoft.Extensions.FileSystemGlobbing" Version="9.0.1" />
-        <PackageVersion Include="Microsoft.Extensions.Hosting" Version="9.0.1" />
-        <PackageVersion Include="Microsoft.Extensions.Logging" Version="9.0.1" />
+        <PackageVersion Include="Microsoft.Extensions.Configuration" Version="9.0.2" />
+        <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="9.0.2" />
+        <PackageVersion Include="Microsoft.Extensions.DependencyModel" Version="9.0.2" />
+        <PackageVersion Include="Microsoft.Extensions.FileSystemGlobbing" Version="9.0.2" />
+        <PackageVersion Include="Microsoft.Extensions.Hosting" Version="9.0.2" />
+        <PackageVersion Include="Microsoft.Extensions.Logging" Version="9.0.2" />
       </ItemGroup>
     </When>
     <When Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net8.0'))">
