@@ -388,32 +388,32 @@
           "TUnit.Core": "0.12.0"
         }
       },
-      "Altavec.CommandLine": {
+      "Altemiq.CommandLine": {
         "type": "Project",
         "dependencies": {
           "System.CommandLine": "[2.0.0-beta4.25072.1, )"
         }
       },
-      "Altavec.CommandLine.FileSystemGlobbing": {
+      "Altemiq.CommandLine.FileSystemGlobbing": {
         "type": "Project",
         "dependencies": {
           "Microsoft.Extensions.FileSystemGlobbing": "[2.1.0, )",
           "System.CommandLine": "[2.0.0-beta4.25072.1, )"
         }
       },
-      "Altavec.CommandLine.Hosting": {
+      "Altemiq.CommandLine.Hosting": {
         "type": "Project",
         "dependencies": {
-          "Altavec.CommandLine": "[1.0.0, )",
-          "Altavec.CommandLine.FileSystemGlobbing": "[1.0.0, )",
-          "Altavec.CommandLine.Logging": "[1.0.0, )",
+          "Altemiq.CommandLine": "[1.0.0, )",
+          "Altemiq.CommandLine.FileSystemGlobbing": "[1.0.0, )",
+          "Altemiq.CommandLine.Logging": "[1.0.0, )",
           "Microsoft.Extensions.Hosting": "[8.0.1, )"
         }
       },
-      "Altavec.CommandLine.Logging": {
+      "Altemiq.CommandLine.Logging": {
         "type": "Project",
         "dependencies": {
-          "Altavec.CommandLine": "[1.0.0, )",
+          "Altemiq.CommandLine": "[1.0.0, )",
           "Microsoft.Extensions.DependencyInjection": "[2.1.0, )",
           "Microsoft.Extensions.Logging": "[2.1.0, )"
         }
@@ -848,32 +848,32 @@
           "TUnit.Core": "0.12.0"
         }
       },
-      "Altavec.CommandLine": {
+      "Altemiq.CommandLine": {
         "type": "Project",
         "dependencies": {
           "System.CommandLine": "[2.0.0-beta4.25072.1, )"
         }
       },
-      "Altavec.CommandLine.FileSystemGlobbing": {
+      "Altemiq.CommandLine.FileSystemGlobbing": {
         "type": "Project",
         "dependencies": {
           "Microsoft.Extensions.FileSystemGlobbing": "[2.1.0, )",
           "System.CommandLine": "[2.0.0-beta4.25072.1, )"
         }
       },
-      "Altavec.CommandLine.Hosting": {
+      "Altemiq.CommandLine.Hosting": {
         "type": "Project",
         "dependencies": {
-          "Altavec.CommandLine": "[1.0.0, )",
-          "Altavec.CommandLine.FileSystemGlobbing": "[1.0.0, )",
-          "Altavec.CommandLine.Logging": "[1.0.0, )",
+          "Altemiq.CommandLine": "[1.0.0, )",
+          "Altemiq.CommandLine.FileSystemGlobbing": "[1.0.0, )",
+          "Altemiq.CommandLine.Logging": "[1.0.0, )",
           "Microsoft.Extensions.Hosting": "[9.0.0, )"
         }
       },
-      "Altavec.CommandLine.Logging": {
+      "Altemiq.CommandLine.Logging": {
         "type": "Project",
         "dependencies": {
-          "Altavec.CommandLine": "[1.0.0, )",
+          "Altemiq.CommandLine": "[1.0.0, )",
           "Microsoft.Extensions.DependencyInjection": "[2.1.0, )",
           "Microsoft.Extensions.Logging": "[2.1.0, )"
         }

@@ -125,7 +125,7 @@
           "TUnit.Core": "0.12.0"
         }
       },
-      "Altavec.CommandLine.FileSystemGlobbing": {
+      "Altemiq.CommandLine.FileSystemGlobbing": {
         "type": "Project",
         "dependencies": {
           "Microsoft.Extensions.FileSystemGlobbing": "[2.1.0, )",
@@ -263,7 +263,7 @@
           "TUnit.Core": "0.12.0"
         }
       },
-      "Altavec.CommandLine.FileSystemGlobbing": {
+      "Altemiq.CommandLine.FileSystemGlobbing": {
         "type": "Project",
         "dependencies": {
           "Microsoft.Extensions.FileSystemGlobbing": "[2.1.0, )",

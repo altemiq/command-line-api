@@ -119,7 +119,7 @@
           "TUnit.Core": "0.12.0"
         }
       },
-      "Altavec.CommandLine": {
+      "Altemiq.CommandLine": {
         "type": "Project",
         "dependencies": {
           "System.CommandLine": "[2.0.0-beta4.25072.1, )"
@@ -250,7 +250,7 @@
           "TUnit.Core": "0.12.0"
         }
       },
-      "Altavec.CommandLine": {
+      "Altemiq.CommandLine": {
         "type": "Project",
         "dependencies": {
           "System.CommandLine": "[2.0.0-beta4.25072.1, )"
