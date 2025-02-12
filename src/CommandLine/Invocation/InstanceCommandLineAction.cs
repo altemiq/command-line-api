@@ -11,12 +11,12 @@ namespace System.CommandLine.Invocation;
 /// </summary>
 public static class InstanceCommandLineAction
 {
-#pragma warning disable SA1600 // Elements should be documented
+    [Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:Elements should be documented", Justification = "This is private")]
+    [Diagnostics.CodeAnalysis.SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression", Justification = "This is required")]
     private interface IInstance<out T>
     {
         T Get(ParseResult? parseResult);
     }
-#pragma warning restore SA1600 // Elements should be documented
 
     /// <summary>
     /// Sets the handlers.

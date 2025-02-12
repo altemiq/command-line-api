@@ -7,6 +7,7 @@
 namespace System.CommandLine.Hosting;
 
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
 
 public partial class HostingExtensionsTests
@@ -24,10 +25,19 @@ public partial class HostingExtensionsTests
         _ = configuration.UseHost(configureHost: (_, builder) => builder.ConfigureServices((_, services) => services.ConfigureInvocationLifetime(opts => opts.SuppressStatusMessages = Value)));
 
         _ = configuration.Invoke([]);
-        _ = await Assert.That(host).IsAssignableTo<Microsoft.Extensions.Hosting.IHost>()
-            .And.Satisfies(
-                x => x.Services.GetService(typeof(Microsoft.Extensions.Hosting.IHostLifetime)),
-                hostLifeTime => hostLifeTime.IsAssignableTo<Microsoft.Extensions.Hosting.IHostLifetime>().And.IsTypeOf<InvocationLifetime>().And.Satisfies(x => ((InvocationLifetime)x!).Options.SuppressStatusMessages, options => options.IsEqualTo(Value)).And.IsNotNull<object?>());
+        _ = await Assert.That(host).IsAssignableTo<Microsoft.Extensions.Hosting.IHost>().And
+            .Satisfies(
+                host => host.Services.GetService<Microsoft.Extensions.Hosting.IHostLifetime>(),
+                hostLifeTime =>
+                {
+                    TUnit.Assertions.AssertionBuilders.InvokableValueAssertionBuilder<Microsoft.Extensions.Hosting.IHostLifetime?> assertionBuilder = hostLifeTime.IsNotNull();
+                    _ = assertionBuilder.And
+                        .IsTypeOf<InvocationLifetime>().And
+                        .Satisfies(
+                        invocationLifetime => invocationLifetime.Options.SuppressStatusMessages, 
+                        suppressStatusMessages => suppressStatusMessages.IsEqualTo(Value));
+                    return assertionBuilder;
+                });
     }
 
     [Test]
@@ -206,7 +216,7 @@ public partial class HostingExtensionsTests
 
         _ = configuration.Invoke($"{name} --help");
 
-        _ = await Assert.That(command).IsTypeOf<Command>().And.Satisfies(c => c.Name, commandName => commandName.IsEqualTo(name)!);
+        _ = await Assert.That(command).IsTypeOf<Command>().And.Satisfies(command => command.Name, commandName => commandName.IsEqualTo(name)!);
         _ = await Assert.That(config).IsNotNull();
     }
 

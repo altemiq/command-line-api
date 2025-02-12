@@ -33,7 +33,7 @@ public class ExtensionMethodsTests
     {
         Option<string> option = new("--option");
         CommandLineConfiguration configuration = new(new RootCommand { option });
-        await Assert.That(() => configuration.Parse(string.Empty).GetRequiredValue(option)).Throws<ArgumentNullException>();
+        _ = await Assert.That(() => configuration.Parse(string.Empty).GetRequiredValue(option)).Throws<ArgumentNullException>();
     }
 
     [Test]
@@ -107,7 +107,7 @@ public class ExtensionMethodsTests
         RootCommand command = [option];
         CommandLineConfiguration configuration = new(command);
 
-        var result = await Assert.That(configuration.Parse("--option value").GetResult(option)).IsTypeOf<Parsing.OptionResult>();
+        Parsing.OptionResult? result = await Assert.That(configuration.Parse("--option value").GetResult(option)).IsTypeOf<Parsing.OptionResult>();
         _ = await Assert.That(result!.GetRequiredCommand).ThrowsNothing();
     }
 

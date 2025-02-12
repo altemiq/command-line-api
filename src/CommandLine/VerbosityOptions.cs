@@ -10,6 +10,7 @@ namespace System.CommandLine;
 /// The verbosity options.
 /// </summary>
 [Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:Element should begin with upper-case letter", Justification = "This is required for parsing")]
+[Diagnostics.CodeAnalysis.SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression", Justification = "This is required")]
 public enum VerbosityOptions
 {
     /// <summary>

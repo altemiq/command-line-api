@@ -11,10 +11,9 @@ public class OptionsTests
     [Test]
     public async Task Verbosity()
     {
-        VerbosityOption verbosity = new();
-        await Assert.That(verbosity)
-            .Satisfies(v => v.Recursive, recursive => recursive.IsTrue()).And
-            .Satisfies(v => v.HasDefaultValue, hasDefaultValue => hasDefaultValue.IsTrue()).And
-            .Satisfies(v => v.DefaultValueFactory, defaultValueFactory => defaultValueFactory.IsNotNull());
+        _ = await Assert.That(new VerbosityOption())
+            .Satisfies(verbosity => verbosity.Recursive, recursive => recursive.IsTrue()).And
+            .Satisfies(verbosity => verbosity.HasDefaultValue, hasDefaultValue => hasDefaultValue.IsTrue()).And
+            .Satisfies(verbosity => verbosity.DefaultValueFactory, defaultValueFactory => defaultValueFactory.IsNotNull());
     }
 }

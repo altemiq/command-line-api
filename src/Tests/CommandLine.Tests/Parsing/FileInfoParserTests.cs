@@ -39,12 +39,12 @@ public class FileInfoParserTests
     [Test]
     public async Task ParseMultiple()
     {
-        await Assert.That(() => FileInfoParser.Parse(Path.GetDirectoryName(typeof(FileInfoParserTests).Assembly.Location))).Throws<InvalidOperationException>();
+        _ = await Assert.That(() => FileInfoParser.Parse(Path.GetDirectoryName(typeof(FileInfoParserTests).Assembly.Location))).Throws<InvalidOperationException>();
     }
 
     [Test]
     public async Task ParseNone()
     {
-        await Assert.That(() => FileInfoParser.Parse(Path.ChangeExtension(typeof(FileInfoParserTests).Assembly.Location, ".bad"))).Throws<FileNotFoundException>();
+        _ = await Assert.That(() => FileInfoParser.Parse(Path.ChangeExtension(typeof(FileInfoParserTests).Assembly.Location, ".bad"))).Throws<FileNotFoundException>();
     }
 }
