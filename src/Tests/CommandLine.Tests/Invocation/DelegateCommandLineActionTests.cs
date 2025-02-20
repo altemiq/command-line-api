@@ -47,13 +47,10 @@ public class DelegateCommandLineActionTests
     }
 
     [Test]
-    [Arguments(Action.None, true)]
-    [Arguments(Action.Synchronous, true)]
-    [Arguments(Action.Asynchronous, true)]
-    [Arguments(Action.None, false)]
-    [Arguments(Action.Synchronous, false)]
-    [Arguments(Action.Asynchronous, false)]
-    public async Task BothDelegates(Action action, bool preferSynchronous)
+    [MatrixDataSource]
+    public async Task BothDelegates(
+        [Matrix(Action.None, Action.Synchronous, Action.Asynchronous)] Action action,
+        [Matrix(true, false)] bool preferSynchronous)
     {
         Command command = CommandExtensions.SetAction(new Command("command") { new Command("subcommand") }, action);
 

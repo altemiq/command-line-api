@@ -34,7 +34,7 @@ public partial class HostingExtensionsTests
                     _ = assertionBuilder.And
                         .IsTypeOf<InvocationLifetime>().And
                         .Satisfies(
-                        invocationLifetime => invocationLifetime.Options.SuppressStatusMessages, 
+                        invocationLifetime => invocationLifetime.Options.SuppressStatusMessages,
                         suppressStatusMessages => suppressStatusMessages.IsEqualTo(Value));
                     return assertionBuilder;
                 });
@@ -74,9 +74,8 @@ public partial class HostingExtensionsTests
     }
 
     [Test]
-    [Arguments(true)]
-    [Arguments(false)]
-    public async Task GetServices(bool withArgs)
+    [MatrixDataSource]
+    public async Task GetServices([Matrix(true, false)] bool withArgs)
     {
         IServiceProvider? serviceProvider = default;
         RootCommand rootCommand = [];
@@ -176,11 +175,8 @@ public partial class HostingExtensionsTests
     }
 
     [Test]
-    [Arguments("first", true)]
-    [Arguments("second", true)]
-    [Arguments("first", false)]
-    [Arguments("second", false)]
-    public async Task UseConfigurationInHelp(string name, bool withArgs)
+    [MatrixDataSource]
+    public async Task UseConfigurationInHelp([Matrix("first", "second")] string name, [Matrix(true, false)] bool withArgs)
     {
         IConfiguration? config = default;
         Command? command = default;
