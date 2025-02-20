@@ -2,15 +2,6 @@
   "version": 2,
   "dependencies": {
     "net8.0": {
-      "GitHubActionsTestLogger": {
-        "type": "Direct",
-        "requested": "[2.4.1, )",
-        "resolved": "2.4.1",
-        "contentHash": "SH1ar/kg36CggzMqLUDRoUqR8SSjK/JiQ2JS8MYg8u0RCLDkkDEbPGIN91omOPx9f2GuDqsxxofSdgsQje3Xuw==",
-        "dependencies": {
-          "Microsoft.TestPlatform.ObjectModel": "17.10.0"
-        }
-      },
       "Microsoft.Testing.Extensions.CodeCoverage": {
         "type": "Direct",
         "requested": "[17.13.1, )",
@@ -79,14 +70,6 @@
         "contentHash": "1gGqgHtiZ6tZn/6Tby+qlKpNe5Ye/5LnxlSsyl4XMZ4m4V+Cu1K1m+gD1zxoxHIvLjgX8mCnQRK95MGBBFuumw==",
         "dependencies": {
           "Microsoft.Testing.Platform": "1.4.3"
-        }
-      },
-      "Microsoft.TestPlatform.ObjectModel": {
-        "type": "Transitive",
-        "resolved": "17.10.0",
-        "contentHash": "KkwhjQevuDj0aBRoPLY6OLAhGqbPUEBuKLbaCs0kUVw29qiOYncdORd4mLVJbn9vGZ7/iFGQ/+AoJl0Tu5Umdg==",
-        "dependencies": {
-          "System.Reflection.Metadata": "1.6.0"
         }
       },
       "Microsoft.Win32.Primitives": {
@@ -439,17 +422,17 @@
           "TUnit.Core": "0.12.0"
         }
       },
-      "Altemiq.CommandLine": {
+      "commandline": {
         "type": "Project",
         "dependencies": {
           "System.CommandLine": "[2.0.0-beta4.25072.1, )"
         }
       },
-      "Altemiq.CommandLine.Native": {
+      "commandline.native": {
         "type": "Project",
         "dependencies": {
-          "Altemiq.CommandLine": "[1.0.0, )",
           "Altemiq.Runtime": "[1.0.0, )",
+          "CommandLine": "[1.0.0, )",
           "Microsoft.Extensions.DependencyModel": "[6.0.1, )"
         }
       },
@@ -471,15 +454,6 @@
       }
     },
     "net9.0": {
-      "GitHubActionsTestLogger": {
-        "type": "Direct",
-        "requested": "[2.4.1, )",
-        "resolved": "2.4.1",
-        "contentHash": "SH1ar/kg36CggzMqLUDRoUqR8SSjK/JiQ2JS8MYg8u0RCLDkkDEbPGIN91omOPx9f2GuDqsxxofSdgsQje3Xuw==",
-        "dependencies": {
-          "Microsoft.TestPlatform.ObjectModel": "17.10.0"
-        }
-      },
       "Microsoft.Testing.Extensions.CodeCoverage": {
         "type": "Direct",
         "requested": "[17.13.1, )",
@@ -548,14 +522,6 @@
         "contentHash": "1gGqgHtiZ6tZn/6Tby+qlKpNe5Ye/5LnxlSsyl4XMZ4m4V+Cu1K1m+gD1zxoxHIvLjgX8mCnQRK95MGBBFuumw==",
         "dependencies": {
           "Microsoft.Testing.Platform": "1.4.3"
-        }
-      },
-      "Microsoft.TestPlatform.ObjectModel": {
-        "type": "Transitive",
-        "resolved": "17.10.0",
-        "contentHash": "KkwhjQevuDj0aBRoPLY6OLAhGqbPUEBuKLbaCs0kUVw29qiOYncdORd4mLVJbn9vGZ7/iFGQ/+AoJl0Tu5Umdg==",
-        "dependencies": {
-          "System.Reflection.Metadata": "1.6.0"
         }
       },
       "Microsoft.Win32.Primitives": {
@@ -908,17 +874,17 @@
           "TUnit.Core": "0.12.0"
         }
       },
-      "Altemiq.CommandLine": {
+      "commandline": {
         "type": "Project",
         "dependencies": {
           "System.CommandLine": "[2.0.0-beta4.25072.1, )"
         }
       },
-      "Altemiq.CommandLine.Native": {
+      "commandline.native": {
         "type": "Project",
         "dependencies": {
-          "Altemiq.CommandLine": "[1.0.0, )",
           "Altemiq.Runtime": "[1.0.0, )",
+          "CommandLine": "[1.0.0, )",
           "Microsoft.Extensions.DependencyModel": "[6.0.1, )"
         }
       },

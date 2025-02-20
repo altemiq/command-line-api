@@ -23,7 +23,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{79E549E3
 		Tests\Directory.Build.props = Tests\Directory.Build.props
 		Tests\Directory.Build.targets = Tests\Directory.Build.targets
 		Tests\Directory.Packages.props = Tests\Directory.Packages.props
-		Tests\xunit.runner.noshadowcopy.json = Tests\xunit.runner.noshadowcopy.json
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommandLine.Configuration.Tests", "Tests\CommandLine.Configuration.Tests\CommandLine.Configuration.Tests.csproj", "{68A268F2-6AC0-4B64-A9A1-7F4E69A9A3CB}"

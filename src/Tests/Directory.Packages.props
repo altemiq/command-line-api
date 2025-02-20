@@ -70,8 +70,4 @@
     <PackageReference Include="System.CommandLine" />
   </ItemGroup>
 
-  <ItemGroup>
-    <GlobalPackageReference Include="GitHubActionsTestLogger" Version="2.4.1" />
-  </ItemGroup>
-
 </Project>

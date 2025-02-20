@@ -85,7 +85,6 @@ jobs:
       working-directory: ${{ github.workspace }}/src
       run: >
         dotnet test
-        --logger GitHubActions
         --
         --results-directory ${{ github.workspace }}/coverage/results
         --coverage
