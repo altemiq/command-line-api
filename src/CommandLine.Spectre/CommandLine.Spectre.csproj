@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Spectre.Console" VersionOverride="0.42.0" />
+    <PackageReference Include="Spectre.Console" VersionOverride="0.44.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -99,45 +99,45 @@ public static class AnsiConsoleProgress
                 static ProgressTask Create(string key, ProgressContext context, Action<string, ProgressTaskSettings>? configureTask)
                 {
                     var options = new ProgressTaskSettings();
-                    if (configureTask is { } action)
-                    {
-                        action.Invoke(key, options);
-                    }
-
+                    configureTask?.Invoke(key, options);
                     return context.AddTask($"[green]{key}[/]", options);
                 }
             }
 
             void EnsureContext(AnsiConsoleProgressItem progressItem)
             {
-                if (context is null)
+                if (context is not null)
                 {
-                    lock (contextLock)
+                    return;
+                }
+
+                lock (contextLock)
+                {
+                    if (context is not null)
                     {
-                        if (context is null)
+                        return;
+                    }
+
+                    _ = Task.Run(() => progressFactory()
+                        .Start(ctx =>
                         {
-                            _ = Task.Run(() => progressFactory()
-                                .Start(ctx =>
-                                {
-                                    context = ctx;
+                            context = ctx;
 
-                                    // add the first task
-                                    _ = AddOrUpdate(progressItem);
+                            // add the first task
+                            _ = AddOrUpdate(progressItem);
 
-                                    while (!progressTasks.Values.All(progressTask => progressTask.IsFinished))
-                                    {
-                                        Thread.Sleep(ThreadUpdateRate);
-                                    }
-
-                                    context = default;
-                                }));
-
-                            // wait for the context be valid
-                            while (context is null)
+                            while (!progressTasks.Values.All(static progressTask => progressTask.IsFinished))
                             {
                                 Thread.Sleep(ThreadUpdateRate);
                             }
-                        }
+
+                            context = default;
+                        }));
+
+                    // wait for the context be valid
+                    while (context is null)
+                    {
+                        Thread.Sleep(ThreadUpdateRate);
                     }
                 }
             }
