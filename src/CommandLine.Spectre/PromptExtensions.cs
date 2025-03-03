@@ -78,42 +78,42 @@ public static class PromptExtensions
                 {
                     if (enumUnderLyingType == typeof(sbyte))
                     {
-                        return (TEnum)EnumCombiner.GetSByte(values);
+                        return EnumCombiner.GetSByte(values);
                     }
 
                     if (enumUnderLyingType == typeof(byte))
                     {
-                        return (TEnum)EnumCombiner.GetByte(values);
+                        return EnumCombiner.GetByte(values);
                     }
 
                     if (enumUnderLyingType == typeof(short))
                     {
-                        return (TEnum)EnumCombiner.GetInt16(values);
+                        return EnumCombiner.GetInt16(values);
                     }
 
                     if (enumUnderLyingType == typeof(ushort))
                     {
-                        return (TEnum)EnumCombiner.GetUInt16(values);
+                        return EnumCombiner.GetUInt16(values);
                     }
 
                     if (enumUnderLyingType == typeof(int))
                     {
-                        return (TEnum)EnumCombiner.GetInt32(values);
+                        return EnumCombiner.GetInt32(values);
                     }
 
                     if (enumUnderLyingType == typeof(uint))
                     {
-                        return (TEnum)EnumCombiner.GetUInt32(values);
+                        return EnumCombiner.GetUInt32(values);
                     }
 
                     if (enumUnderLyingType == typeof(long))
                     {
-                        return (TEnum)EnumCombiner.GetInt64(values);
+                        return EnumCombiner.GetInt64(values);
                     }
 
                     if (enumUnderLyingType == typeof(ulong))
                     {
-                        return (TEnum)EnumCombiner.GetUInt64(values);
+                        return EnumCombiner.GetUInt64(values);
                     }
 
                     throw new NotSupportedException();
@@ -198,23 +198,23 @@ public static class PromptExtensions
     private static class EnumCombiner
     {
 #if NET7_0_OR_GREATER
-        public static object GetSByte<TEnum>(IEnumerable<TEnum> values) => Get<sbyte, TEnum>(values);
+        public static TEnum GetSByte<TEnum>(IEnumerable<TEnum> values) => Get<sbyte, TEnum>(values);
 
-        public static object GetByte<TEnum>(IEnumerable<TEnum> values) => Get<byte, TEnum>(values);
+        public static TEnum GetByte<TEnum>(IEnumerable<TEnum> values) => Get<byte, TEnum>(values);
 
-        public static object GetInt16<TEnum>(IEnumerable<TEnum> values) => Get<short, TEnum>(values);
+        public static TEnum GetInt16<TEnum>(IEnumerable<TEnum> values) => Get<short, TEnum>(values);
 
-        public static object GetUInt16<TEnum>(IEnumerable<TEnum> values) => Get<ushort, TEnum>(values);
+        public static TEnum GetUInt16<TEnum>(IEnumerable<TEnum> values) => Get<ushort, TEnum>(values);
 
-        public static object GetInt32<TEnum>(IEnumerable<TEnum> values) => Get<int, TEnum>(values);
+        public static TEnum GetInt32<TEnum>(IEnumerable<TEnum> values) => Get<int, TEnum>(values);
 
-        public static object GetUInt32<TEnum>(IEnumerable<TEnum> values) => Get<uint, TEnum>(values);
+        public static TEnum GetUInt32<TEnum>(IEnumerable<TEnum> values) => Get<uint, TEnum>(values);
 
-        public static object GetInt64<TEnum>(IEnumerable<TEnum> values) => Get<long, TEnum>(values);
+        public static TEnum GetInt64<TEnum>(IEnumerable<TEnum> values) => Get<long, TEnum>(values);
 
-        public static object GetUInt64<TEnum>(IEnumerable<TEnum> values) => Get<ulong, TEnum>(values);
+        public static TEnum GetUInt64<TEnum>(IEnumerable<TEnum> values) => Get<ulong, TEnum>(values);
 
-        private static object Get<T, TEnum>(IEnumerable<TEnum> values)
+        private static TEnum Get<T, TEnum>(IEnumerable<TEnum> values)
             where T : struct, Numerics.IBitwiseOperators<T, T, T>
         {
             T value = default;
@@ -223,26 +223,26 @@ public static class PromptExtensions
                 value |= v;
             }
 
-            return value;
+            return (TEnum)(object)value;
         }
 #else
-        public static object GetSByte<TEnum>(IEnumerable<TEnum> values) => Get<sbyte, TEnum>(values, static (value, v) => (sbyte)(value | v));
+        public static TEnum GetSByte<TEnum>(IEnumerable<TEnum> values) => Get<sbyte, TEnum>(values, static (value, v) => (sbyte)(value | v));
 
-        public static object GetByte<TEnum>(IEnumerable<TEnum> values) => Get<byte, TEnum>(values, static (value, v) => (byte)(value | v));
+        public static TEnum GetByte<TEnum>(IEnumerable<TEnum> values) => Get<byte, TEnum>(values, static (value, v) => (byte)(value | v));
 
-        public static object GetInt16<TEnum>(IEnumerable<TEnum> values) => Get<short, TEnum>(values, static (value, v) => (short)(value | v));
+        public static TEnum GetInt16<TEnum>(IEnumerable<TEnum> values) => Get<short, TEnum>(values, static (value, v) => (short)(value | v));
 
-        public static object GetUInt16<TEnum>(IEnumerable<TEnum> values) => Get<ushort, TEnum>(values, static (value, v) => (ushort)(value | v));
+        public static TEnum GetUInt16<TEnum>(IEnumerable<TEnum> values) => Get<ushort, TEnum>(values, static (value, v) => (ushort)(value | v));
 
-        public static object GetInt32<TEnum>(IEnumerable<TEnum> values) => Get<int, TEnum>(values, static (value, v) => value | v);
+        public static TEnum GetInt32<TEnum>(IEnumerable<TEnum> values) => Get<int, TEnum>(values, static (value, v) => value | v);
 
-        public static object GetUInt32<TEnum>(IEnumerable<TEnum> values) => Get<uint, TEnum>(values, static (value, v) => value | v);
+        public static TEnum GetUInt32<TEnum>(IEnumerable<TEnum> values) => Get<uint, TEnum>(values, static (value, v) => value | v);
 
-        public static object GetInt64<TEnum>(IEnumerable<TEnum> values) => Get<long, TEnum>(values, static (value, v) => value | v);
+        public static TEnum GetInt64<TEnum>(IEnumerable<TEnum> values) => Get<long, TEnum>(values, static (value, v) => value | v);
 
-        public static object GetUInt64<TEnum>(IEnumerable<TEnum> values) => Get<ulong, TEnum>(values, static (value, v) => value | v);
+        public static TEnum GetUInt64<TEnum>(IEnumerable<TEnum> values) => Get<ulong, TEnum>(values, static (value, v) => value | v);
 
-        private static object Get<T, TEnum>(IEnumerable<TEnum> values, Func<T, T, T> orFunc)
+        private static TEnum Get<T, TEnum>(IEnumerable<TEnum> values, Func<T, T, T> orFunc)
            where T : struct
         {
             T value = default;
@@ -251,7 +251,7 @@ public static class PromptExtensions
                 value = orFunc(value, v);
             }
 
-            return value;
+            return (TEnum)(object)value;
         }
 #endif
     }
