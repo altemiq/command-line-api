@@ -25,7 +25,12 @@ public class AnsiConsoleProgress<T> : AnsiConsoleProgressBase, IProgress<T>
     internal AnsiConsoleProgress(Action<T> handler, Func<bool> isComplete)
         : this()
     {
+#if NET6_0_OR_GREATER
+        ArgumentNullException.ThrowIfNull(handler);
+        this.handler = handler;
+#else
         this.handler = handler ?? throw new ArgumentNullException(nameof(handler));
+#endif
         this.isComplete = isComplete;
     }
 

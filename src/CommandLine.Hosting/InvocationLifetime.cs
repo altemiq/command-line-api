@@ -50,9 +50,19 @@ public
         IHostApplicationLifetime applicationLifetime,
         ILoggerFactory? loggerFactory = null)
     {
+#if NET6_0_OR_GREATER
+        ArgumentNullException.ThrowIfNull(options);
+        ArgumentNullException.ThrowIfNull(options.Value);
+        ArgumentNullException.ThrowIfNull(environment);
+        ArgumentNullException.ThrowIfNull(applicationLifetime);
+        this.Options = options.Value;
+        this.Environment = environment;
+        this.ApplicationLifetime = applicationLifetime;
+#else
         this.Options = options?.Value ?? throw new ArgumentNullException(nameof(options));
         this.Environment = environment ?? throw new ArgumentNullException(nameof(environment));
         this.ApplicationLifetime = applicationLifetime ?? throw new ArgumentNullException(nameof(applicationLifetime));
+#endif
 
         this.Logger = EnsureLoggerFactory(loggerFactory).CreateLogger("Microsoft.Hosting.Lifetime");
 
