@@ -110,7 +110,7 @@ public static class LoggingExtensions
                 });
 #endif
 
-            ILoggerFactory Create(ParseResult? parseResult)
+            static ILoggerFactory Create(ParseResult? parseResult)
             {
                 var serviceCollection = new ServiceCollection();
                 _ = serviceCollection.AddLogging(builder =>
@@ -121,7 +121,7 @@ public static class LoggingExtensions
                         _ = builder.SetMinimumLevel(value.GetLogLevel());
                     }
 
-                    if (Configures.TryGetValue(command, out var commandConfigure))
+                    if (parseResult is { CommandResult.Command: { } command } && Configures.TryGetValue(command, out var commandConfigure))
                     {
                         commandConfigure.Configure(parseResult, builder);
                     }
