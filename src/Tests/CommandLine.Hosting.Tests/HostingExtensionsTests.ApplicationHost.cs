@@ -22,19 +22,19 @@ public partial class HostingExtensionsTests
         rootCommand.SetAction(parseResult => host = parseResult.GetHost());
 
         CommandLineConfiguration configuration = new(rootCommand);
-        _ = configuration.UseApplicationHost(configureHost: (parseResult, configure) => configure.Services.ConfigureInvocationLifetime(opts => opts.SuppressStatusMessages = Value));
+        _ = configuration.UseApplicationHost(configureHost: static (parseResult, configure) => configure.Services.ConfigureInvocationLifetime(opts => opts.SuppressStatusMessages = Value));
 
         _ = configuration.Invoke([]);
         _ = await Assert.That(host).IsAssignableTo<Microsoft.Extensions.Hosting.IHost>().And
             .Satisfies(
-                host => host.Services.GetService<Microsoft.Extensions.Hosting.IHostLifetime>(),
+                static host => host.Services.GetService<Microsoft.Extensions.Hosting.IHostLifetime>(),
                 hostLifeTime =>
                 {
                     TUnit.Assertions.AssertionBuilders.InvokableValueAssertionBuilder<Microsoft.Extensions.Hosting.IHostLifetime?> assertionBuilder = hostLifeTime.IsNotNull();
                     _ = assertionBuilder.And
                         .IsTypeOf<InvocationLifetime>().And
                         .Satisfies(
-                            invocationLifetime => invocationLifetime.Options.SuppressStatusMessages,
+                            static invocationLifetime => invocationLifetime.Options.SuppressStatusMessages,
                             suppressStatusMessages => suppressStatusMessages.IsEqualTo(Value));
                     return assertionBuilder;
                 });

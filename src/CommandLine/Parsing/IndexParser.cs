@@ -44,7 +44,7 @@ public static class IndexParser
     /// </summary>
     /// <param name="tokens">The tokens to parse.</param>
     /// <returns>The parsed value.</returns>
-    public static Index[] ParseAll(IEnumerable<Token> tokens) => ParseAll(tokens.Select(token => token.Value));
+    public static Index[] ParseAll(IEnumerable<Token> tokens) => ParseAll(tokens.Select(static token => token.Value));
 
     /// <summary>
     /// Parses the indexes.

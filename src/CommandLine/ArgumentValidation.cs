@@ -21,7 +21,7 @@ public static class ArgumentValidation
     {
         argument.Validators.Add(result =>
         {
-            foreach (var url in result.Tokens.Select(t => t.Value))
+            foreach (var url in result.Tokens.Select(static t => t.Value))
             {
                 if (Uri.TryCreate(url, UriKind.RelativeOrAbsolute, out var uri)
                     && !string.Equals(uri.Scheme, scheme, StringComparison.OrdinalIgnoreCase))
@@ -44,7 +44,7 @@ public static class ArgumentValidation
     {
         argument.Validators.Add(result =>
         {
-            foreach (var url in result.Tokens.Select(t => t.Value))
+            foreach (var url in result.Tokens.Select(static t => t.Value))
             {
                 if (Uri.TryCreate(url, UriKind.RelativeOrAbsolute, out var uri)
                     && !schemes.Contains(uri.Scheme, StringComparer.OrdinalIgnoreCase))

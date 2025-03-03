@@ -186,10 +186,10 @@ public static class PromptExtensions
 
     private static IEnumerable<TValue> GetChoices<TValue>(IEnumerable<Completions.CompletionItem> completionItems, Func<string, TValue> converter, bool ignoreDefault = true)
     {
-        var choices = completionItems.Select(completionItem => completionItem.Label).Select(converter);
+        var choices = completionItems.Select(static completionItem => completionItem.Label).Select(converter);
         if (ignoreDefault)
         {
-            choices = choices.Where(choice => choice is not null && !choice.Equals(default(TValue)));
+            choices = choices.Where(static choice => choice is not null && !choice.Equals(default(TValue)));
         }
 
         return choices;
@@ -226,21 +226,21 @@ public static class PromptExtensions
             return value;
         }
 #else
-        public static object GetSByte<TEnum>(IEnumerable<TEnum> values) => Get<sbyte, TEnum>(values, (value, v) => (sbyte)(value | v));
+        public static object GetSByte<TEnum>(IEnumerable<TEnum> values) => Get<sbyte, TEnum>(values, static (value, v) => (sbyte)(value | v));
 
-        public static object GetByte<TEnum>(IEnumerable<TEnum> values) => Get<byte, TEnum>(values, (value, v) => (byte)(value | v));
+        public static object GetByte<TEnum>(IEnumerable<TEnum> values) => Get<byte, TEnum>(values, static (value, v) => (byte)(value | v));
 
-        public static object GetInt16<TEnum>(IEnumerable<TEnum> values) => Get<short, TEnum>(values, (value, v) => (short)(value | v));
+        public static object GetInt16<TEnum>(IEnumerable<TEnum> values) => Get<short, TEnum>(values, static (value, v) => (short)(value | v));
 
-        public static object GetUInt16<TEnum>(IEnumerable<TEnum> values) => Get<ushort, TEnum>(values, (value, v) => (ushort)(value | v));
+        public static object GetUInt16<TEnum>(IEnumerable<TEnum> values) => Get<ushort, TEnum>(values, static (value, v) => (ushort)(value | v));
 
-        public static object GetInt32<TEnum>(IEnumerable<TEnum> values) => Get<int, TEnum>(values, (value, v) => value | v);
+        public static object GetInt32<TEnum>(IEnumerable<TEnum> values) => Get<int, TEnum>(values, static (value, v) => value | v);
 
-        public static object GetUInt32<TEnum>(IEnumerable<TEnum> values) => Get<uint, TEnum>(values, (value, v) => value | v);
+        public static object GetUInt32<TEnum>(IEnumerable<TEnum> values) => Get<uint, TEnum>(values, static (value, v) => value | v);
 
-        public static object GetInt64<TEnum>(IEnumerable<TEnum> values) => Get<long, TEnum>(values, (value, v) => value | v);
+        public static object GetInt64<TEnum>(IEnumerable<TEnum> values) => Get<long, TEnum>(values, static (value, v) => value | v);
 
-        public static object GetUInt64<TEnum>(IEnumerable<TEnum> values) => Get<ulong, TEnum>(values, (value, v) => value | v);
+        public static object GetUInt64<TEnum>(IEnumerable<TEnum> values) => Get<ulong, TEnum>(values, static (value, v) => value | v);
 
         private static object Get<T, TEnum>(IEnumerable<TEnum> values, Func<T, T, T> orFunc)
            where T : struct

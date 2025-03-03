@@ -23,7 +23,7 @@ These call the base `Get*` methods, and check the value for being `null`.
 These help with configuring the help methods, such as finding the `HelpAction`, and then configuring the output.
 
 ```csharp
-command.ConfigureHelp(builder => builder.CustomizeLayout());
+command.ConfigureHelp(static builder => builder.CustomizeLayout());
 ```
 
 ## Invocation

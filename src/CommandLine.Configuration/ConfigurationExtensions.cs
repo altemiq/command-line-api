@@ -37,7 +37,7 @@ public static class ConfigurationExtensions
         Action<ParseResult?, IConfigurationBuilder> configure)
         where T : CommandLineConfiguration
     {
-        Invocation.BuilderCommandLineAction.SetHandlers<ConfigurationBuilder, IConfiguration>(configuration.RootCommand, builder => builder.Build(), configure);
+        Invocation.BuilderCommandLineAction.SetHandlers<ConfigurationBuilder, IConfiguration>(configuration.RootCommand, static builder => builder.Build(), configure);
         return configuration;
     }
 
@@ -97,7 +97,7 @@ public static class ConfigurationExtensions
         Action<ParseResult?, IConfigurationBuilder> configure)
         where T : CommandLineConfiguration
     {
-        Invocation.BuilderCommandLineAction.SetHandlers(configuration.RootCommand, createBuilder, builder => builder.Build(), configure);
+        Invocation.BuilderCommandLineAction.SetHandlers(configuration.RootCommand, createBuilder, static builder => builder.Build(), configure);
         return configuration;
     }
 

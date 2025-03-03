@@ -181,6 +181,6 @@ public static class AnsiConsoleProgress
 
     private static class Func<T>
     {
-        public static readonly Func<T, T> Return = new(_ => _);
+        public static readonly Func<T, T> Return = new(static _ => _);
     }
 }

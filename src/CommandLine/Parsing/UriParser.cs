@@ -49,7 +49,7 @@ public static class UriParser
     /// </summary>
     /// <param name="tokens">The tokens.</param>
     /// <returns>The URIs.</returns>
-    public static Uri[] ParseAll(IEnumerable<Token> tokens) => ParseAll(tokens.Select(token => token.Value));
+    public static Uri[] ParseAll(IEnumerable<Token> tokens) => ParseAll(tokens.Select(static token => token.Value));
 
     /// <summary>
     /// Parses the URIs from the values.

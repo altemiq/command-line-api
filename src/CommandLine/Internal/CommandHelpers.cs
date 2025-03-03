@@ -20,6 +20,6 @@ internal static class CommandHelpers
     {
         null => default,
         RootCommand rootCommand => rootCommand,
-        { Parents: var parents } => parents.Select(GetRootCommand).FirstOrDefault(p => p is not null),
+        { Parents: var parents } => parents.Select(GetRootCommand).FirstOrDefault(static p => p is not null),
     };
 }

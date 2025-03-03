@@ -32,7 +32,7 @@ root.SetAction(parseResult =>
     LogError(logger, "host", exception);
 
     // do some tasks
-    var ansiConsoleProgress = AnsiConsoleProgress.Create<(string Name, double Percentage)>(Spectre.Console.AnsiConsole.Console, x => new AnsiConsoleProgressItem(x.Name, x.Percentage), new AnsiConsoleProgressOptions { UpdateRate = TimeSpan.FromMilliseconds(50) });
+    var ansiConsoleProgress = AnsiConsoleProgress.Create<(string Name, double Percentage)>(Spectre.Console.AnsiConsole.Console, static x => new AnsiConsoleProgressItem(x.Name, x.Percentage), new AnsiConsoleProgressOptions { UpdateRate = TimeSpan.FromMilliseconds(50) });
     IProgress<(string Name, double Percentage)> progress = ansiConsoleProgress;
 
     progress.Report(new("Unknown Length Task", double.PositiveInfinity));
@@ -63,7 +63,7 @@ configuration
         }
     })
 #else
-    .UseHost((parseResult, builder) => builder.ConfigureLogging(loggingBuilder =>
+    .UseHost(static (parseResult, builder) => builder.ConfigureLogging(loggingBuilder =>
     {
         if (parseResult is { Configuration: { } configuration })
         {
@@ -71,7 +71,7 @@ configuration
         }
     }))
 #endif
-    .AddLogging((parseResult, configure) =>
+    .AddLogging(static (parseResult, configure) =>
     {
         if (parseResult is { Configuration: { } configuration })
         {

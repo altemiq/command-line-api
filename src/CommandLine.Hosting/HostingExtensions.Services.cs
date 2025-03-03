@@ -19,7 +19,7 @@ public static partial class HostingExtensions
     /// <returns>The configured configuration.</returns>
     public static T UseServices<T>(
         this T configuration)
-        where T : CommandLineConfiguration => UseServices(configuration, _ => { });
+        where T : CommandLineConfiguration => UseServices(configuration, static _ => { });
 
     /// <summary>
     /// Uses configuration for the configuration.
@@ -31,7 +31,7 @@ public static partial class HostingExtensions
     public static T UseServices<T>(
         this T configuration,
         Action<Microsoft.Extensions.DependencyInjection.IServiceCollection> configure)
-        where T : CommandLineConfiguration => UseServices(configuration, () => new Microsoft.Extensions.Hosting.HostBuilder(), configure);
+        where T : CommandLineConfiguration => UseServices(configuration, static () => new Microsoft.Extensions.Hosting.HostBuilder(), configure);
 
     /// <summary>
     /// Uses configuration for the configuration.
@@ -43,7 +43,7 @@ public static partial class HostingExtensions
     public static T UseServices<T>(
         this T configuration,
         Action<ParseResult?, Microsoft.Extensions.DependencyInjection.IServiceCollection> configure)
-        where T : CommandLineConfiguration => UseServices(configuration, () => new Microsoft.Extensions.Hosting.HostBuilder(), configure);
+        where T : CommandLineConfiguration => UseServices(configuration, static () => new Microsoft.Extensions.Hosting.HostBuilder(), configure);
 
     /// <summary>
     /// Uses configuration for the configuration.
@@ -55,7 +55,7 @@ public static partial class HostingExtensions
     public static T UseServices<T>(
         this T configuration,
         Func<Microsoft.Extensions.Hosting.IHostBuilder> hostBuilderFactory)
-        where T : CommandLineConfiguration => UseServices(configuration, hostBuilderFactory, (_, _) => { });
+        where T : CommandLineConfiguration => UseServices(configuration, hostBuilderFactory, static (_, _) => { });
 
     /// <summary>
     /// Uses configuration for the configuration.
@@ -67,7 +67,7 @@ public static partial class HostingExtensions
     public static T UseServices<T>(
         this T configuration,
         Func<string[], Microsoft.Extensions.Hosting.IHostBuilder> hostBuilderFactory)
-        where T : CommandLineConfiguration => UseServices(configuration, hostBuilderFactory, (_, _) => { });
+        where T : CommandLineConfiguration => UseServices(configuration, hostBuilderFactory, static (_, _) => { });
 
     /// <summary>
     /// Uses configuration for the configuration.
@@ -114,7 +114,7 @@ public static partial class HostingExtensions
         Invocation.BuilderCommandLineAction.SetHandlers(
             configuration.RootCommand,
             _ => hostBuilderFactory(),
-            builder => builder.Build(),
+            static builder => builder.Build(),
             (parseResult, builder) => builder.ConfigureServices((_, services) => configure(parseResult, services)));
         return configuration;
     }
@@ -136,7 +136,7 @@ public static partial class HostingExtensions
         Invocation.BuilderCommandLineAction.SetHandlers(
             configuration.RootCommand,
             parseResult => hostBuilderFactory(parseResult?.UnmatchedTokens.ToArray() ?? []),
-            builder => builder.Build(),
+            static builder => builder.Build(),
             (parseResult, builder) => builder.ConfigureServices((_, services) => configure(parseResult, services)));
         return configuration;
     }

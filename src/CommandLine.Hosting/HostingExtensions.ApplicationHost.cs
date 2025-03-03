@@ -72,7 +72,7 @@ public static partial class HostingExtensions
             static void UpdateHostConfiguration(T configuration, ParseResult parseResult, Microsoft.Extensions.Hosting.HostApplicationBuilder hostBuilder)
             {
                 if (configuration.RootCommand is RootCommand root
-                    && root.Directives.SingleOrDefault(d => string.Equals(d.Name, HostingDirectiveName, StringComparison.Ordinal)) is { } directive
+                    && root.Directives.SingleOrDefault(static d => string.Equals(d.Name, HostingDirectiveName, StringComparison.Ordinal)) is { } directive
                     && parseResult.GetResult(directive) is { } directiveResult)
                 {
                     hostBuilder.Configuration.Sources.Add(

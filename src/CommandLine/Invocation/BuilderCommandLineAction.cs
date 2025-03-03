@@ -22,7 +22,7 @@ public static class BuilderCommandLineAction
     /// <param name="createInstance">The instance.</param>
     /// <param name="configure">The action to confure the builder.</param>
     public static void SetHandlers<TBuilder, TInstance>(Command command, Func<TBuilder, TInstance> createInstance, Action<ParseResult?, TBuilder> configure)
-        where TBuilder : new() => SetHandlers(command, _ => new TBuilder(), createInstance, configure);
+        where TBuilder : new() => SetHandlers(command, static _ => new TBuilder(), createInstance, configure);
 
     /// <summary>
     /// Sets the handlers.

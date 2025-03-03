@@ -65,7 +65,7 @@ public static class RangeParser
     /// </summary>
     /// <param name="tokens">The tokens.</param>
     /// <returns>The parsed values.</returns>
-    public static Range[] ParseAll(IEnumerable<Token> tokens) => ParseAll(tokens.Select(token => token.Value));
+    public static Range[] ParseAll(IEnumerable<Token> tokens) => ParseAll(tokens.Select(static token => token.Value));
 
     /// <summary>
     /// Parses the ranges.

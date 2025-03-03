@@ -33,7 +33,7 @@ public static partial class HostingExtensions
 #if NET7_0_OR_GREATER
             Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder,
 #else
-            _ => new Microsoft.Extensions.Hosting.HostBuilder(),
+            static _ => new Microsoft.Extensions.Hosting.HostBuilder(),
 #endif
             configureHost);
 
@@ -88,7 +88,7 @@ public static partial class HostingExtensions
             static void UpdateHostConfiguration(T configuration, ParseResult parseResult, Microsoft.Extensions.Hosting.IHostBuilder hostBuilder)
             {
                 if (configuration.RootCommand is RootCommand root
-                    && root.Directives.SingleOrDefault(d => string.Equals(d.Name, HostingDirectiveName, StringComparison.Ordinal)) is { } directive
+                    && root.Directives.SingleOrDefault(static d => string.Equals(d.Name, HostingDirectiveName, StringComparison.Ordinal)) is { } directive
                     && parseResult.GetResult(directive) is { } directiveResult)
                 {
                     _ = hostBuilder.ConfigureHostConfiguration(config => config.AddInMemoryCollection(directiveResult.Values.Select(s =>

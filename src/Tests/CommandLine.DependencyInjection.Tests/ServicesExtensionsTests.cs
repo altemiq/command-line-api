@@ -18,7 +18,7 @@ public class ServicesExtensionsTests
         rootCommand.SetAction(result => serviceProvider = result.GetServices());
 
         CommandLineConfiguration configuration = new(rootCommand);
-        _ = configuration.UseServices(configure => { });
+        _ = configuration.UseServices(static configure => { });
 
         _ = configuration.Invoke([]);
         _ = await Assert.That(serviceProvider).IsNotNull();
@@ -38,7 +38,7 @@ public class ServicesExtensionsTests
         });
 
         CommandLineConfiguration configuration = new(rootCommand);
-        _ = configuration.UseServices(configure => configure.AddSingleton<IDisposable, Disposable>());
+        _ = configuration.UseServices(static configure => configure.AddSingleton<IDisposable, Disposable>());
 
         _ = configuration.Invoke([]);
         _ = await Assert.That(disposable).IsNotNull();

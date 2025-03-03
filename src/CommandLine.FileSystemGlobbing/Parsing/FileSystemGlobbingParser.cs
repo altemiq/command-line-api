@@ -60,7 +60,7 @@ public static class FileSystemGlobbingParser
     /// <param name="tokens">The tokens.</param>
     /// <param name="directoryInfo">The directory information.</param>
     /// <returns>The files matched by the globbing.</returns>
-    internal static FileInfo[] Parse(IEnumerable<Token> tokens, Microsoft.Extensions.FileSystemGlobbing.Abstractions.DirectoryInfoBase? directoryInfo) => Parse(tokens.Select(token => token.Value), directoryInfo);
+    internal static FileInfo[] Parse(IEnumerable<Token> tokens, Microsoft.Extensions.FileSystemGlobbing.Abstractions.DirectoryInfoBase? directoryInfo) => Parse(tokens.Select(static token => token.Value), directoryInfo);
 
     /// <summary>
     /// Parses the file system globbing.
@@ -86,7 +86,7 @@ public static class FileSystemGlobbingParser
     /// <returns>The files matched by the globbing.</returns>
     internal static FileInfo[] Parse(IEnumerable<string> globs, Microsoft.Extensions.FileSystemGlobbing.Abstractions.DirectoryInfoBase? directoryInfo)
     {
-        return Process(globs, directoryInfo).SelectMany(results => results.Select(file => new FileInfo(file))).ToArray();
+        return [.. Process(globs, directoryInfo).SelectMany(static results => results.Select(static file => new FileInfo(file)))];
 
         static IEnumerable<IEnumerable<string>> Process(IEnumerable<string> tokens, Microsoft.Extensions.FileSystemGlobbing.Abstractions.DirectoryInfoBase? directoryInfo)
         {

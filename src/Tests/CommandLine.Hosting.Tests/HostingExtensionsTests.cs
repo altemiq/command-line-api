@@ -22,7 +22,7 @@ public partial class HostingExtensionsTests
         rootCommand.SetAction(parseResult => host = parseResult.GetHost());
 
         CommandLineConfiguration configuration = new(rootCommand);
-        _ = configuration.UseHost(configureHost: (_, builder) => builder.ConfigureServices((_, services) => services.ConfigureInvocationLifetime(opts => opts.SuppressStatusMessages = Value)));
+        _ = configuration.UseHost(configureHost: static (_, builder) => builder.ConfigureServices((_, services) => services.ConfigureInvocationLifetime(opts => opts.SuppressStatusMessages = Value)));
 
         _ = configuration.Invoke([]);
         _ = await Assert.That(host).IsAssignableTo<Microsoft.Extensions.Hosting.IHost>().And

@@ -37,7 +37,7 @@ public static class ServicesExtensions
         Action<ParseResult?, IServiceCollection> configure)
         where T : CommandLineConfiguration
     {
-        Invocation.BuilderCommandLineAction.SetHandlers<ServiceCollection, IServiceProvider>(configuration.RootCommand, builder => builder.BuildServiceProvider(), configure);
+        Invocation.BuilderCommandLineAction.SetHandlers<ServiceCollection, IServiceProvider>(configuration.RootCommand, static builder => builder.BuildServiceProvider(), configure);
         return configuration;
     }
 
