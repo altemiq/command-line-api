@@ -13,7 +13,7 @@
 
     <IsPublishable>false</IsPublishable>
     <IsPackable>false</IsPackable>
-    
+
     <!-- Test project -->
     <OutputType>Exe</OutputType>
     <IsTestProject>true</IsTestProject>
