@@ -76,16 +76,18 @@ public static partial class HostingExtensions
                     && parseResult.GetResult(directive) is { } directiveResult)
                 {
                     hostBuilder.Configuration.Sources.Add(
-                        new MemoryConfigurationSource()
+                        new MemoryConfigurationSource
                         {
-                            InitialData = directiveResult.Values.Select(s =>
-                            {
-                                var parts = s.Split(Separator, count: 2);
-                                var key = parts[0];
-                                var value = parts.Length > 1 ? parts[1] : null;
-                                return new KeyValuePair<string, string?>(key, value);
-                            }).ToList(),
+                            InitialData = [.. directiveResult.Values.Select(Parse)],
                         });
+
+                    static KeyValuePair<string, string?> Parse(string s)
+                    {
+                        var parts = s.Split(Separator, count: 2);
+                        var key = parts[0];
+                        var value = parts.Length > 1 ? parts[1] : null;
+                        return new KeyValuePair<string, string?>(key, value);
+                    }
                 }
             }
         }

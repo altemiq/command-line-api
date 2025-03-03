@@ -91,13 +91,15 @@ public static partial class HostingExtensions
                     && root.Directives.SingleOrDefault(static d => string.Equals(d.Name, HostingDirectiveName, StringComparison.Ordinal)) is { } directive
                     && parseResult.GetResult(directive) is { } directiveResult)
                 {
-                    _ = hostBuilder.ConfigureHostConfiguration(config => config.AddInMemoryCollection(directiveResult.Values.Select(s =>
+                    _ = hostBuilder.ConfigureHostConfiguration(config => config.AddInMemoryCollection([.. directiveResult.Values.Select(Parse)]));
+
+                    static KeyValuePair<string, string?> Parse(string s)
                     {
                         var parts = s.Split(Separator, count: 2);
                         var key = parts[0];
                         var value = parts.Length > 1 ? parts[1] : null;
                         return new KeyValuePair<string, string?>(key, value);
-                    }).ToList()));
+                    }
                 }
             }
         }

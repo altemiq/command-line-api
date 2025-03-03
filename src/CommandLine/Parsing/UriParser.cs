@@ -56,7 +56,7 @@ public static class UriParser
     /// </summary>
     /// <param name="values">The values.</param>
     /// <returns>The URIs.</returns>
-    public static Uri[] ParseAll(IEnumerable<string?> values) => values.SelectMany(ParseAllCore).ToArray();
+    public static Uri[] ParseAll(IEnumerable<string?> values) => [.. values.SelectMany(ParseAllCore)];
 
     /// <summary>
     /// Parses the URIs from the token.
@@ -70,7 +70,7 @@ public static class UriParser
     /// </summary>
     /// <param name="value">The value.</param>
     /// <returns>The URIs.</returns>
-    public static Uri[] ParseAll(string? value) => ParseAllCore(value).ToArray();
+    public static Uri[] ParseAll(string? value) => [.. ParseAllCore(value)];
 
     /// <summary>
     /// Parses the URI from the argument results.

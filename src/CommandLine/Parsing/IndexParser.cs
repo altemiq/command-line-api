@@ -51,7 +51,7 @@ public static class IndexParser
     /// </summary>
     /// <param name="values">The strings to parse.</param>
     /// <returns>The parsed value.</returns>
-    public static Index[] ParseAll(IEnumerable<string> values) => values.Select(Parse).ToArray();
+    public static Index[] ParseAll(IEnumerable<string> values) => [.. values.Select(Parse)];
 
     /// <summary>
     /// Parses the index.

@@ -98,7 +98,7 @@ public static class FileSystemGlobbingParser
                 yield return GetRooted(root, directoryInfo, patternBuilder);
             }
 
-            yield return GetFiles(directoryInfo ?? GetDirectoryInfo(Environment.CurrentDirectory), patternBuilder, normalisedTokens.Except(rooted, StringComparer.Ordinal).ToArray());
+            yield return GetFiles(directoryInfo ?? GetDirectoryInfo(Environment.CurrentDirectory), patternBuilder, [.. normalisedTokens.Except(rooted, StringComparer.Ordinal)]);
 
             static IEnumerable<string> GetRooted(string root, Microsoft.Extensions.FileSystemGlobbing.Abstractions.DirectoryInfoBase? directoryInfo, Microsoft.Extensions.FileSystemGlobbing.Internal.Patterns.PatternBuilder patternBuilder)
             {

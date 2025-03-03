@@ -72,5 +72,5 @@ public static class RangeParser
     /// </summary>
     /// <param name="values">The strings to parse.</param>
     /// <returns>The parsed values.</returns>
-    public static Range[] ParseAll(IEnumerable<string> values) => values.Select(Parse).ToArray();
+    public static Range[] ParseAll(IEnumerable<string> values) => [.. values.Select(Parse)];
 }

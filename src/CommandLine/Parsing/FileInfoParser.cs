@@ -30,7 +30,7 @@ public static class FileInfoParser
     /// </summary>
     /// <param name="values">The values.</param>
     /// <returns>The file information.</returns>
-    public static FileInfo[] ParseAll(IEnumerable<string?> values) => values.SelectMany(ParseAllCore).ToArray();
+    public static FileInfo[] ParseAll(IEnumerable<string?> values) => [.. values.SelectMany(ParseAllCore)];
 
     /// <summary>
     /// Parses the file information from the token.
@@ -44,7 +44,7 @@ public static class FileInfoParser
     /// </summary>
     /// <param name="value">The value.</param>
     /// <returns>The file information.</returns>
-    public static FileInfo[] ParseAll(string? value) => ParseAllCore(value).ToArray();
+    public static FileInfo[] ParseAll(string? value) => [.. ParseAllCore(value)];
 
     /// <summary>
     /// Parses the file information from the argument results.
