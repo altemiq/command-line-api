@@ -6,9 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageVersion Include="Microsoft.Testing.Extensions.CodeCoverage" Version="17.14.1" />
+    <PackageVersion Include="Microsoft.Testing.Extensions.CodeCoverage" Version="17.14.2" />
     <PackageVersion Include="NSubstitute" Version="5.3.0" />
-    <PackageVersion Include="TUnit" Version="0.13.23" />
+    <PackageVersion Include="TUnit" Version="0.16.4" />
   </ItemGroup>
 
   <ItemGroup>
@@ -65,8 +65,6 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" />
     <PackageReference Include="TUnit" />
-    <Using Include="TUnit" />
-
     <PackageReference Include="System.CommandLine" />
   </ItemGroup>
 
