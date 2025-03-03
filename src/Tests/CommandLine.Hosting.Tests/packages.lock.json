@@ -391,8 +391,8 @@
         "type": "Project",
         "dependencies": {
           "CommandLine": "[1.0.0, )",
-          "Microsoft.Extensions.DependencyInjection": "[2.1.0, )",
-          "Microsoft.Extensions.Logging": "[2.1.0, )"
+          "Microsoft.Extensions.DependencyInjection": "[3.1.0, )",
+          "Microsoft.Extensions.Logging": "[3.1.0, )"
         }
       },
       "Microsoft.Extensions.Configuration": {
@@ -828,8 +828,8 @@
         "type": "Project",
         "dependencies": {
           "CommandLine": "[1.0.0, )",
-          "Microsoft.Extensions.DependencyInjection": "[2.1.0, )",
-          "Microsoft.Extensions.Logging": "[2.1.0, )"
+          "Microsoft.Extensions.DependencyInjection": "[3.1.0, )",
+          "Microsoft.Extensions.Logging": "[3.1.0, )"
         }
       },
       "Microsoft.Extensions.Configuration": {

@@ -77,6 +77,23 @@ public static class LoggingExtensions
 
         public static void SetHandlers(Command command, Action<ParseResult?, ILoggingBuilder> configure)
         {
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_0_OR_GREATER || NET472_OR_GREATER
+            _ = Configures.AddOrUpdate(
+                command,
+                static (command, configure) =>
+                {
+                    var configurer = new Configurer();
+                    configurer.Add(configure);
+                    Invocation.InstanceCommandLineAction.SetHandlers(command, Create);
+                    return configurer;
+                },
+                static (_, configurer, configure) =>
+                {
+                    configurer.Add(configure);
+                    return configurer;
+                },
+                configure);
+#else
             _ = Configures.AddOrUpdate(
                 command,
                 command =>
@@ -91,6 +108,7 @@ public static class LoggingExtensions
                     configurer.Add(configure);
                     return configurer;
                 });
+#endif
 
             ILoggerFactory Create(ParseResult? parseResult)
             {

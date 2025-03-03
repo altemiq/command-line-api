@@ -31,7 +31,12 @@ internal sealed class CommandLineConfigurationLoggerProvider(CommandLineConfigur
     }
 
     /// <inheritdoc/>
-    public ILogger CreateLogger(string categoryName) => this.loggers.GetOrAdd(categoryName, _ => new CommandLineConfigurationLogger(this.configuration, this.scopeProvider));
+    public ILogger CreateLogger(string categoryName) =>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_0_OR_GREATER || NET472_OR_GREATER
+        this.loggers.GetOrAdd(categoryName, static (_, values) => new CommandLineConfigurationLogger(values.configuration, values.scopeProvider), (this.configuration, this.scopeProvider));
+#else
+        this.loggers.GetOrAdd(categoryName, _ => new CommandLineConfigurationLogger(this.configuration, this.scopeProvider));
+#endif
 
     /// <inheritdoc/>
     public void Dispose() => GC.SuppressFinalize(this);
