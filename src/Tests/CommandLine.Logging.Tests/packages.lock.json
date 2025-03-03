@@ -134,16 +134,16 @@
           "TUnit.Core": "0.13.23"
         }
       },
-      "Altemiq.CommandLine": {
+      "commandline": {
         "type": "Project",
         "dependencies": {
           "System.CommandLine": "[2.0.0-beta4.25072.1, )"
         }
       },
-      "Altemiq.CommandLine.Logging": {
+      "commandline.logging": {
         "type": "Project",
         "dependencies": {
-          "Altemiq.CommandLine": "[1.0.0, )",
+          "CommandLine": "[1.0.0, )",
           "Microsoft.Extensions.DependencyInjection": "[2.1.0, )",
           "Microsoft.Extensions.Logging": "[2.1.0, )"
         }
@@ -297,16 +297,16 @@
           "TUnit.Core": "0.13.23"
         }
       },
-      "Altemiq.CommandLine": {
+      "commandline": {
         "type": "Project",
         "dependencies": {
           "System.CommandLine": "[2.0.0-beta4.25072.1, )"
         }
       },
-      "Altemiq.CommandLine.Logging": {
+      "commandline.logging": {
         "type": "Project",
         "dependencies": {
-          "Altemiq.CommandLine": "[1.0.0, )",
+          "CommandLine": "[1.0.0, )",
           "Microsoft.Extensions.DependencyInjection": "[2.1.0, )",
           "Microsoft.Extensions.Logging": "[2.1.0, )"
         }
