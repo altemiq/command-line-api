@@ -56,7 +56,12 @@ public static class AnsiConsoleProgress
         var lastUpdate = DateTime.UtcNow;
         ProgressContext? context = default;
         var progressTasks = new Collections.Concurrent.ConcurrentDictionary<string, ProgressTask>(StringComparer.Ordinal);
-        var contextLock = new object();
+        var contextLock =
+#if NET9_0_OR_GREATER
+            new Lock();
+#else
+            new object();
+#endif
 
         return new AnsiConsoleProgress<T>(Handler, () => context is null);
 
