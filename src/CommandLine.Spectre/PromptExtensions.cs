@@ -33,7 +33,7 @@ public static class PromptExtensions
             confirmationPrompt.DefaultValue = defaultValueFactory(default!)!;
         }
 
-        return confirmationPrompt.Show(AnsiConsole.GetConsoleOrDefault(console));
+        return confirmationPrompt.Show(console.GetValueOrDefault());
     }
 
     /// <summary>
@@ -54,9 +54,9 @@ public static class PromptExtensions
 
         return typeof(T).IsEnum
 #pragma warning disable CS8714
-            ? GetValueOrPromptEnum(option, prompt, AnsiConsole.GetConsoleOrDefault(console))
+            ? GetValueOrPromptEnum(option, prompt, console.GetValueOrDefault())
 #pragma warning restore CS8714
-            : GetValueOrPromptGeneric(option, prompt, AnsiConsole.GetConsoleOrDefault(console));
+            : GetValueOrPromptGeneric(option, prompt, console.GetValueOrDefault());
 
         static TEnum GetValueOrPromptEnum<TEnum>(Option<TEnum> option, string prompt, IAnsiConsole console)
             where TEnum : notnull

@@ -9,7 +9,7 @@ namespace System.CommandLine;
 /// <summary>
 /// Helper functions for <see cref="global::Spectre.Console.AnsiConsole"/>.
 /// </summary>
-internal static class AnsiConsole
+public static class AnsiConsole
 {
     /// <summary>
     /// Gets the <see cref="IAnsiConsole"/> or <see cref="global::Spectre.Console.AnsiConsole.Console"/>.
@@ -17,5 +17,13 @@ internal static class AnsiConsole
     /// <param name="console">The console to check.</param>
     /// <returns>Either <paramref name="console"/> if not <see langword="null"/>; otherwise <see cref="global::Spectre.Console.AnsiConsole.Console"/>.</returns>
     [Runtime.CompilerServices.MethodImpl(Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public static IAnsiConsole GetConsoleOrDefault(IAnsiConsole? console) => console ?? global::Spectre.Console.AnsiConsole.Console;
+    public static IAnsiConsole GetValueOrDefault(this IAnsiConsole? console) => GetConsoleOrDefault(console);
+
+    /// <summary>
+    /// Gets the <see cref="IAnsiConsole"/> or <see cref="global::Spectre.Console.AnsiConsole.Console"/>.
+    /// </summary>
+    /// <param name="console">The console to check.</param>
+    /// <returns>Either <paramref name="console"/> if not <see langword="null"/>; otherwise <see cref="global::Spectre.Console.AnsiConsole.Console"/>.</returns>
+    [Runtime.CompilerServices.MethodImpl(Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    internal static IAnsiConsole GetConsoleOrDefault(IAnsiConsole? console) => console ?? global::Spectre.Console.AnsiConsole.Console;
 }
