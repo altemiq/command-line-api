@@ -31,6 +31,20 @@ public class LoggingExtensionsTests
     }
 
     [Test]
+    public async Task GetLoggerFromSubCommand()
+    {
+        var command = new Command("command");
+        var rootCommand = new RootCommand { command };
+        var configuration = new CommandLineConfiguration(rootCommand);
+        bool configureCalled = false;
+        configuration.AddLogging(configure => configureCalled = true);
+
+        var parseResult = configuration.Parse("command");
+        _ = await Assert.That(parseResult.CreateLogger("Test")).IsNotNull();
+        _ = await Assert.That(configureCalled).IsTrue();
+    }
+
+    [Test]
     public async Task AddLoggingMultipleTimes()
     {
         const int Total = 10;

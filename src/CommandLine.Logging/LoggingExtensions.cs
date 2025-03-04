@@ -86,6 +86,11 @@ public static class LoggingExtensions
                     configurer.Add(configure);
                     Invocation.InstanceCommandLineAction.SetHandlers(command, Create);
                     return configurer;
+
+                    ILoggerFactory Create(ParseResult parseResult)
+                    {
+                        return CreateWithCommand(command, parseResult);
+                    }
                 },
                 static (_, configurer, configure) =>
                 {
@@ -102,6 +107,11 @@ public static class LoggingExtensions
                     configurer.Add(configure);
                     Invocation.InstanceCommandLineAction.SetHandlers(command, Create);
                     return configurer;
+
+                    ILoggerFactory Create(ParseResult parseResult)
+                    {
+                        return CreateWithCommand(command, parseResult);
+                    }
                 },
                 (_, configurer) =>
                 {
@@ -109,8 +119,7 @@ public static class LoggingExtensions
                     return configurer;
                 });
 #endif
-
-            static ILoggerFactory Create(ParseResult? parseResult)
+            static ILoggerFactory CreateWithCommand(Command command, ParseResult? parseResult)
             {
                 var serviceCollection = new ServiceCollection();
                 _ = serviceCollection.AddLogging(builder =>
@@ -121,7 +130,7 @@ public static class LoggingExtensions
                         _ = builder.SetMinimumLevel(value.GetLogLevel());
                     }
 
-                    if (parseResult is { CommandResult.Command: { } command } && Configures.TryGetValue(command, out var commandConfigure))
+                    if (Configures.TryGetValue(command, out var commandConfigure))
                     {
                         commandConfigure.Configure(parseResult, builder);
                     }
