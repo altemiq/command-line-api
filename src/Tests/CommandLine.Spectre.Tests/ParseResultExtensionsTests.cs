@@ -88,7 +88,20 @@ public class ParseResultExtensionsTests
         await Assert.That(parseResult.CreateConsole())
             .IsNotNull().And
             .Satisfies(
-                c => c.Profile.Capabilities.Ansi,
-                ansi => ansi.IsFalse());
+                c => c.Profile.Out,
+                @out => @out
+                    .IsAssignableTo<IAnsiConsoleOutput>().And
+                    .Satisfies(
+                        x => x.Writer,
+                        writer => writer
+                            .IsTypeOf<StreamWriter>().And
+                            .Satisfies(
+                                x => x.BaseStream,
+                                baseStream => baseStream
+                                    .IsTypeOf<MemoryStream>().And
+                                    .IsSameReferenceAs(memoryStream).And
+                                    .IsAssignableTo<Stream?>()).And
+                        .IsAssignableTo<TextWriter?>()).And
+                    .IsAssignableTo<IAnsiConsoleOutput?>());
     }
 }
