@@ -13,14 +13,9 @@ namespace System.CommandLine.Logging;
 /// <param name="scopeProvider">The scope provider.</param>
 internal sealed class CommandLineConfigurationLogger(CommandLineConfiguration configuration, IExternalScopeProvider? scopeProvider) : ILogger
 {
-    /// <summary>
-    /// Gets or sets the scope provider.
-    /// </summary>
-    internal IExternalScopeProvider? ScopeProvider { get; set; } = scopeProvider;
-
     /// <inheritdoc/>
     public IDisposable BeginScope<TState>(TState state)
-        where TState : notnull => this.ScopeProvider?.Push(state) ?? Internal.NullScope.Instance;
+        where TState : notnull => scopeProvider?.Push(state) ?? Internal.NullScope.Instance;
 
     /// <inheritdoc/>
     public bool IsEnabled(LogLevel logLevel) => logLevel != LogLevel.None;
