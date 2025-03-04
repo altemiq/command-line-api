@@ -82,6 +82,7 @@ jobs:
 
     # Test
     - name: Test with dotnet
+      id: test
       working-directory: ${{ github.workspace }}/src
       run: >
         dotnet test
@@ -89,6 +90,15 @@ jobs:
         --results-directory ${{ github.workspace }}/coverage/results
         --coverage
         --coverage-output-format cobertura
+        
+    - name: Update test results
+      uses: actions/upload-artifact@v4
+      if: failure() && steps.test.outcome == 'failure'
+      with:
+        name: TestResults
+        path: |
+          ${{ github.workspace }}/coverage/results/*.log
+        retention-days: 1
 
     - name: Report Generator
       uses: danielpalme/ReportGenerator-GitHub-Action@v5
