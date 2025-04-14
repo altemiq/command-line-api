@@ -6,8 +6,6 @@
 
 namespace System.CommandLine.Hosting;
 
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -19,9 +17,9 @@ public class HostedServiceTests
         const string CommandName = "command";
         HostedService hostedService = new();
         CommandLineConfiguration configuration = new(new RootCommand { new Command(CommandName) });
-        _ = configuration.UseHost((parseResult, builder) => builder.ConfigureServices(services => services.AddHostedService(_ => hostedService)));
+        _ = configuration.UseHost((_, builder) => builder.ConfigureServices(services => services.AddHostedService(_ => hostedService)));
 
-        _ = configuration.Invoke(CommandName);
+        _ = await configuration.InvokeAsync(CommandName);
 
         _ = await Assert.That(hostedService.Started).IsTrue();
         _ = await Assert.That(hostedService.Stopped).IsTrue();
@@ -33,9 +31,9 @@ public class HostedServiceTests
     {
         HostedService hostedService = new();
         CommandLineConfiguration configuration = new(new RootCommand());
-        _ = configuration.UseApplicationHost((parseResult, builder) => builder.Services.AddHostedService(_ => hostedService));
+        _ = configuration.UseApplicationHost((_, builder) => builder.Services.AddHostedService(_ => hostedService));
 
-        _ = configuration.Invoke(string.Empty);
+        _ = await configuration.InvokeAsync(string.Empty);
 
         _ = await Assert.That(hostedService.Started).IsTrue();
         _ = await Assert.That(hostedService.Stopped).IsTrue();

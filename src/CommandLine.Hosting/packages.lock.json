@@ -222,23 +222,23 @@
         "resolved": "4.5.3",
         "contentHash": "3TIsJhD1EiiT0w2CcDMN/iSSwnNnsrnbzeVHSKkaEgV85txMprmuO+Yq2AdSbeVGcg28pdNDTPK87tJhX7VFHw=="
       },
-      "commandline": {
+      "Altemiq.CommandLine": {
         "type": "Project",
         "dependencies": {
           "System.CommandLine": "[2.0.0-beta4.25072.1, )"
         }
       },
-      "commandline.filesystemglobbing": {
+      "Altemiq.CommandLine.FileSystemGlobbing": {
         "type": "Project",
         "dependencies": {
           "Microsoft.Extensions.FileSystemGlobbing": "[2.1.0, )",
           "System.CommandLine": "[2.0.0-beta4.25072.1, )"
         }
       },
-      "commandline.logging": {
+      "Altemiq.CommandLine.Logging": {
         "type": "Project",
         "dependencies": {
-          "CommandLine": "[1.0.0, )",
+          "Altemiq.CommandLine": "[1.0.0, )",
           "Microsoft.Extensions.DependencyInjection": "[2.1.0, )",
           "Microsoft.Extensions.Logging": "[2.1.0, )"
         }
@@ -590,23 +590,23 @@
           "System.Text.Encodings.Web": "7.0.0"
         }
       },
-      "commandline": {
+      "Altemiq.CommandLine": {
         "type": "Project",
         "dependencies": {
           "System.CommandLine": "[2.0.0-beta4.25072.1, )"
         }
       },
-      "commandline.filesystemglobbing": {
+      "Altemiq.CommandLine.FileSystemGlobbing": {
         "type": "Project",
         "dependencies": {
           "Microsoft.Extensions.FileSystemGlobbing": "[2.1.0, )",
           "System.CommandLine": "[2.0.0-beta4.25072.1, )"
         }
       },
-      "commandline.logging": {
+      "Altemiq.CommandLine.Logging": {
         "type": "Project",
         "dependencies": {
-          "CommandLine": "[1.0.0, )",
+          "Altemiq.CommandLine": "[1.0.0, )",
           "Microsoft.Extensions.DependencyInjection": "[3.1.0, )",
           "Microsoft.Extensions.Logging": "[3.1.0, )"
         }
@@ -958,23 +958,23 @@
         "resolved": "8.0.1",
         "contentHash": "n1ZP7NM2Gkn/MgD8+eOT5MulMj6wfeQMNS2Pizvq5GHCZfjlFMXV2irQlQmJhwA2VABC57M0auudO89Iu2uRLg=="
       },
-      "commandline": {
+      "Altemiq.CommandLine": {
         "type": "Project",
         "dependencies": {
           "System.CommandLine": "[2.0.0-beta4.25072.1, )"
         }
       },
-      "commandline.filesystemglobbing": {
+      "Altemiq.CommandLine.FileSystemGlobbing": {
         "type": "Project",
         "dependencies": {
           "Microsoft.Extensions.FileSystemGlobbing": "[2.1.0, )",
           "System.CommandLine": "[2.0.0-beta4.25072.1, )"
         }
       },
-      "commandline.logging": {
+      "Altemiq.CommandLine.Logging": {
         "type": "Project",
         "dependencies": {
-          "CommandLine": "[1.0.0, )",
+          "Altemiq.CommandLine": "[1.0.0, )",
           "Microsoft.Extensions.DependencyInjection": "[3.1.0, )",
           "Microsoft.Extensions.Logging": "[3.1.0, )"
         }
@@ -1326,23 +1326,23 @@
         "resolved": "9.0.0",
         "contentHash": "qd01+AqPhbAG14KtdtIqFk+cxHQFZ/oqRSCoxU1F+Q6Kv0cl726sl7RzU9yLFGd4BUOKdN4XojXF0pQf/R6YeA=="
       },
-      "commandline": {
+      "Altemiq.CommandLine": {
         "type": "Project",
         "dependencies": {
           "System.CommandLine": "[2.0.0-beta4.25072.1, )"
         }
       },
-      "commandline.filesystemglobbing": {
+      "Altemiq.CommandLine.FileSystemGlobbing": {
         "type": "Project",
         "dependencies": {
           "Microsoft.Extensions.FileSystemGlobbing": "[2.1.0, )",
           "System.CommandLine": "[2.0.0-beta4.25072.1, )"
         }
       },
-      "commandline.logging": {
+      "Altemiq.CommandLine.Logging": {
         "type": "Project",
         "dependencies": {
-          "CommandLine": "[1.0.0, )",
+          "Altemiq.CommandLine": "[1.0.0, )",
           "Microsoft.Extensions.DependencyInjection": "[3.1.0, )",
           "Microsoft.Extensions.Logging": "[3.1.0, )"
         }

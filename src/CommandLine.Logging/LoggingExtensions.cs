@@ -149,7 +149,6 @@ public static class LoggingExtensions
                         catch
                         {
                             return null;
-                            throw;
                         }
                     }
                 });
@@ -164,15 +163,13 @@ public static class LoggingExtensions
         {
             private readonly List<Action<ParseResult?, object?>> actions = [];
 
-            public void Add<T>(Action<ParseResult?, T> action) => this.Add((parseResult, obj) =>
+            public void Add<T>(Action<ParseResult?, T> action) => this.actions.Add((parseResult, obj) =>
             {
                 if (obj is T t)
                 {
                     action(parseResult, t);
                 }
             });
-
-            public void Add(Action<ParseResult?, object?> action) => this.actions.Add(action);
 
             public void Configure(ParseResult? parseResult, object? obj)
             {

@@ -81,7 +81,7 @@ public class ParseResultExtensionsTests
     public async Task CreateWithNonStandardOutput()
     {
         var command = new RootCommand();
-        using var memoryStream = new MemoryStream();
+        var memoryStream = new MemoryStream();
         var configuration = new CommandLineConfiguration(command) { Output = new StreamWriter(memoryStream) };
         var parseResult = configuration.Parse(string.Empty);
 

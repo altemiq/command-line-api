@@ -43,41 +43,41 @@ public class PromptExtensionsTests
     [Test]
     public async Task TestString()
     {
-        const string value = nameof(value);
-        _ = await Assert.That(GetValue("Enter string value:", value)).IsEqualTo(value);
+        const string Value = "value";
+        _ = await Assert.That(GetValue("Enter string value:", Value)).IsEqualTo(Value);
     }
 
     [Test]
     public async Task TestDefaultString()
     {
-        const string value = nameof(value);
-        _ = await Assert.That(GetValue("Get default value: ", value)).IsEqualTo(value);
+        const string Value = "value";
+        _ = await Assert.That(GetValue("Get default value: ", Value)).IsEqualTo(Value);
     }
 
     [Test]
     public async Task TestInt32()
     {
-        const int value = 123;
-        _ = await Assert.That(GetValue<int>("Enter integer value: ", value.ToString())).IsEqualTo(value);
+        const int Value = 123;
+        _ = await Assert.That(GetValue<int>("Enter integer value: ", Value.ToString())).IsEqualTo(Value);
     }
 
     [Test]
     public async Task TestDefaultInt32()
     {
-        const int value = 123;
-        _ = await Assert.That(GetValue("Get default value: ", value)).IsEqualTo(value);
+        const int Value = 123;
+        _ = await Assert.That(GetValue("Get default value: ", Value)).IsEqualTo(Value);
     }
 
     [Test]
     public async Task TestEnum()
     {
-        const FileMode fileMode = FileMode.Open;
+        const FileMode FileMode = FileMode.Open;
         (ParseResult parseResult, Option<FileMode> option, TestConsole console) = GetResult<FileMode>();
         _ = console.Interactive();
         console.Input.PushKey(ConsoleKey.DownArrow);
         console.Input.PushKey(ConsoleKey.DownArrow);
         console.Input.PushKey(ConsoleKey.Enter);
-        _ = await Assert.That(parseResult.GetValueOrPrompt(option, "Select enum value: ", console)).IsEqualTo(fileMode);
+        _ = await Assert.That(parseResult.GetValueOrPrompt(option, "Select enum value: ", console)).IsEqualTo(FileMode);
     }
 
     [Test]
@@ -265,7 +265,7 @@ public class PromptExtensionsTests
 
         public override bool Equals(object? obj)
         {
-            return obj is TypeWithTypeConverter typeWithTypeConverter ? Equals(this, typeWithTypeConverter) : base.Equals(obj);
+            return obj is TypeWithTypeConverter typeWithTypeConverter && Equals(this, typeWithTypeConverter);
         }
 
         public bool Equals(TypeWithTypeConverter? x, TypeWithTypeConverter? y)

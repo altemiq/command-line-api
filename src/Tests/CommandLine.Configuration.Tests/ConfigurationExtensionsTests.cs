@@ -18,13 +18,13 @@ public class ConfigurationExtensionsTests
         ParseResult? parseResult = default;
         Microsoft.Extensions.Configuration.IConfigurationBuilder? builder = default;
         CommandLineConfiguration configuration = new(rootCommand);
-        _ = configuration.UseConfiguration((parseResult_, builder_) =>
+        _ = configuration.UseConfiguration((pr, b) =>
         {
-            parseResult = parseResult_;
-            builder = builder_;
+            parseResult = pr;
+            builder = b;
         });
 
-        _ = configuration.Invoke([]);
+        _ = await configuration.InvokeAsync([]);
         _ = await Assert.That(config).IsNotNull();
         _ = await Assert.That(parseResult).IsNotNull();
         _ = await Assert.That(builder).IsNotNull();

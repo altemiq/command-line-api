@@ -15,7 +15,7 @@ public static class ArgumentValidation
     /// Validates that the <see cref="Uri"/> has the correct <see cref="Uri.Scheme"/> specified.
     /// </summary>
     /// <param name="argument">The argument.</param>
-    /// <param name="scheme">The requied scheme.</param>
+    /// <param name="scheme">The required scheme.</param>
     /// <returns>The input argument.</returns>
     public static Argument<Uri> AcceptScheme(this Argument<Uri> argument, string scheme)
     {
@@ -38,7 +38,7 @@ public static class ArgumentValidation
     /// Validates that the <see cref="Uri"/> has the correct <see cref="Uri.Scheme"/> specified.
     /// </summary>
     /// <param name="argument">The argument.</param>
-    /// <param name="schemes">The requied schemes.</param>
+    /// <param name="schemes">The required schemes.</param>
     /// <returns>The input argument.</returns>
     public static Argument<Uri> AcceptSchemes(this Argument<Uri> argument, params string[] schemes)
     {
@@ -143,12 +143,11 @@ public static class ArgumentValidation
         var checkFile = typeof(T) != typeof(DirectoryInfo);
         var checkDirectory = typeof(T) != typeof(FileInfo);
 
-        for (var i = 0; i < result.Tokens.Count; i++)
+        foreach (var errorMessage in result.Tokens
+                     .Select(token => CheckToken(token, checkFile, checkDirectory))
+                     .Where(errorMessage => errorMessage is not null))
         {
-            if (CheckToken(result.Tokens[i], checkFile, checkDirectory) is { } errorMessage)
-            {
-                result.AddError(errorMessage);
-            }
+            result.AddError(errorMessage!);
         }
 
         static string? CheckToken(Parsing.Token token, bool checkFile, bool checkDirectory)

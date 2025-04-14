@@ -19,7 +19,7 @@ public class InvocationLifetimeTests
         RootCommand command = [];
         command.SetAction(async (_, cancellationToken) =>
         {
-            cancellationTokenSource.Cancel();
+            await cancellationTokenSource.CancelAsync();
 
             // wait for the cancellation token source to be cancelled.
             while (!cancellationToken.IsCancellationRequested)

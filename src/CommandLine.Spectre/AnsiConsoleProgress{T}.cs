@@ -39,7 +39,7 @@ public class AnsiConsoleProgress<T> : AnsiConsoleProgressBase, IProgress<T>
         // Capture the current synchronization context.
         // If there is no current context, we use a default instance targeting the ThreadPool.
         this.synchronizationContext = SynchronizationContext.Current ?? ProgressStatics.DefaultContext;
-        this.invokeHandlers = new SendOrPostCallback(state => this.handler?.Invoke((T)state!));
+        this.invokeHandlers = state => this.handler?.Invoke((T)state!);
     }
 
     /// <summary>

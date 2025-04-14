@@ -24,20 +24,16 @@ public partial class HostingExtensionsTests
         CommandLineConfiguration configuration = new(rootCommand);
         _ = configuration.UseHost(configureHost: static (_, builder) => builder.ConfigureServices((_, services) => services.ConfigureInvocationLifetime(opts => opts.SuppressStatusMessages = Value)));
 
-        _ = configuration.Invoke([]);
+        _ = await configuration.InvokeAsync([]);
         _ = await Assert.That(host).IsAssignableTo<Microsoft.Extensions.Hosting.IHost>().And
             .Satisfies(
-                host => host.Services.GetService<Microsoft.Extensions.Hosting.IHostLifetime>(),
-                hostLifeTime =>
-                {
-                    TUnit.Assertions.AssertionBuilders.InvokableValueAssertionBuilder<Microsoft.Extensions.Hosting.IHostLifetime?> assertionBuilder = hostLifeTime.IsNotNull();
-                    _ = assertionBuilder.And
-                        .IsTypeOf<InvocationLifetime>().And
-                        .Satisfies(
+                h => h.Services.GetService<Microsoft.Extensions.Hosting.IHostLifetime>(),
+                hostLifeTime => hostLifeTime.IsNotNull().And
+                    .IsTypeOf<InvocationLifetime>().And
+                    .Satisfies(
                         invocationLifetime => invocationLifetime.Options.SuppressStatusMessages,
-                        suppressStatusMessages => suppressStatusMessages.IsEqualTo(Value));
-                    return assertionBuilder;
-                });
+                        suppressStatusMessages => suppressStatusMessages.IsEqualTo(Value)).And
+                    .IsAssignableTo<Microsoft.Extensions.Hosting.IHostLifetime?>());
     }
 
     [Test]
@@ -50,7 +46,7 @@ public partial class HostingExtensionsTests
         CommandLineConfiguration configuration = new(rootCommand);
         _ = configuration.UseHost();
 
-        _ = configuration.Invoke("[config:Key1=Value1] [config:Key2]");
+        _ = await configuration.InvokeAsync("[config:Key1=Value1] [config:Key2]");
         _ = await Assert.That(host).IsNotNull();
 
         ConfigurationRoot? configurationRoot = await Assert.That(host?.Services.GetService(typeof(IConfiguration))).IsTypeOf<ConfigurationRoot>();
@@ -69,7 +65,7 @@ public partial class HostingExtensionsTests
         CommandLineConfiguration configuration = new(rootCommand);
         _ = configuration.UseConfiguration();
 
-        _ = configuration.Invoke([]);
+        _ = await configuration.InvokeAsync([]);
         _ = await Assert.That(config).IsNotNull();
     }
 
@@ -86,7 +82,7 @@ public partial class HostingExtensionsTests
             ? configuration.UseServices(args => Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args))
             : configuration.UseServices();
 
-        _ = configuration.Invoke([]);
+        _ = await configuration.InvokeAsync([]);
         _ = await Assert.That(serviceProvider).IsNotNull();
     }
 
@@ -109,16 +105,16 @@ public partial class HostingExtensionsTests
             count++;
             return Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(null);
         },
-        configure => { });
+        _ => { });
 
         _ = configuration.UseConfiguration(() =>
         {
             count++;
             return Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(null);
         },
-        configure => { });
+        _ => { });
 
-        _ = configuration.Invoke([]);
+        _ = await configuration.InvokeAsync([]);
         _ = await Assert.That(count).IsEqualTo(1);
         _ = await Assert.That(serviceProvider).IsNotNull();
         _ = await Assert.That(config).IsNotNull();
@@ -133,7 +129,7 @@ public partial class HostingExtensionsTests
             DefaultValueFactory = argumentResult =>
             {
                 Command? command = argumentResult.GetCommand();
-                if (command is not null && command.Action is { } action)
+                if (command?.Action is { } action)
                 {
                     config = action.GetConfiguration();
                 }
@@ -145,7 +141,7 @@ public partial class HostingExtensionsTests
         CommandLineConfiguration configuration = new(new RootCommand { argument });
         _ = configuration.UseConfiguration();
 
-        _ = configuration.Invoke([]);
+        _ = await configuration.InvokeAsync([]);
         _ = await Assert.That(config).IsNotNull();
     }
 
@@ -170,7 +166,7 @@ public partial class HostingExtensionsTests
         CommandLineConfiguration configuration = new(new RootCommand { argument });
         _ = configuration.UseConfiguration();
 
-        _ = configuration.Invoke(string.Empty);
+        _ = await configuration.InvokeAsync(string.Empty);
         _ = await Assert.That(config).IsNotNull();
     }
 
@@ -210,13 +206,13 @@ public partial class HostingExtensionsTests
             ? configuration.UseConfiguration((args) => Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args))
             : configuration.UseConfiguration();
 
-        _ = configuration.Invoke($"{name} --help");
+        _ = await configuration.InvokeAsync($"{name} --help");
 
-        _ = await Assert.That(command).IsTypeOf<Command>().And.Satisfies(command => command.Name, commandName => commandName.IsEqualTo(name)!);
+        _ = await Assert.That(command).IsTypeOf<Command>().And.Satisfies(c => c.Name, commandName => commandName.IsEqualTo(name)!);
         _ = await Assert.That(config).IsNotNull();
     }
 
-    public partial class EnsureStartAndStopAreCalled
+    public static class EnsureStartAndStopAreCalled
     {
         public class Host
         {
@@ -229,7 +225,7 @@ public partial class HostingExtensionsTests
 
                 RootCommand root = [];
                 CommandLineConfiguration configuration = new(root);
-                _ = configuration.UseHost(args => hostBuilder);
+                _ = configuration.UseHost(_ => hostBuilder);
 
                 _ = await configuration.InvokeAsync(string.Empty);
 
@@ -245,9 +241,9 @@ public partial class HostingExtensionsTests
                 _ = hostBuilder.Build().Returns(host);
 
                 RootCommand root = [];
-                root.SetAction(parseResult => { });
+                root.SetAction(_ => { });
                 CommandLineConfiguration configuration = new(root);
-                _ = configuration.UseHost(args => hostBuilder);
+                _ = configuration.UseHost(_ => hostBuilder);
 
                 _ = await configuration.InvokeAsync(string.Empty);
 
@@ -263,9 +259,9 @@ public partial class HostingExtensionsTests
                 _ = hostBuilder.Build().Returns(host);
 
                 RootCommand root = [];
-                root.SetAction((parseResult, cancellationToken) => Task.CompletedTask);
+                root.SetAction((_, _) => Task.CompletedTask);
                 CommandLineConfiguration configuration = new(root);
-                _ = configuration.UseHost(args => hostBuilder);
+                _ = configuration.UseHost(_ => hostBuilder);
 
                 _ = await configuration.InvokeAsync(string.Empty);
 

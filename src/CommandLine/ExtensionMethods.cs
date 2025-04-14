@@ -106,7 +106,7 @@ public static class ExtensionMethods
             return symbolResult switch
             {
                 { Parent: Parsing.CommandResult commandResult } => commandResult.Command,
-                { Parent: Parsing.SymbolResult parentSymbolResult } => GetCommandCore(parentSymbolResult),
+                { Parent: { } parentSymbolResult } => GetCommandCore(parentSymbolResult),
                 Parsing.ArgumentResult { Argument: { } argument } => GetCommandFromSymbol(argument),
                 Parsing.OptionResult { Option: { } option } => GetCommandFromSymbol(option),
                 _ => default,
@@ -121,7 +121,7 @@ public static class ExtensionMethods
                         return command;
                     }
 
-                    if (parent is Symbol parentSymbol && GetCommandFromSymbol(parentSymbol) is { } parentCommand)
+                    if (parent is { } parentSymbol && GetCommandFromSymbol(parentSymbol) is { } parentCommand)
                     {
                         return parentCommand;
                     }

@@ -125,7 +125,7 @@ public static partial class HostingExtensions
     /// <param name="configureOptions">The options to configure.</param>
     /// <returns>The host builder for chaining.</returns>
     public static Microsoft.Extensions.Hosting.IHostBuilder ConfigureInvocationLifetime(this Microsoft.Extensions.Hosting.IHostBuilder host, Action<InvocationLifetimeOptions>? configureOptions = null) =>
-        host.ConfigureServices((__, services) => services.ConfigureInvocationLifetime(configureOptions));
+        host.ConfigureServices((_, services) => services.ConfigureInvocationLifetime(configureOptions));
 
     /// <summary>
     /// Configures the invocation lifetime.

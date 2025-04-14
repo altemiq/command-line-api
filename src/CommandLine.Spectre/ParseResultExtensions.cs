@@ -19,21 +19,21 @@ public static class ParseResultExtensions
     /// <returns>The ANSI console.</returns>
     public static IAnsiConsole CreateConsole(this ParseResult? parseResult, Option<FileInfo>? outputOption = default)
     {
-        if (parseResult is not null)
+        if (parseResult is null)
         {
-            var (ansiSupport, writer) = outputOption is { } option && parseResult.GetValue(option) is { } outputFile
-                ? (AnsiSupport.No, outputFile.CreateText())
-                : (GetAnsiSupport(parseResult), parseResult.Configuration.Output);
-
-            return global::Spectre.Console.AnsiConsole.Create(new AnsiConsoleSettings
-            {
-                Ansi = ansiSupport,
-                ColorSystem = ColorSystemSupport.Detect,
-                Out = new AnsiConsoleOutput(writer),
-            });
+            return global::Spectre.Console.AnsiConsole.Console;
         }
 
-        return global::Spectre.Console.AnsiConsole.Console;
+        var (ansiSupport, writer) = outputOption is { } option && parseResult.GetValue(option) is { } outputFile
+            ? (AnsiSupport.No, outputFile.CreateText())
+            : (GetAnsiSupport(parseResult), parseResult.Configuration.Output);
+
+        return global::Spectre.Console.AnsiConsole.Create(new AnsiConsoleSettings
+        {
+            Ansi = ansiSupport,
+            ColorSystem = ColorSystemSupport.Detect,
+            Out = new AnsiConsoleOutput(writer),
+        });
 
         static AnsiSupport GetAnsiSupport(ParseResult parseResult)
         {

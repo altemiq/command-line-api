@@ -14,6 +14,6 @@ public class OptionsTests
         _ = await Assert.That(new VerbosityOption())
             .Satisfies(verbosity => verbosity.Recursive, recursive => recursive.IsTrue()).And
             .Satisfies(verbosity => verbosity.HasDefaultValue, hasDefaultValue => hasDefaultValue.IsTrue()).And
-            .Satisfies(verbosity => verbosity.DefaultValueFactory, defaultValueFactory => defaultValueFactory.IsNotNull());
+            .Satisfies(verbosity => verbosity.DefaultValueFactory, defaultValueFactory => defaultValueFactory.IsNotNull().And.IsAssignableTo<Func<Parsing.ArgumentResult, VerbosityOptions>?>());
     }
 }

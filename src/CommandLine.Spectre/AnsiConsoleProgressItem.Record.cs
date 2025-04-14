@@ -23,7 +23,7 @@ namespace System.CommandLine;
 ///     </item>
 ///     <item>
 ///       <term><see cref="double.NaN"/></term>
-///       <description>Comletes the <see cref="ProgressTask"/> without setting <see cref="ProgressTask.Value"/>.</description>
+///       <description>Completes the <see cref="ProgressTask"/> without setting <see cref="ProgressTask.Value"/>.</description>
 ///     </item>
 ///     <item>
 ///       <term>greater than or equal to 100</term>

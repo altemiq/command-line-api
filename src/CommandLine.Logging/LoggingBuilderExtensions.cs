@@ -8,7 +8,6 @@
 namespace Microsoft.Extensions.Logging;
 #pragma warning restore IDE0130
 
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 /// <summary>
@@ -24,8 +23,8 @@ public static class LoggingBuilderExtensions
     /// <returns>The logging builder.</returns>
     public static ILoggingBuilder AddCommandLineConfiguration(this ILoggingBuilder builder, System.CommandLine.CommandLineConfiguration configuration)
     {
-        builder.Services.Add(ServiceDescriptor.Singleton(configuration));
-        builder.Services.TryAddEnumerable(ServiceDescriptor.Singleton<ILoggerProvider, System.CommandLine.Logging.CommandLineConfigurationLoggerProvider>());
+        builder.Services.Add(DependencyInjection.ServiceDescriptor.Singleton(configuration));
+        builder.Services.TryAddEnumerable(DependencyInjection.ServiceDescriptor.Singleton<ILoggerProvider, System.CommandLine.Logging.CommandLineConfigurationLoggerProvider>());
         return builder;
     }
 }

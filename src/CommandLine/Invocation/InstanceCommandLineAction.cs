@@ -74,11 +74,11 @@ public static class InstanceCommandLineAction
 
             static Func<ParseResult, TInstance, CancellationToken, Task> InvokeAsync(Action<ParseResult, TInstance> action)
             {
-                return new Func<ParseResult, TInstance, CancellationToken, Task>((parseResult, instance, _) =>
+                return (parseResult, instance, _) =>
                 {
                     action(parseResult, instance);
                     return Task.CompletedTask;
-                });
+                };
             }
         }
     }
@@ -112,7 +112,7 @@ public static class InstanceCommandLineAction
 
             static Action<ParseResult, TInstance> Invoke(Func<ParseResult, TInstance, CancellationToken, Task> func)
             {
-                return new Action<ParseResult, TInstance>((parseResult, instance) => func(parseResult, instance, CancellationToken.None).GetAwaiter().GetResult());
+                return (parseResult, instance) => func(parseResult, instance, CancellationToken.None).GetAwaiter().GetResult();
             }
         }
     }
@@ -204,8 +204,8 @@ public static class InstanceCommandLineAction
     private sealed class InstanceNestedAsynchronousCommandLineAction<TInstance>(Func<ParseResult, TInstance> create, AsynchronousCommandLineAction action, Func<ParseResult, TInstance, CancellationToken, Task> beforeInvoke, Func<ParseResult, TInstance, CancellationToken, Task> afterInvoke)
         : NestedAsynchronousCommandLineAction(
             action,
-            (action, parseResult, cancellationToken) => beforeInvoke(parseResult, ThrowIfNull(GetInstanceFromAction<TInstance>(parseResult, action)), cancellationToken),
-            (action, parseResult, cancellationToken) => afterInvoke(parseResult, ThrowIfNull(GetInstanceFromAction<TInstance>(parseResult, action)), cancellationToken)), IInstance<TInstance>
+            (asynchronousCommandLineAction, parseResult, cancellationToken) => beforeInvoke(parseResult, ThrowIfNull(GetInstanceFromAction<TInstance>(parseResult, asynchronousCommandLineAction)), cancellationToken),
+            (asynchronousCommandLineAction, parseResult, cancellationToken) => afterInvoke(parseResult, ThrowIfNull(GetInstanceFromAction<TInstance>(parseResult, asynchronousCommandLineAction)), cancellationToken)), IInstance<TInstance>
     {
         private readonly Func<ParseResult, TInstance> create = create;
         private TInstance? instance;

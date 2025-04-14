@@ -19,7 +19,7 @@ public class AnsiConsoleCommandExtensionsTests
 
         CommandLineConfiguration configuration = new(command);
 
-        _ = configuration.Parse("--help").Invoke();
+        _ = await configuration.Parse("--help").InvokeAsync();
 
         _ = await Assert.That(console.Lines.Skip(1)).IsNotEmpty();
     }
@@ -40,7 +40,7 @@ public class AnsiConsoleCommandExtensionsTests
         CommandLineConfiguration configuration = new(new RootCommand { command });
         _ = command.AddFiglet("value", Color.Blue, console);
 
-        _ = configuration.Parse($"{nameof(AddFigletToSubCommand)} --help").Invoke();
+        _ = await configuration.Parse($"{nameof(AddFigletToSubCommand)} --help").InvokeAsync();
 
         _ = await Assert.That(console.Lines.Skip(1)).IsNotEmpty();
     }
@@ -54,7 +54,7 @@ public class AnsiConsoleCommandExtensionsTests
         CommandLineConfiguration configuration = new(new RootCommand { command });
         _ = command.AddFiglet("value", Color.Blue, console);
 
-        _ = configuration.Parse("--help").Invoke();
+        _ = await configuration.Parse("--help").InvokeAsync();
 
         _ = await Assert.That(console.Lines.Skip(1)).IsEmpty();
     }

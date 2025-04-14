@@ -25,5 +25,5 @@ public static class AnsiConsole
     /// <param name="console">The console to check.</param>
     /// <returns>Either <paramref name="console"/> if not <see langword="null"/>; otherwise <see cref="global::Spectre.Console.AnsiConsole.Console"/>.</returns>
     [Runtime.CompilerServices.MethodImpl(Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    internal static IAnsiConsole GetConsoleOrDefault(IAnsiConsole? console) => console ?? global::Spectre.Console.AnsiConsole.Console;
+    private static IAnsiConsole GetConsoleOrDefault(IAnsiConsole? console) => console ?? global::Spectre.Console.AnsiConsole.Console;
 }

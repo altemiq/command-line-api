@@ -15,13 +15,13 @@ public class DelegateCommandLineActionTests
     [Arguments(Action.Asynchronous)]
     public async Task SynchronousDelegate(Action action)
     {
-        Command command = CommandExtensions.SetAction(new Command("command") { new Command("subcommand") }, action);
+        Command command = new Command("command") { new Command("subcommand") }.SetAction(action);
 
         bool value = default;
-        DelegateCommandLineAction.SetHandlers(command, parseResult => value = true);
+        DelegateCommandLineAction.SetHandlers(command, _ => value = true);
 
         CommandLineConfiguration configuration = new(command);
-        _ = configuration.Invoke(string.Empty);
+        _ = await configuration.InvokeAsync(string.Empty);
 
         _ = await Assert.That(value).IsTrue();
     }
@@ -31,10 +31,10 @@ public class DelegateCommandLineActionTests
     [Arguments(Action.Asynchronous)]
     public async Task AsynchronousDelegate(Action action)
     {
-        Command command = CommandExtensions.SetAction(new Command("command") { new Command("subcommand") }, action);
+        Command command = new Command("command") { new Command("subcommand") }.SetAction(action);
 
         bool value = default;
-        DelegateCommandLineAction.SetHandlers(command, (parseResult, cancellationToken) =>
+        DelegateCommandLineAction.SetHandlers(command, (_, _) =>
         {
             value = true;
             return Task.CompletedTask;
@@ -52,10 +52,10 @@ public class DelegateCommandLineActionTests
         [Matrix(Action.None, Action.Synchronous, Action.Asynchronous)] Action action,
         [Matrix(true, false)] bool preferSynchronous)
     {
-        Command command = CommandExtensions.SetAction(new Command("command") { new Command("subcommand") }, action);
+        Command command = new Command("command") { new Command("subcommand") }.SetAction(action);
 
         bool value = default;
-        DelegateCommandLineAction.SetHandlers(command, _ => value = true, (parseResult, cancellationToken) =>
+        DelegateCommandLineAction.SetHandlers(command, _ => value = true, (_, _) =>
         {
             value = true;
             return Task.CompletedTask;

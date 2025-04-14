@@ -115,7 +115,7 @@ public static partial class HostingExtensions
             configuration.RootCommand,
             _ => hostBuilderFactory(),
             static builder => builder.Build(),
-            (parseResult, builder) => builder.ConfigureAppConfiguration((_, builder) => configure(parseResult, builder)));
+            (parseResult, builder) => builder.ConfigureAppConfiguration((_, b) => configure(parseResult, b)));
 
         return configuration;
     }
@@ -138,7 +138,7 @@ public static partial class HostingExtensions
             configuration.RootCommand,
             parseResult => hostBuilderFactory(parseResult?.UnmatchedTokens.ToArray() ?? []),
             static builder => builder.Build(),
-            (parseResult, builder) => builder.ConfigureAppConfiguration((_, builder) => configure(parseResult, builder)));
+            (parseResult, builder) => builder.ConfigureAppConfiguration((_, b) => configure(parseResult, b)));
 
         return configuration;
     }

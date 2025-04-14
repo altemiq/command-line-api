@@ -27,10 +27,10 @@ public static class PromptExtensions
         }
 
         var confirmationPrompt = new ConfirmationPrompt(prompt);
-        if (option.HasDefaultValue && option.DefaultValueFactory is { } defaultValueFactory)
+        if (option is { HasDefaultValue: true, DefaultValueFactory: { } defaultValueFactory })
         {
             _ = confirmationPrompt.ShowDefaultValue();
-            confirmationPrompt.DefaultValue = defaultValueFactory(default!)!;
+            confirmationPrompt.DefaultValue = defaultValueFactory(default!);
         }
 
         return confirmationPrompt.Show(console.GetValueOrDefault());
@@ -66,7 +66,7 @@ public static class PromptExtensions
                 ? GetFlagValue(option, prompt, console)
                 : GetValue(option, prompt, console);
 
-            static TEnum GetFlagValue(global::System.CommandLine.Option<TEnum> option, string prompt, IAnsiConsole console)
+            static TEnum GetFlagValue(Option<TEnum> option, string prompt, IAnsiConsole console)
             {
                 // flags, cal select multiple
                 var multiSelectionPrompt = new MultiSelectionPrompt<TEnum> { Title = prompt, };
@@ -120,7 +120,7 @@ public static class PromptExtensions
                 }
             }
 
-            static TEnum GetValue(global::System.CommandLine.Option<TEnum> option, string prompt, IAnsiConsole console)
+            static TEnum GetValue(Option<TEnum> option, string prompt, IAnsiConsole console)
             {
                 var selectionPrompt = new SelectionPrompt<TEnum> { Title = prompt };
                 _ = selectionPrompt.AddChoices(GetChoices(option.CompletionSources, Parse));
@@ -129,7 +129,7 @@ public static class PromptExtensions
 
             static TEnum Parse(string value)
             {
-                return (TEnum)Enum.Parse(typeof(TEnum), value)!;
+                return (TEnum)Enum.Parse(typeof(TEnum), value);
             }
         }
 
@@ -137,7 +137,7 @@ public static class PromptExtensions
         {
             var textPrompt = new TextPrompt<T>(prompt) { ShowDefaultValue = false, ShowChoices = false };
 
-            if (option.HasDefaultValue && option.DefaultValueFactory is { } defaultValueFactory)
+            if (option is { HasDefaultValue: true, DefaultValueFactory: { } defaultValueFactory })
             {
                 _ = textPrompt
                     .ShowDefaultValue()

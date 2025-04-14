@@ -2,7 +2,7 @@
   <Import Project="$([MSBuild]::GetPathOfFileAbove('$(MSBuildThisFile)', '$(MSBuildThisFileDirectory)../'))" />
 
   <ItemGroup>
-    <PackageVersion Include="Spectre.Console" Version="0.49.1" />
+    <PackageVersion Include="Spectre.Console" Version="0.50.0" />
     <PackageVersion Include="System.CommandLine" Version="2.0.0-beta4.25072.1" />
   </ItemGroup>
 
@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net9.0'))">
-    <PackageVersion Update="System.Text.Json" Version="9.0.2" />
+    <PackageVersion Update="System.Text.Json" Version="9.0.4" />
   </ItemGroup>
 
 </Project>

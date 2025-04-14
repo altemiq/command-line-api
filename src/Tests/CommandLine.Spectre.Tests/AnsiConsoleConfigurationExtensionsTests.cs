@@ -15,7 +15,7 @@ public class AnsiConsoleConfigurationExtensionsTests
 
         CommandLineConfiguration configuration = new CommandLineConfiguration(new RootCommand()).AddFiglet("value", Color.Blue, console);
 
-        _ = configuration.Parse("--help").Invoke();
+        _ = await configuration.Parse("--help").InvokeAsync();
 
         _ = await Assert.That(console.Lines.Skip(1)).IsNotEmpty();
     }

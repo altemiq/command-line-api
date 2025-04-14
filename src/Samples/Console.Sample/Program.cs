@@ -57,9 +57,9 @@ configuration
 #if NET8_0_OR_GREATER
     .UseApplicationHost((parseResult, builder) =>
     {
-        if (parseResult is { Configuration: { } configuration })
+        if (parseResult is { Configuration: { } parseResultConfiguration })
         {
-            builder.Logging.AddCommandLineConfiguration(configuration);
+            builder.Logging.AddCommandLineConfiguration(parseResultConfiguration);
         }
     })
 #else

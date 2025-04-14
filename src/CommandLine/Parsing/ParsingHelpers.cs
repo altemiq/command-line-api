@@ -21,20 +21,20 @@ internal static class ParsingHelpers
     /// <returns>The single item.</returns>
     public static T ReturnSingle<T>(IEnumerable<T> values, Func<Exception> multipleException, Func<Exception> noneException)
     {
-        var enumerator = values.GetEnumerator();
-        if (enumerator.MoveNext())
+        using var enumerator = values.GetEnumerator();
+        if (!enumerator.MoveNext())
         {
-            var uri = enumerator.Current;
-            if (enumerator.MoveNext())
-            {
-                // throw exception as we have multiple
-                throw multipleException();
-            }
-
-            return uri;
+            // throw exception as there were none
+            throw noneException();
         }
 
-        // throw exception as there were none.
-        throw noneException();
+        var uri = enumerator.Current;
+        if (enumerator.MoveNext())
+        {
+            // throw exception as we have multiple
+            throw multipleException();
+        }
+
+        return uri;
     }
 }

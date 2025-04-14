@@ -46,10 +46,7 @@ public class HelpCommandExtensionsTests
     {
         Help.HelpBuilder? builder = default;
         Command command = new(nameof(NestedCommand));
-        RootCommand rootCommand =
-        [
-            command,
-        ];
+        _ = new RootCommand { command };
 
         _ = command.ConfigureHelp(b => builder = b);
 

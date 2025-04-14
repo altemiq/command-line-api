@@ -82,26 +82,26 @@ public static class AnsiConsoleProgress
                 progressTask.StopTask();
             }
 
-            ProgressTask AddOrUpdate(AnsiConsoleProgressItem progressItem)
+            ProgressTask AddOrUpdate(AnsiConsoleProgressItem ansiConsoleProgressItem)
             {
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_0_OR_GREATER || NET472_OR_GREATER
                 var processTask = progressTasks.AddOrUpdate(
-                    progressItem.Name,
-                    static (key, state) => Create(key, state.Context, state.ConfigureTask),
+                    ansiConsoleProgressItem.Name,
+                    static (key, state) => CreateProgressTask(key, state.Context, state.ConfigureTask),
                     static (_, item, _) => item,
                     (Context: context!, ConfigureTask: configureTask));
 #else
                 var processTask = progressTasks.AddOrUpdate(
-                    progressItem.Name,
-                    key => Create(key, context!, configureTask),
+                    ansiConsoleProgressItem.Name,
+                    key => CreateProgressTask(key, context!, configureTask),
                     (_, item) => item);
 #endif
 
-                processTask.IsIndeterminate = double.IsInfinity(progressItem.Percentage);
+                processTask.IsIndeterminate = double.IsInfinity(ansiConsoleProgressItem.Percentage);
 
                 return processTask;
 
-                static ProgressTask Create(string key, ProgressContext context, Action<string, ProgressTaskSettings>? configureTask)
+                static ProgressTask CreateProgressTask(string key, ProgressContext context, Action<string, ProgressTaskSettings>? configureTask)
                 {
                     var options = new ProgressTaskSettings();
                     configureTask?.Invoke(key, options);
@@ -109,7 +109,7 @@ public static class AnsiConsoleProgress
                 }
             }
 
-            void EnsureContext(AnsiConsoleProgressItem progressItem)
+            void EnsureContext(AnsiConsoleProgressItem ansiConsoleProgressItem)
             {
                 if (context is not null)
                 {
@@ -129,7 +129,7 @@ public static class AnsiConsoleProgress
                             context = ctx;
 
                             // add the first task
-                            _ = AddOrUpdate(progressItem);
+                            _ = AddOrUpdate(ansiConsoleProgressItem);
 
                             while (!progressTasks.Values.All(static progressTask => progressTask.IsFinished))
                             {
@@ -147,7 +147,7 @@ public static class AnsiConsoleProgress
                 }
             }
 
-            void UpdateProgress(ProgressTask progressTask)
+            void UpdateProgress(ProgressTask progressTaskToUpdate)
             {
                 var currentUpdate = DateTime.UtcNow;
                 if (currentUpdate - lastUpdate > updateRate)
@@ -155,7 +155,7 @@ public static class AnsiConsoleProgress
                     lastUpdate = currentUpdate;
                     if (progressItem.Percentage is >= 0 and < double.PositiveInfinity)
                     {
-                        progressTask.Value = progressItem.Percentage;
+                        progressTaskToUpdate.Value = progressItem.Percentage;
                     }
                 }
             }
@@ -186,6 +186,6 @@ public static class AnsiConsoleProgress
 
     private static class Func<T>
     {
-        public static readonly Func<T, T> Return = new(static _ => _);
+        public static readonly Func<T, T> Return = static x => x;
     }
 }

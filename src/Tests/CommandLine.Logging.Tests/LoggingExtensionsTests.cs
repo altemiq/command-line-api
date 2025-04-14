@@ -6,7 +6,6 @@
 
 namespace System.CommandLine.Logging;
 
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using TUnit.Assertions.AssertConditions.Throws;
 
@@ -20,9 +19,9 @@ public class LoggingExtensionsTests
         CommandLineConfiguration configuration = new(new RootCommand());
         _ = configuration.AddLogging((parseResult, builder) =>
         {
-            if (parseResult?.Configuration is { } configuration)
+            if (parseResult?.Configuration is { } parseResultConfiguration)
             {
-                _ = builder.AddCommandLineConfiguration(configuration);
+                _ = builder.AddCommandLineConfiguration(parseResultConfiguration);
             }
         });
 
@@ -37,7 +36,7 @@ public class LoggingExtensionsTests
         var rootCommand = new RootCommand { command };
         var configuration = new CommandLineConfiguration(rootCommand);
         bool configureCalled = false;
-        configuration.AddLogging(configure => configureCalled = true);
+        configuration.AddLogging(_ => configureCalled = true);
 
         var parseResult = configuration.Parse("command");
         _ = await Assert.That(parseResult.CreateLogger("Test")).IsNotNull();
@@ -51,7 +50,7 @@ public class LoggingExtensionsTests
         int count = default;
         CommandLineConfiguration configuration = new(new RootCommand());
 
-        _ = await Task.WhenAll(Enumerable.Range(0, Total).Select(_ => Task.Run(() => configuration.AddLogging(builder => Interlocked.Increment(ref count)))));
+        _ = await Task.WhenAll(Enumerable.Range(0, Total).Select(_ => Task.Run(() => configuration.AddLogging(_ => Interlocked.Increment(ref count)))));
 
         // force getting the logger
         _ = configuration.Parse(string.Empty).GetLoggerFactory();

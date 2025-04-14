@@ -29,10 +29,10 @@ internal static class CommandLineActionHelpers
     {
         return command.Options
             .OfType<Help.HelpOption>()
-            .Select(GetHelpAction)
+            .Select(HelpActionFromOption)
             .FirstOrDefault(static action => action is not null);
 
-        static Help.HelpAction? GetHelpAction(Option option)
+        static Help.HelpAction? HelpActionFromOption(Option option)
         {
             return GetHelpActionCore(option.Action);
 

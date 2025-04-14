@@ -127,7 +127,7 @@ public static class FileSystemGlobbingParser
                         directoryInfo = GetDirectoryInfo(directoryPath);
                     }
 
-                    foreach (var match in GetFiles(directoryInfo!, patternBuilder, pattern))
+                    foreach (var match in GetFiles(directoryInfo, patternBuilder, pattern))
                     {
                         yield return match;
                     }
@@ -158,7 +158,7 @@ public static class FileSystemGlobbingParser
                 }
 
                 var context = new Microsoft.Extensions.FileSystemGlobbing.Internal.MatcherContext(
-                    includePatterns.Select(includePattern => patternBuilder.Build(includePattern)),
+                    includePatterns.Select(patternBuilder.Build),
                     [],
                     directoryInfo,
                     patternBuilder.ComparisonType);

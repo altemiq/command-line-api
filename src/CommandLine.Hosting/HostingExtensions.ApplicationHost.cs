@@ -6,7 +6,6 @@
 
 namespace System.CommandLine.Hosting;
 
-using System.CommandLine.Invocation;
 using Microsoft.Extensions.Configuration.Memory;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -41,7 +40,7 @@ public static partial class HostingExtensions
             root.Add(new Directive(HostingDirectiveName));
         }
 
-        BuilderCommandLineAction.SetHandlers(
+        Invocation.BuilderCommandLineAction.SetHandlers(
             configuration.RootCommand,
             parseResult => CreateHostApplicationBuilder(configuration, hostBuilderFactory, parseResult),
             static builder => builder.Build(),

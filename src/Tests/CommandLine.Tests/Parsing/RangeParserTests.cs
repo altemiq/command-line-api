@@ -9,8 +9,8 @@ namespace System.CommandLine.Parsing;
 public class RangeParserTests
 {
     private const string RangeOptionName = "--range";
-    private static readonly Command argumentCommand = new("base") { new Argument<string>("RANGE") };
-    private static readonly Command optionCommand = new("base") { new Option<Range>(RangeOptionName) { CustomParser = RangeParser.Parse } };
+    private static readonly Command ArgumentCommand = new("base") { new Argument<string>("RANGE") };
+    private static readonly Command OptionCommand = new("base") { new Option<Range>(RangeOptionName) { CustomParser = RangeParser.Parse } };
 
     public static IEnumerable<Func<(string, Range)>> Ranges()
     {
@@ -35,14 +35,14 @@ public class RangeParserTests
     [MethodDataSource(nameof(Ranges))]
     public async Task ParseArgument(string input, Range expected)
     {
-        _ = await Assert.That(RangeParser.Parse(argumentCommand.Parse(input).CommandResult.Children.OfType<ArgumentResult>().First())).IsEqualTo(expected, RangeEqualityComparer.Instance);
+        _ = await Assert.That(RangeParser.Parse(ArgumentCommand.Parse(input).CommandResult.Children.OfType<ArgumentResult>().First())).IsEqualTo(expected, RangeEqualityComparer.Instance);
     }
 
     [Test]
     [MethodDataSource(nameof(Ranges))]
     public async Task ParseOption(string input, Range expected)
     {
-        _ = await Assert.That(optionCommand.Parse(RangeOptionName + " " + input).GetValue<Range>(RangeOptionName)).IsEqualTo(expected, RangeEqualityComparer.Instance);
+        _ = await Assert.That(OptionCommand.Parse(RangeOptionName + " " + input).GetValue<Range>(RangeOptionName)).IsEqualTo(expected, RangeEqualityComparer.Instance);
     }
 
     private class RangeEqualityComparer : IEqualityComparer<Range>
@@ -54,22 +54,7 @@ public class RangeParserTests
             return x.Equals(y);
         }
 
-        public int GetHashCode([Diagnostics.CodeAnalysis.DisallowNull] Range obj)
-        {
-            return obj.GetHashCode();
-        }
-    }
-
-    private class IndexEqualityComparer : IEqualityComparer<Index>
-    {
-        public static readonly IndexEqualityComparer Instance = new();
-
-        public bool Equals(Index x, Index y)
-        {
-            return x.Equals(y);
-        }
-
-        public int GetHashCode([Diagnostics.CodeAnalysis.DisallowNull] Index obj)
+        public int GetHashCode(Range obj)
         {
             return obj.GetHashCode();
         }

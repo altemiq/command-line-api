@@ -131,7 +131,7 @@ public class ExtensionMethodsTests
         };
 
         ParseResult parsedConfiguration = configuration.Parse("--help");
-        int result = parsedConfiguration.Invoke();
+        _ = await parsedConfiguration.InvokeAsync();
         _ = await Assert.That(commandFromOptionDefault).IsNotNull();
     }
 
@@ -157,7 +157,7 @@ public class ExtensionMethodsTests
         };
 
         ParseResult parsedConfiguration = configuration.Parse("--help");
-        int result = parsedConfiguration.Invoke();
+        _ = await parsedConfiguration.InvokeAsync();
         _ = await Assert.That(commandFromOptionDefault).IsNotNull();
     }
 

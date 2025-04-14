@@ -43,11 +43,11 @@ public static class RangeParser
         var endSpan = span[(index + Separator.Length)..];
 
         var startIndex = startSpan.Length == 0
-            ? System.Index.Start
+            ? Index.Start
             : IndexParser.Parse(startSpan);
 
         var endIndex = endSpan.Length is 0
-            ? System.Index.End
+            ? Index.End
             : IndexParser.Parse(endSpan);
 
         return new Range(startIndex, endIndex);

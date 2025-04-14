@@ -6,7 +6,6 @@
 
 namespace System.CommandLine.Logging;
 
-using System.CommandLine;
 using Microsoft.Extensions.Logging;
 
 public class LoggingBuilderExtensionsTests

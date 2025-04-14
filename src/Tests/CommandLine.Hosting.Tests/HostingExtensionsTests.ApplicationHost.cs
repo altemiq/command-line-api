@@ -22,22 +22,18 @@ public partial class HostingExtensionsTests
         rootCommand.SetAction(parseResult => host = parseResult.GetHost());
 
         CommandLineConfiguration configuration = new(rootCommand);
-        _ = configuration.UseApplicationHost(configureHost: static (parseResult, configure) => configure.Services.ConfigureInvocationLifetime(opts => opts.SuppressStatusMessages = Value));
+        _ = configuration.UseApplicationHost(configureHost: static (_, configure) => configure.Services.ConfigureInvocationLifetime(opts => opts.SuppressStatusMessages = Value));
 
-        _ = configuration.Invoke([]);
+        _ = await configuration.InvokeAsync([]);
         _ = await Assert.That(host).IsAssignableTo<Microsoft.Extensions.Hosting.IHost>().And
             .Satisfies(
                 static host => host.Services.GetService<Microsoft.Extensions.Hosting.IHostLifetime>(),
-                hostLifeTime =>
-                {
-                    TUnit.Assertions.AssertionBuilders.InvokableValueAssertionBuilder<Microsoft.Extensions.Hosting.IHostLifetime?> assertionBuilder = hostLifeTime.IsNotNull();
-                    _ = assertionBuilder.And
-                        .IsTypeOf<InvocationLifetime>().And
-                        .Satisfies(
-                            static invocationLifetime => invocationLifetime.Options.SuppressStatusMessages,
-                            suppressStatusMessages => suppressStatusMessages.IsEqualTo(Value));
-                    return assertionBuilder;
-                });
+                hostLifeTime => hostLifeTime.IsNotNull().And
+                    .IsTypeOf<InvocationLifetime>().And
+                    .Satisfies(
+                        static invocationLifetime => invocationLifetime.Options.SuppressStatusMessages,
+                        suppressStatusMessages => suppressStatusMessages.IsEqualTo(Value)).And
+                    .IsAssignableTo<Microsoft.Extensions.Hosting.IHostLifetime?>());
     }
 
     [Test]
@@ -50,7 +46,7 @@ public partial class HostingExtensionsTests
         CommandLineConfiguration configuration = new(rootCommand);
         _ = configuration.UseApplicationHost();
 
-        _ = configuration.Invoke("[config:Key1=Value1] [config:Key2]");
+        _ = await configuration.InvokeAsync("[config:Key1=Value1] [config:Key2]");
         _ = await Assert.That(host).IsNotNull();
 
         ConfigurationManager? configurationManager = await Assert.That(host?.Services.GetService(typeof(IConfiguration))).IsTypeOf<ConfigurationManager>();
@@ -69,7 +65,7 @@ public partial class HostingExtensionsTests
         CommandLineConfiguration configuration = new(rootCommand);
         _ = configuration.UseApplicationHost();
 
-        _ = configuration.Invoke(string.Empty);
+        _ = await configuration.InvokeAsync(string.Empty);
 
         _ = await Assert.That(hostApplicationLifetime).IsNotNull();
     }

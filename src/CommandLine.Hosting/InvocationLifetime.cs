@@ -140,16 +140,16 @@ public
     }
 
 #if NET6_0_OR_GREATER
-    [Microsoft.Extensions.Logging.LoggerMessage(1, LogLevel.Information, "Application started. Press Ctrl+C to shut down.")]
+    [LoggerMessage(1, LogLevel.Information, "Application started. Press Ctrl+C to shut down.")]
     private static partial void LogApplicationStarted(ILogger logger, Exception exception);
 
-    [Microsoft.Extensions.Logging.LoggerMessage(2, LogLevel.Information, "Hosting environment: {EnvName}")]
+    [LoggerMessage(2, LogLevel.Information, "Hosting environment: {EnvName}")]
     private static partial void LogHostingEnvironment(ILogger logger, string envName, Exception exception);
 
-    [Microsoft.Extensions.Logging.LoggerMessage(3, LogLevel.Information, "Content root path: {ContentRoot}")]
+    [LoggerMessage(3, LogLevel.Information, "Content root path: {ContentRoot}")]
     private static partial void LogContentRootPath(ILogger logger, string contentRoot, Exception exception);
 
-    [Microsoft.Extensions.Logging.LoggerMessage(4, LogLevel.Information, "Application is shutting down...")]
+    [LoggerMessage(4, LogLevel.Information, "Application is shutting down...")]
     private static partial void LogApplicationStopping(ILogger logger, Exception exception);
 #endif
 

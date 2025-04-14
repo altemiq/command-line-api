@@ -14,12 +14,12 @@ public class InstanceCommandLineActionTests
     [Arguments(Action.Asynchronous)]
     public async Task Instance(Action action)
     {
-        Command command = CommandExtensions.SetAction(new Command("command") { new Command("subcommand") }, action);
+        Command command = new Command("command") { new Command("subcommand") }.SetAction(action);
 
-        InstanceCommandLineAction.SetHandlers(command, parseResult => new object());
+        InstanceCommandLineAction.SetHandlers(command, _ => new object());
 
         CommandLineConfiguration configuration = new(command);
-        _ = configuration.Invoke(string.Empty);
+        _ = await configuration.InvokeAsync(string.Empty);
 
         _ = await Assert.That(InstanceCommandLineAction.GetInstance<object>(command)).IsNotNull();
     }
@@ -30,14 +30,14 @@ public class InstanceCommandLineActionTests
     [Arguments(Action.Asynchronous)]
     public async Task InstanceWithSynchronousBeforeAfter(Action action)
     {
-        Command command = CommandExtensions.SetAction(new Command("command") { new Command("subcommand") }, action);
+        Command command = new Command("command") { new Command("subcommand") }.SetAction(action);
         bool after = false;
         bool before = false;
 
         InstanceCommandLineAction.SetHandlers(command, _ => new object(), (_, _) => before = true, (_, _) => after = true);
 
         CommandLineConfiguration configuration = new(command);
-        _ = configuration.Invoke(string.Empty);
+        _ = await configuration.InvokeAsync(string.Empty);
 
         _ = await Assert.That(InstanceCommandLineAction.GetInstance<object>(command)).IsNotNull();
         _ = await Assert.That(before).IsTrue();
@@ -50,14 +50,14 @@ public class InstanceCommandLineActionTests
     [Arguments(Action.Asynchronous)]
     public async Task InstanceWithAsynchronousBeforeAfter(Action action)
     {
-        Command command = CommandExtensions.SetAction(new Command("command") { new Command("subcommand") }, action);
+        Command command = new Command("command") { new Command("subcommand") }.SetAction(action);
         bool after = false;
         bool before = false;
 
         InstanceCommandLineAction.SetHandlers(command, _ => new object(), (_, _, _) => Task.FromResult(before = true), (_, _, _) => Task.FromResult(after = true));
 
         CommandLineConfiguration configuration = new(command);
-        _ = configuration.Invoke(string.Empty);
+        _ = await configuration.InvokeAsync(string.Empty);
 
         _ = await Assert.That(InstanceCommandLineAction.GetInstance<object>(command)).IsNotNull();
         _ = await Assert.That(before).IsTrue();

@@ -11,15 +11,17 @@ internal static class CommandExtensions
     public static T SetAction<T>(this T command, Action action)
         where T : Command
     {
-        if (action == Action.Synchronous)
+        switch (action)
         {
-            command.SetAction(_ => { });
+            case Action.Synchronous:
+                command.SetAction(_ => { });
+                return command;
+            case Action.Asynchronous:
+                command.SetAction((_, _) => Task.CompletedTask);
+                return command;
+            case Action.None:
+            default:
+                return command;
         }
-        else if (action == Action.Asynchronous)
-        {
-            command.SetAction((_, _) => Task.CompletedTask);
-        }
-
-        return command;
     }
 }
