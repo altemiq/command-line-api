@@ -101,7 +101,7 @@
       "commandline": {
         "type": "Project",
         "dependencies": {
-          "System.CommandLine": "[2.0.0-beta5.25256.1, )"
+          "System.CommandLine": "[2.0.0-beta5.25170.1, )"
         }
       },
       "Microsoft.Extensions.DependencyModel": {
@@ -220,7 +220,7 @@
       "commandline": {
         "type": "Project",
         "dependencies": {
-          "System.CommandLine": "[2.0.0-beta5.25256.1, )"
+          "System.CommandLine": "[2.0.0-beta5.25170.1, )"
         }
       },
       "Microsoft.Extensions.DependencyModel": {

@@ -108,7 +108,7 @@
         "type": "Project",
         "dependencies": {
           "Microsoft.Extensions.FileSystemGlobbing": "[2.1.0, )",
-          "System.CommandLine": "[2.0.0-beta5.25256.1, )"
+          "System.CommandLine": "[2.0.0-beta5.25170.1, )"
         }
       },
       "Microsoft.Extensions.DependencyModel": {
@@ -234,7 +234,7 @@
         "type": "Project",
         "dependencies": {
           "Microsoft.Extensions.FileSystemGlobbing": "[2.1.0, )",
-          "System.CommandLine": "[2.0.0-beta5.25256.1, )"
+          "System.CommandLine": "[2.0.0-beta5.25170.1, )"
         }
       },
       "Microsoft.Extensions.DependencyModel": {

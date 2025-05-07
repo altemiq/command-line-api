@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.CommandLine" VersionOverride="2.0.0-beta5.25256.1" />
+    <PackageReference Include="System.CommandLine" VersionOverride="2.0.0-beta5.25170.1" />
   </ItemGroup>
 
   <ItemGroup>
