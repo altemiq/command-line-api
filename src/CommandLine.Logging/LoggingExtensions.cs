@@ -80,16 +80,16 @@ public static class LoggingExtensions
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_0_OR_GREATER || NET472_OR_GREATER
             _ = Configures.AddOrUpdate(
                 command,
-                static (command, configure) =>
+                static (input, configure) =>
                 {
                     var configurer = new Configurer();
                     configurer.Add(configure);
-                    Invocation.InstanceCommandLineAction.SetHandlers(command, Create);
+                    Invocation.InstanceCommandLineAction.SetHandlers(input, Create);
                     return configurer;
 
                     ILoggerFactory Create(ParseResult parseResult)
                     {
-                        return CreateWithCommand(command, parseResult);
+                        return CreateWithCommand(input, parseResult);
                     }
                 },
                 static (_, configurer, configure) =>
@@ -101,16 +101,16 @@ public static class LoggingExtensions
 #else
             _ = Configures.AddOrUpdate(
                 command,
-                command =>
+                input =>
                 {
                     var configurer = new Configurer();
                     configurer.Add(configure);
-                    Invocation.InstanceCommandLineAction.SetHandlers(command, Create);
+                    Invocation.InstanceCommandLineAction.SetHandlers(input, Create);
                     return configurer;
 
                     ILoggerFactory Create(ParseResult parseResult)
                     {
-                        return CreateWithCommand(command, parseResult);
+                        return CreateWithCommand(input, parseResult);
                     }
                 },
                 (_, configurer) =>

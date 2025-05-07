@@ -6,7 +6,7 @@ This package adds support for `Spectre.Console`
 
 This allows prompting for a value when it is not provided on the command line.
 
-This has support for `Enum` (with or without `[Flags]`), primitve types, and anything that has a converter from `string`.
+This has support for `Enum` (with or without `[Flags]`), primitive types, and anything that has a converter from `string`.
 
 ```csharp
 var value = parseResult.GetValueOrPrompt(option, "Enter/Select the value");

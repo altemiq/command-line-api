@@ -18,8 +18,7 @@ namespace System.CommandLine.Logging;
 internal sealed class CommandLineConfigurationLoggerProvider(CommandLineConfiguration configuration, IEqualityComparer<string> comparer) : ILoggerProvider, ISupportExternalScope
 {
     private readonly Collections.Concurrent.ConcurrentDictionary<string, CommandLineConfigurationLogger> loggers = new(comparer);
-    private readonly CommandLineConfiguration configuration = configuration;
-    private IExternalScopeProvider scopeProvider = Internal.NullExternalScopeProvider.Instance;
+    private IExternalScopeProvider externalScopeProvider = Internal.NullExternalScopeProvider.Instance;
 
     /// <summary>
     /// Initialises a new instance of the <see cref="CommandLineConfigurationLoggerProvider"/> class.
@@ -33,14 +32,16 @@ internal sealed class CommandLineConfigurationLoggerProvider(CommandLineConfigur
     /// <inheritdoc/>
     public ILogger CreateLogger(string categoryName) =>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_0_OR_GREATER || NET472_OR_GREATER
-        this.loggers.GetOrAdd(categoryName, static (_, values) => new CommandLineConfigurationLogger(values.configuration, values.scopeProvider), (this.configuration, this.scopeProvider));
+        this.loggers.GetOrAdd(categoryName, static (_, values) => new CommandLineConfigurationLogger(values.configuration, values.scopeProvider), (configuration, scopeProvider: this.externalScopeProvider));
 #else
-        this.loggers.GetOrAdd(categoryName, _ => new CommandLineConfigurationLogger(this.configuration, this.scopeProvider));
+        this.loggers.GetOrAdd(categoryName, _ => new CommandLineConfigurationLogger(configuration, this.externalScopeProvider));
 #endif
 
     /// <inheritdoc/>
-    public void Dispose() => GC.SuppressFinalize(this);
+    public void Dispose()
+    {
+    }
 
     /// <inheritdoc/>
-    public void SetScopeProvider(IExternalScopeProvider scopeProvider) => this.scopeProvider = scopeProvider;
+    public void SetScopeProvider(IExternalScopeProvider scopeProvider) => this.externalScopeProvider = scopeProvider;
 }

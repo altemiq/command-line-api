@@ -74,22 +74,22 @@ public static class AnsiConsoleCommandExtensions
     private static T AddFiglet<T>(T command, Func<FigletText> getText, IAnsiConsole? console = default)
         where T : Command
     {
-        if (Internal.CommandLineActionHelpers.GetHelpAction((Symbol)command) is { } helpAction)
+        if (Internal.CommandLineActionHelpers.GetHelpAction((Symbol)command) is not { } helpAction)
         {
-            helpAction.Builder.CustomizeLayout(_ => Help.HelpBuilder.Default.GetLayout().Prepend(helpContext =>
-            {
-                if (helpContext.Command != command)
-                {
-                    return false;
-                }
-
-                console.GetValueOrDefault().Write(getText());
-                return true;
-            }));
-
-            return command;
+            throw new InvalidOperationException(Spectre.Properties.Resources.HelpCommandNotFound);
         }
 
-        throw new InvalidOperationException(Spectre.Properties.Resources.HelpCommandNotFound);
+        helpAction.Builder.CustomizeLayout(_ => Help.HelpBuilder.Default.GetLayout().Prepend(helpContext =>
+        {
+            if (helpContext.Command != command)
+            {
+                return false;
+            }
+
+            console.GetValueOrDefault().Write(getText());
+            return true;
+        }));
+
+        return command;
     }
 }

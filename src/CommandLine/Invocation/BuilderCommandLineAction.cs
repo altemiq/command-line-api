@@ -66,27 +66,27 @@ public static class BuilderCommandLineAction
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_0_OR_GREATER || NET472_OR_GREATER
         _ = Configures.AddOrUpdate(
             (command, typeof(TBuilder), typeof(TInstance)),
-            (_, state) =>
+            static (key, state) =>
             {
                 var configurer = new Configurer();
                 configurer.Add(state.Configure);
-                state.SetHandler(Create);
+                state.SetHandler(parseResult => Create(parseResult, key.Item1, state.CreateBuilder, state.BuildInstance));
                 return configurer;
             },
-            (_, configurer, state) =>
+            static (_, configurer, state) =>
             {
                 configurer.Add(state.Configure);
                 return configurer;
             },
-            (Configure: configure, SetHandler: setHandler));
+            (CreateBuilder: createBuilder, BuildInstance: buildInstance, Configure: configure, SetHandler: setHandler));
 #else
         _ = Configures.AddOrUpdate(
             (command, typeof(TBuilder), typeof(TInstance)),
-            _ =>
+            key =>
             {
                 var configurer = new Configurer();
                 configurer.Add(configure);
-                setHandler(Create);
+                setHandler(parseResult => Create(parseResult, key.Item1, createBuilder, buildInstance));
                 return configurer;
             },
             (_, configurer) =>
@@ -96,7 +96,7 @@ public static class BuilderCommandLineAction
             });
 #endif
 
-        TInstance Create(ParseResult? parseResult)
+        static TInstance Create(ParseResult? parseResult, Command command, Func<ParseResult?, TBuilder> createBuilder, Func<TBuilder, TInstance> buildInstance)
         {
             var builder = createBuilder(parseResult);
             if (Configures.TryGetValue((command, typeof(TBuilder), typeof(TInstance)), out var configurer))

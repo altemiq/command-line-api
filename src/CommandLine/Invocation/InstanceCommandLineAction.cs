@@ -159,7 +159,6 @@ public static class InstanceCommandLineAction
 
     private sealed class InstanceSynchronousCommandLineAction<TInstance>(Func<ParseResult, TInstance> create, Action<ParseResult, TInstance> beforeInvoke, Action<ParseResult, TInstance> afterInvoke) : SynchronousCommandLineAction, IInstance<TInstance>
     {
-        private readonly Func<ParseResult, TInstance> create = create;
         private TInstance? instance;
 
         public override int Invoke(ParseResult parseResult)
@@ -176,12 +175,11 @@ public static class InstanceCommandLineAction
             return this.instance!;
         }
 
-        private void EnsureInstance(ParseResult? parseResult) => this.instance ??= this.create(parseResult!);
+        private void EnsureInstance(ParseResult? parseResult) => this.instance ??= create(parseResult!);
     }
 
     private sealed class InstanceAsynchronousCommandLineAction<TInstance>(Func<ParseResult, TInstance> create, Func<ParseResult, TInstance, CancellationToken, Task> beforeInvoke, Func<ParseResult, TInstance, CancellationToken, Task> afterInvoke) : AsynchronousCommandLineAction, IInstance<TInstance>
     {
-        private readonly Func<ParseResult, TInstance> create = create;
         private TInstance? instance;
 
         public override async Task<int> InvokeAsync(ParseResult parseResult, CancellationToken cancellationToken = default)
@@ -198,7 +196,7 @@ public static class InstanceCommandLineAction
             return this.instance!;
         }
 
-        private void EnsureInstance(ParseResult? parseResult) => this.instance ??= this.create(parseResult!);
+        private void EnsureInstance(ParseResult? parseResult) => this.instance ??= create(parseResult!);
     }
 
     private sealed class InstanceNestedAsynchronousCommandLineAction<TInstance>(Func<ParseResult, TInstance> create, AsynchronousCommandLineAction action, Func<ParseResult, TInstance, CancellationToken, Task> beforeInvoke, Func<ParseResult, TInstance, CancellationToken, Task> afterInvoke)
@@ -207,7 +205,6 @@ public static class InstanceCommandLineAction
             (asynchronousCommandLineAction, parseResult, cancellationToken) => beforeInvoke(parseResult, ThrowIfNull(GetInstanceFromAction<TInstance>(parseResult, asynchronousCommandLineAction)), cancellationToken),
             (asynchronousCommandLineAction, parseResult, cancellationToken) => afterInvoke(parseResult, ThrowIfNull(GetInstanceFromAction<TInstance>(parseResult, asynchronousCommandLineAction)), cancellationToken)), IInstance<TInstance>
     {
-        private readonly Func<ParseResult, TInstance> create = create;
         private TInstance? instance;
 
         public override Task<int> InvokeAsync(ParseResult parseResult, CancellationToken cancellationToken = default)
@@ -222,7 +219,7 @@ public static class InstanceCommandLineAction
             return this.instance!;
         }
 
-        private void EnsureInstance(ParseResult? parseResult) => this.instance ??= this.create(parseResult!);
+        private void EnsureInstance(ParseResult? parseResult) => this.instance ??= create(parseResult!);
     }
 
     private sealed class InstanceNestedSynchronousCommandLineAction<TInstance>(Func<ParseResult, TInstance> create, SynchronousCommandLineAction actualAction, Action<ParseResult, TInstance> beforeInvoke, Action<ParseResult, TInstance> afterInvoke)
@@ -231,7 +228,6 @@ public static class InstanceCommandLineAction
             (action, parseResult) => beforeInvoke(parseResult, ThrowIfNull(GetInstanceFromAction<TInstance>(parseResult, action))),
             (action, parseResult) => afterInvoke(parseResult, ThrowIfNull(GetInstanceFromAction<TInstance>(parseResult, action)))), IInstance<TInstance>
     {
-        private readonly Func<ParseResult, TInstance> create = create;
         private TInstance? instance;
 
         public override int Invoke(ParseResult parseResult)
@@ -246,6 +242,6 @@ public static class InstanceCommandLineAction
             return this.instance!;
         }
 
-        private void EnsureInstance(ParseResult? parseResult) => this.instance ??= this.create(parseResult!);
+        private void EnsureInstance(ParseResult? parseResult) => this.instance ??= create(parseResult!);
     }
 }
