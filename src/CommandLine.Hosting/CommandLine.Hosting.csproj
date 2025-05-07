@@ -36,7 +36,6 @@
   <ItemGroup>
     <ProjectReference Include="..\CommandLine.FileSystemGlobbing\CommandLine.FileSystemGlobbing.csproj" />
     <ProjectReference Include="..\CommandLine.Logging\CommandLine.Logging.csproj" />
-    <ProjectReference Include="..\CommandLine\CommandLine.csproj" />
   </ItemGroup>
 
   <ItemGroup>
