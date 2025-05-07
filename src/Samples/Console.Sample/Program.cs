@@ -17,34 +17,37 @@ root.SetAction(parseResult =>
 {
     var exception = new InvalidOperationException("This is an exception!");
     var logger = parseResult.CreateLogger<Program>();
-    LogTrace(logger, "parseResult", null!);
-    LogDebug(logger, "parseResult", null!);
-    LogInformation(logger, "parseResult", null!);
-    LogWarning(logger, "parseResult", null!);
-    LogError(logger, "parseResult", exception);
+    LogTrace(logger, nameof(parseResult), null!);
+    LogDebug(logger, nameof(parseResult), null!);
+    LogInformation(logger, nameof(parseResult), null!);
+    LogWarning(logger, nameof(parseResult), null!);
+    LogError(logger, nameof(parseResult), exception);
 
     var host = parseResult.GetHost()!;
     logger = host.Services.GetRequiredService<ILogger<Program>>();
-    LogTrace(logger, "host", null!);
-    LogDebug(logger, "host", null!);
-    LogInformation(logger, "host", null!);
-    LogWarning(logger, "host", null!);
-    LogError(logger, "host", exception);
+    LogTrace(logger, nameof(host), null!);
+    LogDebug(logger, nameof(host), null!);
+    LogInformation(logger, nameof(host), null!);
+    LogWarning(logger, nameof(host), null!);
+    LogError(logger, nameof(host), exception);
 
     // do some tasks
     var ansiConsoleProgress = AnsiConsoleProgress.Create<(string Name, double Percentage)>(Spectre.Console.AnsiConsole.Console, static x => new AnsiConsoleProgressItem(x.Name, x.Percentage), new AnsiConsoleProgressOptions { UpdateRate = TimeSpan.FromMilliseconds(50) });
     IProgress<(string Name, double Percentage)> progress = ansiConsoleProgress;
 
-    progress.Report(new("Unknown Length Task", double.PositiveInfinity));
-    progress.Report(new("Known Length Task", 0));
+    const string UnknownLengthTask = "Unknown Length Task";
+    const string KnownLengthTask = "Known Length Task";
+
+    progress.Report(new(UnknownLengthTask, double.PositiveInfinity));
+    progress.Report(new(KnownLengthTask, 0));
 
     for (var i = 1; i <= 100; i++)
     {
         Thread.Sleep(100);
-        progress.Report(new("Known Length Task", i));
+        progress.Report(new(KnownLengthTask, i));
     }
 
-    progress.Report(("Unknown Length Task", double.NaN));
+    progress.Report((UnknownLengthTask, double.NaN));
 
     while (!ansiConsoleProgress.IsComplete)
     {

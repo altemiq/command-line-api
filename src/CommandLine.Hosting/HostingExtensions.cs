@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 /// <summary>
 /// See <see cref="Microsoft.Extensions.Hosting"/> extensions.
 /// </summary>
+[Diagnostics.CodeAnalysis.SuppressMessage("ReSharper", "MemberCanBePrivate.Global", Justification = "Public API")]
 public static partial class HostingExtensions
 {
     private const string HostingDirectiveName = "config";

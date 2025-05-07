@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 /// <summary>
 /// The <see cref="IServiceProvider"/> extensions.
 /// </summary>
+[Diagnostics.CodeAnalysis.SuppressMessage("ReSharper", "MemberCanBePrivate.Global", Justification = "Public API")]
 public static class ServicesExtensions
 {
     /// <summary>

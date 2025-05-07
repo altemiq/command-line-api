@@ -25,6 +25,7 @@ internal static class CommandLineActionHelpers
     /// </summary>
     /// <param name="command">The command.</param>
     /// <returns>The help action.</returns>
+    [Diagnostics.CodeAnalysis.SuppressMessage("ReSharper", "MemberCanBePrivate.Global", Justification = "Public API")]
     public static Help.HelpAction? GetHelpAction(Command command)
     {
         return command.Options

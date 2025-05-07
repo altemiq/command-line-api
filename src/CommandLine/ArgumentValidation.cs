@@ -17,6 +17,7 @@ public static class ArgumentValidation
     /// <param name="argument">The argument.</param>
     /// <param name="scheme">The required scheme.</param>
     /// <returns>The input argument.</returns>
+    [Diagnostics.CodeAnalysis.SuppressMessage("ReSharper", "MemberCanBePrivate.Global", Justification = "Public API")]
     public static Argument<Uri> AcceptScheme(this Argument<Uri> argument, string scheme)
     {
         argument.Validators.Add(result =>

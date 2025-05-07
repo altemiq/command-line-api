@@ -9,6 +9,7 @@ namespace System.CommandLine.Hosting;
 /// <content>
 /// The <see cref="HostingExtensions"/> for <see cref="IServiceProvider"/>.
 /// </content>
+[Diagnostics.CodeAnalysis.SuppressMessage("ReSharper", "MemberCanBePrivate.Global", Justification = "Public API")]
 public static partial class HostingExtensions
 {
     /// <summary>

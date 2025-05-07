@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 /// <summary>
 /// The <see cref="IConfiguration"/> extensions.
 /// </summary>
+[Diagnostics.CodeAnalysis.SuppressMessage("ReSharper", "MemberCanBePrivate.Global", Justification = "Public API")]
 public static class ConfigurationExtensions
 {
     /// <summary>

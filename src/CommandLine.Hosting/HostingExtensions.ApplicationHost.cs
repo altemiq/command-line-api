@@ -12,6 +12,9 @@ using Microsoft.Extensions.DependencyInjection;
 /// <content>
 /// The <see cref="Microsoft.Extensions.Hosting.HostApplicationBuilder"/> extensions.
 /// </content>
+#if NET8_0_OR_GREATER
+[Diagnostics.CodeAnalysis.SuppressMessage("ReSharper", "MemberCanBePrivate.Global", Justification = "Public API")]
+#endif
 public static partial class HostingExtensions
 {
     /// <summary>

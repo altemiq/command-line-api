@@ -29,6 +29,7 @@ public sealed class VerbosityOption : Option<VerbosityOptions>
     /// </summary>
     /// <param name="name">The name of the option. It's used for parsing, displaying Help and creating parse errors.</param>>
     /// <param name="aliases">Optional aliases. Used for parsing, suggestions and displayed in Help.</param>
+    [Diagnostics.CodeAnalysis.SuppressMessage("ReSharper", "MemberCanBePrivate.Global", Justification = "Public API")]
     public VerbosityOption(string name, params string[] aliases)
         : base(name, aliases)
     {

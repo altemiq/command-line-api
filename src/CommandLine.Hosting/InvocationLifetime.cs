@@ -19,6 +19,8 @@ using IHostEnvironment = Microsoft.Extensions.Hosting.IHostingEnvironment;
 /// <summary>
 /// The invocation lifetime.
 /// </summary>
+[Diagnostics.CodeAnalysis.SuppressMessage("ReSharper", "MemberCanBePrivate.Global", Justification = "Public API")]
+[Diagnostics.CodeAnalysis.SuppressMessage("ReSharper", "ClassWithVirtualMembersNeverInherited.Global", Justification = "Public API")]
 public
 #if NET6_0_OR_GREATER
     partial

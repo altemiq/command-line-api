@@ -9,6 +9,7 @@ namespace System.CommandLine.Parsing;
 /// <summary>
 /// <see cref="Microsoft.Extensions.FileSystemGlobbing" /> parsers for <see cref="Argument{T}.CustomParser"/> or <see cref="Option{T}.CustomParser"/>.
 /// </summary>
+[Diagnostics.CodeAnalysis.SuppressMessage("ReSharper", "MemberCanBePrivate.Global", Justification = "Public API")]
 public static class FileSystemGlobbingParser
 {
     /// <summary>

@@ -10,6 +10,7 @@ namespace System.CommandLine;
 /// Handler for <see cref="AnsiConsoleExtensions.Progress(IAnsiConsole)"/>.
 /// </summary>
 /// <typeparam name="T">The type of progress item.</typeparam>
+[Diagnostics.CodeAnalysis.SuppressMessage("ReSharper", "ClassWithVirtualMembersNeverInherited", Justification = "Public API")]
 public class AnsiConsoleProgress<T> : AnsiConsoleProgressBase, IProgress<T>
 {
     private readonly SynchronizationContext synchronizationContext;
