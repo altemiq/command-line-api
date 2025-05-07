@@ -129,16 +129,16 @@
           "TUnit.Core": "0.19.74"
         }
       },
-      "Altemiq.CommandLine": {
+      "commandline": {
         "type": "Project",
         "dependencies": {
           "System.CommandLine": "[2.0.0-beta5.25256.1, )"
         }
       },
-      "Altemiq.CommandLine.Spectre": {
+      "commandline.spectre": {
         "type": "Project",
         "dependencies": {
-          "Altemiq.CommandLine": "[1.0.0, )",
+          "CommandLine": "[1.0.0, )",
           "Spectre.Console": "[0.50.0, )"
         }
       },
@@ -286,16 +286,16 @@
           "TUnit.Core": "0.19.74"
         }
       },
-      "Altemiq.CommandLine": {
+      "commandline": {
         "type": "Project",
         "dependencies": {
           "System.CommandLine": "[2.0.0-beta5.25256.1, )"
         }
       },
-      "Altemiq.CommandLine.Spectre": {
+      "commandline.spectre": {
         "type": "Project",
         "dependencies": {
-          "Altemiq.CommandLine": "[1.0.0, )",
+          "CommandLine": "[1.0.0, )",
           "Spectre.Console": "[0.50.0, )"
         }
       },

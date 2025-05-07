@@ -53,7 +53,7 @@ Invocation.DelegateAction.SetHandlers(
     }
 ```
 
-### Instace action
+### Instance action
 
 This sets up a wrapping action, around the current action, that will create as instance before the main action.
 
