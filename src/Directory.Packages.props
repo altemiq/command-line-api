@@ -3,6 +3,10 @@
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
+  
+  <ItemGroup Label="Source Generators">
+    <PackageVersion Include="PolySharp" Version="1.15.0" />
+  </ItemGroup>
 
   <ItemGroup Label="Analyzers">
     <GlobalPackageReference Include="Altemiq.DotNet.CodingStandard" Version="1.0.79" />

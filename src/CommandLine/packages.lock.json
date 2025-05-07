@@ -32,6 +32,12 @@
           "Microsoft.NETCore.Platforms": "1.1.0"
         }
       },
+      "PolySharp": {
+        "type": "Direct",
+        "requested": "[1.15.0, )",
+        "resolved": "1.15.0",
+        "contentHash": "FbU0El+EEjdpuIX4iDbeS7ki1uzpJPx8vbqOzEtqnl1GZeAGJfq+jCbxeJL2y0EPnUNk8dRnnqR2xnYXg9Tf+g=="
+      },
       "System.CommandLine": {
         "type": "Direct",
         "requested": "[2.0.0-beta5.25170.1, )",
@@ -128,6 +134,12 @@
         "requested": "[2.1.9, )",
         "resolved": "2.1.9",
         "contentHash": "fkPYeClDFo2SRY+fW0k7bxAamHBJuL3tkxL62PfZkErimcN/A/7grpfZ/KiZibKRfl0ftz38LFxBXt1IpSn+jQ=="
+      },
+      "PolySharp": {
+        "type": "Direct",
+        "requested": "[1.15.0, )",
+        "resolved": "1.15.0",
+        "contentHash": "FbU0El+EEjdpuIX4iDbeS7ki1uzpJPx8vbqOzEtqnl1GZeAGJfq+jCbxeJL2y0EPnUNk8dRnnqR2xnYXg9Tf+g=="
       },
       "System.CommandLine": {
         "type": "Direct",

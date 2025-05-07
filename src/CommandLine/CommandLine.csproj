@@ -2,28 +2,27 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.1;netstandard2.0</TargetFrameworks>
+    <PolySharpIncludeGeneratedTypes>System.Diagnostics.CodeAnalysis.NotNullWhenAttribute</PolySharpIncludeGeneratedTypes>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.CommandLine" VersionOverride="2.0.0-beta5.25170.1" />
+    <PackageReference Include="System.CommandLine" VersionOverride="2.0.0-beta5.25170.1"/>
   </ItemGroup>
 
   <ItemGroup>
-    <InternalsVisibleTo Include="$(AssemblyName).Spectre" />
+    <InternalsVisibleTo Include="$(AssemblyName).Spectre"/>
   </ItemGroup>
 
-  <Choose>
-    <When Condition=" $([MSBuild]::IsTargetFrameworkCompatible('netstandard2.0', '$(TargetFramework)')) ">
-      <ItemGroup>
-        <Compile Remove="Parsing\IndexParser.cs" />
-        <Compile Remove="Parsing\RangeParser.cs" />
-      </ItemGroup>
-    </When>
-    <When Condition=" $([MSBuild]::IsTargetFrameworkCompatible('netstandard2.1', '$(TargetFramework)')) ">
-      <ItemGroup>
-        <Compile Remove="System.Diagnostics.CodeAnalysis.cs" />
-      </ItemGroup>
-    </When>
-  </Choose>
+  <ItemGroup Condition=" $([MSBuild]::IsTargetFrameworkCompatible('netstandard2.0', '$(TargetFramework)')) ">
+    <Compile Remove="Parsing\IndexParser.cs"/>
+    <Compile Remove="Parsing\RangeParser.cs"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="PolySharp">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
 
 </Project>
