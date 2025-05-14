@@ -96,7 +96,7 @@ public static class UriParser
 
     private static IEnumerable<Uri> ParseAllCore(string? value)
     {
-        return value switch
+        return FileInfoParser.ExpandPath(value) switch
         {
             { } v when Uri.IsWellFormedUriString(v, UriKind.Absolute) => Create(new Uri(v)),
             { } v when File.Exists(v) => Create(CreateFileUri(v)),

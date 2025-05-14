@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.1;netstandard2.0</TargetFrameworks>
-    <PolySharpIncludeGeneratedTypes>System.Diagnostics.CodeAnalysis.NotNullWhenAttribute</PolySharpIncludeGeneratedTypes>
+    <PolySharpIncludeGeneratedTypes>System.Diagnostics.CodeAnalysis.NotNullWhenAttribute;System.Diagnostics.CodeAnalysis.NotNullIfNotNullAttribute</PolySharpIncludeGeneratedTypes>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <InternalsVisibleTo Include="$(AssemblyName).Spectre"/>
+    <InternalsVisibleTo Include="$(AssemblyName).Tests"/>
   </ItemGroup>
 
   <ItemGroup Condition=" $([MSBuild]::IsTargetFrameworkCompatible('netstandard2.0', '$(TargetFramework)')) ">
