@@ -199,6 +199,7 @@ jobs:
 
     - name: Run local/dotnet-nuget-push-nuget@v1
       id: push-nuget
+      if: ${{ github.event_name == 'push' }}
       working-directory: ${{ github.workspace }}/nupkg
       run: dotnet nuget push *.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_TOKEN }} --skip-duplicate
       
