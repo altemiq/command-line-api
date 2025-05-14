@@ -40,6 +40,7 @@
     <PackageTags>CommandLine;Console</PackageTags>
     <_ReadmeFile>readme.md</_ReadmeFile>
     <PackageReadmeFile Condition="Exists('$(_ReadmeFile)')">$(_ReadmeFile)</PackageReadmeFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <PropertyGroup Label=".NET Analyzers">
