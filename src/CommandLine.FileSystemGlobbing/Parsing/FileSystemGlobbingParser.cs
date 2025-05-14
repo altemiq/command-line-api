@@ -92,14 +92,14 @@ public static class FileSystemGlobbingParser
         static IEnumerable<IEnumerable<string>> Process(IEnumerable<string> tokens, Microsoft.Extensions.FileSystemGlobbing.Abstractions.DirectoryInfoBase? directoryInfo)
         {
             var patternBuilder = new Microsoft.Extensions.FileSystemGlobbing.Internal.Patterns.PatternBuilder(StringComparison.OrdinalIgnoreCase);
-            var normalisedTokens = tokens.Select(NormalizedName).ToArray();
-            var rooted = normalisedTokens.Where(Path.IsPathRooted).ToArray();
+            ICollection<string> normalisedTokens = [.. tokens.Select(NormalizedName).Select(ExpandPath)];
+            ICollection<string> rooted = [.. normalisedTokens.Where(Path.IsPathRooted)];
             foreach (var root in rooted)
             {
                 yield return GetRooted(root, directoryInfo, patternBuilder);
             }
 
-            yield return GetFiles(directoryInfo ?? GetDirectoryInfo(Environment.CurrentDirectory), patternBuilder, [.. normalisedTokens.Except(rooted, StringComparer.Ordinal)]);
+            yield return GetFiles(directoryInfo ?? GetDirectoryInfo(Environment.CurrentDirectory), patternBuilder, normalisedTokens.Except(rooted, StringComparer.Ordinal));
 
             static IEnumerable<string> GetRooted(string root, Microsoft.Extensions.FileSystemGlobbing.Abstractions.DirectoryInfoBase? directoryInfo, Microsoft.Extensions.FileSystemGlobbing.Internal.Patterns.PatternBuilder patternBuilder)
             {
@@ -151,13 +151,8 @@ public static class FileSystemGlobbingParser
                 }
             }
 
-            static IEnumerable<string> GetFiles(Microsoft.Extensions.FileSystemGlobbing.Abstractions.DirectoryInfoBase directoryInfo, Microsoft.Extensions.FileSystemGlobbing.Internal.Patterns.PatternBuilder patternBuilder, params string[] includePatterns)
+            static IEnumerable<string> GetFiles(Microsoft.Extensions.FileSystemGlobbing.Abstractions.DirectoryInfoBase directoryInfo, Microsoft.Extensions.FileSystemGlobbing.Internal.Patterns.PatternBuilder patternBuilder, params IEnumerable<string> includePatterns)
             {
-                if (includePatterns.Length is 0)
-                {
-                    yield break;
-                }
-
                 var context = new Microsoft.Extensions.FileSystemGlobbing.Internal.MatcherContext(
                     includePatterns.Select(patternBuilder.Build),
                     [],
@@ -180,6 +175,16 @@ public static class FileSystemGlobbingParser
         static string NormalizedName(string name)
         {
             return name.Replace(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+        }
+
+        static string ExpandPath(string path)
+        {
+            path = Environment.ExpandEnvironmentVariables(path);
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_0_OR_GREATER
+            return path.StartsWith('~') ? string.Concat(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), path[1..]) : path;
+#else
+            return path.StartsWith("~", StringComparison.Ordinal) ? string.Concat(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), path.Substring(1)) : path;
+#endif
         }
     }
 

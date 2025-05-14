@@ -28,4 +28,23 @@ public class FileSystemGlobbingParserTests
         _ = await Assert.That(parseResult.GetValue(argument)).IsNotNull().And
             .ContainsOnly(x => x.FullName.Equals(first) || x.FullName.Equals(second) || x.FullName.Equals(third));
     }
+
+    [Test]
+    public async Task HomeDirectory()
+    {
+        const string FolderToSearch = "Files to Search";
+        string rootDir = Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), FolderToSearch);
+        
+        string first = Path.Join(rootDir, "first", "first.txt");
+        
+        Microsoft.Extensions.FileSystemGlobbing.InMemoryDirectoryInfo directoryInfo = new(rootDir, [first]);
+        
+        Argument<FileInfo[]> argument = new("FILES") { CustomParser = argumentResult => CommandLine.Parsing.FileSystemGlobbingParser.Parse(argumentResult, directoryInfo) };
+        RootCommand root = [argument];
+        CommandLineConfiguration configuration = new(root);
+        ParseResult parseResult = configuration.Parse("\"" + Path.Combine("~", FolderToSearch, "**", "*.txt") + "\"");
+
+        _ = await Assert.That(parseResult.GetValue(argument)).IsNotNull().And
+            .ContainsOnly(x => x.FullName.Equals(first));
+    }
 }
