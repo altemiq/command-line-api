@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net9.0'))">
-    <PackageVersion Update="System.Text.Json" Version="9.0.4" />
+    <PackageVersion Update="System.Text.Json" Version="9.0.5" />
   </ItemGroup>
 
 </Project>

@@ -22,12 +22,12 @@
   <Choose>
     <When Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net9.0'))">
       <ItemGroup>
-        <PackageVersion Include="Microsoft.Extensions.Configuration" Version="9.0.4" />
-        <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="9.0.4" />
-        <PackageVersion Include="Microsoft.Extensions.DependencyModel" Version="9.0.4" />
-        <PackageVersion Include="Microsoft.Extensions.FileSystemGlobbing" Version="9.0.4" />
-        <PackageVersion Include="Microsoft.Extensions.Hosting" Version="9.0.4" />
-        <PackageVersion Include="Microsoft.Extensions.Logging" Version="9.0.4" />
+        <PackageVersion Include="Microsoft.Extensions.Configuration" Version="9.0.5" />
+        <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="9.0.5" />
+        <PackageVersion Include="Microsoft.Extensions.DependencyModel" Version="9.0.5" />
+        <PackageVersion Include="Microsoft.Extensions.FileSystemGlobbing" Version="9.0.5" />
+        <PackageVersion Include="Microsoft.Extensions.Hosting" Version="9.0.5" />
+        <PackageVersion Include="Microsoft.Extensions.Logging" Version="9.0.5" />
       </ItemGroup>
     </When>
     <When Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net8.0'))">
