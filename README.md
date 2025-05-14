@@ -1,0 +1,22 @@
+[![build](https://github.com/altavec/command-line-api/actions/workflows/build.yml/badge.svg)](https://github.com/altavec/command-line-api/actions/workflows/build.yml)
+
+This repository contains the code for the Altavec.CommandLine libraries
+
+## Packages
+
+| Package                                   | Version                                                                                                                                                    | Description                                                                                                                                                     |
+|-------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `Altavec.CommandLine`                     | [![nuget](https://img.shields.io/nuget/v/Altavec.CommandLine.svg)](https://nuget.org/packages/Altavec.CommandLine)                                         | Extensions for [System.CommandLine](https://www.nuget.org/packages/System.CommandLine/)                                                                         |
+| `Altavec.CommandLine.Configuration`       | [![nuget](https://img.shields.io/nuget/v/Altavec.CommandLine.Configuration.svg)](https://nuget.org/packages/Altavec.CommandLine.Configuration)             | support for using Altavec.CommandLine with [Microsoft.Extensions.Configuration](https://www.nuget.org/packages/Microsoft.Extensions.Configuration/)             |
+| `Altavec.CommandLine.DependencyInjection` | [![nuget](https://img.shields.io/nuget/v/Altavec.CommandLine.DependencyInjection.svg)](https://nuget.org/packages/Altavec.CommandLine.DependencyInjection) | support for using Altavec.CommandLine with [Microsoft.Extensions.DependencyInjection](https://www.nuget.org/packages/Microsoft.Extensions.DependencyInjection/) |
+| `Altavec.CommandLine.FileSystemGlobbing`  | [![nuget](https://img.shields.io/nuget/v/Altavec.CommandLine.FileSystemGlobbing.svg)](https://nuget.org/packages/Altavec.CommandLine.FileSystemGlobbing)   | support for using Altavec.CommandLine with [Microsoft.Extensions.FileSystemGlobbing](https://www.nuget.org/packages/Microsoft.Extensions.FileSystemGlobbing/)   |
+| `Altavec.CommandLine.Hosting`             | [![nuget](https://img.shields.io/nuget/v/Altavec.CommandLine.Hosting.svg)](https://nuget.org/packages/Altavec.CommandLine.Hosting)                         | support for using Altavec.CommandLine with [Microsoft.Extensions.Hosting](https://www.nuget.org/packages/Microsoft.Extensions.Hosting/)                         |
+| `Altavec.CommandLine.Logging`             | [![nuget](https://img.shields.io/nuget/v/Altavec.CommandLine.Logging.svg)](https://nuget.org/packages/Altavec.CommandLine.Logging)                         | support for using Altavec.CommandLine with [Microsoft.Extensions.Logging](https://www.nuget.org/packages/Microsoft.Extensions.Logging/)                         |
+| `Altavec.CommandLine.Native`              | [![nuget](https://img.shields.io/nuget/v/Altavec.CommandLine.Native.svg)](https://nuget.org/packages/Altavec.CommandLine.Native)                           | support for using Altavec.CommandLine with [Altavec.Runtime.Native](https://www.nuget.org/packages/Altavec.Runtime.Native/)                                     |
+| `Altavec.CommandLine.Spectre`             | [![nuget](https://img.shields.io/nuget/v/Altavec.CommandLine.Spectre.svg)](https://nuget.org/packages/Altavec.CommandLine.Spectre)                         | support for using Altavec.CommandLine with [Spectre.Console](https://www.nuget.org/packages/Spectre.Console/)                                                   |
+
+Use of these packages requires the daily builds of [System.CommandLine](https://github.com/dotnet/command-line-api). Add `https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet-libraries/nuget/v3/index.json` to your nuget.config.
+
+## License
+
+This project is licensed under the [MIT license](LICENSE.md).
