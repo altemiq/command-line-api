@@ -40,7 +40,7 @@ public class InvocationLifetimeTests
     public async Task DoubleDispose()
     {
         IHostBuilder builder = Host.CreateDefaultBuilder();
-        _ = builder.ConfigureServices((_, services) => services.AddScoped<IHostLifetime, InvocationLifetime>());
+        _ = builder.ConfigureServices((_, services) => services.AddInvocationLifetime());
 
         IHost host = await builder.StartAsync();
 
