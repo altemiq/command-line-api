@@ -3,7 +3,7 @@
 
   <ItemGroup>
     <PackageVersion Include="Spectre.Console" Version="0.50.0" />
-    <PackageVersion Include="System.CommandLine" Version="2.0.0-beta5.25256.109" />
+    <PackageVersion Include="System.CommandLine" Version="2.0.0-beta5.25263.108" />
   </ItemGroup>
 
   <ItemGroup>

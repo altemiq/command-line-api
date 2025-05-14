@@ -105,8 +105,8 @@
       },
       "System.CommandLine": {
         "type": "Transitive",
-        "resolved": "2.0.0-beta5.25170.1",
-        "contentHash": "mryMvZo8/2gF0++4lK8HFVDjeGBaCOmBeBmmCcb8HjFXd1H44YfFE3ph0NUlBCMokFNmrT3WxfjnyTkKDn3nFA==",
+        "resolved": "2.0.0-beta5.25174.1",
+        "contentHash": "k/vPEhjqQ4b3H8pkcc4EnVUewWttxt+ckMyYpHGiVqlUJplYHyGEU3ncYxznCQcV1EG540/L39O/I6SWglcQHQ==",
         "dependencies": {
           "System.Memory": "4.5.4"
         }
@@ -134,7 +134,7 @@
       "commandline": {
         "type": "Project",
         "dependencies": {
-          "System.CommandLine": "[2.0.0-beta5.25170.1, )"
+          "System.CommandLine": "[2.0.0-beta5.25174.1, )"
         }
       }
     }

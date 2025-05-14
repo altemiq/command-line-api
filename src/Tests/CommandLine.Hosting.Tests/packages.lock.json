@@ -65,9 +65,9 @@
       },
       "System.CommandLine": {
         "type": "Direct",
-        "requested": "[2.0.0-beta5.25256.109, )",
-        "resolved": "2.0.0-beta5.25256.109",
-        "contentHash": "RFxoFBPYY8Ndf1l5exJ+QJhue/05FXv8jYTL4CayyxvfgiYSd/w5iFz4nphvnhYOZS8W9T0NfrCcp1ysz07bVA=="
+        "requested": "[2.0.0-beta5.25263.108, )",
+        "resolved": "2.0.0-beta5.25263.108",
+        "contentHash": "Z30hsmpcpyeqnxZmZO/hSLIJQACkoXsi30miXZsM5dCdY2qy34+0e5i3iKrLNOBbpCqeKnlZrstnrhI2CX4mdw=="
       },
       "TUnit": {
         "type": "Direct",
@@ -370,14 +370,14 @@
       "commandline": {
         "type": "Project",
         "dependencies": {
-          "System.CommandLine": "[2.0.0-beta5.25170.1, )"
+          "System.CommandLine": "[2.0.0-beta5.25174.1, )"
         }
       },
       "commandline.filesystemglobbing": {
         "type": "Project",
         "dependencies": {
           "Microsoft.Extensions.FileSystemGlobbing": "[2.1.0, )",
-          "System.CommandLine": "[2.0.0-beta5.25170.1, )"
+          "System.CommandLine": "[2.0.0-beta5.25174.1, )"
         }
       },
       "commandline.hosting": {
@@ -512,9 +512,9 @@
       },
       "System.CommandLine": {
         "type": "Direct",
-        "requested": "[2.0.0-beta5.25256.109, )",
-        "resolved": "2.0.0-beta5.25256.109",
-        "contentHash": "RFxoFBPYY8Ndf1l5exJ+QJhue/05FXv8jYTL4CayyxvfgiYSd/w5iFz4nphvnhYOZS8W9T0NfrCcp1ysz07bVA=="
+        "requested": "[2.0.0-beta5.25263.108, )",
+        "resolved": "2.0.0-beta5.25263.108",
+        "contentHash": "Z30hsmpcpyeqnxZmZO/hSLIJQACkoXsi30miXZsM5dCdY2qy34+0e5i3iKrLNOBbpCqeKnlZrstnrhI2CX4mdw=="
       },
       "TUnit": {
         "type": "Direct",
@@ -817,14 +817,14 @@
       "commandline": {
         "type": "Project",
         "dependencies": {
-          "System.CommandLine": "[2.0.0-beta5.25170.1, )"
+          "System.CommandLine": "[2.0.0-beta5.25174.1, )"
         }
       },
       "commandline.filesystemglobbing": {
         "type": "Project",
         "dependencies": {
           "Microsoft.Extensions.FileSystemGlobbing": "[2.1.0, )",
-          "System.CommandLine": "[2.0.0-beta5.25170.1, )"
+          "System.CommandLine": "[2.0.0-beta5.25174.1, )"
         }
       },
       "commandline.hosting": {
