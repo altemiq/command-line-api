@@ -192,13 +192,18 @@ jobs:
         name: NuPkg
         path: ${{ github.workspace }}/nupkg
 
-    - name: Run local/dotnet-nuget-push@v1
-      id: push
+    - name: Run local/dotnet-nuget-push-github@v1
+      id: push-github
       working-directory: ${{ github.workspace }}/nupkg
       run: dotnet nuget push *.nupkg --source https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json --api-key ${{ secrets.GITHUB_TOKEN }} --skip-duplicate
+
+    - name: Run local/dotnet-nuget-push-nuget@v1
+      id: push-nuget
+      working-directory: ${{ github.workspace }}/nupkg
+      run: dotnet nuget push *.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_TOKEN }} --skip-duplicate
       
     # delete-artifact
     - uses: GeekyEggo/delete-artifact@v5
-      if: ${{ steps.push.conclusion == 'success' }}
+      if: ${{ steps.push-github.conclusion == 'success' }}
       with:
         name: NuPkg
