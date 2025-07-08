@@ -232,7 +232,7 @@
         "type": "Project",
         "dependencies": {
           "Microsoft.Extensions.FileSystemGlobbing": "[2.1.0, )",
-          "System.CommandLine": "[2.0.0-beta5.25174.1, )"
+          "System.CommandLine": "[2.0.0-beta5.25306.1, )"
         }
       },
       "commandline.logging": {
@@ -600,7 +600,7 @@
         "type": "Project",
         "dependencies": {
           "Microsoft.Extensions.FileSystemGlobbing": "[2.1.0, )",
-          "System.CommandLine": "[2.0.0-beta5.25174.1, )"
+          "System.CommandLine": "[2.0.0-beta5.25306.1, )"
         }
       },
       "commandline.logging": {
@@ -968,7 +968,7 @@
         "type": "Project",
         "dependencies": {
           "Microsoft.Extensions.FileSystemGlobbing": "[2.1.0, )",
-          "System.CommandLine": "[2.0.0-beta5.25174.1, )"
+          "System.CommandLine": "[2.0.0-beta5.25306.1, )"
         }
       },
       "commandline.logging": {
@@ -1336,7 +1336,7 @@
         "type": "Project",
         "dependencies": {
           "Microsoft.Extensions.FileSystemGlobbing": "[2.1.0, )",
-          "System.CommandLine": "[2.0.0-beta5.25174.1, )"
+          "System.CommandLine": "[2.0.0-beta5.25306.1, )"
         }
       },
       "commandline.logging": {
