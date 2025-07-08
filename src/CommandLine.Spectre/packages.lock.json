@@ -4,7 +4,7 @@
     ".NETFramework,Version=v4.7.2": {
       "Altemiq.DotNet.CodingStandard": {
         "type": "Direct",
-        "requested": "[1.0.79, )",
+        "requested": "[1.0.81, )",
         "resolved": "1.0.81",
         "contentHash": "ukaqV/R4qJAVxY/h+mKDsP3+FkmUc79ImVkGoXqWhEMbPRozeiHsbmxN8elC2HCO/B/p+rnMa0zyShJAj7MAPQ==",
         "dependencies": {
@@ -124,7 +124,7 @@
     ".NETStandard,Version=v2.0": {
       "Altemiq.DotNet.CodingStandard": {
         "type": "Direct",
-        "requested": "[1.0.79, )",
+        "requested": "[1.0.81, )",
         "resolved": "1.0.81",
         "contentHash": "ukaqV/R4qJAVxY/h+mKDsP3+FkmUc79ImVkGoXqWhEMbPRozeiHsbmxN8elC2HCO/B/p+rnMa0zyShJAj7MAPQ==",
         "dependencies": {
@@ -244,7 +244,7 @@
     ".NETCoreApp,Version=v5.0": {
       "Altemiq.DotNet.CodingStandard": {
         "type": "Direct",
-        "requested": "[1.0.79, )",
+        "requested": "[1.0.81, )",
         "resolved": "1.0.81",
         "contentHash": "ukaqV/R4qJAVxY/h+mKDsP3+FkmUc79ImVkGoXqWhEMbPRozeiHsbmxN8elC2HCO/B/p+rnMa0zyShJAj7MAPQ==",
         "dependencies": {
@@ -330,7 +330,7 @@
     "net6.0": {
       "Altemiq.DotNet.CodingStandard": {
         "type": "Direct",
-        "requested": "[1.0.79, )",
+        "requested": "[1.0.81, )",
         "resolved": "1.0.81",
         "contentHash": "ukaqV/R4qJAVxY/h+mKDsP3+FkmUc79ImVkGoXqWhEMbPRozeiHsbmxN8elC2HCO/B/p+rnMa0zyShJAj7MAPQ==",
         "dependencies": {
@@ -416,7 +416,7 @@
     "net7.0": {
       "Altemiq.DotNet.CodingStandard": {
         "type": "Direct",
-        "requested": "[1.0.79, )",
+        "requested": "[1.0.81, )",
         "resolved": "1.0.81",
         "contentHash": "ukaqV/R4qJAVxY/h+mKDsP3+FkmUc79ImVkGoXqWhEMbPRozeiHsbmxN8elC2HCO/B/p+rnMa0zyShJAj7MAPQ==",
         "dependencies": {
@@ -502,7 +502,7 @@
     "net9.0": {
       "Altemiq.DotNet.CodingStandard": {
         "type": "Direct",
-        "requested": "[1.0.79, )",
+        "requested": "[1.0.81, )",
         "resolved": "1.0.81",
         "contentHash": "ukaqV/R4qJAVxY/h+mKDsP3+FkmUc79ImVkGoXqWhEMbPRozeiHsbmxN8elC2HCO/B/p+rnMa0zyShJAj7MAPQ==",
         "dependencies": {
