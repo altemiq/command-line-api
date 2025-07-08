@@ -48,4 +48,24 @@ internal static class CommandLineActionHelpers
             }
         }
     }
+
+    /// <summary>
+    /// Gets the help option for the specified symbol.
+    /// </summary>
+    /// <param name="symbol">The symbol.</param>
+    /// <returns>The help action.</returns>
+    public static Help.HelpOption? GetHelpOption(Symbol symbol) => CommandHelpers.GetRootCommand(symbol) is { } rootCommand
+        ? GetHelpOption(rootCommand)
+        : default;
+
+    /// <summary>
+    /// Gets the help option for the specified command.
+    /// </summary>
+    /// <param name="command">The command.</param>
+    /// <returns>The help option.</returns>
+    [Diagnostics.CodeAnalysis.SuppressMessage("ReSharper", "MemberCanBePrivate.Global", Justification = "Public API")]
+    public static Help.HelpOption? GetHelpOption(Command command) =>
+        command.Options
+            .OfType<Help.HelpOption>()
+            .SingleOrDefault();
 }

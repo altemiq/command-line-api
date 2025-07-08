@@ -16,7 +16,6 @@
 
   <ItemGroup>
     <PackageVersion Include="Altemiq.Runtime" Version="1.2.1" />
-    <PackageVersion Include="System.CommandLine" Version="2.0.0-beta5.25263.108" />
   </ItemGroup>
 
   <Choose>
@@ -56,7 +55,6 @@
     <PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" />
     <PackageReference Include="Microsoft.Testing.Extensions.TrxReport" />
     <PackageReference Include="TUnit" />
-    <PackageReference Include="System.CommandLine" />
   </ItemGroup>
 
 </Project>

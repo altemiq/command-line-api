@@ -170,48 +170,6 @@ public partial class HostingExtensionsTests
         _ = await Assert.That(config).IsNotNull();
     }
 
-    [Test]
-    [MatrixDataSource]
-    public async Task UseConfigurationInHelp([Matrix("first", "second")] string name, [Matrix(true, false)] bool withArgs)
-    {
-        IConfiguration? config = default;
-        Command? command = default;
-
-        Option<string> argument = new("--option")
-        {
-            DefaultValueFactory = _ => default!,
-            Recursive = true,
-        };
-
-        Command firstSubCommand = new("first") { argument };
-        firstSubCommand.SetAction(_ => { });
-        Command secondSubCommand = new("second") { argument };
-        secondSubCommand.SetAction(_ => { });
-
-        RootCommand rootCommand =
-        [
-            firstSubCommand,
-            secondSubCommand,
-        ];
-
-        _ = argument.CustomizeHelp(helpContext =>
-        {
-            command = helpContext.Command;
-            config = command.GetConfiguration();
-            return default;
-        });
-
-        CommandLineConfiguration configuration = new(rootCommand);
-        _ = withArgs
-            ? configuration.UseConfiguration((args) => Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args))
-            : configuration.UseConfiguration();
-
-        _ = await configuration.InvokeAsync($"{name} --help");
-
-        _ = await Assert.That(command).IsTypeOf<Command>().And.Satisfies(c => c.Name, commandName => commandName.IsEqualTo(name)!);
-        _ = await Assert.That(config).IsNotNull();
-    }
-
     public static class EnsureStartAndStopAreCalled
     {
         public class Host

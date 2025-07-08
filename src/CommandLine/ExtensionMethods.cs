@@ -20,7 +20,7 @@ public static class ExtensionMethods
     /// <returns>The value.</returns>
     /// <exception cref="ArgumentNullException">Result from <paramref name="name"/> is <see langword="null"/>.</exception>
     [Runtime.CompilerServices.MethodImpl(Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public static T GetRequiredValue<T>(this ParseResult parseResult, string name)
+    public static T GetRequiredValueOrThrowWhenNull<T>(this ParseResult parseResult, string name)
         where T : notnull => parseResult.GetValue<T>(name).ThrowIfNull();
 
     /// <summary>
@@ -32,8 +32,8 @@ public static class ExtensionMethods
     /// <returns>The value.</returns>
     /// <exception cref="ArgumentNullException">Result from <paramref name="argument"/> is <see langword="null"/>.</exception>
     [Runtime.CompilerServices.MethodImpl(Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public static T GetRequiredValue<T>(this ParseResult parseResult, Argument<T> argument)
-        where T : notnull => parseResult.GetValue(argument).ThrowIfNull();
+    public static T GetRequiredValueOrThrowWhenNull<T>(this ParseResult parseResult, Argument<T> argument)
+        where T : notnull => parseResult.GetRequiredValue(argument).ThrowIfNull();
 
     /// <summary>
     /// Gets the value from the parse result or throws an exception.
@@ -44,8 +44,8 @@ public static class ExtensionMethods
     /// <returns>The value.</returns>
     /// <exception cref="ArgumentNullException">Result from <paramref name="option"/> is <see langword="null"/>.</exception>
     [Runtime.CompilerServices.MethodImpl(Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public static T GetRequiredValue<T>(this ParseResult parseResult, Option<T> option)
-        where T : notnull => parseResult.GetValue(option).ThrowIfNull();
+    public static T GetRequiredValueOrThrowWhenNull<T>(this ParseResult parseResult, Option<T> option)
+        where T : notnull => parseResult.GetRequiredValue(option).ThrowIfNull();
 
     /// <summary>
     /// Gets the result for the specified argument.

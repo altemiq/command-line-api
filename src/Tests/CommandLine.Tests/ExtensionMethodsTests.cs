@@ -16,7 +16,7 @@ public class ExtensionMethodsTests
         Option<string> option = new("--option");
         CommandLineConfiguration configuration = new(new RootCommand { option });
 
-        _ = await Assert.That(configuration.Parse("--option value").GetRequiredValue<string>("--option")).IsEqualTo("value");
+        _ = await Assert.That(configuration.Parse("--option value").GetRequiredValueOrThrowWhenNull<string>("--option")).IsEqualTo("value");
     }
 
     [Test]
@@ -25,15 +25,15 @@ public class ExtensionMethodsTests
         Option<string> option = new("--option");
         CommandLineConfiguration configuration = new(new RootCommand { option });
 
-        _ = await Assert.That(configuration.Parse("--option value").GetRequiredValue(option)).IsEqualTo("value");
+        _ = await Assert.That(configuration.Parse("--option value").GetRequiredValueOrThrowWhenNull(option)).IsEqualTo("value");
     }
 
     [Test]
     public async Task GetRequiredValueFromOptionWhenMissing()
     {
-        Option<string> option = new("--option");
+        Option<string> option = new("--option") { DefaultValueFactory = _ => default! };
         CommandLineConfiguration configuration = new(new RootCommand { option });
-        _ = await Assert.That(() => configuration.Parse(string.Empty).GetRequiredValue(option)).Throws<ArgumentNullException>();
+        _ = await Assert.That(() => configuration.Parse(string.Empty).GetRequiredValueOrThrowWhenNull(option)).Throws<ArgumentNullException>();
     }
 
     [Test]
@@ -42,7 +42,7 @@ public class ExtensionMethodsTests
         Argument<string> argument = new("ARG");
         CommandLineConfiguration configuration = new(new RootCommand { argument });
 
-        _ = await Assert.That(configuration.Parse("value").GetRequiredValue(argument)).IsEqualTo("value");
+        _ = await Assert.That(configuration.Parse("value").GetRequiredValueOrThrowWhenNull(argument)).IsEqualTo("value");
     }
 
     [Test]
@@ -51,7 +51,7 @@ public class ExtensionMethodsTests
         Argument<string> argument = new("ARG") { DefaultValueFactory = _ => default! };
         CommandLineConfiguration configuration = new(new RootCommand { argument });
 
-        _ = await Assert.That(() => configuration.Parse(string.Empty).GetRequiredValue(argument)).Throws<ArgumentNullException>();
+        _ = await Assert.That(() => configuration.Parse(string.Empty).GetRequiredValueOrThrowWhenNull(argument)).Throws<ArgumentNullException>();
     }
 
     [Test]

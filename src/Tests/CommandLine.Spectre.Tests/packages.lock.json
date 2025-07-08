@@ -34,12 +34,6 @@
           "Spectre.Console.Cli": "0.50.0"
         }
       },
-      "System.CommandLine": {
-        "type": "Direct",
-        "requested": "[2.0.0-beta5.25263.108, )",
-        "resolved": "2.0.0-beta5.25263.108",
-        "contentHash": "Z30hsmpcpyeqnxZmZO/hSLIJQACkoXsi30miXZsM5dCdY2qy34+0e5i3iKrLNOBbpCqeKnlZrstnrhI2CX4mdw=="
-      },
       "TUnit": {
         "type": "Direct",
         "requested": "[0.25.21, )",
@@ -94,6 +88,11 @@
         "resolved": "8.0.0",
         "contentHash": "AurL6Y5BA1WotzlEvVaIDpqzpIPvYnnldxru8oXJU2yFxFUy3+pNXjXd1ymO+RA0rq0+590Q8gaz2l3Sr7fmqg=="
       },
+      "System.CommandLine": {
+        "type": "Transitive",
+        "resolved": "2.0.0-beta5.25306.1",
+        "contentHash": "ce0wuowuh13Cd7GXqLCq77/YWlxQMxrVCMIO/2/QUP6CdP/JWnlYSN/N3/55wwGsUwa9CvPuT8ddjgyypUr5ag=="
+      },
       "System.Memory": {
         "type": "Transitive",
         "resolved": "4.6.3",
@@ -132,7 +131,7 @@
       "commandline": {
         "type": "Project",
         "dependencies": {
-          "System.CommandLine": "[2.0.0-beta5.25174.1, )"
+          "System.CommandLine": "[2.0.0-beta5.25306.1, )"
         }
       },
       "commandline.spectre": {
@@ -191,12 +190,6 @@
           "Spectre.Console.Cli": "0.50.0"
         }
       },
-      "System.CommandLine": {
-        "type": "Direct",
-        "requested": "[2.0.0-beta5.25263.108, )",
-        "resolved": "2.0.0-beta5.25263.108",
-        "contentHash": "Z30hsmpcpyeqnxZmZO/hSLIJQACkoXsi30miXZsM5dCdY2qy34+0e5i3iKrLNOBbpCqeKnlZrstnrhI2CX4mdw=="
-      },
       "TUnit": {
         "type": "Direct",
         "requested": "[0.25.21, )",
@@ -251,6 +244,11 @@
         "resolved": "8.0.0",
         "contentHash": "AurL6Y5BA1WotzlEvVaIDpqzpIPvYnnldxru8oXJU2yFxFUy3+pNXjXd1ymO+RA0rq0+590Q8gaz2l3Sr7fmqg=="
       },
+      "System.CommandLine": {
+        "type": "Transitive",
+        "resolved": "2.0.0-beta5.25306.1",
+        "contentHash": "ce0wuowuh13Cd7GXqLCq77/YWlxQMxrVCMIO/2/QUP6CdP/JWnlYSN/N3/55wwGsUwa9CvPuT8ddjgyypUr5ag=="
+      },
       "System.Memory": {
         "type": "Transitive",
         "resolved": "4.6.3",
@@ -289,7 +287,7 @@
       "commandline": {
         "type": "Project",
         "dependencies": {
-          "System.CommandLine": "[2.0.0-beta5.25174.1, )"
+          "System.CommandLine": "[2.0.0-beta5.25306.1, )"
         }
       },
       "commandline.spectre": {

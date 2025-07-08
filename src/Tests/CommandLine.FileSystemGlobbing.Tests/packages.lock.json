@@ -30,12 +30,6 @@
           "Microsoft.Testing.Platform": "1.7.3"
         }
       },
-      "System.CommandLine": {
-        "type": "Direct",
-        "requested": "[2.0.0-beta5.25263.108, )",
-        "resolved": "2.0.0-beta5.25263.108",
-        "contentHash": "Z30hsmpcpyeqnxZmZO/hSLIJQACkoXsi30miXZsM5dCdY2qy34+0e5i3iKrLNOBbpCqeKnlZrstnrhI2CX4mdw=="
-      },
       "TUnit": {
         "type": "Direct",
         "requested": "[0.25.21, )",
@@ -73,6 +67,11 @@
         "type": "Transitive",
         "resolved": "8.0.0",
         "contentHash": "AurL6Y5BA1WotzlEvVaIDpqzpIPvYnnldxru8oXJU2yFxFUy3+pNXjXd1ymO+RA0rq0+590Q8gaz2l3Sr7fmqg=="
+      },
+      "System.CommandLine": {
+        "type": "Transitive",
+        "resolved": "2.0.0-beta5.25174.1",
+        "contentHash": "k/vPEhjqQ4b3H8pkcc4EnVUewWttxt+ckMyYpHGiVqlUJplYHyGEU3ncYxznCQcV1EG540/L39O/I6SWglcQHQ=="
       },
       "System.Reflection.Metadata": {
         "type": "Transitive",
@@ -156,12 +155,6 @@
           "Microsoft.Testing.Platform": "1.7.3"
         }
       },
-      "System.CommandLine": {
-        "type": "Direct",
-        "requested": "[2.0.0-beta5.25263.108, )",
-        "resolved": "2.0.0-beta5.25263.108",
-        "contentHash": "Z30hsmpcpyeqnxZmZO/hSLIJQACkoXsi30miXZsM5dCdY2qy34+0e5i3iKrLNOBbpCqeKnlZrstnrhI2CX4mdw=="
-      },
       "TUnit": {
         "type": "Direct",
         "requested": "[0.25.21, )",
@@ -199,6 +192,11 @@
         "type": "Transitive",
         "resolved": "8.0.0",
         "contentHash": "AurL6Y5BA1WotzlEvVaIDpqzpIPvYnnldxru8oXJU2yFxFUy3+pNXjXd1ymO+RA0rq0+590Q8gaz2l3Sr7fmqg=="
+      },
+      "System.CommandLine": {
+        "type": "Transitive",
+        "resolved": "2.0.0-beta5.25174.1",
+        "contentHash": "k/vPEhjqQ4b3H8pkcc4EnVUewWttxt+ckMyYpHGiVqlUJplYHyGEU3ncYxznCQcV1EG540/L39O/I6SWglcQHQ=="
       },
       "System.Reflection.Metadata": {
         "type": "Transitive",

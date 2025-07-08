@@ -74,22 +74,26 @@ public static class AnsiConsoleCommandExtensions
     private static T AddFiglet<T>(T command, Func<FigletText> getText, IAnsiConsole? console = default)
         where T : Command
     {
-        if (Internal.CommandLineActionHelpers.GetHelpAction((Symbol)command) is not { } helpAction)
+        if (Internal.CommandLineActionHelpers.GetHelpOption((Symbol)command) is not { Action: Invocation.SynchronousCommandLineAction action } option)
         {
             throw new InvalidOperationException(Spectre.Properties.Resources.HelpCommandNotFound);
         }
 
-        helpAction.Builder.CustomizeLayout(_ => Help.HelpBuilder.Default.GetLayout().Prepend(helpContext =>
-        {
-            if (helpContext.Command != command)
-            {
-                return false;
-            }
-
-            console.GetValueOrDefault().Write(getText());
-            return true;
-        }));
+        option.Action = new FigletHelpCommand(command, action, getText, console);
 
         return command;
+    }
+
+    private sealed class FigletHelpCommand(Command command, Invocation.SynchronousCommandLineAction action, Func<FigletText> getText, IAnsiConsole? console = default) : Invocation.SynchronousCommandLineAction
+    {
+        public override int Invoke(ParseResult parseResult)
+        {
+            if (parseResult.CommandResult.Command == command)
+            {
+                console.GetValueOrDefault().Write(getText());
+            }
+
+            return action.Invoke(parseResult);
+        }
     }
 }

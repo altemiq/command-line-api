@@ -51,11 +51,18 @@ public class AnsiConsoleCommandExtensionsTests
         TestConsole console = new();
         Command command = new(nameof(AddFigletToSubCommandAndInvokeRoot));
 
-        CommandLineConfiguration configuration = new(new RootCommand { command });
+        CommandLineConfiguration configuration = new(new RootCommand { command});
+        var helpOption = configuration.RootCommand.Options.OfType<Help.HelpOption>().Single();
+        helpOption.Action = new NullAction();
         _ = command.AddFiglet("value", Color.Blue, console);
 
         _ = await configuration.Parse("--help").InvokeAsync();
 
         _ = await Assert.That(console.Lines.Skip(1)).IsEmpty();
+    }
+
+    private sealed class NullAction : Invocation.SynchronousCommandLineAction
+    {
+        public override int Invoke(ParseResult parseResult) => default;
     }
 }
