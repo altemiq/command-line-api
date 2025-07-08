@@ -4,9 +4,9 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-#pragma warning disable IDE0130
+#pragma warning disable IDE0130, CheckNamespace
 namespace Microsoft.Extensions.Logging;
-#pragma warning restore IDE0130
+#pragma warning restore IDE0130, CheckNamespace
 
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
