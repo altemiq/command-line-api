@@ -129,9 +129,9 @@
     "net9.0": {
       "Microsoft.Extensions.FileSystemGlobbing": {
         "type": "Direct",
-        "requested": "[9.0.6, )",
-        "resolved": "9.0.6",
-        "contentHash": "1HJCAbwukNEoYbHgHbKHmenU0V/0huw8+i7Qtf5rLUG1E+3kEwRJQxpwD3wbTEagIgPSQisNgJTvmUX9yYVc6g=="
+        "requested": "[9.0.7, )",
+        "resolved": "9.0.7",
+        "contentHash": "5VKpTH2ME0SSs0lrtkpKgjCeHzXR5ka/H+qThPwuWi78wHubApZ/atD7w69FDt0OOM7UMV6LIbkqEQgoby4IXA=="
       },
       "Microsoft.Testing.Extensions.CodeCoverage": {
         "type": "Direct",
@@ -237,9 +237,9 @@
       },
       "Microsoft.Extensions.DependencyModel": {
         "type": "CentralTransitive",
-        "requested": "[9.0.6, )",
-        "resolved": "9.0.6",
-        "contentHash": "grVU1ixgMHp+kuhIgvEzhE73jXRY6XmxNBPWrotmbjB9AvJvkwHnIzm1JlOsPpyixFgnzreh/bFBMJAjveX+fQ=="
+        "requested": "[9.0.7, )",
+        "resolved": "9.0.7",
+        "contentHash": "aXEt8QW1Fj9aC81GfkMtfip4wfbkEA7VBvNkx6Rx6ZKyqXIF/9qzRtH6v/2096IDK4lt6dlQp5Ajf+kjHfUdOA=="
       },
       "Microsoft.Testing.Platform.MSBuild": {
         "type": "CentralTransitive",
