@@ -60,7 +60,7 @@ public class ExtensionMethodsTests
         Option<string> option = new("--option");
         CommandLineConfiguration configuration = new(new RootCommand { option });
 
-        _ = await Assert.That(() => configuration.Parse("--option value").GetRequiredResult(option)).ThrowsNothing();
+        _ = await Assert.That(() => configuration.Parse("--option value").GetRequiredValueOrThrowWhenNull(option)).ThrowsNothing();
     }
 
     [Test]
@@ -69,7 +69,7 @@ public class ExtensionMethodsTests
         Argument<string> argument = new("ARG");
         CommandLineConfiguration configuration = new(new RootCommand { argument });
 
-        _ = await Assert.That(() => configuration.Parse("value").GetRequiredResult(argument)).ThrowsNothing();
+        _ = await Assert.That(() => configuration.Parse("value").GetRequiredValueOrThrowWhenNull(argument)).ThrowsNothing();
     }
 
     [Test]

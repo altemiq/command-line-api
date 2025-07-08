@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <PackageVersion Include="Altemiq.Runtime" Version="1.2.1" />
+    <PackageVersion Include="System.CommandLine" Version="2.0.0-beta6.25351.106" />
   </ItemGroup>
 
   <Choose>

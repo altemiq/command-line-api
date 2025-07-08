@@ -105,8 +105,8 @@
       },
       "System.CommandLine": {
         "type": "Transitive",
-        "resolved": "2.0.0-beta5.25306.1",
-        "contentHash": "ce0wuowuh13Cd7GXqLCq77/YWlxQMxrVCMIO/2/QUP6CdP/JWnlYSN/N3/55wwGsUwa9CvPuT8ddjgyypUr5ag==",
+        "resolved": "2.0.0-beta6.25319.1",
+        "contentHash": "C7opW3wDRMVUTNJhHktzAjvtb/nm8XqYdc6miK0jnwV3qmIh4GDUd0zma1QRcCongL/8vCH8zKDkUNA7x9+HvQ==",
         "dependencies": {
           "System.Memory": "4.5.4"
         }
@@ -131,10 +131,10 @@
         "resolved": "4.5.3",
         "contentHash": "3TIsJhD1EiiT0w2CcDMN/iSSwnNnsrnbzeVHSKkaEgV85txMprmuO+Yq2AdSbeVGcg28pdNDTPK87tJhX7VFHw=="
       },
-      "commandline": {
+      "Altemiq.CommandLine": {
         "type": "Project",
         "dependencies": {
-          "System.CommandLine": "[2.0.0-beta5.25306.1, )"
+          "System.CommandLine": "[2.0.0-beta6.25319.1, )"
         }
       }
     }

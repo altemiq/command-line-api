@@ -207,14 +207,6 @@
         "resolved": "10.12.0.118525",
         "contentHash": "uP38bsYegQBk8WOM6LYIAht6hrA7tcJgep/WuifPJjhjtjysPUP/iM/c1+P2+llNIDmm1s8Xh86+WG3K71eycw=="
       },
-      "Spectre.Console": {
-        "type": "Transitive",
-        "resolved": "0.50.0",
-        "contentHash": "gkwYncFqMjlPF6Yz8KeVsKWpdfv15sr6uKm+vXVa/8Q4tvx52LPzMQOO5m+bXwI3AGGFeY3cok3ZJbguYizswg==",
-        "dependencies": {
-          "System.Memory": "4.6.3"
-        }
-      },
       "StyleCop.Analyzers.Unstable": {
         "type": "Transitive",
         "resolved": "1.2.0.556",
@@ -224,14 +216,6 @@
         "type": "Transitive",
         "resolved": "4.6.1",
         "contentHash": "N8GXpmiLMtljq7gwvyS+1QvKT/W2J8sNAvx+HVg4NGmsG/H+2k/y9QI23auLJRterrzCiDH+IWAw4V/GPwsMlw=="
-      },
-      "System.CommandLine": {
-        "type": "Transitive",
-        "resolved": "2.0.0-beta5.25306.1",
-        "contentHash": "ce0wuowuh13Cd7GXqLCq77/YWlxQMxrVCMIO/2/QUP6CdP/JWnlYSN/N3/55wwGsUwa9CvPuT8ddjgyypUr5ag==",
-        "dependencies": {
-          "System.Memory": "4.5.4"
-        }
       },
       "System.Memory": {
         "type": "Transitive",
@@ -276,40 +260,58 @@
         "resolved": "4.5.0",
         "contentHash": "okurQJO6NRE/apDIP23ajJ0hpiNmJ+f0BwOlB/cSqTLQlw5upkf+5+96+iG2Jw40G1fCVCyPz/FhIABUjMR+RQ=="
       },
-      "commandline": {
+      "Altemiq.CommandLine": {
         "type": "Project",
         "dependencies": {
-          "System.CommandLine": "[2.0.0-beta5.25306.1, )"
+          "System.CommandLine": "[2.0.0-beta6.25319.1, )"
         }
       },
-      "commandline.filesystemglobbing": {
+      "Altemiq.CommandLine.FileSystemGlobbing": {
         "type": "Project",
         "dependencies": {
           "Microsoft.Extensions.FileSystemGlobbing": "[2.1.0, )",
           "System.CommandLine": "[2.0.0-beta5.25174.1, )"
         }
       },
-      "commandline.hosting": {
+      "Altemiq.CommandLine.Hosting": {
         "type": "Project",
         "dependencies": {
-          "CommandLine.FileSystemGlobbing": "[1.0.0, )",
-          "CommandLine.Logging": "[1.0.0, )",
+          "Altemiq.CommandLine.FileSystemGlobbing": "[1.0.0, )",
+          "Altemiq.CommandLine.Logging": "[1.0.0, )",
           "Microsoft.Extensions.Hosting": "[2.1.0, )"
         }
       },
-      "commandline.logging": {
+      "Altemiq.CommandLine.Logging": {
         "type": "Project",
         "dependencies": {
-          "CommandLine": "[1.0.0, )",
+          "Altemiq.CommandLine": "[1.0.0, )",
           "Microsoft.Extensions.DependencyInjection": "[2.1.0, )",
           "Microsoft.Extensions.Logging": "[2.1.0, )"
         }
       },
-      "commandline.spectre": {
+      "Altemiq.CommandLine.Spectre": {
         "type": "Project",
         "dependencies": {
-          "CommandLine": "[1.0.0, )",
+          "Altemiq.CommandLine": "[1.0.0, )",
           "Spectre.Console": "[0.50.0, )"
+        }
+      },
+      "Spectre.Console": {
+        "type": "CentralTransitive",
+        "requested": "[0.50.0, )",
+        "resolved": "0.50.0",
+        "contentHash": "gkwYncFqMjlPF6Yz8KeVsKWpdfv15sr6uKm+vXVa/8Q4tvx52LPzMQOO5m+bXwI3AGGFeY3cok3ZJbguYizswg==",
+        "dependencies": {
+          "System.Memory": "4.6.3"
+        }
+      },
+      "System.CommandLine": {
+        "type": "CentralTransitive",
+        "requested": "[2.0.0-beta6.25351.106, )",
+        "resolved": "2.0.0-beta6.25319.1",
+        "contentHash": "C7opW3wDRMVUTNJhHktzAjvtb/nm8XqYdc6miK0jnwV3qmIh4GDUd0zma1QRcCongL/8vCH8zKDkUNA7x9+HvQ==",
+        "dependencies": {
+          "System.Memory": "4.5.4"
         }
       }
     },
@@ -649,23 +651,10 @@
         "resolved": "10.12.0.118525",
         "contentHash": "uP38bsYegQBk8WOM6LYIAht6hrA7tcJgep/WuifPJjhjtjysPUP/iM/c1+P2+llNIDmm1s8Xh86+WG3K71eycw=="
       },
-      "Spectre.Console": {
-        "type": "Transitive",
-        "resolved": "0.50.0",
-        "contentHash": "gkwYncFqMjlPF6Yz8KeVsKWpdfv15sr6uKm+vXVa/8Q4tvx52LPzMQOO5m+bXwI3AGGFeY3cok3ZJbguYizswg==",
-        "dependencies": {
-          "System.Memory": "4.6.3"
-        }
-      },
       "StyleCop.Analyzers.Unstable": {
         "type": "Transitive",
         "resolved": "1.2.0.556",
         "contentHash": "zvn9Mqs/ox/83cpYPignI8hJEM2A93s2HkHs8HYMOAQW0PkampyoErAiIyKxgTLqbbad29HX/shv/6LGSjPJNQ=="
-      },
-      "System.CommandLine": {
-        "type": "Transitive",
-        "resolved": "2.0.0-beta5.25306.1",
-        "contentHash": "ce0wuowuh13Cd7GXqLCq77/YWlxQMxrVCMIO/2/QUP6CdP/JWnlYSN/N3/55wwGsUwa9CvPuT8ddjgyypUr5ag=="
       },
       "System.Diagnostics.EventLog": {
         "type": "Transitive",
@@ -677,41 +666,56 @@
         "resolved": "4.6.3",
         "contentHash": "qdcDOgnFZY40+Q9876JUHnlHu7bosOHX8XISRoH94fwk6hgaeQGSgfZd8srWRZNt5bV9ZW2TljcegDNxsf+96A=="
       },
-      "commandline": {
+      "Altemiq.CommandLine": {
         "type": "Project",
         "dependencies": {
-          "System.CommandLine": "[2.0.0-beta5.25306.1, )"
+          "System.CommandLine": "[2.0.0-beta6.25319.1, )"
         }
       },
-      "commandline.filesystemglobbing": {
+      "Altemiq.CommandLine.FileSystemGlobbing": {
         "type": "Project",
         "dependencies": {
           "Microsoft.Extensions.FileSystemGlobbing": "[2.1.0, )",
           "System.CommandLine": "[2.0.0-beta5.25174.1, )"
         }
       },
-      "commandline.hosting": {
+      "Altemiq.CommandLine.Hosting": {
         "type": "Project",
         "dependencies": {
-          "CommandLine.FileSystemGlobbing": "[1.0.0, )",
-          "CommandLine.Logging": "[1.0.0, )",
+          "Altemiq.CommandLine.FileSystemGlobbing": "[1.0.0, )",
+          "Altemiq.CommandLine.Logging": "[1.0.0, )",
           "Microsoft.Extensions.Hosting": "[8.0.1, )"
         }
       },
-      "commandline.logging": {
+      "Altemiq.CommandLine.Logging": {
         "type": "Project",
         "dependencies": {
-          "CommandLine": "[1.0.0, )",
+          "Altemiq.CommandLine": "[1.0.0, )",
           "Microsoft.Extensions.DependencyInjection": "[3.1.0, )",
           "Microsoft.Extensions.Logging": "[3.1.0, )"
         }
       },
-      "commandline.spectre": {
+      "Altemiq.CommandLine.Spectre": {
         "type": "Project",
         "dependencies": {
-          "CommandLine": "[1.0.0, )",
+          "Altemiq.CommandLine": "[1.0.0, )",
           "Spectre.Console": "[0.50.0, )"
         }
+      },
+      "Spectre.Console": {
+        "type": "CentralTransitive",
+        "requested": "[0.50.0, )",
+        "resolved": "0.50.0",
+        "contentHash": "gkwYncFqMjlPF6Yz8KeVsKWpdfv15sr6uKm+vXVa/8Q4tvx52LPzMQOO5m+bXwI3AGGFeY3cok3ZJbguYizswg==",
+        "dependencies": {
+          "System.Memory": "4.6.3"
+        }
+      },
+      "System.CommandLine": {
+        "type": "CentralTransitive",
+        "requested": "[2.0.0-beta6.25351.106, )",
+        "resolved": "2.0.0-beta6.25319.1",
+        "contentHash": "C7opW3wDRMVUTNJhHktzAjvtb/nm8XqYdc6miK0jnwV3qmIh4GDUd0zma1QRcCongL/8vCH8zKDkUNA7x9+HvQ=="
       }
     },
     "net9.0": {
@@ -1050,23 +1054,10 @@
         "resolved": "10.12.0.118525",
         "contentHash": "uP38bsYegQBk8WOM6LYIAht6hrA7tcJgep/WuifPJjhjtjysPUP/iM/c1+P2+llNIDmm1s8Xh86+WG3K71eycw=="
       },
-      "Spectre.Console": {
-        "type": "Transitive",
-        "resolved": "0.50.0",
-        "contentHash": "gkwYncFqMjlPF6Yz8KeVsKWpdfv15sr6uKm+vXVa/8Q4tvx52LPzMQOO5m+bXwI3AGGFeY3cok3ZJbguYizswg==",
-        "dependencies": {
-          "System.Memory": "4.6.3"
-        }
-      },
       "StyleCop.Analyzers.Unstable": {
         "type": "Transitive",
         "resolved": "1.2.0.556",
         "contentHash": "zvn9Mqs/ox/83cpYPignI8hJEM2A93s2HkHs8HYMOAQW0PkampyoErAiIyKxgTLqbbad29HX/shv/6LGSjPJNQ=="
-      },
-      "System.CommandLine": {
-        "type": "Transitive",
-        "resolved": "2.0.0-beta5.25306.1",
-        "contentHash": "ce0wuowuh13Cd7GXqLCq77/YWlxQMxrVCMIO/2/QUP6CdP/JWnlYSN/N3/55wwGsUwa9CvPuT8ddjgyypUr5ag=="
       },
       "System.Diagnostics.EventLog": {
         "type": "Transitive",
@@ -1078,41 +1069,56 @@
         "resolved": "4.6.3",
         "contentHash": "qdcDOgnFZY40+Q9876JUHnlHu7bosOHX8XISRoH94fwk6hgaeQGSgfZd8srWRZNt5bV9ZW2TljcegDNxsf+96A=="
       },
-      "commandline": {
+      "Altemiq.CommandLine": {
         "type": "Project",
         "dependencies": {
-          "System.CommandLine": "[2.0.0-beta5.25306.1, )"
+          "System.CommandLine": "[2.0.0-beta6.25319.1, )"
         }
       },
-      "commandline.filesystemglobbing": {
+      "Altemiq.CommandLine.FileSystemGlobbing": {
         "type": "Project",
         "dependencies": {
           "Microsoft.Extensions.FileSystemGlobbing": "[2.1.0, )",
           "System.CommandLine": "[2.0.0-beta5.25174.1, )"
         }
       },
-      "commandline.hosting": {
+      "Altemiq.CommandLine.Hosting": {
         "type": "Project",
         "dependencies": {
-          "CommandLine.FileSystemGlobbing": "[1.0.0, )",
-          "CommandLine.Logging": "[1.0.0, )",
+          "Altemiq.CommandLine.FileSystemGlobbing": "[1.0.0, )",
+          "Altemiq.CommandLine.Logging": "[1.0.0, )",
           "Microsoft.Extensions.Hosting": "[9.0.0, )"
         }
       },
-      "commandline.logging": {
+      "Altemiq.CommandLine.Logging": {
         "type": "Project",
         "dependencies": {
-          "CommandLine": "[1.0.0, )",
+          "Altemiq.CommandLine": "[1.0.0, )",
           "Microsoft.Extensions.DependencyInjection": "[3.1.0, )",
           "Microsoft.Extensions.Logging": "[3.1.0, )"
         }
       },
-      "commandline.spectre": {
+      "Altemiq.CommandLine.Spectre": {
         "type": "Project",
         "dependencies": {
-          "CommandLine": "[1.0.0, )",
+          "Altemiq.CommandLine": "[1.0.0, )",
           "Spectre.Console": "[0.50.0, )"
         }
+      },
+      "Spectre.Console": {
+        "type": "CentralTransitive",
+        "requested": "[0.50.0, )",
+        "resolved": "0.50.0",
+        "contentHash": "gkwYncFqMjlPF6Yz8KeVsKWpdfv15sr6uKm+vXVa/8Q4tvx52LPzMQOO5m+bXwI3AGGFeY3cok3ZJbguYizswg==",
+        "dependencies": {
+          "System.Memory": "4.6.3"
+        }
+      },
+      "System.CommandLine": {
+        "type": "CentralTransitive",
+        "requested": "[2.0.0-beta6.25351.106, )",
+        "resolved": "2.0.0-beta6.25319.1",
+        "contentHash": "C7opW3wDRMVUTNJhHktzAjvtb/nm8XqYdc6miK0jnwV3qmIh4GDUd0zma1QRcCongL/8vCH8zKDkUNA7x9+HvQ=="
       }
     }
   }

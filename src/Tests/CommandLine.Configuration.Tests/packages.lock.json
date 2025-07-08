@@ -85,11 +85,6 @@
         "resolved": "8.0.0",
         "contentHash": "AurL6Y5BA1WotzlEvVaIDpqzpIPvYnnldxru8oXJU2yFxFUy3+pNXjXd1ymO+RA0rq0+590Q8gaz2l3Sr7fmqg=="
       },
-      "System.CommandLine": {
-        "type": "Transitive",
-        "resolved": "2.0.0-beta5.25306.1",
-        "contentHash": "ce0wuowuh13Cd7GXqLCq77/YWlxQMxrVCMIO/2/QUP6CdP/JWnlYSN/N3/55wwGsUwa9CvPuT8ddjgyypUr5ag=="
-      },
       "System.Reflection.Metadata": {
         "type": "Transitive",
         "resolved": "8.0.0",
@@ -120,16 +115,16 @@
           "TUnit.Core": "0.25.21"
         }
       },
-      "commandline": {
+      "Altemiq.CommandLine": {
         "type": "Project",
         "dependencies": {
-          "System.CommandLine": "[2.0.0-beta5.25306.1, )"
+          "System.CommandLine": "[2.0.0-beta6.25319.1, )"
         }
       },
-      "commandline.configuration": {
+      "Altemiq.CommandLine.Configuration": {
         "type": "Project",
         "dependencies": {
-          "CommandLine": "[1.0.0, )",
+          "Altemiq.CommandLine": "[1.0.0, )",
           "Microsoft.Extensions.Configuration": "[2.1.0, )"
         }
       },
@@ -147,6 +142,12 @@
         "dependencies": {
           "Microsoft.Testing.Platform": "1.7.3"
         }
+      },
+      "System.CommandLine": {
+        "type": "CentralTransitive",
+        "requested": "[2.0.0-beta6.25351.106, )",
+        "resolved": "2.0.0-beta6.25351.106",
+        "contentHash": "8tTsT6zfgXiyAFJDihD9NPwV40LrTujvZPYcdTLRnwK0AQ5vWUjcSXYBMIy8HtfqhkJofel0LuQCz/bVUNyGwg=="
       }
     },
     "net9.0": {
@@ -233,11 +234,6 @@
         "resolved": "8.0.0",
         "contentHash": "AurL6Y5BA1WotzlEvVaIDpqzpIPvYnnldxru8oXJU2yFxFUy3+pNXjXd1ymO+RA0rq0+590Q8gaz2l3Sr7fmqg=="
       },
-      "System.CommandLine": {
-        "type": "Transitive",
-        "resolved": "2.0.0-beta5.25306.1",
-        "contentHash": "ce0wuowuh13Cd7GXqLCq77/YWlxQMxrVCMIO/2/QUP6CdP/JWnlYSN/N3/55wwGsUwa9CvPuT8ddjgyypUr5ag=="
-      },
       "System.Reflection.Metadata": {
         "type": "Transitive",
         "resolved": "8.0.0",
@@ -268,16 +264,16 @@
           "TUnit.Core": "0.25.21"
         }
       },
-      "commandline": {
+      "Altemiq.CommandLine": {
         "type": "Project",
         "dependencies": {
-          "System.CommandLine": "[2.0.0-beta5.25306.1, )"
+          "System.CommandLine": "[2.0.0-beta6.25319.1, )"
         }
       },
-      "commandline.configuration": {
+      "Altemiq.CommandLine.Configuration": {
         "type": "Project",
         "dependencies": {
-          "CommandLine": "[1.0.0, )",
+          "Altemiq.CommandLine": "[1.0.0, )",
           "Microsoft.Extensions.Configuration": "[2.1.0, )"
         }
       },
@@ -295,6 +291,12 @@
         "dependencies": {
           "Microsoft.Testing.Platform": "1.7.3"
         }
+      },
+      "System.CommandLine": {
+        "type": "CentralTransitive",
+        "requested": "[2.0.0-beta6.25351.106, )",
+        "resolved": "2.0.0-beta6.25351.106",
+        "contentHash": "8tTsT6zfgXiyAFJDihD9NPwV40LrTujvZPYcdTLRnwK0AQ5vWUjcSXYBMIy8HtfqhkJofel0LuQCz/bVUNyGwg=="
       }
     }
   }
