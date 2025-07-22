@@ -21,7 +21,7 @@ public static class ExtensionMethods
     /// <exception cref="ArgumentNullException">Result from <paramref name="name"/> is <see langword="null"/>.</exception>
     [Runtime.CompilerServices.MethodImpl(Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static T GetRequiredValueOrThrowWhenNull<T>(this ParseResult parseResult, string name)
-        where T : notnull => parseResult.GetValue<T>(name).ThrowIfNull();
+        where T : notnull => parseResult.GetRequiredValue<T>(name).ThrowIfNull();
 
     /// <summary>
     /// Gets the value from the parse result or throws an exception.
