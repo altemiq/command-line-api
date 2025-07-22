@@ -15,8 +15,6 @@ This repository contains the code for the Altemiq.CommandLine libraries
 | `Altemiq.CommandLine.Native`              | [![nuget](https://img.shields.io/nuget/v/Altemiq.CommandLine.Native.svg)](https://nuget.org/packages/Altemiq.CommandLine.Native)                           | support for using Altemiq.CommandLine with [Altemiq.Runtime.Native](https://www.nuget.org/packages/Altemiq.Runtime.Native/)                                     |
 | `Altemiq.CommandLine.Spectre`             | [![nuget](https://img.shields.io/nuget/v/Altemiq.CommandLine.Spectre.svg)](https://nuget.org/packages/Altemiq.CommandLine.Spectre)                         | support for using Altemiq.CommandLine with [Spectre.Console](https://www.nuget.org/packages/Spectre.Console/)                                                   |
 
-Use of these packages requires the daily builds of [System.CommandLine](https://github.com/dotnet/command-line-api). Add `https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet-libraries/nuget/v3/index.json` to your nuget.config.
-
 ## License
 
 This project is licensed under the [MIT license](LICENSE.md).
