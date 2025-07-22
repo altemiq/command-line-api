@@ -140,10 +140,10 @@ jobs:
     - name: Run local/get-suffix@v1
       id: suffix
       run: |
-        suffix=alpha5
+        suffix=alpha6
         if [ ${{ github.event_name }} == push ];
         then
-          suffix=beta5;
+          suffix=beta6;
         fi
 
         echo "value=$suffix" >> $GITHUB_OUTPUT

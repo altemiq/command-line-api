@@ -152,8 +152,8 @@
       },
       "System.CommandLine": {
         "type": "Transitive",
-        "resolved": "2.0.0-beta5.25306.1",
-        "contentHash": "ce0wuowuh13Cd7GXqLCq77/YWlxQMxrVCMIO/2/QUP6CdP/JWnlYSN/N3/55wwGsUwa9CvPuT8ddjgyypUr5ag==",
+        "resolved": "2.0.0-beta6.25358.103",
+        "contentHash": "YE8bPzXelsU4Fm4mHIFKwPHYJ1RT0hr1b5+tiyjFk4YYpA+WKzdYxrvdJVJIoC+2vbtffajA928Qe7xUj0WR4g==",
         "dependencies": {
           "System.Memory": "4.5.4"
         }
@@ -181,7 +181,7 @@
       "commandline": {
         "type": "Project",
         "dependencies": {
-          "System.CommandLine": "[2.0.0-beta5.25306.1, )"
+          "System.CommandLine": "[2.0.0-beta6.25358.103, )"
         }
       }
     },
@@ -336,8 +336,8 @@
       },
       "System.CommandLine": {
         "type": "Transitive",
-        "resolved": "2.0.0-beta5.25306.1",
-        "contentHash": "ce0wuowuh13Cd7GXqLCq77/YWlxQMxrVCMIO/2/QUP6CdP/JWnlYSN/N3/55wwGsUwa9CvPuT8ddjgyypUr5ag==",
+        "resolved": "2.0.0-beta6.25358.103",
+        "contentHash": "YE8bPzXelsU4Fm4mHIFKwPHYJ1RT0hr1b5+tiyjFk4YYpA+WKzdYxrvdJVJIoC+2vbtffajA928Qe7xUj0WR4g==",
         "dependencies": {
           "System.Memory": "4.5.4"
         }
@@ -365,7 +365,7 @@
       "commandline": {
         "type": "Project",
         "dependencies": {
-          "System.CommandLine": "[2.0.0-beta5.25306.1, )"
+          "System.CommandLine": "[2.0.0-beta6.25358.103, )"
         }
       }
     },
@@ -506,8 +506,8 @@
       },
       "System.CommandLine": {
         "type": "Transitive",
-        "resolved": "2.0.0-beta5.25306.1",
-        "contentHash": "ce0wuowuh13Cd7GXqLCq77/YWlxQMxrVCMIO/2/QUP6CdP/JWnlYSN/N3/55wwGsUwa9CvPuT8ddjgyypUr5ag==",
+        "resolved": "2.0.0-beta6.25358.103",
+        "contentHash": "YE8bPzXelsU4Fm4mHIFKwPHYJ1RT0hr1b5+tiyjFk4YYpA+WKzdYxrvdJVJIoC+2vbtffajA928Qe7xUj0WR4g==",
         "dependencies": {
           "System.Memory": "4.5.4"
         }
@@ -535,7 +535,7 @@
       "commandline": {
         "type": "Project",
         "dependencies": {
-          "System.CommandLine": "[2.0.0-beta5.25306.1, )"
+          "System.CommandLine": "[2.0.0-beta6.25358.103, )"
         }
       }
     },
@@ -667,8 +667,8 @@
       },
       "System.CommandLine": {
         "type": "Transitive",
-        "resolved": "2.0.0-beta5.25306.1",
-        "contentHash": "ce0wuowuh13Cd7GXqLCq77/YWlxQMxrVCMIO/2/QUP6CdP/JWnlYSN/N3/55wwGsUwa9CvPuT8ddjgyypUr5ag==",
+        "resolved": "2.0.0-beta6.25358.103",
+        "contentHash": "YE8bPzXelsU4Fm4mHIFKwPHYJ1RT0hr1b5+tiyjFk4YYpA+WKzdYxrvdJVJIoC+2vbtffajA928Qe7xUj0WR4g==",
         "dependencies": {
           "System.Memory": "4.5.4"
         }
@@ -681,7 +681,7 @@
       "commandline": {
         "type": "Project",
         "dependencies": {
-          "System.CommandLine": "[2.0.0-beta5.25306.1, )"
+          "System.CommandLine": "[2.0.0-beta6.25358.103, )"
         }
       }
     }
