@@ -4,16 +4,16 @@
     ".NETFramework,Version=v4.7.2": {
       "Altemiq.DotNet.CodingStandard": {
         "type": "Direct",
-        "requested": "[1.0.87, )",
-        "resolved": "1.0.87",
-        "contentHash": "eD95/DF57JcoGppeBWyGYgs2f2piVSRcAwV+GvJLIXRNrakiEmE87AfKkJ7iIUxHoYhveUy67GT7oAVgiLy6Mw==",
+        "requested": "[1.0.89, )",
+        "resolved": "1.0.89",
+        "contentHash": "ORPikgP97Bu1eh7ioUUiaZ9yM4Ui33Pzb4MbhUlTVKpE9FUW9v5TcWNya5PM4shAFzlJed7DtykNuPKN/BhULA==",
         "dependencies": {
           "DotNet.ReproducibleBuilds": "1.2.25",
           "DotNet.ReproducibleBuilds.Isolated": "1.2.25",
           "Meziantou.Analyzer": "2.0.205",
           "Microsoft.CodeAnalysis.BannedApiAnalyzers": "4.14.0",
           "Roslynator.Analyzers": "4.13.1",
-          "SonarAnalyzer.CSharp": "10.12.0.118525",
+          "SonarAnalyzer.CSharp": "10.14.0.120626",
           "StyleCop.Analyzers.Unstable": "1.2.0.556"
         }
       },
@@ -204,8 +204,8 @@
       },
       "SonarAnalyzer.CSharp": {
         "type": "Transitive",
-        "resolved": "10.12.0.118525",
-        "contentHash": "uP38bsYegQBk8WOM6LYIAht6hrA7tcJgep/WuifPJjhjtjysPUP/iM/c1+P2+llNIDmm1s8Xh86+WG3K71eycw=="
+        "resolved": "10.14.0.120626",
+        "contentHash": "pQ2jRD4VxMGJKgUQhCcSyMh4N477QSn3iE+2tl64C4uhjINyyv+TtobCmwJ4CRlNcirZuV7hKQ2AVOht6TgTzA=="
       },
       "Spectre.Console": {
         "type": "Transitive",
@@ -316,16 +316,16 @@
     "net8.0": {
       "Altemiq.DotNet.CodingStandard": {
         "type": "Direct",
-        "requested": "[1.0.87, )",
-        "resolved": "1.0.87",
-        "contentHash": "eD95/DF57JcoGppeBWyGYgs2f2piVSRcAwV+GvJLIXRNrakiEmE87AfKkJ7iIUxHoYhveUy67GT7oAVgiLy6Mw==",
+        "requested": "[1.0.89, )",
+        "resolved": "1.0.89",
+        "contentHash": "ORPikgP97Bu1eh7ioUUiaZ9yM4Ui33Pzb4MbhUlTVKpE9FUW9v5TcWNya5PM4shAFzlJed7DtykNuPKN/BhULA==",
         "dependencies": {
           "DotNet.ReproducibleBuilds": "1.2.25",
           "DotNet.ReproducibleBuilds.Isolated": "1.2.25",
           "Meziantou.Analyzer": "2.0.205",
           "Microsoft.CodeAnalysis.BannedApiAnalyzers": "4.14.0",
           "Roslynator.Analyzers": "4.13.1",
-          "SonarAnalyzer.CSharp": "10.12.0.118525",
+          "SonarAnalyzer.CSharp": "10.14.0.120626",
           "StyleCop.Analyzers.Unstable": "1.2.0.556"
         }
       },
@@ -646,8 +646,8 @@
       },
       "SonarAnalyzer.CSharp": {
         "type": "Transitive",
-        "resolved": "10.12.0.118525",
-        "contentHash": "uP38bsYegQBk8WOM6LYIAht6hrA7tcJgep/WuifPJjhjtjysPUP/iM/c1+P2+llNIDmm1s8Xh86+WG3K71eycw=="
+        "resolved": "10.14.0.120626",
+        "contentHash": "pQ2jRD4VxMGJKgUQhCcSyMh4N477QSn3iE+2tl64C4uhjINyyv+TtobCmwJ4CRlNcirZuV7hKQ2AVOht6TgTzA=="
       },
       "Spectre.Console": {
         "type": "Transitive",
@@ -717,16 +717,16 @@
     "net9.0": {
       "Altemiq.DotNet.CodingStandard": {
         "type": "Direct",
-        "requested": "[1.0.87, )",
-        "resolved": "1.0.87",
-        "contentHash": "eD95/DF57JcoGppeBWyGYgs2f2piVSRcAwV+GvJLIXRNrakiEmE87AfKkJ7iIUxHoYhveUy67GT7oAVgiLy6Mw==",
+        "requested": "[1.0.89, )",
+        "resolved": "1.0.89",
+        "contentHash": "ORPikgP97Bu1eh7ioUUiaZ9yM4Ui33Pzb4MbhUlTVKpE9FUW9v5TcWNya5PM4shAFzlJed7DtykNuPKN/BhULA==",
         "dependencies": {
           "DotNet.ReproducibleBuilds": "1.2.25",
           "DotNet.ReproducibleBuilds.Isolated": "1.2.25",
           "Meziantou.Analyzer": "2.0.205",
           "Microsoft.CodeAnalysis.BannedApiAnalyzers": "4.14.0",
           "Roslynator.Analyzers": "4.13.1",
-          "SonarAnalyzer.CSharp": "10.12.0.118525",
+          "SonarAnalyzer.CSharp": "10.14.0.120626",
           "StyleCop.Analyzers.Unstable": "1.2.0.556"
         }
       },
@@ -1047,8 +1047,8 @@
       },
       "SonarAnalyzer.CSharp": {
         "type": "Transitive",
-        "resolved": "10.12.0.118525",
-        "contentHash": "uP38bsYegQBk8WOM6LYIAht6hrA7tcJgep/WuifPJjhjtjysPUP/iM/c1+P2+llNIDmm1s8Xh86+WG3K71eycw=="
+        "resolved": "10.14.0.120626",
+        "contentHash": "pQ2jRD4VxMGJKgUQhCcSyMh4N477QSn3iE+2tl64C4uhjINyyv+TtobCmwJ4CRlNcirZuV7hKQ2AVOht6TgTzA=="
       },
       "Spectre.Console": {
         "type": "Transitive",
