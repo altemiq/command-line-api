@@ -32,7 +32,14 @@ public static partial class HostingExtensions
     public static T UseServices<T>(
         this T configuration,
         Action<Microsoft.Extensions.DependencyInjection.IServiceCollection> configure)
-        where T : CommandLineConfiguration => UseServices(configuration, static () => new Microsoft.Extensions.Hosting.HostBuilder(), configure);
+        where T : CommandLineConfiguration => UseServices(
+            configuration,
+#if NET7_0_OR_GREATER
+            static args => Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args),
+#else
+            static () => new Microsoft.Extensions.Hosting.HostBuilder(),
+#endif
+            configure);
 
     /// <summary>
     /// Uses configuration for the configuration.
@@ -44,7 +51,14 @@ public static partial class HostingExtensions
     public static T UseServices<T>(
         this T configuration,
         Action<ParseResult?, Microsoft.Extensions.DependencyInjection.IServiceCollection> configure)
-        where T : CommandLineConfiguration => UseServices(configuration, static () => new Microsoft.Extensions.Hosting.HostBuilder(), configure);
+        where T : CommandLineConfiguration => UseServices(
+            configuration,
+#if NET7_0_OR_GREATER
+            static args => Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args),
+#else
+            static () => new Microsoft.Extensions.Hosting.HostBuilder(),
+#endif
+            configure);
 
     /// <summary>
     /// Uses configuration for the configuration.
