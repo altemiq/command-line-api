@@ -18,19 +18,19 @@ public class AnsiConsoleProgressOptions
 
     /// <summary>
     /// Gets or sets the update rate.
-    /// Defaults to once a second.
     /// </summary>
+    /// <remarks>Defaults to once a second.</remarks>
     public TimeSpan UpdateRate { get; set; } = TimeSpan.FromSeconds(1D);
 
     /// <summary>
     /// Gets or sets a value indicating whether to show the <see cref="RemainingTimeColumn"/>.
     /// </summary>
-    /// <remarks>The only operates on a <see cref="IAnsiConsole"/> instance. When passing a <see cref="Progress"/> this property is ignored.</remarks>
+    /// <remarks>This only operates on a <see cref="IAnsiConsole"/> instance. When passing a <see cref="Progress"/> this property is ignored.</remarks>
     public bool ShowRemainingTime { get; set; } = true;
 
     /// <summary>
     /// Gets or sets a value indicating whether to show the <see cref="SpinnerColumn"/>.
     /// </summary>
-    /// <remarks>The only operates on a <see cref="IAnsiConsole"/> instance. When passing a <see cref="Progress"/> this property is ignored.</remarks>
+    /// <remarks>This only operates on a <see cref="IAnsiConsole"/> instance. When passing a <see cref="Progress"/> this property is ignored.</remarks>
     public bool ShowSpinner { get; set; } = true;
 }

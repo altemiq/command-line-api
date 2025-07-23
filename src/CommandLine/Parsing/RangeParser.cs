@@ -34,7 +34,7 @@ public static class RangeParser
     /// <returns>The parsed value.</returns>
     public static Range Parse(string value)
     {
-        // split on the '..'
+        // split on the double dots
         ReadOnlySpan<char> span = value;
         var index = span.IndexOf(Separator, StringComparison.Ordinal);
 
