@@ -26,25 +26,16 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - uses: actions/cache@v4
+    # Install the .NET workloads
+    - uses: actions/setup-dotnet@v4
       id: cache
       with:
-        path: ${{ github.workspace }}/.nuget/packages
-        key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
-        lookup-only: true
-        restore-keys: |
-          ${{ runner.os }}-nuget-
-
-    # Install the .NET workloads
-    - if: steps.cache.outputs.cache-hit != 'true'
-      uses: actions/setup-dotnet@v4
-      with:
         dotnet-version: 9.0.x
+        cache: true
 
     - name: Run local/dotnet-restore@v1
       if: steps.cache.outputs.cache-hit != 'true'
-      run: |
-        dotnet restore
+      run: dotnet restore --locked-mode
 
   run-tests:
     runs-on: ubuntu-latest
@@ -55,25 +46,23 @@ jobs:
       with:
         lfs: true
 
-    - uses: actions/cache/restore@v4
-      with:
-        path: ${{ github.workspace }}/.nuget/packages
-        key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-nuget-
-
     # Install .NET
     - uses: actions/setup-dotnet@v4
       with:
         dotnet-version: |
           8.0.x
           9.0.x
+        cache: true
+    
+    - name: Run local/dotnet-restore@v1
+      run: dotnet restore --locked-mode
 
     # Test
     - name: Run local/dotnet-test@v1
       id: test
       run: >
         dotnet test
+        --no-restore
         --
         --results-directory ${{ github.workspace }}/coverage/results
         --coverage
@@ -115,20 +104,14 @@ jobs:
       with:
         fetch-depth: 0 # get all history here, for semantic versioning
 
-    - uses: actions/cache/restore@v4
-      with:
-        path: ${{ github.workspace }}/.nuget/packages
-        key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-nuget-
-
     # Install the .NET workload
     - uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 9.0.x
+        cache: true
 
     - name: Run local/dotnet-restore@v1
-      run: dotnet restore
+      run: dotnet restore --locked-mode
 
     - name: Run local/dotnet-build@v1
       run: dotnet build --no-restore
