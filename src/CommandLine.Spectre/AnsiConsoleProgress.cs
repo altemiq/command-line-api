@@ -18,7 +18,8 @@ public static class AnsiConsoleProgress
     /// <param name="options">The optional options.</param>
     /// <param name="configureTask">The action to perform to configure tasks.</param>
     /// <returns>The progress class.</returns>
-    public static AnsiConsoleProgress<AnsiConsoleProgressItem> Create(IAnsiConsole console, AnsiConsoleProgressOptions? options = default, Action<string, ProgressTaskSettings>? configureTask = default) => Create(console, Func<AnsiConsoleProgressItem>.Return, options, configureTask);
+    public static AnsiConsoleProgress<AnsiConsoleProgressItem> Create(IAnsiConsole console, AnsiConsoleProgressOptions? options = default, Action<string, ProgressTaskSettings>? configureTask = default) =>
+        Create(console, Func<AnsiConsoleProgressItem>.Return, options, configureTask);
 
     /// <summary>
     /// Creates the <see cref="IProgress{T}" /> for <see cref="IAnsiConsole"/>.
@@ -29,11 +30,8 @@ public static class AnsiConsoleProgress
     /// <param name="options">The optional options.</param>
     /// <param name="configureTask">The action to perform to configure tasks.</param>
     /// <returns>The progress class.</returns>
-    public static AnsiConsoleProgress<T> Create<T>(IAnsiConsole console, Func<T, AnsiConsoleProgressItem> converter, AnsiConsoleProgressOptions? options = default, Action<string, ProgressTaskSettings>? configureTask = default)
-    {
-        options ??= AnsiConsoleProgressOptions.Default;
-        return Create(() => EnsureColumns(console.Progress(), options), converter, options.UpdateRate, configureTask);
-    }
+    public static AnsiConsoleProgress<T> Create<T>(IAnsiConsole console, Func<T, AnsiConsoleProgressItem> converter, AnsiConsoleProgressOptions? options = default, Action<string, ProgressTaskSettings>? configureTask = default) =>
+        Create(options ?? AnsiConsoleProgressOptions.Default, o => EnsureColumns(console.Progress(), o), converter, configureTask);
 
     /// <summary>
     /// Creates the <see cref="IProgress{T}" /> for <see cref="IAnsiConsole"/>.
@@ -44,15 +42,13 @@ public static class AnsiConsoleProgress
     /// <param name="options">The optional options.</param>
     /// <param name="configureTask">The action to perform to configure tasks.</param>
     /// <returns>The progress class.</returns>
-    public static AnsiConsoleProgress<T> Create<T>(Progress progress, Func<T, AnsiConsoleProgressItem> converter, AnsiConsoleProgressOptions? options = default, Action<string, ProgressTaskSettings>? configureTask = default)
-    {
-        options ??= AnsiConsoleProgressOptions.Default;
-        return Create(() => progress, converter, options.UpdateRate, configureTask);
-    }
+    public static AnsiConsoleProgress<T> Create<T>(Progress progress, Func<T, AnsiConsoleProgressItem> converter, AnsiConsoleProgressOptions? options = default, Action<string, ProgressTaskSettings>? configureTask = default) =>
+        Create(options ?? AnsiConsoleProgressOptions.Default, _ => progress, converter, configureTask);
 
-    private static AnsiConsoleProgress<T> Create<T>(System.Func<Progress> progressFactory, Func<T, AnsiConsoleProgressItem> converter, TimeSpan updateRate, Action<string, ProgressTaskSettings>? configureTask)
+    private static AnsiConsoleProgress<T> Create<T>(AnsiConsoleProgressOptions options, System.Func<AnsiConsoleProgressOptions, Progress> progressFactory, Func<T, AnsiConsoleProgressItem> converter, Action<string, ProgressTaskSettings>? configureTask)
     {
         const int ThreadUpdateRate = 100;
+        var updateRate = options.UpdateRate;
         var lastUpdate = DateTime.UtcNow;
         ProgressContext? context = default;
         var progressTasks = new Collections.Concurrent.ConcurrentDictionary<string, ProgressTask>(StringComparer.Ordinal);
@@ -123,7 +119,7 @@ public static class AnsiConsoleProgress
                         return;
                     }
 
-                    _ = Task.Run(() => progressFactory()
+                    _ = Task.Run(() => progressFactory(options)
                         .Start(ctx =>
                         {
                             context = ctx;
@@ -150,13 +146,15 @@ public static class AnsiConsoleProgress
             void UpdateProgress(ProgressTask progressTaskToUpdate)
             {
                 var currentUpdate = DateTime.UtcNow;
-                if (currentUpdate - lastUpdate > updateRate)
+                if (currentUpdate - lastUpdate <= updateRate)
                 {
-                    lastUpdate = currentUpdate;
-                    if (progressItem.Percentage is >= 0 and < double.PositiveInfinity)
-                    {
-                        progressTaskToUpdate.Value = progressItem.Percentage;
-                    }
+                    return;
+                }
+
+                lastUpdate = currentUpdate;
+                if (progressItem.Percentage is >= 0 and < double.PositiveInfinity)
+                {
+                    progressTaskToUpdate.Value = progressItem.Percentage;
                 }
             }
         }
