@@ -18,7 +18,7 @@ internal sealed class CommandLineConfigurationLogger(CommandLineConfiguration co
         where TState : notnull => scopeProvider?.Push(state) ?? Internal.NullScope.Instance;
 
     /// <inheritdoc/>
-    public bool IsEnabled(LogLevel logLevel) => logLevel != LogLevel.None;
+    public bool IsEnabled(LogLevel logLevel) => logLevel is not LogLevel.None;
 
     /// <inheritdoc/>
     public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
