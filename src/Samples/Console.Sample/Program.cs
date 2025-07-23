@@ -12,7 +12,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 var verbosityOption = new VerbosityOption();
-var root = new RootCommand { verbosityOption };
+var progressRateOption = new Option<int>("--progress-rate") { Aliases = { "-p" }, Description = "The progress rate in milliseconds", DefaultValueFactory = _ => 100 };
+var root = new RootCommand { verbosityOption, progressRateOption };
 root.SetAction(parseResult =>
 {
     var exception = new InvalidOperationException("This is an exception!");
@@ -35,6 +36,8 @@ root.SetAction(parseResult =>
     var ansiConsoleProgress = AnsiConsoleProgress.Create<(string Name, double Percentage)>(Spectre.Console.AnsiConsole.Console, static x => new AnsiConsoleProgressItem(x.Name, x.Percentage), new AnsiConsoleProgressOptions { UpdateRate = TimeSpan.FromMilliseconds(50) });
     IProgress<(string Name, double Percentage)> progress = ansiConsoleProgress;
 
+    var progressRate = parseResult.GetValueOrPrompt(progressRateOption, "Enter the progress rate");
+
     const string UnknownLengthTask = "Unknown Length Task";
     const string KnownLengthTask = "Known Length Task";
 
@@ -43,7 +46,7 @@ root.SetAction(parseResult =>
 
     for (var i = 1; i <= 100; i++)
     {
-        Thread.Sleep(100);
+        Thread.Sleep(progressRate);
         progress.Report(new(KnownLengthTask, i));
     }
 
