@@ -16,7 +16,7 @@ public class InstanceCommandLineActionTests
     {
         Command command = new Command("command") { new Command("subcommand") }.SetAction(action);
 
-        InstanceCommandLineAction.SetHandlers(command, _ => new object());
+        InstanceCommandLineAction.SetActions(command, _ => new object());
 
         CommandLineConfiguration configuration = new(command);
         _ = await configuration.InvokeAsync(string.Empty);
@@ -34,7 +34,7 @@ public class InstanceCommandLineActionTests
         bool after = false;
         bool before = false;
 
-        InstanceCommandLineAction.SetHandlers(command, _ => new object(), (_, _) => before = true, (_, _) => after = true);
+        InstanceCommandLineAction.SetActions(command, _ => new object(), (_, _) => before = true, (_, _) => after = true);
 
         CommandLineConfiguration configuration = new(command);
         _ = await configuration.InvokeAsync(string.Empty);
@@ -54,7 +54,7 @@ public class InstanceCommandLineActionTests
         bool after = false;
         bool before = false;
 
-        InstanceCommandLineAction.SetHandlers(command, _ => new object(), (_, _, _) => Task.FromResult(before = true), (_, _, _) => Task.FromResult(after = true));
+        InstanceCommandLineAction.SetActions(command, _ => new object(), (_, _, _) => Task.FromResult(before = true), (_, _, _) => Task.FromResult(after = true));
 
         CommandLineConfiguration configuration = new(command);
         _ = await configuration.InvokeAsync(string.Empty);

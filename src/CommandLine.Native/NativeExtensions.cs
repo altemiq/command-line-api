@@ -20,13 +20,13 @@ public static class NativeExtensions
     public static T ResolveNative<T>(this T configuration)
         where T : CommandLineConfiguration
     {
-        NativeAction.SetHandlers(configuration.RootCommand);
+        NativeAction.SetActions(configuration.RootCommand);
         return configuration;
     }
 
     private static class NativeAction
     {
-        public static void SetHandlers(Command command)
+        public static void SetActions(Command command)
         {
             command.Action = command.Action switch
             {
@@ -38,7 +38,7 @@ public static class NativeExtensions
 
             foreach (var subCommand in command.Subcommands)
             {
-                SetHandlers(subCommand);
+                SetActions(subCommand);
             }
         }
 

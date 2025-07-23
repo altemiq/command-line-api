@@ -112,7 +112,7 @@ public static partial class HostingExtensions
         Action<ParseResult?, Microsoft.Extensions.DependencyInjection.IServiceCollection> configure)
         where T : CommandLineConfiguration
     {
-        Invocation.BuilderCommandLineAction.SetHandlers(
+        Invocation.BuilderCommandLineAction.SetActions(
             configuration.RootCommand,
             _ => hostBuilderFactory(),
             static builder => builder.Build(),
@@ -134,7 +134,7 @@ public static partial class HostingExtensions
         Action<ParseResult?, Microsoft.Extensions.DependencyInjection.IServiceCollection> configure)
         where T : CommandLineConfiguration
     {
-        Invocation.BuilderCommandLineAction.SetHandlers(
+        Invocation.BuilderCommandLineAction.SetActions(
             configuration.RootCommand,
             parseResult => hostBuilderFactory(parseResult?.UnmatchedTokens.ToArray() ?? []),
             static builder => builder.Build(),

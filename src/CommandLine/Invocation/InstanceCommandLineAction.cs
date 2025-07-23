@@ -19,16 +19,16 @@ public static class InstanceCommandLineAction
     }
 
     /// <summary>
-    /// Sets the handlers.
+    /// Sets the actions.
     /// </summary>
     /// <typeparam name="TInstance">The type of instance.</typeparam>
     /// <param name="command">The command.</param>
     /// <param name="buildInstance">The build the instance.</param>
-    public static void SetHandlers<TInstance>(Command command, Func<ParseResult, TInstance> buildInstance)
+    public static void SetActions<TInstance>(Command command, Func<ParseResult, TInstance> buildInstance)
     {
-        SetHandlersCore(command, buildInstance);
+        SetActionsCore(command, buildInstance);
 
-        static void SetHandlersCore(Command command, Func<ParseResult, TInstance> buildInstance)
+        static void SetActionsCore(Command command, Func<ParseResult, TInstance> buildInstance)
         {
             command.Action = command.Action switch
             {
@@ -40,24 +40,24 @@ public static class InstanceCommandLineAction
 
             foreach (var subCommand in command.Subcommands)
             {
-                SetHandlersCore(subCommand, buildInstance);
+                SetActionsCore(subCommand, buildInstance);
             }
         }
     }
 
     /// <summary>
-    /// Sets the handlers.
+    /// Sets the actions.
     /// </summary>
     /// <typeparam name="TInstance">The type of instance.</typeparam>
     /// <param name="command">The command.</param>
     /// <param name="buildInstance">The build the instance.</param>
     /// <param name="beforeInvoke">The action to call before invoking the nested action.</param>
     /// <param name="afterInvoke">The action to call after invoking the nested action.</param>
-    public static void SetHandlers<TInstance>(Command command, Func<ParseResult, TInstance> buildInstance, Action<ParseResult, TInstance> beforeInvoke, Action<ParseResult, TInstance> afterInvoke)
+    public static void SetActions<TInstance>(Command command, Func<ParseResult, TInstance> buildInstance, Action<ParseResult, TInstance> beforeInvoke, Action<ParseResult, TInstance> afterInvoke)
     {
-        SetHandlersCore(command, buildInstance, beforeInvoke, afterInvoke);
+        SetActionsCore(command, buildInstance, beforeInvoke, afterInvoke);
 
-        static void SetHandlersCore(Command command, Func<ParseResult, TInstance> buildInstance, Action<ParseResult, TInstance> beforeInvoke, Action<ParseResult, TInstance> afterInvoke)
+        static void SetActionsCore(Command command, Func<ParseResult, TInstance> buildInstance, Action<ParseResult, TInstance> beforeInvoke, Action<ParseResult, TInstance> afterInvoke)
         {
             command.Action = command.Action switch
             {
@@ -69,7 +69,7 @@ public static class InstanceCommandLineAction
 
             foreach (var subCommand in command.Subcommands)
             {
-                SetHandlersCore(subCommand, buildInstance, beforeInvoke, afterInvoke);
+                SetActionsCore(subCommand, buildInstance, beforeInvoke, afterInvoke);
             }
 
             static Func<ParseResult, TInstance, CancellationToken, Task> InvokeAsync(Action<ParseResult, TInstance> action)
@@ -84,18 +84,18 @@ public static class InstanceCommandLineAction
     }
 
     /// <summary>
-    /// Sets the handlers.
+    /// Sets the actions.
     /// </summary>
     /// <typeparam name="TInstance">The type of instance.</typeparam>
     /// <param name="command">The command.</param>
     /// <param name="buildInstance">The build the instance.</param>
     /// <param name="beforeInvoke">The action to call before invoking the nested action.</param>
     /// <param name="afterInvoke">The action to call after invoking the nested action.</param>
-    public static void SetHandlers<TInstance>(Command command, Func<ParseResult, TInstance> buildInstance, Func<ParseResult, TInstance, CancellationToken, Task> beforeInvoke, Func<ParseResult, TInstance, CancellationToken, Task> afterInvoke)
+    public static void SetActions<TInstance>(Command command, Func<ParseResult, TInstance> buildInstance, Func<ParseResult, TInstance, CancellationToken, Task> beforeInvoke, Func<ParseResult, TInstance, CancellationToken, Task> afterInvoke)
     {
-        SetHandlersCore(command, buildInstance, beforeInvoke, afterInvoke);
+        SetActionsCore(command, buildInstance, beforeInvoke, afterInvoke);
 
-        static void SetHandlersCore(Command command, Func<ParseResult, TInstance> buildInstance, Func<ParseResult, TInstance, CancellationToken, Task> beforeInvoke, Func<ParseResult, TInstance, CancellationToken, Task> afterInvoke)
+        static void SetActionsCore(Command command, Func<ParseResult, TInstance> buildInstance, Func<ParseResult, TInstance, CancellationToken, Task> beforeInvoke, Func<ParseResult, TInstance, CancellationToken, Task> afterInvoke)
         {
             command.Action = command.Action switch
             {
@@ -107,7 +107,7 @@ public static class InstanceCommandLineAction
 
             foreach (var subCommand in command.Subcommands)
             {
-                SetHandlersCore(subCommand, buildInstance, beforeInvoke, afterInvoke);
+                SetActionsCore(subCommand, buildInstance, beforeInvoke, afterInvoke);
             }
 
             static Action<ParseResult, TInstance> Invoke(Func<ParseResult, TInstance, CancellationToken, Task> func)

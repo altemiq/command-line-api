@@ -14,18 +14,18 @@ public static class BuilderCommandLineAction
     private static readonly Collections.Concurrent.ConcurrentDictionary<(Command, Type, Type), Configurer> Configures = [];
 
     /// <summary>
-    /// Sets the handlers.
+    /// Sets the actions.
     /// </summary>
     /// <typeparam name="TBuilder">The type of builder.</typeparam>
     /// <typeparam name="TInstance">The type of instance.</typeparam>
     /// <param name="command">The command.</param>
     /// <param name="createInstance">The instance.</param>
     /// <param name="configure">The action to configure the builder.</param>
-    public static void SetHandlers<TBuilder, TInstance>(Command command, Func<TBuilder, TInstance> createInstance, Action<ParseResult?, TBuilder> configure)
-        where TBuilder : new() => SetHandlers(command, static _ => new TBuilder(), createInstance, configure);
+    public static void SetActions<TBuilder, TInstance>(Command command, Func<TBuilder, TInstance> createInstance, Action<ParseResult?, TBuilder> configure)
+        where TBuilder : new() => SetActions(command, static _ => new TBuilder(), createInstance, configure);
 
     /// <summary>
-    /// Sets the handlers.
+    /// Sets the actions.
     /// </summary>
     /// <typeparam name="TBuilder">The type of builder.</typeparam>
     /// <typeparam name="TInstance">The type of instance.</typeparam>
@@ -33,23 +33,10 @@ public static class BuilderCommandLineAction
     /// <param name="createBuilder">The function to create the builder.</param>
     /// <param name="buildInstance">The build the instance.</param>
     /// <param name="configure">The action to configure the builder.</param>
-    public static void SetHandlers<TBuilder, TInstance>(Command command, Func<ParseResult?, TBuilder> createBuilder, Func<TBuilder, TInstance> buildInstance, Action<ParseResult?, TBuilder> configure) => SetHandlers(command, createBuilder, buildInstance, configure, create => InstanceCommandLineAction.SetHandlers(command, create));
+    public static void SetActions<TBuilder, TInstance>(Command command, Func<ParseResult?, TBuilder> createBuilder, Func<TBuilder, TInstance> buildInstance, Action<ParseResult?, TBuilder> configure) => SetActions(command, createBuilder, buildInstance, configure, create => InstanceCommandLineAction.SetActions(command, create));
 
     /// <summary>
-    /// Sets the handlers.
-    /// </summary>
-    /// <typeparam name="TBuilder">The type of builder.</typeparam>
-    /// <typeparam name="TInstance">The type of instance.</typeparam>
-    /// <param name="command">The command.</param>
-    /// <param name="createBuilder">The function to create the builder.</param>
-    /// <param name="buildInstance">The build the instance.</param>
-    /// <param name="configure">The action to configure the builder.</param>
-    /// <param name="beforeInvoke">The action to call before invoking the nested action.</param>
-    /// <param name="afterInvoke">The action to call after invoking the nested action.</param>
-    public static void SetHandlers<TBuilder, TInstance>(Command command, Func<ParseResult?, TBuilder> createBuilder, Func<TBuilder, TInstance> buildInstance, Action<ParseResult?, TBuilder> configure, Action<ParseResult, TInstance> beforeInvoke, Action<ParseResult, TInstance> afterInvoke) => SetHandlers(command, createBuilder, buildInstance, configure, create => InstanceCommandLineAction.SetHandlers(command, create, beforeInvoke, afterInvoke));
-
-    /// <summary>
-    /// Sets the handlers.
+    /// Sets the actions.
     /// </summary>
     /// <typeparam name="TBuilder">The type of builder.</typeparam>
     /// <typeparam name="TInstance">The type of instance.</typeparam>
@@ -59,9 +46,22 @@ public static class BuilderCommandLineAction
     /// <param name="configure">The action to configure the builder.</param>
     /// <param name="beforeInvoke">The action to call before invoking the nested action.</param>
     /// <param name="afterInvoke">The action to call after invoking the nested action.</param>
-    public static void SetHandlers<TBuilder, TInstance>(Command command, Func<ParseResult?, TBuilder> createBuilder, Func<TBuilder, TInstance> buildInstance, Action<ParseResult?, TBuilder> configure, Func<ParseResult, TInstance, CancellationToken, Task> beforeInvoke, Func<ParseResult, TInstance, CancellationToken, Task> afterInvoke) => SetHandlers(command, createBuilder, buildInstance, configure, create => InstanceCommandLineAction.SetHandlers(command, create, beforeInvoke, afterInvoke));
+    public static void SetActions<TBuilder, TInstance>(Command command, Func<ParseResult?, TBuilder> createBuilder, Func<TBuilder, TInstance> buildInstance, Action<ParseResult?, TBuilder> configure, Action<ParseResult, TInstance> beforeInvoke, Action<ParseResult, TInstance> afterInvoke) => SetActions(command, createBuilder, buildInstance, configure, create => InstanceCommandLineAction.SetActions(command, create, beforeInvoke, afterInvoke));
 
-    private static void SetHandlers<TBuilder, TInstance>(Command command, Func<ParseResult?, TBuilder> createBuilder, Func<TBuilder, TInstance> buildInstance, Action<ParseResult?, TBuilder> configure, Action<Func<ParseResult?, TInstance>> setHandler)
+    /// <summary>
+    /// Sets the actions.
+    /// </summary>
+    /// <typeparam name="TBuilder">The type of builder.</typeparam>
+    /// <typeparam name="TInstance">The type of instance.</typeparam>
+    /// <param name="command">The command.</param>
+    /// <param name="createBuilder">The function to create the builder.</param>
+    /// <param name="buildInstance">The build the instance.</param>
+    /// <param name="configure">The action to configure the builder.</param>
+    /// <param name="beforeInvoke">The action to call before invoking the nested action.</param>
+    /// <param name="afterInvoke">The action to call after invoking the nested action.</param>
+    public static void SetActions<TBuilder, TInstance>(Command command, Func<ParseResult?, TBuilder> createBuilder, Func<TBuilder, TInstance> buildInstance, Action<ParseResult?, TBuilder> configure, Func<ParseResult, TInstance, CancellationToken, Task> beforeInvoke, Func<ParseResult, TInstance, CancellationToken, Task> afterInvoke) => SetActions(command, createBuilder, buildInstance, configure, create => InstanceCommandLineAction.SetActions(command, create, beforeInvoke, afterInvoke));
+
+    private static void SetActions<TBuilder, TInstance>(Command command, Func<ParseResult?, TBuilder> createBuilder, Func<TBuilder, TInstance> buildInstance, Action<ParseResult?, TBuilder> configure, Action<Func<ParseResult?, TInstance>> setAction)
     {
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_0_OR_GREATER || NET472_OR_GREATER
         _ = Configures.AddOrUpdate(
@@ -70,7 +70,7 @@ public static class BuilderCommandLineAction
             {
                 var configurer = new Configurer();
                 configurer.Add(state.Configure);
-                state.SetHandler(parseResult => Create(parseResult, key.Item1, state.CreateBuilder, state.BuildInstance));
+                state.SetAction(parseResult => Create(parseResult, key.Item1, state.CreateBuilder, state.BuildInstance));
                 return configurer;
             },
             static (_, configurer, state) =>
@@ -78,7 +78,7 @@ public static class BuilderCommandLineAction
                 configurer.Add(state.Configure);
                 return configurer;
             },
-            (CreateBuilder: createBuilder, BuildInstance: buildInstance, Configure: configure, SetHandler: setHandler));
+            (CreateBuilder: createBuilder, BuildInstance: buildInstance, Configure: configure, SetAction: setAction));
 #else
         _ = Configures.AddOrUpdate(
             (command, typeof(TBuilder), typeof(TInstance)),
@@ -86,7 +86,7 @@ public static class BuilderCommandLineAction
             {
                 var configurer = new Configurer();
                 configurer.Add(configure);
-                setHandler(parseResult => Create(parseResult, key.Item1, createBuilder, buildInstance));
+                setAction(parseResult => Create(parseResult, key.Item1, createBuilder, buildInstance));
                 return configurer;
             },
             (_, configurer) =>

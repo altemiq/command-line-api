@@ -84,7 +84,7 @@ public static class LoggingExtensions
                 {
                     var configurer = new Configurer();
                     configurer.Add(configure);
-                    Invocation.InstanceCommandLineAction.SetHandlers(input, Create);
+                    Invocation.InstanceCommandLineAction.SetActions(input, Create);
                     return configurer;
 
                     ILoggerFactory Create(ParseResult parseResult)
@@ -105,7 +105,7 @@ public static class LoggingExtensions
                 {
                     var configurer = new Configurer();
                     configurer.Add(configure);
-                    Invocation.InstanceCommandLineAction.SetHandlers(input, Create);
+                    Invocation.InstanceCommandLineAction.SetActions(input, Create);
                     return configurer;
 
                     ILoggerFactory Create(ParseResult parseResult)

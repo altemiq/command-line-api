@@ -57,7 +57,7 @@ public static partial class HostingExtensions
             root.Add(new Directive(HostingDirectiveName));
         }
 
-        Invocation.BuilderCommandLineAction.SetHandlers(
+        Invocation.BuilderCommandLineAction.SetActions(
             configuration.RootCommand,
             parseResult => CreateHostBuilder(configuration, hostBuilderFactory, parseResult),
             static builder => builder.Build(),
