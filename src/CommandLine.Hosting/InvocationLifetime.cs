@@ -128,17 +128,19 @@ public
     /// <param name="disposing">Set to <see langword="true"/> to disposed of managed resources.</param>
     protected virtual void Dispose(bool disposing)
     {
-        if (!this.disposedValue)
+        if (this.disposedValue)
         {
-            if (disposing)
-            {
-                this.invokeCancelRegistration.Dispose();
-                this.appStartedRegistration.Dispose();
-                this.appStoppingRegistration.Dispose();
-            }
-
-            this.disposedValue = true;
+            return;
         }
+
+        if (disposing)
+        {
+            this.invokeCancelRegistration.Dispose();
+            this.appStartedRegistration.Dispose();
+            this.appStoppingRegistration.Dispose();
+        }
+
+        this.disposedValue = true;
     }
 
 #if NET6_0_OR_GREATER

@@ -121,7 +121,7 @@ public static class ExtensionMethods
                         return command;
                     }
 
-                    if (parent is { } parentSymbol && GetCommandFromSymbol(parentSymbol) is { } parentCommand)
+                    if (parent is not null && GetCommandFromSymbol(parent) is { } parentCommand)
                     {
                         return parentCommand;
                     }

@@ -77,7 +77,7 @@ public static class FileSystemGlobbingParser
     /// <param name="glob">The glob.</param>
     /// <param name="directoryInfo">The directory information.</param>
     /// <returns>The files matched by the globbing.</returns>
-    internal static FileInfo[] Parse(string glob, Microsoft.Extensions.FileSystemGlobbing.Abstractions.DirectoryInfoBase? directoryInfo) => Parse(Create(glob), directoryInfo);
+    internal static FileInfo[] Parse(string glob, Microsoft.Extensions.FileSystemGlobbing.Abstractions.DirectoryInfoBase? directoryInfo) => Parse(Create<string>(glob), directoryInfo);
 
     /// <summary>
     /// Parses the file system globbing.
@@ -105,7 +105,7 @@ public static class FileSystemGlobbingParser
             {
                 return OrdinalIndex(root, '*') switch
                 {
-                    < 0 => Create(root),
+                    < 0 => Create<string>(root),
                     var starIndex => GetFilesFromDirectory(root, starIndex, directoryInfo, patternBuilder),
                 };
 
@@ -135,18 +135,18 @@ public static class FileSystemGlobbingParser
 
                     static (string DirectoryPath, string Pattern) GetDirectoryAndPattern(string root, int startIndex)
                     {
-                        var directorySeparatorIndex = root.LastIndexOf(Path.AltDirectorySeparatorChar, startIndex);
-                        if (directorySeparatorIndex < 0)
+                        return root.LastIndexOf(Path.AltDirectorySeparatorChar, startIndex) switch
                         {
-                            // there is no root below this
-                            return (string.Empty, root);
-                        }
-
+                            >= 0 and var directorySeparatorIndex =>
 #if NETSTANDARD2_0
-                        return (root.Substring(0, directorySeparatorIndex), root.Substring(directorySeparatorIndex + 1));
+                                (root.Substring(0, directorySeparatorIndex), root.Substring(directorySeparatorIndex + 1)),
 #else
-                        return (root[..directorySeparatorIndex], root[(directorySeparatorIndex + 1)..]);
+                                (root[..directorySeparatorIndex], root[(directorySeparatorIndex + 1)..]),
 #endif
+
+                            // there is no root below this
+                            _ => (string.Empty, root),
+                        };
                     }
                 }
             }
@@ -179,17 +179,14 @@ public static class FileSystemGlobbingParser
 
         static string ExpandPath(string path)
         {
-            path = Environment.ExpandEnvironmentVariables(path);
+            var expandedPath = Environment.ExpandEnvironmentVariables(path);
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_0_OR_GREATER
-            return path.StartsWith('~') ? string.Concat(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), path[1..]) : path;
+            return expandedPath.StartsWith('~') ? string.Concat(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), expandedPath[1..]) : expandedPath;
 #else
-            return path.StartsWith("~", StringComparison.Ordinal) ? string.Concat(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), path.Substring(1)) : path;
+            return expandedPath.StartsWith("~", StringComparison.Ordinal) ? string.Concat(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), expandedPath.Substring(1)) : expandedPath;
 #endif
         }
     }
 
-    private static IEnumerable<T> Create<T>(T item)
-    {
-        yield return item;
-    }
+    private static IEnumerable<T> Create<T>(params IEnumerable<T> item) => item;
 }

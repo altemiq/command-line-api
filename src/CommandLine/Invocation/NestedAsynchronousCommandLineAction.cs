@@ -53,9 +53,9 @@ public class NestedAsynchronousCommandLineAction(AsynchronousCommandLineAction a
     /// <inheritdoc/>
     public override async Task<int> InvokeAsync(ParseResult parseResult, CancellationToken cancellationToken = default)
     {
-        if (this.beforeInvoke is { } beforeInvokeFunc)
+        if (this.beforeInvoke is not null)
         {
-            await beforeInvokeFunc(this, parseResult, cancellationToken).ConfigureAwait(false);
+            await this.beforeInvoke(this, parseResult, cancellationToken).ConfigureAwait(false);
         }
 
         try
@@ -64,9 +64,9 @@ public class NestedAsynchronousCommandLineAction(AsynchronousCommandLineAction a
         }
         finally
         {
-            if (this.afterInvoke is { } afterInvokeFunc)
+            if (this.afterInvoke is not null)
             {
-                await afterInvokeFunc(this, parseResult, cancellationToken).ConfigureAwait(false);
+                await this.afterInvoke(this, parseResult, cancellationToken).ConfigureAwait(false);
             }
         }
     }

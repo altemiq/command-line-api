@@ -19,44 +19,21 @@ public static class ServiceCollectionExtensions
     /// <param name="services">The services.</param>
     /// <param name="configureOptions">The options to configure.</param>
     /// <returns>The services for chaining.</returns>
-    public static IServiceCollection ConfigureInvocationLifetime(this IServiceCollection services, Action<System.CommandLine.Hosting.InvocationLifetimeOptions>? configureOptions = null)
-    {
-        if (configureOptions is { } configureOptionsAction)
-        {
-            _ = services.Configure(configureOptionsAction);
-        }
-
-        return services;
-    }
+    public static IServiceCollection ConfigureInvocationLifetime(this IServiceCollection services, Action<System.CommandLine.Hosting.InvocationLifetimeOptions>? configureOptions = null) =>
+        configureOptions is { } configureOptionsAction ? services.Configure(configureOptionsAction) : services;
 
     /// <summary>
     /// Adds the invocation lifetime to the services.
     /// </summary>
     /// <param name="services">The services.</param>
     /// <returns>The services for chaining.</returns>
-    public static IServiceCollection AddInvocationLifetime(this IServiceCollection services)
-    {
-        return Contains(services, out var lifetime)
+    public static IServiceCollection AddInvocationLifetime(this IServiceCollection services) =>
+        services.FirstOrDefault(static service => service.ServiceType == typeof(Hosting.IHostLifetime)) is { } service // if this already contains an IHostLifetime
             ? Extensions.ServiceCollectionDescriptorExtensions.Replace(
                 services,
                 new ServiceDescriptor(
                     typeof(Hosting.IHostLifetime),
                     typeof(System.CommandLine.Hosting.InvocationLifetime),
-                    lifetime))
+                    service.Lifetime))
             : services.AddScoped<Hosting.IHostLifetime, System.CommandLine.Hosting.InvocationLifetime>();
-
-        // if this already contains an IHostLifetime
-        static bool Contains(IServiceCollection serviceCollection, out ServiceLifetime lifetime)
-        {
-            if (serviceCollection.FirstOrDefault(static service => service.ServiceType == typeof(Hosting.IHostLifetime))
-                is { } service)
-            {
-                lifetime = service.Lifetime;
-                return true;
-            }
-
-            lifetime = default;
-            return false;
-        }
-    }
 }
