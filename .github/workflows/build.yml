@@ -32,6 +32,7 @@ jobs:
       with:
         dotnet-version: 9.0.x
         cache: true
+        cache-dependency-path: src/**/packages.lock.json
 
     - name: Run local/dotnet-restore@v1
       if: steps.cache.outputs.cache-hit != 'true'
@@ -53,6 +54,7 @@ jobs:
           8.0.x
           9.0.x
         cache: true
+        cache-dependency-path: src/**/packages.lock.json
     
     - name: Run local/dotnet-restore@v1
       run: dotnet restore --locked-mode
@@ -109,6 +111,7 @@ jobs:
       with:
         dotnet-version: 9.0.x
         cache: true
+        cache-dependency-path: src/**/packages.lock.json
 
     - name: Run local/dotnet-restore@v1
       run: dotnet restore --locked-mode
