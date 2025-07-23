@@ -18,7 +18,7 @@ internal sealed class NullExternalScopeProvider : IExternalScopeProvider
     /// <summary>
     /// Gets a cached instance of <see cref="NullExternalScopeProvider"/>.
     /// </summary>
-    public static IExternalScopeProvider Instance { get; } = new NullExternalScopeProvider();
+    public static NullExternalScopeProvider Instance { get; } = new();
 
     /// <inheritdoc />
     void IExternalScopeProvider.ForEachScope<TState>(Action<object?, TState> callback, TState state)
