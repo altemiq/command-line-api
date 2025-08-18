@@ -6,8 +6,6 @@
 
 namespace System.CommandLine.Parsing;
 
-using TUnit.Assertions.AssertConditions.Throws;
-
 public class FileInfoParserTests
 {
     [Test]

@@ -8,7 +8,6 @@ namespace System.CommandLine.Hosting;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using TUnit.Assertions.AssertConditions.Throws;
 
 public class InvocationLifetimeTests
 {

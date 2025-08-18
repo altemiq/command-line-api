@@ -130,7 +130,7 @@ public class PromptExtensionsTests
         return parseResult.GetValueOrPrompt(option, prompt, console);
     }
 
-    private static (ParseResult, Option<T>, TestConsole) GetResult<T>(string? value = default, string? args = default)
+    private static Result<T> GetResult<T>(string? value = default, string? args = default)
     {
         TestConsole console = new();
         if (value is not null)
@@ -140,7 +140,7 @@ public class PromptExtensionsTests
 
         Option<T> option = new("--option");
         RootCommand command = [option];
-        return (command.Parse(args ?? string.Empty), option, console);
+        return new(command.Parse(args ?? string.Empty), option, console);
     }
 
     private static async Task TestFlagCore<T>(T expected)
@@ -256,6 +256,8 @@ public class PromptExtensionsTests
             }
         }
     }
+
+    private readonly record struct Result<T>(ParseResult parseResult, Option<T> option, TestConsole console);
 
     [ComponentModel.TypeConverter(typeof(TypeConverter))]
     private sealed class TypeWithTypeConverter(string input)

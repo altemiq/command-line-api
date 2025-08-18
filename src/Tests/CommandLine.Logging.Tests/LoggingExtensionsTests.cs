@@ -7,7 +7,6 @@
 namespace System.CommandLine.Logging;
 
 using Microsoft.Extensions.Logging;
-using TUnit.Assertions.AssertConditions.Throws;
 
 public class LoggingExtensionsTests
 {

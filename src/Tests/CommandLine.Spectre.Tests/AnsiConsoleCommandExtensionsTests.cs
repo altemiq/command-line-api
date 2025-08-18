@@ -6,8 +6,6 @@
 
 namespace System.CommandLine.Spectre;
 
-using TUnit.Assertions.AssertConditions.Throws;
-
 public class AnsiConsoleCommandExtensionsTests
 {
     [Test]

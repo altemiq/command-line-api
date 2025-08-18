@@ -6,8 +6,6 @@
 
 namespace System.CommandLine;
 
-using TUnit.Assertions.AssertConditions.Throws;
-
 public class ExtensionMethodsTests
 {
     [Test]
