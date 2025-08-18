@@ -32,6 +32,7 @@ public class AnsiConsoleCommandExtensionsTests
     {
         TestConsole console = new();
         Command command = new(nameof(AddFigletToSubCommand));
+        _ = new RootCommand { command }; 
 
         _ = command.AddFiglet("value", Color.Blue, console);
 
