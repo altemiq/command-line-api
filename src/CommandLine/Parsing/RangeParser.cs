@@ -6,9 +6,11 @@
 
 namespace System.CommandLine.Parsing;
 
+#pragma warning disable CS0419
 /// <summary>
 /// <see cref="Range" /> parsers for <see cref="Argument{T}.CustomParser"/> or <see cref="Option{T}.CustomParser"/>.
 /// </summary>
+#pragma warning restore CS0419
 public static class RangeParser
 {
     private const string Separator = "..";

@@ -6,17 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.CommandLine" VersionOverride="2.0.0-beta7.25380.108"/>
+    <PackageReference Include="System.CommandLine" VersionOverride="2.0.0-beta7.25380.108" />
+    <PackageReference Include="Microsoft.Bcl.Memory" VersionOverride="9.0.0" Condition="!$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'netstandard2.1'))" />
   </ItemGroup>
 
   <ItemGroup>
     <InternalsVisibleTo Include="$(AssemblyName).Spectre"/>
     <InternalsVisibleTo Include="$(AssemblyName).Tests"/>
-  </ItemGroup>
-
-  <ItemGroup Condition=" $([MSBuild]::IsTargetFrameworkCompatible('netstandard2.0', '$(TargetFramework)')) ">
-    <Compile Remove="Parsing\IndexParser.cs"/>
-    <Compile Remove="Parsing\RangeParser.cs"/>
   </ItemGroup>
 
   <ItemGroup>

@@ -6,9 +6,11 @@
 
 namespace System.CommandLine.Parsing;
 
+#pragma warning disable CS0419
 /// <summary>
 /// <see cref="Index" /> parsers for <see cref="Argument{T}.CustomParser"/> or <see cref="Option{T}.CustomParser"/>.
 /// </summary>
+#pragma warning restore CS0419
 public static class IndexParser
 {
     /// <summary>
@@ -61,6 +63,18 @@ public static class IndexParser
     internal static Index Parse(ReadOnlySpan<char> value)
     {
         var fromEnd = value[0] is '^';
-        return new Index(int.Parse(fromEnd ? value[1..] : value, provider: Globalization.CultureInfo.InvariantCulture), fromEnd);
+        return new Index(int.Parse(GetValue(fromEnd, value), provider: Globalization.CultureInfo.InvariantCulture), fromEnd);
+
+#if NETSTANDARD2_1_OR_GREATER
+        static ReadOnlySpan<char> GetValue(bool fromEnd, ReadOnlySpan<char> value)
+        {
+            return fromEnd ? value[1..] : value;
+        }
+#else
+        static string GetValue(bool fromEnd, ReadOnlySpan<char> value)
+        {
+            return fromEnd ? value[1..].ToString() : value.ToString();
+        }
+#endif
     }
 }
