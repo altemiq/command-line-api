@@ -73,7 +73,7 @@ public partial class HostingExtensionsTests
         IServiceProvider? serviceProvider = default;
         RootCommand rootCommand = [];
         rootCommand.SetAction(result => serviceProvider = result.GetServices());
-        
+
         _ = withArgs
             ? rootCommand.UseServices(args => Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args))
             : rootCommand.UseServices();
@@ -94,7 +94,7 @@ public partial class HostingExtensionsTests
             config = result.GetConfiguration();
         });
 
-        
+
         int count = 0;
         _ = rootCommand.UseServices(() =>
         {

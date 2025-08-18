@@ -33,6 +33,7 @@ public class PromptExtensionsTests
         console.Input.PushKey(ConsoleKey.Enter);
         _ = await Assert.That(parseResult.GetValueOrPrompt(option, "Get default value: ", console)).IsTrue();
     }
+
     [Test]
     public async Task TestSpecifiedString()
     {
@@ -122,6 +123,7 @@ public class PromptExtensionsTests
         console.Input.PushKey(ConsoleKey.Enter);
         return parseResult.GetValueOrPrompt(option, prompt, console);
     }
+
     private static T GetValue<T>(string prompt, T defaultValue)
     {
         (ParseResult parseResult, Option<T> option, TestConsole console) = GetResult<T>();
@@ -257,7 +259,7 @@ public class PromptExtensionsTests
         }
     }
 
-    private readonly record struct Result<T>(ParseResult parseResult, Option<T> option, TestConsole console);
+    private readonly record struct Result<T>(ParseResult ParseResult, Option<T> Option, TestConsole Console);
 
     [ComponentModel.TypeConverter(typeof(TypeConverter))]
     private sealed class TypeWithTypeConverter(string input)

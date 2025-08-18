@@ -85,7 +85,7 @@ public static class FileInfoParser
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_0_OR_GREATER
         return expandedPath.StartsWith('~') ? string.Concat(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), expandedPath[1..]) : expandedPath;
 #else
-        return expandedPath.StartsWith("~", StringComparison.Ordinal) ? string.Concat(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), expandedPath.Substring(1)) : expandedPath;
+        return expandedPath.StartsWith("~", StringComparison.Ordinal) ? string.Concat(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), expandedPath[1..]) : expandedPath;
 #endif
     }
 

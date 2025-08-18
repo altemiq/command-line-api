@@ -15,7 +15,7 @@ public class LoggingExtensionsTests
     [Test]
     public async Task AddLogging()
     {
-        RootCommand configuration = new RootCommand();
+        RootCommand configuration = [];
         _ = configuration.AddLogging((parseResult, builder) =>
         {
             if (parseResult?.InvocationConfiguration is { } invocationConfiguration)
@@ -46,7 +46,7 @@ public class LoggingExtensionsTests
     {
         const int Total = 10;
         int count = default;
-        RootCommand command = new();
+        RootCommand command = [];
 
         _ = await Task.WhenAll(Enumerable.Range(0, Total).Select(_ => Task.Run(() => command.AddLogging(_ => Interlocked.Increment(ref count)))));
 

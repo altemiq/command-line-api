@@ -26,10 +26,10 @@ public class LoggingBuilderExtensionsTests
     public async Task LogValue(LogLevel minLevel, LogLevel level, int expectedLength)
     {
         StringWriter writer = new();
-        RootCommand configuration = new();
-        var parseResult = configuration.Parse([]);
+        RootCommand rootCommand = [];
+        var parseResult = rootCommand.Parse([]);
         parseResult.InvocationConfiguration.Output = writer;
-        
+
         ILoggerFactory factory = LoggerFactory.Create(builder => builder.AddCommandLineConfiguration(parseResult.InvocationConfiguration).SetMinimumLevel(minLevel));
 
         ILogger logger = factory.CreateLogger("Test");
@@ -45,7 +45,7 @@ public class LoggingBuilderExtensionsTests
 
     private static ILoggerFactory CreateLoggerFactory(RootCommand? rootCommand = default)
     {
-        rootCommand ??= new RootCommand();
+        rootCommand ??= [];
         var parseResult = rootCommand.Parse([]);
         return LoggerFactory.Create(builder => builder.AddCommandLineConfiguration(parseResult.InvocationConfiguration));
     }

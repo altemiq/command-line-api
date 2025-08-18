@@ -44,23 +44,23 @@ public class UriParserTests
     public async Task ParseFromTilde()
     {
         var home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-        
+
         // find the first file in the home directory
         var file = Directory.EnumerateFiles(home, "*", SearchOption.AllDirectories).First();
-        
+
         // replace the home directory with a tilde
         await Assert.That(UriParser.Parse(string.Concat("~", file.AsSpan(home.Length)))).IsNotNull()
             .And.Satisfies(uri => uri.LocalPath, localPath => localPath.IsEqualTo(file).And.IsAssignableTo<string?>());
     }
-    
+
     [Test]
     public async Task ParseFromHome()
     {
         var home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-        
+
         // find the first file in the home directory
         var file = Directory.EnumerateFiles(home, "*", SearchOption.AllDirectories).First();
-        
+
         // replace the home directory with HOME
         await Assert.That(UriParser.Parse(string.Concat("%HOME%", file.AsSpan(home.Length)))).IsNotNull()
             .And.Satisfies(uri => uri.LocalPath, localPath => localPath.IsEqualTo(file).And.IsAssignableTo<string?>());

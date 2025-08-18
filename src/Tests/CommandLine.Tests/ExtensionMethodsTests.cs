@@ -74,7 +74,7 @@ public class ExtensionMethodsTests
     public async Task GetRequiredResultFromCommand()
     {
         RootCommand root = [];
-        
+
         _ = await Assert.That(() => root.Parse("value").GetRequiredResult(root)).ThrowsNothing();
     }
 
@@ -100,7 +100,7 @@ public class ExtensionMethodsTests
     {
         Option<string> option = new("--option");
         RootCommand root = [option];
-        
+
         Parsing.OptionResult? result = await Assert.That(root.Parse("--option value").GetResult(option)).IsTypeOf<Parsing.OptionResult>();
         _ = await Assert.That(result!.GetRequiredCommand).ThrowsNothing();
     }

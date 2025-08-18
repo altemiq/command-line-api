@@ -13,19 +13,19 @@ public class FileInfoParserTests
     {
         _ = await Assert.That(FileInfoParser.Parse(typeof(FileInfoParserTests).Assembly.Location)).IsNotNull();
     }
-    
+
     [Test]
     public async Task ParseDirectory()
     {
         _ = await Assert.That(FileInfoParser.ParseAll(Path.GetDirectoryName(typeof(FileInfoParserTests).Assembly.Location))).HasCount().GreaterThan(1);
     }
-    
+
     [Test]
     public async Task ParsePattern()
     {
         _ = await Assert.That(FileInfoParser.ParseAll(Path.Combine(Path.GetDirectoryName(typeof(FileInfoParserTests).Assembly.Location)!, "*.dll"))).HasCount().GreaterThan(1);
     }
-    
+
     [Test]
     [Arguments(null)]
     [Arguments("")]
@@ -33,13 +33,13 @@ public class FileInfoParserTests
     {
         _ = await Assert.That(FileInfoParser.ParseAll(path)).IsEmpty();
     }
-    
+
     [Test]
     public async Task ParseMultiple()
     {
         _ = await Assert.That(() => FileInfoParser.Parse(Path.GetDirectoryName(typeof(FileInfoParserTests).Assembly.Location))).Throws<InvalidOperationException>();
     }
-    
+
     [Test]
     public async Task ParseNone()
     {
@@ -51,12 +51,12 @@ public class FileInfoParserTests
     {
         _ = await Assert.That(() => FileInfoParser.ExpandPath("~")).IsEqualTo(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)).And.IsAssignableTo<string?>();
     }
-    
+
     [Test]
     public async Task ExpandHome()
     {
         _ = await Assert.That(() => FileInfoParser.ExpandPath("%HOME%")).IsEqualTo(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)).And.IsAssignableTo<string?>();
     }
-    
-    
+
+
 }

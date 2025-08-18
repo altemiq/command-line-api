@@ -3,7 +3,7 @@
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
-  
+
   <ItemGroup Label="Source Generators">
     <PackageVersion Include="PolySharp" Version="1.15.0" />
   </ItemGroup>

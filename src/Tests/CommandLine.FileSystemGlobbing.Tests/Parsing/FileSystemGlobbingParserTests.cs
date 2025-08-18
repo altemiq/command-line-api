@@ -33,11 +33,11 @@ public class FileSystemGlobbingParserTests
     {
         const string FolderToSearch = "Files to Search";
         string rootDir = Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), FolderToSearch);
-        
+
         string first = Path.Join(rootDir, "first", "first.txt");
-        
+
         Microsoft.Extensions.FileSystemGlobbing.InMemoryDirectoryInfo directoryInfo = new(rootDir, [first]);
-        
+
         Argument<FileInfo[]> argument = new("FILES") { CustomParser = argumentResult => CommandLine.Parsing.FileSystemGlobbingParser.Parse(argumentResult, directoryInfo) };
         RootCommand root = [argument];
         ParseResult parseResult = root.Parse("\"" + Path.Combine("~", FolderToSearch, "**", "*.txt") + "\"");

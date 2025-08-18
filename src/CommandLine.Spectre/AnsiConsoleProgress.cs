@@ -45,7 +45,7 @@ public static class AnsiConsoleProgress
     public static AnsiConsoleProgress<T> Create<T>(Progress progress, Func<T, AnsiConsoleProgressItem> converter, AnsiConsoleProgressOptions? options = default, Action<string, ProgressTaskSettings>? configureTask = default) =>
         Create(options ?? AnsiConsoleProgressOptions.Default, _ => progress, converter, configureTask);
 
-    private static AnsiConsoleProgress<T> Create<T>(AnsiConsoleProgressOptions options, System.Func<AnsiConsoleProgressOptions, Progress> progressFactory, Func<T, AnsiConsoleProgressItem> converter, Action<string, ProgressTaskSettings>? configureTask)
+    private static AnsiConsoleProgress<T> Create<T>(AnsiConsoleProgressOptions options, Func<AnsiConsoleProgressOptions, Progress> progressFactory, Func<T, AnsiConsoleProgressItem> converter, Action<string, ProgressTaskSettings>? configureTask)
     {
         const int ThreadUpdateRate = 100;
         var updateRate = options.UpdateRate;

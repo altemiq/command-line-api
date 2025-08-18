@@ -31,7 +31,7 @@ public class AnsiConsoleCommandExtensionsTests
     public async Task AddFigletToSubCommand()
     {
         TestConsole console = new();
-        RootCommand command = new(nameof(AddFigletToSubCommand));
+        Command command = new(nameof(AddFigletToSubCommand));
 
         _ = command.AddFiglet("value", Color.Blue, console);
 
