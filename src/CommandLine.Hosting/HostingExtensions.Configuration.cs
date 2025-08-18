@@ -13,27 +13,27 @@ namespace System.CommandLine.Hosting;
 public static partial class HostingExtensions
 {
     /// <summary>
-    /// Uses configuration for the configuration.
+    /// Uses configuration for the root command.
     /// </summary>
-    /// <typeparam name="T">The type of configuration.</typeparam>
-    /// <param name="configuration">The configuration.</param>
-    /// <returns>The configured configuration.</returns>
+    /// <typeparam name="T">The type of root command.</typeparam>
+    /// <param name="rootCommand">The root command.</param>
+    /// <returns>The configured root command.</returns>
     public static T UseConfiguration<T>(
-        this T configuration)
-        where T : CommandLineConfiguration => UseConfiguration(configuration, static _ => { });
+        this T rootCommand)
+        where T : RootCommand => UseConfiguration(rootCommand, static _ => { });
 
     /// <summary>
-    /// Uses configuration for the configuration.
+    /// Uses configuration for the root command.
     /// </summary>
-    /// <typeparam name="T">The type of configuration.</typeparam>
-    /// <param name="configuration">The configuration.</param>
+    /// <typeparam name="T">The type of root command.</typeparam>
+    /// <param name="rootCommand">The root command.</param>
     /// <param name="configure">The configure action.</param>
-    /// <returns>The configured configuration.</returns>
+    /// <returns>The configured root command.</returns>
     public static T UseConfiguration<T>(
-        this T configuration,
+        this T rootCommand,
         Action<Microsoft.Extensions.Configuration.IConfigurationBuilder> configure)
-        where T : CommandLineConfiguration => UseConfiguration(
-            configuration,
+        where T : RootCommand => UseConfiguration(
+            rootCommand,
 #if NET7_0_OR_GREATER
             static args => Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args),
 #else
@@ -42,17 +42,17 @@ public static partial class HostingExtensions
             configure);
 
     /// <summary>
-    /// Uses configuration for the configuration.
+    /// Uses configuration for the root command.
     /// </summary>
-    /// <typeparam name="T">The type of configuration.</typeparam>
-    /// <param name="configuration">The configuration.</param>
+    /// <typeparam name="T">The type of root command.</typeparam>
+    /// <param name="rootCommand">The root command.</param>
     /// <param name="configure">The configure action.</param>
-    /// <returns>The configured configuration.</returns>
+    /// <returns>The configured root command.</returns>
     public static T UseConfiguration<T>(
-        this T configuration,
+        this T rootCommand,
         Action<ParseResult?, Microsoft.Extensions.Configuration.IConfigurationBuilder> configure)
-        where T : CommandLineConfiguration => UseConfiguration(
-            configuration,
+        where T : RootCommand => UseConfiguration(
+            rootCommand,
 #if NET7_0_OR_GREATER
             static args => Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args),
 #else
@@ -61,101 +61,101 @@ public static partial class HostingExtensions
             configure);
 
     /// <summary>
-    /// Uses configuration for the configuration.
+    /// Uses configuration for the root command.
     /// </summary>
-    /// <typeparam name="T">The type of configuration.</typeparam>
-    /// <param name="configuration">The configuration.</param>
+    /// <typeparam name="T">The type of root command.</typeparam>
+    /// <param name="rootCommand">The root command.</param>
     /// <param name="hostBuilderFactory">The host builder factory.</param>
-    /// <returns>The configured configuration.</returns>
+    /// <returns>The configured root command.</returns>
     public static T UseConfiguration<T>(
-        this T configuration,
+        this T rootCommand,
         Func<Microsoft.Extensions.Hosting.IHostBuilder> hostBuilderFactory)
-        where T : CommandLineConfiguration => UseConfiguration(configuration, hostBuilderFactory, static _ => { });
+        where T : RootCommand => UseConfiguration(rootCommand, hostBuilderFactory, static _ => { });
 
     /// <summary>
-    /// Uses configuration for the configuration.
+    /// Uses configuration for the root command.
     /// </summary>
-    /// <typeparam name="T">The type of configuration.</typeparam>
-    /// <param name="configuration">The configuration.</param>
+    /// <typeparam name="T">The type of root command.</typeparam>
+    /// <param name="rootCommand">The root command.</param>
     /// <param name="hostBuilderFactory">The host builder factory.</param>
-    /// <returns>The configured configuration.</returns>
+    /// <returns>The configured root command.</returns>
     public static T UseConfiguration<T>(
-        this T configuration,
+        this T rootCommand,
         Func<string[], Microsoft.Extensions.Hosting.IHostBuilder> hostBuilderFactory)
-        where T : CommandLineConfiguration => UseConfiguration(configuration, hostBuilderFactory, static _ => { });
+        where T : RootCommand => UseConfiguration(rootCommand, hostBuilderFactory, static _ => { });
 
     /// <summary>
-    /// Uses configuration for the configuration.
+    /// Uses configuration for the root command.
     /// </summary>
-    /// <typeparam name="T">The type of configuration.</typeparam>
-    /// <param name="configuration">The configuration.</param>
+    /// <typeparam name="T">The type of root command.</typeparam>
+    /// <param name="rootCommand">The root command.</param>
     /// <param name="hostBuilderFactory">The host builder factory.</param>
     /// <param name="configure">The configure action.</param>
-    /// <returns>The configured configuration.</returns>
+    /// <returns>The configured root command.</returns>
     public static T UseConfiguration<T>(
-        this T configuration,
+        this T rootCommand,
         Func<Microsoft.Extensions.Hosting.IHostBuilder> hostBuilderFactory,
         Action<Microsoft.Extensions.Configuration.IConfigurationBuilder> configure)
-        where T : CommandLineConfiguration => UseConfiguration(configuration, hostBuilderFactory, (_, builder) => configure(builder));
+        where T : RootCommand => UseConfiguration(rootCommand, hostBuilderFactory, (_, builder) => configure(builder));
 
     /// <summary>
-    /// Uses configuration for the configuration.
+    /// Uses configuration for the root command.
     /// </summary>
-    /// <typeparam name="T">The type of configuration.</typeparam>
-    /// <param name="configuration">The configuration.</param>
+    /// <typeparam name="T">The type of root command.</typeparam>
+    /// <param name="rootCommand">The root command.</param>
     /// <param name="hostBuilderFactory">The host builder factory.</param>
     /// <param name="configure">The configure action.</param>
-    /// <returns>The configured configuration.</returns>
+    /// <returns>The configured root command.</returns>
     public static T UseConfiguration<T>(
-        this T configuration,
+        this T rootCommand,
         Func<string[], Microsoft.Extensions.Hosting.IHostBuilder> hostBuilderFactory,
         Action<Microsoft.Extensions.Configuration.IConfigurationBuilder> configure)
-        where T : CommandLineConfiguration => UseConfiguration(configuration, hostBuilderFactory, (_, builder) => configure(builder));
+        where T : RootCommand => UseConfiguration(rootCommand, hostBuilderFactory, (_, builder) => configure(builder));
 
     /// <summary>
-    /// Uses configuration for the configuration.
+    /// Uses configuration for the root command.
     /// </summary>
-    /// <typeparam name="T">The type of configuration.</typeparam>
-    /// <param name="configuration">The configuration.</param>
+    /// <typeparam name="T">The type of root command.</typeparam>
+    /// <param name="rootCommand">The root command.</param>
     /// <param name="hostBuilderFactory">The host builder factory.</param>
     /// <param name="configure">The configure action.</param>
-    /// <returns>The configured configuration.</returns>
+    /// <returns>The configured root command.</returns>
     public static T UseConfiguration<T>(
-        this T configuration,
+        this T rootCommand,
         Func<Microsoft.Extensions.Hosting.IHostBuilder> hostBuilderFactory,
         Action<ParseResult?, Microsoft.Extensions.Configuration.IConfigurationBuilder> configure)
-        where T : CommandLineConfiguration
+        where T : RootCommand
     {
         Invocation.BuilderCommandLineAction.SetActions(
-            configuration.RootCommand,
+            rootCommand,
             _ => hostBuilderFactory(),
             static builder => builder.Build(),
             (parseResult, builder) => builder.ConfigureAppConfiguration((_, b) => configure(parseResult, b)));
 
-        return configuration;
+        return rootCommand;
     }
 
     /// <summary>
-    /// Uses configuration for the configuration.
+    /// Uses configuration for the root command.
     /// </summary>
-    /// <typeparam name="T">The type of configuration.</typeparam>
-    /// <param name="configuration">The configuration.</param>
+    /// <typeparam name="T">The type of root command.</typeparam>
+    /// <param name="rootCommand">The root command.</param>
     /// <param name="hostBuilderFactory">The host builder factory.</param>
     /// <param name="configure">The configure action.</param>
-    /// <returns>The configured configuration.</returns>
+    /// <returns>The configured root command.</returns>
     public static T UseConfiguration<T>(
-        this T configuration,
+        this T rootCommand,
         Func<string[], Microsoft.Extensions.Hosting.IHostBuilder> hostBuilderFactory,
         Action<ParseResult?, Microsoft.Extensions.Configuration.IConfigurationBuilder> configure)
-        where T : CommandLineConfiguration
+        where T : RootCommand
     {
         Invocation.BuilderCommandLineAction.SetActions(
-            configuration.RootCommand,
+            rootCommand,
             parseResult => hostBuilderFactory(parseResult?.UnmatchedTokens.ToArray() ?? []),
             static builder => builder.Build(),
             (parseResult, builder) => builder.ConfigureAppConfiguration((_, b) => configure(parseResult, b)));
 
-        return configuration;
+        return rootCommand;
     }
 
     /// <summary>

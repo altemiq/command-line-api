@@ -7,17 +7,16 @@ This adds extension methods for `UseConfiguration` that allows configuring the c
 This is then used to get configuration in actions using `GetConfiguration`
 
 ```csharp
-var command = new Command("COMMAND");
+var command = new RootCommand("COMMAND");
 command.SetHandler(parseResult =>
 {
     var configuration = parseResult.GetConfiguration();
 });
 
-var configuration = new CommandLineConfiguration(command);
-configuration.UseConfiguration(builder =>
+command.UseConfiguration(builder =>
 {
     /* configure the builder */
 });
 
-configuration.Invoke(args);
+command.Parse(args).Invoke();
 ```

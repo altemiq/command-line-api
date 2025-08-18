@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.CommandLine" VersionOverride="2.0.0-beta6.25358.103" />
+    <PackageReference Include="System.CommandLine" VersionOverride="2.0.0-beta7.25380.108" />
     <PackageReference Include="Microsoft.Extensions.FileSystemGlobbing" VersionOverride="2.1.0" />
   </ItemGroup>
 

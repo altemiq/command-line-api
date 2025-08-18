@@ -21,10 +21,9 @@ public partial class HostingExtensionsTests
         RootCommand rootCommand = [];
         rootCommand.SetAction(parseResult => host = parseResult.GetHost());
 
-        CommandLineConfiguration configuration = new(rootCommand);
-        _ = configuration.UseHost(configureHost: static (_, builder) => builder.ConfigureServices((_, services) => services.ConfigureInvocationLifetime(opts => opts.SuppressStatusMessages = Value)));
+        _ = rootCommand.UseHost(configureHost: static (_, builder) => builder.ConfigureServices((_, services) => services.ConfigureInvocationLifetime(opts => opts.SuppressStatusMessages = Value)));
 
-        _ = await configuration.InvokeAsync([]);
+        _ = await rootCommand.Parse([]).InvokeAsync();
         _ = await Assert.That(host).IsAssignableTo<Microsoft.Extensions.Hosting.IHost>().And
             .Satisfies(
                 h => h.Services.GetService<Microsoft.Extensions.Hosting.IHostLifetime>(),
@@ -43,10 +42,9 @@ public partial class HostingExtensionsTests
         RootCommand rootCommand = [];
         rootCommand.SetAction(parseResult => host = parseResult.GetHost());
 
-        CommandLineConfiguration configuration = new(rootCommand);
-        _ = configuration.UseHost();
+        _ = rootCommand.UseHost();
 
-        _ = await configuration.InvokeAsync("[config:Key1=Value1] [config:Key2]");
+        _ = await rootCommand.Parse("[config:Key1=Value1] [config:Key2]").InvokeAsync();
         _ = await Assert.That(host).IsNotNull();
 
         ConfigurationRoot? configurationRoot = await Assert.That(host?.Services.GetService(typeof(IConfiguration))).IsTypeOf<ConfigurationRoot>();
@@ -62,10 +60,9 @@ public partial class HostingExtensionsTests
         RootCommand rootCommand = [];
         rootCommand.SetAction(result => config = result.GetConfiguration());
 
-        CommandLineConfiguration configuration = new(rootCommand);
-        _ = configuration.UseConfiguration();
+        _ = rootCommand.UseConfiguration();
 
-        _ = await configuration.InvokeAsync([]);
+        _ = await rootCommand.Parse([]).InvokeAsync();
         _ = await Assert.That(config).IsNotNull();
     }
 
@@ -76,13 +73,12 @@ public partial class HostingExtensionsTests
         IServiceProvider? serviceProvider = default;
         RootCommand rootCommand = [];
         rootCommand.SetAction(result => serviceProvider = result.GetServices());
-
-        CommandLineConfiguration configuration = new(rootCommand);
+        
         _ = withArgs
-            ? configuration.UseServices(args => Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args))
-            : configuration.UseServices();
+            ? rootCommand.UseServices(args => Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args))
+            : rootCommand.UseServices();
 
-        _ = await configuration.InvokeAsync([]);
+        _ = await rootCommand.Parse([]).InvokeAsync();
         _ = await Assert.That(serviceProvider).IsNotNull();
     }
 
@@ -98,23 +94,23 @@ public partial class HostingExtensionsTests
             config = result.GetConfiguration();
         });
 
-        CommandLineConfiguration configuration = new(rootCommand);
+        
         int count = 0;
-        _ = configuration.UseServices(() =>
+        _ = rootCommand.UseServices(() =>
         {
             count++;
             return Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(null);
         },
         _ => { });
 
-        _ = configuration.UseConfiguration(() =>
+        _ = rootCommand.UseConfiguration(() =>
         {
             count++;
             return Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(null);
         },
         _ => { });
 
-        _ = await configuration.InvokeAsync([]);
+        _ = await rootCommand.Parse([]).InvokeAsync();
         _ = await Assert.That(count).IsEqualTo(1);
         _ = await Assert.That(serviceProvider).IsNotNull();
         _ = await Assert.That(config).IsNotNull();
@@ -138,10 +134,10 @@ public partial class HostingExtensionsTests
             }
         };
 
-        CommandLineConfiguration configuration = new(new RootCommand { argument });
-        _ = configuration.UseConfiguration();
+        RootCommand rootCommand = [argument];
+        _ = rootCommand.UseConfiguration();
 
-        _ = await configuration.InvokeAsync([]);
+        _ = await rootCommand.Parse([]).InvokeAsync();
         _ = await Assert.That(config).IsNotNull();
     }
 
@@ -163,10 +159,10 @@ public partial class HostingExtensionsTests
             Recursive = true,
         };
 
-        CommandLineConfiguration configuration = new(new RootCommand { argument });
-        _ = configuration.UseConfiguration();
+        RootCommand rootCommand = [argument];
+        _ = rootCommand.UseConfiguration();
 
-        _ = await configuration.InvokeAsync(string.Empty);
+        _ = await rootCommand.Parse([]).InvokeAsync();
         _ = await Assert.That(config).IsNotNull();
     }
 
@@ -181,11 +177,10 @@ public partial class HostingExtensionsTests
                 Microsoft.Extensions.Hosting.IHostBuilder hostBuilder = Substitute.For<Microsoft.Extensions.Hosting.IHostBuilder>();
                 _ = hostBuilder.Build().Returns(host);
 
-                RootCommand root = [];
-                CommandLineConfiguration configuration = new(root);
-                _ = configuration.UseHost(_ => hostBuilder);
+                RootCommand rootCommand = [];
+                _ = rootCommand.UseHost(_ => hostBuilder);
 
-                _ = await configuration.InvokeAsync(string.Empty);
+                _ = await rootCommand.Parse([]).InvokeAsync();
 
                 await host.Received().StartAsync(Arg.Any<CancellationToken>());
                 await host.Received().StopAsync(Arg.Any<CancellationToken>());
@@ -198,12 +193,11 @@ public partial class HostingExtensionsTests
                 Microsoft.Extensions.Hosting.IHostBuilder hostBuilder = Substitute.For<Microsoft.Extensions.Hosting.IHostBuilder>();
                 _ = hostBuilder.Build().Returns(host);
 
-                RootCommand root = [];
-                root.SetAction(_ => { });
-                CommandLineConfiguration configuration = new(root);
-                _ = configuration.UseHost(_ => hostBuilder);
+                RootCommand rootCommand = [];
+                rootCommand.SetAction(_ => { });
+                _ = rootCommand.UseHost(_ => hostBuilder);
 
-                _ = await configuration.InvokeAsync(string.Empty);
+                _ = await rootCommand.Parse([]).InvokeAsync();
 
                 await host.Received().StartAsync(Arg.Any<CancellationToken>());
                 await host.Received().StopAsync(Arg.Any<CancellationToken>());
@@ -216,12 +210,11 @@ public partial class HostingExtensionsTests
                 Microsoft.Extensions.Hosting.IHostBuilder hostBuilder = Substitute.For<Microsoft.Extensions.Hosting.IHostBuilder>();
                 _ = hostBuilder.Build().Returns(host);
 
-                RootCommand root = [];
-                root.SetAction((_, _) => Task.CompletedTask);
-                CommandLineConfiguration configuration = new(root);
-                _ = configuration.UseHost(_ => hostBuilder);
+                RootCommand rootCommand = [];
+                rootCommand.SetAction((_, _) => Task.CompletedTask);
+                _ = rootCommand.UseHost(_ => hostBuilder);
 
-                _ = await configuration.InvokeAsync(string.Empty);
+                _ = await rootCommand.Parse([]).InvokeAsync();
 
                 await host.Received().StartAsync(Arg.Any<CancellationToken>());
                 await host.Received().StopAsync(Arg.Any<CancellationToken>());

@@ -22,8 +22,7 @@ public class FileSystemGlobbingParserTests
 
         Argument<FileInfo[]> argument = new("FILES") { CustomParser = argumentResult => CommandLine.Parsing.FileSystemGlobbingParser.Parse(argumentResult, directoryInfo) };
         RootCommand root = [argument];
-        CommandLineConfiguration configuration = new(root);
-        ParseResult parseResult = configuration.Parse("\"" + Path.Combine(rootDir, "**", "*.txt") + "\"");
+        ParseResult parseResult = root.Parse("\"" + Path.Combine(rootDir, "**", "*.txt") + "\"");
 
         _ = await Assert.That(parseResult.GetValue(argument)).IsNotNull().And
             .ContainsOnly(x => x.FullName.Equals(first) || x.FullName.Equals(second) || x.FullName.Equals(third));
@@ -41,8 +40,7 @@ public class FileSystemGlobbingParserTests
         
         Argument<FileInfo[]> argument = new("FILES") { CustomParser = argumentResult => CommandLine.Parsing.FileSystemGlobbingParser.Parse(argumentResult, directoryInfo) };
         RootCommand root = [argument];
-        CommandLineConfiguration configuration = new(root);
-        ParseResult parseResult = configuration.Parse("\"" + Path.Combine("~", FolderToSearch, "**", "*.txt") + "\"");
+        ParseResult parseResult = root.Parse("\"" + Path.Combine("~", FolderToSearch, "**", "*.txt") + "\"");
 
         _ = await Assert.That(parseResult.GetValue(argument)).IsNotNull().And
             .ContainsOnly(x => x.FullName.Equals(first));

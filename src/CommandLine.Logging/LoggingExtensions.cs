@@ -15,27 +15,27 @@ using Microsoft.Extensions.Logging;
 public static class LoggingExtensions
 {
     /// <summary>
-    /// Adds logging to the <see cref="CommandLineConfiguration"/> instance.
+    /// Adds logging to the <see cref="RootCommand"/> instance.
     /// </summary>
     /// <typeparam name="T">The type of configuration.</typeparam>
-    /// <param name="configuration">The configuration.</param>
+    /// <param name="rootCommand">The configuration.</param>
     /// <param name="configure">The action to configure the builder.</param>
     /// <returns>The input configuration.</returns>
-    public static T AddLogging<T>(this T configuration, Action<ILoggingBuilder> configure)
-        where T : CommandLineConfiguration => configuration.AddLogging((_, builder) => configure(builder));
+    public static T AddLogging<T>(this T rootCommand, Action<ILoggingBuilder> configure)
+        where T : RootCommand => rootCommand.AddLogging((_, builder) => configure(builder));
 
     /// <summary>
-    /// Adds logging to the <see cref="CommandLineConfiguration"/> instance.
+    /// Adds logging to the <see cref="RootCommand"/> instance.
     /// </summary>
     /// <typeparam name="T">The type of configuration.</typeparam>
-    /// <param name="configuration">The configuration.</param>
+    /// <param name="rootCommand">The configuration.</param>
     /// <param name="configure">The action to configure the builder.</param>
     /// <returns>The input configuration.</returns>
-    public static T AddLogging<T>(this T configuration, Action<ParseResult?, ILoggingBuilder> configure)
-        where T : CommandLineConfiguration
+    public static T AddLogging<T>(this T rootCommand, Action<ParseResult?, ILoggingBuilder> configure)
+        where T : RootCommand
     {
-        LoggerAction.SetHandlers(configuration.RootCommand, configure);
-        return configuration;
+        LoggerAction.SetHandlers(rootCommand, configure);
+        return rootCommand;
     }
 
     /// <summary>

@@ -49,9 +49,8 @@ public class ArgumentValidationTests
     {
         Argument<Uri> argument = new Argument<Uri>("URI").AcceptHttps();
         RootCommand root = [argument];
-        CommandLineConfiguration configuration = new(root);
 
-        ParseResult results = configuration.Parse("https://www.google.com");
+        ParseResult results = root.Parse("https://www.google.com");
         _ = await Assert.That(results.Errors).IsEmpty();
     }
 
@@ -60,9 +59,8 @@ public class ArgumentValidationTests
     {
         Argument<Uri> argument = new Argument<Uri>("URI").AcceptHttp();
         RootCommand root = [argument];
-        CommandLineConfiguration configuration = new(root);
 
-        ParseResult results = configuration.Parse("https://www.google.com");
+        ParseResult results = root.Parse("https://www.google.com");
         _ = await Assert.That(results.Errors).IsNotEmpty();
     }
 
@@ -71,9 +69,8 @@ public class ArgumentValidationTests
     {
         Argument<Uri> argument = new Argument<Uri>("URI").AcceptHttpOrHttps();
         RootCommand root = [argument];
-        CommandLineConfiguration configuration = new(root);
 
-        ParseResult results = configuration.Parse("https://www.google.com");
+        ParseResult results = root.Parse("https://www.google.com");
         _ = await Assert.That(results.Errors).IsEmpty();
     }
 
@@ -82,18 +79,16 @@ public class ArgumentValidationTests
     {
         Argument<Uri> argument = new Argument<Uri>("URI").AcceptSchemes(Uri.UriSchemeGopher, Uri.UriSchemeSsh);
         RootCommand root = [argument];
-        CommandLineConfiguration configuration = new(root);
 
-        ParseResult results = configuration.Parse("https://www.google.com");
+        ParseResult results = root.Parse("https://www.google.com");
         _ = await Assert.That(results.Errors).IsNotEmpty();
     }
 
     private static async Task AcceptMissingOnly<T>(Argument<T> argument, string args)
     {
         RootCommand root = [argument];
-        CommandLineConfiguration configuration = new(root);
 
-        ParseResult results = configuration.Parse(args);
+        ParseResult results = root.Parse(args);
         _ = await Assert.That(results.Errors).IsNotEmpty();
     }
 }

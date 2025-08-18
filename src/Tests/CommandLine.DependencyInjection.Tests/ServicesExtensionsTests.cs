@@ -17,10 +17,9 @@ public class ServicesExtensionsTests
         RootCommand rootCommand = [];
         rootCommand.SetAction(result => serviceProvider = result.GetServices());
 
-        CommandLineConfiguration configuration = new(rootCommand);
-        _ = configuration.UseServices(static _ => { });
+        _ = rootCommand.UseServices(static _ => { });
 
-        _ = await configuration.InvokeAsync([]);
+        _ = await rootCommand.Parse([]).InvokeAsync();
         _ = await Assert.That(serviceProvider).IsNotNull();
     }
 
@@ -37,10 +36,9 @@ public class ServicesExtensionsTests
             }
         });
 
-        CommandLineConfiguration configuration = new(rootCommand);
-        _ = configuration.UseServices(static configure => configure.AddSingleton<IDisposable, Disposable>());
+        _ = rootCommand.UseServices(static configure => configure.AddSingleton<IDisposable, Disposable>());
 
-        _ = await configuration.InvokeAsync([]);
+        _ = await rootCommand.Parse([]).InvokeAsync();
         _ = await Assert.That(disposable).IsNotNull();
 
     }

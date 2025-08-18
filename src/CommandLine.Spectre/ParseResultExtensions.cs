@@ -26,7 +26,7 @@ public static class ParseResultExtensions
 
         var (ansiSupport, writer) = outputOption is { } option && parseResult.GetValue(option) is { } outputFile
             ? (AnsiSupport.No, outputFile.CreateText())
-            : (GetAnsiSupport(parseResult), parseResult.Configuration.Output);
+            : (GetAnsiSupport(parseResult), parseResult.InvocationConfiguration.Output);
 
         return global::Spectre.Console.AnsiConsole.Create(new AnsiConsoleSettings
         {
@@ -37,7 +37,7 @@ public static class ParseResultExtensions
 
         static AnsiSupport GetAnsiSupport(ParseResult parseResult)
         {
-            return parseResult.Configuration.Output == Console.Out ? AnsiSupport.Detect : AnsiSupport.No;
+            return parseResult.InvocationConfiguration.Output == Console.Out ? AnsiSupport.Detect : AnsiSupport.No;
         }
     }
 }

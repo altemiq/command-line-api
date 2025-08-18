@@ -20,8 +20,7 @@ public class DelegateCommandLineActionTests
         bool value = default;
         DelegateCommandLineAction.SetHandlers(command, _ => value = true);
 
-        CommandLineConfiguration configuration = new(command);
-        _ = await configuration.InvokeAsync(string.Empty);
+        _ = await command.Parse([]).InvokeAsync();
 
         _ = await Assert.That(value).IsTrue();
     }
@@ -40,8 +39,7 @@ public class DelegateCommandLineActionTests
             return Task.CompletedTask;
         });
 
-        CommandLineConfiguration configuration = new(command);
-        _ = await configuration.InvokeAsync(string.Empty);
+        _ = await command.Parse([]).InvokeAsync();
 
         _ = await Assert.That(value).IsTrue();
     }
@@ -61,8 +59,7 @@ public class DelegateCommandLineActionTests
             return Task.CompletedTask;
         }, preferSynchronous);
 
-        CommandLineConfiguration configuration = new(command);
-        _ = await configuration.InvokeAsync(string.Empty);
+        _ = await command.Parse([]).InvokeAsync();
 
         _ = await Assert.That(value).IsTrue();
     }

@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="CommandLineConfigurationLogger.cs" company="Altemiq">
+// <copyright file="InvocationConfigurationLogger.cs" company="Altemiq">
 // Copyright (c) Altemiq. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -7,11 +7,11 @@
 namespace System.CommandLine.Logging;
 
 /// <summary>
-/// The <see cref="CommandLineConfiguration"/> <see cref="ILogger"/>.
+/// The <see cref="InvocationConfiguration"/> <see cref="ILogger"/>.
 /// </summary>
 /// <param name="configuration">The configuration.</param>
 /// <param name="scopeProvider">The scope provider.</param>
-internal sealed class CommandLineConfigurationLogger(CommandLineConfiguration configuration, IExternalScopeProvider? scopeProvider) : ILogger
+internal sealed class InvocationConfigurationLogger(InvocationConfiguration configuration, IExternalScopeProvider? scopeProvider) : ILogger
 {
     /// <inheritdoc/>
     public IDisposable BeginScope<TState>(TState state)

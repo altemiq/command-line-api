@@ -21,10 +21,9 @@ public partial class HostingExtensionsTests
         RootCommand rootCommand = [];
         rootCommand.SetAction(parseResult => host = parseResult.GetHost());
 
-        CommandLineConfiguration configuration = new(rootCommand);
-        _ = configuration.UseApplicationHost(configureHost: static (_, configure) => configure.Services.ConfigureInvocationLifetime(opts => opts.SuppressStatusMessages = Value));
+        _ = rootCommand.UseApplicationHost(configureHost: static (_, configure) => configure.Services.ConfigureInvocationLifetime(opts => opts.SuppressStatusMessages = Value));
 
-        _ = await configuration.InvokeAsync([]);
+        _ = await rootCommand.Parse([]).InvokeAsync();
         _ = await Assert.That(host).IsAssignableTo<Microsoft.Extensions.Hosting.IHost>().And
             .Satisfies(
                 static host => host.Services.GetService<Microsoft.Extensions.Hosting.IHostLifetime>(),
@@ -43,10 +42,9 @@ public partial class HostingExtensionsTests
         RootCommand rootCommand = [];
         rootCommand.SetAction(parseResult => host = parseResult.GetHost());
 
-        CommandLineConfiguration configuration = new(rootCommand);
-        _ = configuration.UseApplicationHost();
+        _ = rootCommand.UseApplicationHost();
 
-        _ = await configuration.InvokeAsync("[config:Key1=Value1] [config:Key2]");
+        _ = await rootCommand.Parse("[config:Key1=Value1] [config:Key2]").InvokeAsync();
         _ = await Assert.That(host).IsNotNull();
 
         ConfigurationManager? configurationManager = await Assert.That(host?.Services.GetService(typeof(IConfiguration))).IsTypeOf<ConfigurationManager>();
@@ -62,10 +60,9 @@ public partial class HostingExtensionsTests
         RootCommand rootCommand = [];
         rootCommand.SetAction(parseResult => hostApplicationLifetime = parseResult.GetServices()?.GetService(typeof(Microsoft.Extensions.Hosting.IHostApplicationLifetime)) as Microsoft.Extensions.Hosting.IHostApplicationLifetime);
 
-        CommandLineConfiguration configuration = new(rootCommand);
-        _ = configuration.UseApplicationHost();
+        _ = rootCommand.UseApplicationHost();
 
-        _ = await configuration.InvokeAsync(string.Empty);
+        _ = await rootCommand.Parse([]).InvokeAsync();
 
         _ = await Assert.That(hostApplicationLifetime).IsNotNull();
     }

@@ -15,10 +15,9 @@ public class ServiceExtensionsTests
         RootCommand rootCommand = [];
         rootCommand.SetAction(result => serviceProvider = result.GetServices());
 
-        CommandLineConfiguration configuration = new(rootCommand);
-        _ = configuration.UseServices(_ => { });
+        _ = rootCommand.UseServices(_ => { });
 
-        _ = await configuration.InvokeAsync([]);
+        _ = await rootCommand.Parse([]).InvokeAsync();
         _ = await Assert.That(serviceProvider).IsNotNull();
 
     }

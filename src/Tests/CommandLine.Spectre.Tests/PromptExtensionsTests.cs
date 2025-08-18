@@ -139,8 +139,8 @@ public class PromptExtensionsTests
         }
 
         Option<T> option = new("--option");
-        CommandLineConfiguration configuration = new(new RootCommand { option });
-        return (configuration.Parse(args ?? string.Empty), option, console);
+        RootCommand command = [option];
+        return (command.Parse(args ?? string.Empty), option, console);
     }
 
     private static async Task TestFlagCore<T>(T expected)

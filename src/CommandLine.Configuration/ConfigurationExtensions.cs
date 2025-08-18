@@ -15,91 +15,91 @@ using Microsoft.Extensions.Configuration;
 public static class ConfigurationExtensions
 {
     /// <summary>
-    /// Uses configuration for the configuration.
+    /// Uses configuration for the root command.
     /// </summary>
-    /// <typeparam name="T">The type of configuration.</typeparam>
-    /// <param name="configuration">The configuration.</param>
+    /// <typeparam name="T">The type of root command.</typeparam>
+    /// <param name="rootCommand">The root command.</param>
     /// <param name="configure">The configure action.</param>
-    /// <returns>The configured configuration.</returns>
+    /// <returns>The configured root command.</returns>
     public static T UseConfiguration<T>(
-        this T configuration,
+        this T rootCommand,
         Action<IConfigurationBuilder> configure)
-        where T : CommandLineConfiguration => UseConfiguration(configuration, (_, builder) => configure(builder));
+        where T : RootCommand => UseConfiguration(rootCommand, (_, builder) => configure(builder));
 
     /// <summary>
-    /// Uses configuration for the configuration.
+    /// Uses configuration for the root command.
     /// </summary>
-    /// <typeparam name="T">The type of configuration.</typeparam>
-    /// <param name="configuration">The configuration.</param>
+    /// <typeparam name="T">The type of root command.</typeparam>
+    /// <param name="rootCommand">The root command.</param>
     /// <param name="configure">The configure action.</param>
-    /// <returns>The configured configuration.</returns>
+    /// <returns>The configured root command.</returns>
     public static T UseConfiguration<T>(
-        this T configuration,
+        this T rootCommand,
         Action<ParseResult?, IConfigurationBuilder> configure)
-        where T : CommandLineConfiguration
+        where T : RootCommand
     {
-        Invocation.BuilderCommandLineAction.SetActions<ConfigurationBuilder, IConfiguration>(configuration.RootCommand, static builder => builder.Build(), configure);
-        return configuration;
+        Invocation.BuilderCommandLineAction.SetActions<ConfigurationBuilder, IConfiguration>(rootCommand, static builder => builder.Build(), configure);
+        return rootCommand;
     }
 
     /// <summary>
-    /// Uses configuration for the configuration.
+    /// Uses configuration for the root command.
     /// </summary>
-    /// <typeparam name="T">The type of configuration.</typeparam>
-    /// <param name="configuration">The configuration.</param>
+    /// <typeparam name="T">The type of root command.</typeparam>
+    /// <param name="rootCommand">The root command.</param>
     /// <param name="createBuilder">The builder creator.</param>
     /// <param name="configure">The configure action.</param>
-    /// <returns>The configured configuration.</returns>
+    /// <returns>The configured root command.</returns>
     public static T UseConfiguration<T>(
-        this T configuration,
+        this T rootCommand,
         Func<IConfigurationBuilder> createBuilder,
         Action<IConfigurationBuilder> configure)
-        where T : CommandLineConfiguration => UseConfiguration(configuration, createBuilder, (_, builder) => configure(builder));
+        where T : RootCommand => UseConfiguration(rootCommand, createBuilder, (_, builder) => configure(builder));
 
     /// <summary>
-    /// Uses configuration for the configuration.
+    /// Uses configuration for the root command.
     /// </summary>
-    /// <typeparam name="T">The type of configuration.</typeparam>
-    /// <param name="configuration">The configuration.</param>
+    /// <typeparam name="T">The type of root command.</typeparam>
+    /// <param name="rootCommand">The root command.</param>
     /// <param name="createBuilder">The builder creator.</param>
     /// <param name="configure">The configure action.</param>
-    /// <returns>The configured configuration.</returns>
+    /// <returns>The configured root command.</returns>
     public static T UseConfiguration<T>(
-        this T configuration,
+        this T rootCommand,
         Func<ParseResult?, IConfigurationBuilder> createBuilder,
         Action<IConfigurationBuilder> configure)
-        where T : CommandLineConfiguration => UseConfiguration(configuration, createBuilder, (_, builder) => configure(builder));
+        where T : RootCommand => UseConfiguration(rootCommand, createBuilder, (_, builder) => configure(builder));
 
     /// <summary>
-    /// Uses configuration for the configuration.
+    /// Uses configuration for the root command.
     /// </summary>
-    /// <typeparam name="T">The type of configuration.</typeparam>
-    /// <param name="configuration">The configuration.</param>
+    /// <typeparam name="T">The type of root command.</typeparam>
+    /// <param name="rootCommand">The root command.</param>
     /// <param name="createBuilder">The builder creator.</param>
     /// <param name="configure">The configure action.</param>
-    /// <returns>The configured configuration.</returns>
+    /// <returns>The configured root command.</returns>
     public static T UseConfiguration<T>(
-        this T configuration,
+        this T rootCommand,
         Func<IConfigurationBuilder> createBuilder,
         Action<ParseResult?, IConfigurationBuilder> configure)
-        where T : CommandLineConfiguration => UseConfiguration(configuration, _ => createBuilder(), configure);
+        where T : RootCommand => UseConfiguration(rootCommand, _ => createBuilder(), configure);
 
     /// <summary>
-    /// Uses configuration for the configuration.
+    /// Uses configuration for the root command.
     /// </summary>
-    /// <typeparam name="T">The type of configuration.</typeparam>
-    /// <param name="configuration">The configuration.</param>
+    /// <typeparam name="T">The type of root command.</typeparam>
+    /// <param name="rootCommand">The root command.</param>
     /// <param name="createBuilder">The builder creator.</param>
     /// <param name="configure">The configure action.</param>
-    /// <returns>The configured configuration.</returns>
+    /// <returns>The configured root command.</returns>
     public static T UseConfiguration<T>(
-        this T configuration,
+        this T rootCommand,
         Func<ParseResult?, IConfigurationBuilder> createBuilder,
         Action<ParseResult?, IConfigurationBuilder> configure)
-        where T : CommandLineConfiguration
+        where T : RootCommand
     {
-        Invocation.BuilderCommandLineAction.SetActions(configuration.RootCommand, createBuilder, static builder => builder.Build(), configure);
-        return configuration;
+        Invocation.BuilderCommandLineAction.SetActions(rootCommand, createBuilder, static builder => builder.Build(), configure);
+        return rootCommand;
     }
 
     /// <summary>

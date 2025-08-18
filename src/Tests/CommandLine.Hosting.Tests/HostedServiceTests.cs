@@ -16,10 +16,10 @@ public class HostedServiceTests
     {
         const string CommandName = "command";
         HostedService hostedService = new();
-        CommandLineConfiguration configuration = new(new RootCommand { new Command(CommandName) });
-        _ = configuration.UseHost((_, builder) => builder.ConfigureServices(services => services.AddHostedService(_ => hostedService)));
+        RootCommand rootCommand = [new Command(CommandName)];
+        _ = rootCommand.UseHost((_, builder) => builder.ConfigureServices(services => services.AddHostedService(_ => hostedService)));
 
-        _ = await configuration.InvokeAsync(CommandName);
+        _ = await rootCommand.Parse(CommandName).InvokeAsync();
 
         _ = await Assert.That(hostedService.Started).IsTrue();
         _ = await Assert.That(hostedService.Stopped).IsTrue();
@@ -30,10 +30,10 @@ public class HostedServiceTests
     public async Task UseHostedServiceThroughApplicationHost()
     {
         HostedService hostedService = new();
-        CommandLineConfiguration configuration = new(new RootCommand());
-        _ = configuration.UseApplicationHost((_, builder) => builder.Services.AddHostedService(_ => hostedService));
+        RootCommand rootCommand = [];
+        _ = rootCommand.UseApplicationHost((_, builder) => builder.Services.AddHostedService(_ => hostedService));
 
-        _ = await configuration.InvokeAsync(string.Empty);
+        _ = await rootCommand.Parse([]).InvokeAsync();
 
         _ = await Assert.That(hostedService.Started).IsTrue();
         _ = await Assert.That(hostedService.Stopped).IsTrue();

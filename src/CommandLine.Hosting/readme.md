@@ -7,15 +7,14 @@ This adds extension methods for `UseServices` that allows configuring the servic
 This is then used to get `IServiceProvider` in actions using `GetServices`, and `GetConfiguration` for `IConfiguration`.
 
 ```csharp
-var command = new Command("COMMAND");
+var command = new RootCommand("COMMAND");
 command.SetHandler(parseResult =>
 {
     var services = parseResult.GetServices();
     var configuration = parseResult.GetConfiguration();
 });
 
-var configuration = new CommandLineConfiguration(command);
-configuration
+command
     .UseServices(services =>
     {
         /* configure the services */
@@ -25,5 +24,5 @@ configuration
         /* configure the builder */
     });
 
-configuration.Invoke(args);
+command.Parse(args).Invoke();
 ```

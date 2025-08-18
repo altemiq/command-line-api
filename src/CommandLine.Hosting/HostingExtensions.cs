@@ -22,15 +22,15 @@ public static partial class HostingExtensions
     /// <summary>
     /// Uses the host builder for this instance.
     /// </summary>
-    /// <typeparam name="T">The type of configuration.</typeparam>
-    /// <param name="configuration">The configuration.</param>
+    /// <typeparam name="T">The type of root command.</typeparam>
+    /// <param name="rootCommand">The root command.</param>
     /// <param name="configureHost">The function to configure the host.</param>
-    /// <returns>The configuration for chaining.</returns>
+    /// <returns>The root command for chaining.</returns>
     public static T UseHost<T>(
-        this T configuration,
+        this T rootCommand,
         Action<ParseResult?, Microsoft.Extensions.Hosting.IHostBuilder>? configureHost = default)
-        where T : CommandLineConfiguration => UseHost(
-            configuration,
+        where T : RootCommand => UseHost(
+            rootCommand,
 #if NET7_0_OR_GREATER
             Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder,
 #else
@@ -41,40 +41,37 @@ public static partial class HostingExtensions
     /// <summary>
     /// Uses the host builder for this instance.
     /// </summary>
-    /// <typeparam name="T">The type of configuration.</typeparam>
-    /// <param name="configuration">The configuration.</param>
+    /// <typeparam name="T">The type of root command.</typeparam>
+    /// <param name="rootCommand">The root command.</param>
     /// <param name="hostBuilderFactory">The host builder factory.</param>
     /// <param name="configureHost">The function to configure the host.</param>
-    /// <returns>The configuration for chaining.</returns>
+    /// <returns>The root command for chaining.</returns>
     public static T UseHost<T>(
-        this T configuration,
+        this T rootCommand,
         Func<string[], Microsoft.Extensions.Hosting.IHostBuilder> hostBuilderFactory,
         Action<ParseResult?, Microsoft.Extensions.Hosting.IHostBuilder>? configureHost = default)
-        where T : CommandLineConfiguration
+        where T : RootCommand
     {
-        if (configuration.RootCommand is RootCommand root)
-        {
-            root.Add(new Directive(HostingDirectiveName));
-        }
+        rootCommand.Add(new Directive(HostingDirectiveName));
 
         Invocation.BuilderCommandLineAction.SetActions(
-            configuration.RootCommand,
-            parseResult => CreateHostBuilder(configuration, hostBuilderFactory, parseResult),
+            rootCommand,
+            parseResult => CreateHostBuilder(rootCommand, hostBuilderFactory, parseResult),
             static builder => builder.Build(),
             (parseResult, builder) => configureHost?.Invoke(parseResult, builder),
             static (_, host, cancellationToken) => host.StartAsync(cancellationToken),
             static (_, host, cancellationToken) => host.StopAsync(cancellationToken));
 
-        return configuration;
+        return rootCommand;
 
-        static Microsoft.Extensions.Hosting.IHostBuilder CreateHostBuilder(T configuration, Func<string[], Microsoft.Extensions.Hosting.IHostBuilder> hostBuilderFactory, ParseResult? parseResult)
+        static Microsoft.Extensions.Hosting.IHostBuilder CreateHostBuilder(T rootCommand, Func<string[], Microsoft.Extensions.Hosting.IHostBuilder> hostBuilderFactory, ParseResult? parseResult)
         {
             var hostBuilder = hostBuilderFactory(GetUnmatchedTokens(parseResult));
 
             if (parseResult is not null)
             {
                 hostBuilder.Properties[typeof(ParseResult)] = parseResult;
-                UpdateHostConfiguration(configuration, parseResult, hostBuilder);
+                UpdateHostConfiguration(rootCommand, parseResult, hostBuilder);
                 _ = hostBuilder.ConfigureServices((_, services) => services.AddSingleton(parseResult));
             }
 
@@ -86,10 +83,9 @@ public static partial class HostingExtensions
                 return parseResult?.UnmatchedTokens.ToArray() ?? [];
             }
 
-            static void UpdateHostConfiguration(T configuration, ParseResult parseResult, Microsoft.Extensions.Hosting.IHostBuilder hostBuilder)
+            static void UpdateHostConfiguration(T rootCommand, ParseResult parseResult, Microsoft.Extensions.Hosting.IHostBuilder hostBuilder)
             {
-                if (configuration.RootCommand is RootCommand root
-                    && root.Directives.SingleOrDefault(static d => string.Equals(d.Name, HostingDirectiveName, StringComparison.Ordinal)) is { } directive
+                if (rootCommand.Directives.SingleOrDefault(static d => string.Equals(d.Name, HostingDirectiveName, StringComparison.Ordinal)) is { } directive
                     && parseResult.GetResult(directive) is { } directiveResult)
                 {
                     _ = hostBuilder.ConfigureHostConfiguration(config => config.AddInMemoryCollection([.. directiveResult.Values.Select(Parse)]));

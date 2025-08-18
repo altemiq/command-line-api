@@ -15,31 +15,31 @@ using Microsoft.Extensions.DependencyInjection;
 public static class ServicesExtensions
 {
     /// <summary>
-    /// Uses services for the configuration.
+    /// Uses services for the root command.
     /// </summary>
-    /// <typeparam name="T">The type of configuration.</typeparam>
-    /// <param name="configuration">The configuration.</param>
+    /// <typeparam name="T">The type of root command.</typeparam>
+    /// <param name="rootCommand">The root command.</param>
     /// <param name="configure">The configure action.</param>
     /// <returns>The configured configuration.</returns>
     public static T UseServices<T>(
-        this T configuration,
+        this T rootCommand,
         Action<IServiceCollection> configure)
-        where T : CommandLineConfiguration => UseServices(configuration, (_, builder) => configure(builder));
+        where T : RootCommand => UseServices(rootCommand, (_, builder) => configure(builder));
 
     /// <summary>
-    /// Uses services for the configuration.
+    /// Uses services for the root command.
     /// </summary>
-    /// <typeparam name="T">The type of configuration.</typeparam>
-    /// <param name="configuration">The configuration.</param>
+    /// <typeparam name="T">The type of root command.</typeparam>
+    /// <param name="rootCommand">The root command.</param>
     /// <param name="configure">The configure action.</param>
-    /// <returns>The configured configuration.</returns>
+    /// <returns>The configured root command.</returns>
     public static T UseServices<T>(
-        this T configuration,
+        this T rootCommand,
         Action<ParseResult?, IServiceCollection> configure)
-        where T : CommandLineConfiguration
+        where T : RootCommand
     {
-        Invocation.BuilderCommandLineAction.SetActions<ServiceCollection, IServiceProvider>(configuration.RootCommand, static builder => builder.BuildServiceProvider(), configure);
-        return configuration;
+        Invocation.BuilderCommandLineAction.SetActions<ServiceCollection, IServiceProvider>(rootCommand, static builder => builder.BuildServiceProvider(), configure);
+        return rootCommand;
     }
 
     /// <summary>

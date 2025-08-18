@@ -58,20 +58,19 @@ root.SetAction(parseResult =>
     }
 });
 
-var configuration = new CommandLineConfiguration(root);
-configuration
+root
 #if NET8_0_OR_GREATER
     .UseApplicationHost((parseResult, builder) =>
     {
-        if (parseResult is { Configuration: { } parseResultConfiguration })
+        if (parseResult is { InvocationConfiguration: { } configuration })
         {
-            builder.Logging.AddCommandLineConfiguration(parseResultConfiguration);
+            builder.Logging.AddCommandLineConfiguration(configuration);
         }
     })
 #else
     .UseHost(static (parseResult, builder) => builder.ConfigureLogging(loggingBuilder =>
     {
-        if (parseResult is { Configuration: { } configuration })
+        if (parseResult is { InvocationConfiguration: { } configuration })
         {
             loggingBuilder.AddCommandLineConfiguration(configuration);
         }
@@ -79,13 +78,13 @@ configuration
 #endif
     .AddLogging(static (parseResult, configure) =>
     {
-        if (parseResult is { Configuration: { } configuration })
+        if (parseResult is { InvocationConfiguration: { } configuration })
         {
             configure.AddCommandLineConfiguration(configuration);
         }
     });
 
-await configuration.InvokeAsync(args).ConfigureAwait(true);
+await root.Parse(args).InvokeAsync().ConfigureAwait(true);
 
 /// <content>
 /// The program class.

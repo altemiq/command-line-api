@@ -8,9 +8,8 @@ public class NativeExtensionsTests
     public async Task Test()
     {
         string? path = Environment.GetEnvironmentVariable(PathVariable);
-        _ = await new CommandLineConfiguration(new RootCommand())
-            .ResolveNative()
-            .InvokeAsync(string.Empty);
+        RootCommand rootCommand = new RootCommand().ResolveNative();
+        _ = await rootCommand.Parse([]).InvokeAsync();
 
         string? newPath = Environment.GetEnvironmentVariable(PathVariable);
         _ = await Assert.That(newPath).IsNotEqualTo(path);
@@ -22,9 +21,8 @@ public class NativeExtensionsTests
         string? path = Environment.GetEnvironmentVariable(PathVariable);
         RootCommand command = [];
         command.SetAction(_ => { });
-        _ = await new CommandLineConfiguration(new RootCommand())
-            .ResolveNative()
-            .InvokeAsync(string.Empty);
+        RootCommand rootCommand = new RootCommand().ResolveNative();
+        _ = await rootCommand.Parse([]).InvokeAsync();
 
         string? newPath = Environment.GetEnvironmentVariable(PathVariable);
         _ = await Assert.That(newPath).IsNotEqualTo(path);
@@ -36,9 +34,8 @@ public class NativeExtensionsTests
         string? path = Environment.GetEnvironmentVariable(PathVariable);
         RootCommand command = [];
         command.SetAction((_, _) => Task.CompletedTask);
-        _ = await new CommandLineConfiguration(new RootCommand())
-            .ResolveNative()
-            .InvokeAsync(string.Empty);
+        RootCommand rootCommand = new RootCommand().ResolveNative();
+        _ = await rootCommand.Parse([]).InvokeAsync();
 
         string? newPath = Environment.GetEnvironmentVariable(PathVariable);
         _ = await Assert.That(newPath).IsNotEqualTo(path);

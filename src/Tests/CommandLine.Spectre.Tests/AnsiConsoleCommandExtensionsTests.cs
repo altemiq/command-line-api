@@ -17,9 +17,7 @@ public class AnsiConsoleCommandExtensionsTests
         RootCommand command = [];
         _ = command.AddFiglet("value", Color.Blue, console);
 
-        CommandLineConfiguration configuration = new(command);
-
-        _ = await configuration.Parse("--help").InvokeAsync();
+        _ = await command.Parse("--help").InvokeAsync();
 
         _ = await Assert.That(console.Lines.Skip(1)).IsNotEmpty();
     }
@@ -35,12 +33,11 @@ public class AnsiConsoleCommandExtensionsTests
     public async Task AddFigletToSubCommand()
     {
         TestConsole console = new();
-        Command command = new(nameof(AddFigletToSubCommand));
+        RootCommand command = new(nameof(AddFigletToSubCommand));
 
-        CommandLineConfiguration configuration = new(new RootCommand { command });
         _ = command.AddFiglet("value", Color.Blue, console);
 
-        _ = await configuration.Parse($"{nameof(AddFigletToSubCommand)} --help").InvokeAsync();
+        _ = await command.Parse($"{nameof(AddFigletToSubCommand)} --help").InvokeAsync();
 
         _ = await Assert.That(console.Lines.Skip(1)).IsNotEmpty();
     }
@@ -51,12 +48,12 @@ public class AnsiConsoleCommandExtensionsTests
         TestConsole console = new();
         Command command = new(nameof(AddFigletToSubCommandAndInvokeRoot));
 
-        CommandLineConfiguration configuration = new(new RootCommand { command});
-        var helpOption = configuration.RootCommand.Options.OfType<Help.HelpOption>().Single();
+        RootCommand rootCommand = [command];
+        var helpOption = rootCommand.Options.OfType<Help.HelpOption>().Single();
         helpOption.Action = new NullAction();
         _ = command.AddFiglet("value", Color.Blue, console);
 
-        _ = await configuration.Parse("--help").InvokeAsync();
+        _ = await rootCommand.Parse("--help").InvokeAsync();
 
         _ = await Assert.That(console.Lines.Skip(1)).IsEmpty();
     }

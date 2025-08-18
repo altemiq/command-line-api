@@ -14,100 +14,96 @@ public class ExtensionMethodsTests
     public async Task GetRequiredValueFromOptionName()
     {
         Option<string> option = new("--option");
-        CommandLineConfiguration configuration = new(new RootCommand { option });
+        RootCommand root = [option];
 
-        _ = await Assert.That(configuration.Parse("--option value").GetRequiredValueOrThrowWhenNull<string>("--option")).IsEqualTo("value");
+        _ = await Assert.That(root.Parse("--option value").GetRequiredValueOrThrowWhenNull<string>("--option")).IsEqualTo("value");
     }
 
     [Test]
     public async Task GetRequiredValueFromOption()
     {
         Option<string> option = new("--option");
-        CommandLineConfiguration configuration = new(new RootCommand { option });
+        RootCommand root = [option];
 
-        _ = await Assert.That(configuration.Parse("--option value").GetRequiredValueOrThrowWhenNull(option)).IsEqualTo("value");
+        _ = await Assert.That(root.Parse("--option value").GetRequiredValueOrThrowWhenNull(option)).IsEqualTo("value");
     }
 
     [Test]
     public async Task GetRequiredValueFromOptionWhenMissing()
     {
         Option<string> option = new("--option") { DefaultValueFactory = _ => default! };
-        CommandLineConfiguration configuration = new(new RootCommand { option });
-        _ = await Assert.That(() => configuration.Parse(string.Empty).GetRequiredValueOrThrowWhenNull(option)).Throws<ArgumentNullException>();
+        RootCommand root = [option];
+        _ = await Assert.That(() => root.Parse(string.Empty).GetRequiredValueOrThrowWhenNull(option)).Throws<ArgumentNullException>();
     }
 
     [Test]
     public async Task GetRequiredValueFromArgument()
     {
         Argument<string> argument = new("ARG");
-        CommandLineConfiguration configuration = new(new RootCommand { argument });
+        RootCommand root = [argument];
 
-        _ = await Assert.That(configuration.Parse("value").GetRequiredValueOrThrowWhenNull(argument)).IsEqualTo("value");
+        _ = await Assert.That(root.Parse("value").GetRequiredValueOrThrowWhenNull(argument)).IsEqualTo("value");
     }
 
     [Test]
     public async Task GetRequiredValueFromArgumentWhenMissing()
     {
         Argument<string> argument = new("ARG") { DefaultValueFactory = _ => default! };
-        CommandLineConfiguration configuration = new(new RootCommand { argument });
+        RootCommand root = [argument];
 
-        _ = await Assert.That(() => configuration.Parse(string.Empty).GetRequiredValueOrThrowWhenNull(argument)).Throws<ArgumentNullException>();
+        _ = await Assert.That(() => root.Parse(string.Empty).GetRequiredValueOrThrowWhenNull(argument)).Throws<ArgumentNullException>();
     }
 
     [Test]
     public async Task GetRequiredResultFromOption()
     {
         Option<string> option = new("--option");
-        CommandLineConfiguration configuration = new(new RootCommand { option });
+        RootCommand root = [option];
 
-        _ = await Assert.That(() => configuration.Parse("--option value").GetRequiredResult(option)).ThrowsNothing();
+        _ = await Assert.That(() => root.Parse("--option value").GetRequiredResult(option)).ThrowsNothing();
     }
 
     [Test]
     public async Task GetRequiredResultFromArgument()
     {
         Argument<string> argument = new("ARG");
-        CommandLineConfiguration configuration = new(new RootCommand { argument });
+        RootCommand root = [argument];
 
-        _ = await Assert.That(() => configuration.Parse("value").GetRequiredResult(argument)).ThrowsNothing();
+        _ = await Assert.That(() => root.Parse("value").GetRequiredResult(argument)).ThrowsNothing();
     }
 
     [Test]
     public async Task GetRequiredResultFromCommand()
     {
-        RootCommand command = [];
-        CommandLineConfiguration configuration = new(command);
-
-        _ = await Assert.That(() => configuration.Parse("value").GetRequiredResult(command)).ThrowsNothing();
+        RootCommand root = [];
+        
+        _ = await Assert.That(() => root.Parse("value").GetRequiredResult(root)).ThrowsNothing();
     }
 
     [Test]
     public async Task GetRequiredResultFromDirective()
     {
-        RootCommand command = [];
-        CommandLineConfiguration configuration = new(command);
+        RootCommand root = [];
 
-        Directive directive = command.Directives.First();
-        _ = await Assert.That(() => configuration.Parse($"[{directive.Name}]").GetRequiredResult(directive)).ThrowsNothing();
+        Directive directive = root.Directives.First();
+        _ = await Assert.That(() => root.Parse($"[{directive.Name}]").GetRequiredResult(directive)).ThrowsNothing();
     }
 
     [Test]
     public async Task GetRequiredResultFromSymbol()
     {
-        RootCommand command = [];
-        CommandLineConfiguration configuration = new(command);
-        Symbol symbol = command;
-        _ = await Assert.That(() => configuration.Parse("value").GetRequiredResult(symbol)).ThrowsNothing();
+        RootCommand root = [];
+        Symbol symbol = root;
+        _ = await Assert.That(() => root.Parse("value").GetRequiredResult(symbol)).ThrowsNothing();
     }
 
     [Test]
     public async Task GetRequiredCommandFromSymbolResult()
     {
         Option<string> option = new("--option");
-        RootCommand command = [option];
-        CommandLineConfiguration configuration = new(command);
-
-        Parsing.OptionResult? result = await Assert.That(configuration.Parse("--option value").GetResult(option)).IsTypeOf<Parsing.OptionResult>();
+        RootCommand root = [option];
+        
+        Parsing.OptionResult? result = await Assert.That(root.Parse("--option value").GetResult(option)).IsTypeOf<Parsing.OptionResult>();
         _ = await Assert.That(result!.GetRequiredCommand).ThrowsNothing();
     }
 
@@ -124,13 +120,10 @@ public class ExtensionMethodsTests
             },
         };
         RootCommand command = [option];
-        CommandLineConfiguration configuration = new(command)
-        {
-            Output = TextWriter.Null,
-            Error = TextWriter.Null,
-        };
 
-        ParseResult parsedConfiguration = configuration.Parse("--help");
+        ParseResult parsedConfiguration = command.Parse("--help");
+        parsedConfiguration.InvocationConfiguration.Output = TextWriter.Null;
+        parsedConfiguration.InvocationConfiguration.Error = TextWriter.Null;
         _ = await parsedConfiguration.InvokeAsync();
         _ = await Assert.That(commandFromOptionDefault).IsNotNull();
     }
@@ -150,13 +143,10 @@ public class ExtensionMethodsTests
             },
         };
         RootCommand command = [argument];
-        CommandLineConfiguration configuration = new(command)
-        {
-            Output = TextWriter.Null,
-            Error = TextWriter.Null,
-        };
 
-        ParseResult parsedConfiguration = configuration.Parse("--help");
+        ParseResult parsedConfiguration = command.Parse("--help");
+        parsedConfiguration.InvocationConfiguration.Output = TextWriter.Null;
+        parsedConfiguration.InvocationConfiguration.Error = TextWriter.Null;
         _ = await parsedConfiguration.InvokeAsync();
         _ = await Assert.That(commandFromOptionDefault).IsNotNull();
     }

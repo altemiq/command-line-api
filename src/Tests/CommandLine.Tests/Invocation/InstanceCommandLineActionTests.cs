@@ -18,8 +18,7 @@ public class InstanceCommandLineActionTests
 
         InstanceCommandLineAction.SetActions(command, _ => new object());
 
-        CommandLineConfiguration configuration = new(command);
-        _ = await configuration.InvokeAsync(string.Empty);
+        _ = await command.Parse([]).InvokeAsync();
 
         _ = await Assert.That(InstanceCommandLineAction.GetInstance<object>(command)).IsNotNull();
     }
@@ -36,8 +35,7 @@ public class InstanceCommandLineActionTests
 
         InstanceCommandLineAction.SetActions(command, _ => new object(), (_, _) => before = true, (_, _) => after = true);
 
-        CommandLineConfiguration configuration = new(command);
-        _ = await configuration.InvokeAsync(string.Empty);
+        _ = await command.Parse([]).InvokeAsync();
 
         _ = await Assert.That(InstanceCommandLineAction.GetInstance<object>(command)).IsNotNull();
         _ = await Assert.That(before).IsTrue();
@@ -56,8 +54,7 @@ public class InstanceCommandLineActionTests
 
         InstanceCommandLineAction.SetActions(command, _ => new object(), (_, _, _) => Task.FromResult(before = true), (_, _, _) => Task.FromResult(after = true));
 
-        CommandLineConfiguration configuration = new(command);
-        _ = await configuration.InvokeAsync(string.Empty);
+        _ = await command.Parse([]).InvokeAsync();
 
         _ = await Assert.That(InstanceCommandLineAction.GetInstance<object>(command)).IsNotNull();
         _ = await Assert.That(before).IsTrue();

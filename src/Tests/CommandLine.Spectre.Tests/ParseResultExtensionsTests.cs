@@ -19,8 +19,7 @@ public class ParseResultExtensionsTests
     public async Task CreateDefaultConsole()
     {
         var command = new RootCommand();
-        var configuration = new CommandLineConfiguration(command);
-        var parseResult = configuration.Parse(string.Empty);
+        var parseResult = command.Parse(string.Empty);
         await Assert.That(parseResult.CreateConsole())
             .IsNotNull().And
             .Satisfies(c => c.Profile.Out.Writer, @out => @out.IsSameReferenceAs(Console.Out));
@@ -32,8 +31,7 @@ public class ParseResultExtensionsTests
         const string Option = "--output";
         var option = new Option<FileInfo>(Option);
         var command = new RootCommand { option };
-        var configuration = new CommandLineConfiguration(command);
-        var parseResult = configuration.Parse(string.Empty);
+        var parseResult = command.Parse(string.Empty);
 
         await Assert.That(parseResult.CreateConsole(option))
             .IsNotNull().And
@@ -54,8 +52,7 @@ public class ParseResultExtensionsTests
         var temp = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
         var option = new Option<FileInfo>(Option);
         var command = new RootCommand { option };
-        var configuration = new CommandLineConfiguration(command);
-        var parseResult = configuration.Parse($"{Option} \"{temp}\"");
+        var parseResult = command.Parse($"{Option} \"{temp}\"");
 
         await Assert.That(parseResult.CreateConsole(option))
             .IsNotNull().And
@@ -82,8 +79,8 @@ public class ParseResultExtensionsTests
     {
         var command = new RootCommand();
         var memoryStream = new MemoryStream();
-        var configuration = new CommandLineConfiguration(command) { Output = new StreamWriter(memoryStream) };
-        var parseResult = configuration.Parse(string.Empty);
+        var parseResult = command.Parse(string.Empty);
+        parseResult.InvocationConfiguration.Output = new StreamWriter(memoryStream);
 
         await Assert.That(parseResult.CreateConsole())
             .IsNotNull().And

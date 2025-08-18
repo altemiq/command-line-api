@@ -28,10 +28,9 @@ public class InvocationLifetimeTests
             }
         });
 
-        CommandLineConfiguration configuration = new(command);
-        _ = configuration.UseHost();
+        _ = command.UseHost();
 
-        _ = await configuration.InvokeAsync(string.Empty, cancellationTokenSource.Token);
+        _ = await command.Parse([]).InvokeAsync(cancellationToken: cancellationTokenSource.Token);
 
         _ = await Assert.That(cancellationTokenSource.IsCancellationRequested).IsTrue();
     }

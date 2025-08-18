@@ -12,16 +12,16 @@ namespace System.CommandLine;
 public static class NativeExtensions
 {
     /// <summary>
-    /// Resolves native assemblies for the configuration.
+    /// Resolves native assemblies for the command.
     /// </summary>
-    /// <typeparam name="T">The type of configuration.</typeparam>
-    /// <param name="configuration">The configuration.</param>
+    /// <typeparam name="T">The type of command.</typeparam>
+    /// <param name="rootCommand">The root command.</param>
     /// <returns>The input configuration.</returns>
-    public static T ResolveNative<T>(this T configuration)
-        where T : CommandLineConfiguration
+    public static T ResolveNative<T>(this T rootCommand)
+        where T : RootCommand
     {
-        NativeAction.SetActions(configuration.RootCommand);
-        return configuration;
+        NativeAction.SetActions(rootCommand);
+        return rootCommand;
     }
 
     private static class NativeAction

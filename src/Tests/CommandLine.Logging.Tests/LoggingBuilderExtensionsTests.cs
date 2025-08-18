@@ -26,8 +26,11 @@ public class LoggingBuilderExtensionsTests
     public async Task LogValue(LogLevel minLevel, LogLevel level, int expectedLength)
     {
         StringWriter writer = new();
-        CommandLineConfiguration configuration = new(new RootCommand()) { Output = writer };
-        ILoggerFactory factory = LoggerFactory.Create(builder => builder.AddCommandLineConfiguration(configuration).SetMinimumLevel(minLevel));
+        RootCommand configuration = new();
+        var parseResult = configuration.Parse([]);
+        parseResult.InvocationConfiguration.Output = writer;
+        
+        ILoggerFactory factory = LoggerFactory.Create(builder => builder.AddCommandLineConfiguration(parseResult.InvocationConfiguration).SetMinimumLevel(minLevel));
 
         ILogger logger = factory.CreateLogger("Test");
         logger.Log(level, "Test");
@@ -40,9 +43,10 @@ public class LoggingBuilderExtensionsTests
         _ = await Assert.That(writer.GetStringBuilder().Length).IsEqualTo(expectedLength);
     }
 
-    private static ILoggerFactory CreateLoggerFactory(CommandLineConfiguration? configuration = default)
+    private static ILoggerFactory CreateLoggerFactory(RootCommand? rootCommand = default)
     {
-        configuration ??= new CommandLineConfiguration(new RootCommand());
-        return LoggerFactory.Create(builder => builder.AddCommandLineConfiguration(configuration));
+        rootCommand ??= new RootCommand();
+        var parseResult = rootCommand.Parse([]);
+        return LoggerFactory.Create(builder => builder.AddCommandLineConfiguration(parseResult.InvocationConfiguration));
     }
 }

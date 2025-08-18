@@ -16,12 +16,12 @@ public class LoggingExtensionsTests
     [Test]
     public async Task AddLogging()
     {
-        CommandLineConfiguration configuration = new(new RootCommand());
+        RootCommand configuration = new RootCommand();
         _ = configuration.AddLogging((parseResult, builder) =>
         {
-            if (parseResult?.Configuration is { } parseResultConfiguration)
+            if (parseResult?.InvocationConfiguration is { } invocationConfiguration)
             {
-                _ = builder.AddCommandLineConfiguration(parseResultConfiguration);
+                _ = builder.AddCommandLineConfiguration(invocationConfiguration);
             }
         });
 
@@ -32,13 +32,12 @@ public class LoggingExtensionsTests
     [Test]
     public async Task GetLoggerFromSubCommand()
     {
-        var command = new Command("command");
-        var rootCommand = new RootCommand { command };
-        var configuration = new CommandLineConfiguration(rootCommand);
+        const string CommandName = "command";
+        var rootCommand = new RootCommand { new Command(CommandName) };
         bool configureCalled = false;
-        configuration.AddLogging(_ => configureCalled = true);
+        rootCommand.AddLogging(_ => configureCalled = true);
 
-        var parseResult = configuration.Parse("command");
+        var parseResult = rootCommand.Parse(CommandName);
         _ = await Assert.That(parseResult.CreateLogger("Test")).IsNotNull();
         _ = await Assert.That(configureCalled).IsTrue();
     }
@@ -48,12 +47,12 @@ public class LoggingExtensionsTests
     {
         const int Total = 10;
         int count = default;
-        CommandLineConfiguration configuration = new(new RootCommand());
+        RootCommand command = new();
 
-        _ = await Task.WhenAll(Enumerable.Range(0, Total).Select(_ => Task.Run(() => configuration.AddLogging(_ => Interlocked.Increment(ref count)))));
+        _ = await Task.WhenAll(Enumerable.Range(0, Total).Select(_ => Task.Run(() => command.AddLogging(_ => Interlocked.Increment(ref count)))));
 
         // force getting the logger
-        _ = configuration.Parse(string.Empty).GetLoggerFactory();
+        _ = command.Parse([]).GetLoggerFactory();
 
         _ = await Assert.That(count).IsGreaterThan(1);
     }
@@ -61,7 +60,7 @@ public class LoggingExtensionsTests
     [Test]
     public async Task FailGetLogger()
     {
-        _ = await Assert.That(() => new CommandLineConfiguration(new RootCommand()).Parse(string.Empty).GetLoggerFactory()).Throws<InvalidOperationException>();
+        _ = await Assert.That(() => new RootCommand().Parse([]).GetLoggerFactory()).Throws<InvalidOperationException>();
     }
 
     [Test]
@@ -77,6 +76,6 @@ public class LoggingExtensionsTests
     [Arguments(VerbosityOptions.diagnostic, LogLevel.Trace)]
     public async Task GetLogLevel(VerbosityOptions verbosity, LogLevel level)
     {
-        _ = await Assert.That(new CommandLineConfiguration(new RootCommand { verbosityOption }).Parse($"{verbosityOption.Name} {verbosity}").GetLogLevel()).IsEqualTo(level);
+        _ = await Assert.That(new RootCommand { verbosityOption }.Parse($"{verbosityOption.Name} {verbosity}").GetLogLevel()).IsEqualTo(level);
     }
 }
