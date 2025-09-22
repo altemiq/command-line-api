@@ -10,7 +10,7 @@ namespace System.CommandLine.Invocation;
 /// A nested <see cref="AsynchronousCommandLineAction"/>.
 /// </summary>
 /// <remarks>
-/// Initialises a new instance of the <see cref="NestedAsynchronousCommandLineAction"/> class.
+/// Initializes a new instance of the <see cref="NestedAsynchronousCommandLineAction"/> class.
 /// </remarks>
 /// <param name="action">The <see cref="CommandLineAction"/>.</param>
 public class NestedAsynchronousCommandLineAction(AsynchronousCommandLineAction action) : AsynchronousCommandLineAction, INestedCommandLineAction<AsynchronousCommandLineAction>, INestedCommandLineAction
@@ -19,7 +19,7 @@ public class NestedAsynchronousCommandLineAction(AsynchronousCommandLineAction a
     private readonly Func<AsynchronousCommandLineAction, ParseResult, CancellationToken, Task>? afterInvoke;
 
     /// <summary>
-    /// Initialises a new instance of the <see cref="NestedAsynchronousCommandLineAction"/> class.
+    /// Initializes a new instance of the <see cref="NestedAsynchronousCommandLineAction"/> class.
     /// </summary>
     /// <param name="action">The <see cref="CommandLineAction"/>.</param>
     /// <param name="beforeInvoke">The action to call before invoking the nested action.</param>
@@ -32,7 +32,7 @@ public class NestedAsynchronousCommandLineAction(AsynchronousCommandLineAction a
     }
 
     /// <summary>
-    /// Initialises a new instance of the <see cref="NestedAsynchronousCommandLineAction"/> class.
+    /// Initializes a new instance of the <see cref="NestedAsynchronousCommandLineAction"/> class.
     /// </summary>
     /// <param name="action">The <see cref="System.Action"/>.</param>
     /// <param name="beforeInvoke">The action to call before invoking the nested action.</param>

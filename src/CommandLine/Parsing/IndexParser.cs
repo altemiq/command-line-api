@@ -11,6 +11,7 @@ namespace System.CommandLine.Parsing;
 /// <see cref="Index" /> parsers for <see cref="Argument{T}.CustomParser"/> or <see cref="Option{T}.CustomParser"/>.
 /// </summary>
 #pragma warning restore CS0419
+[Diagnostics.CodeAnalysis.SuppressMessage("ReSharper", "MemberCanBePrivate.Global", Justification = "Public API")]
 public static class IndexParser
 {
     /// <summary>

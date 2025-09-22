@@ -17,7 +17,7 @@ public sealed class VerbosityOption : Option<VerbosityOptions>
     public const string OptionName = "--verbosity";
 
     /// <summary>
-    /// Initialises a new instance of the <see cref="VerbosityOption"/> class.
+    /// Initializes a new instance of the <see cref="VerbosityOption"/> class.
     /// </summary>
     public VerbosityOption()
         : this(OptionName, "-v")
@@ -25,7 +25,7 @@ public sealed class VerbosityOption : Option<VerbosityOptions>
     }
 
     /// <summary>
-    /// Initialises a new instance of the <see cref="VerbosityOption"/> class.
+    /// Initializes a new instance of the <see cref="VerbosityOption"/> class.
     /// </summary>
     /// <param name="name">The name of the option. It's used for parsing, displaying Help and creating parse errors.</param>>
     /// <param name="aliases">Optional aliases. Used for parsing, suggestions and displayed in Help.</param>

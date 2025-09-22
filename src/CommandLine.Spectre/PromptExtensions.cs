@@ -74,6 +74,7 @@ public static class PromptExtensions
                 return GetCombinedValues(typeof(TEnum).GetEnumUnderlyingType(), multiSelectionPrompt.Show(console));
 
                 [Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0046:Use conditional expression for return", Justification = "Checked")]
+                [Diagnostics.CodeAnalysis.SuppressMessage("ReSharper", "ConvertIfStatementToReturnStatement", Justification = "Checked")]
                 static TEnum GetCombinedValues(Type enumUnderLyingType, IReadOnlyList<TEnum> values)
                 {
                     if (enumUnderLyingType == typeof(sbyte))
@@ -162,9 +163,11 @@ public static class PromptExtensions
 
         static ComponentModel.TypeConverter GetTypeConverter()
         {
+#pragma warning disable CA1863, NullCoalescingConditionIsAlwaysNotNullAccordingToAPIContract
             return ComponentModel.TypeDescriptor.GetConverter(typeof(T))
-                ?? GetTypeConverterCore()
+                   ?? GetTypeConverterCore()
                 ?? throw new InvalidOperationException(string.Format(Spectre.Properties.Resources.Culture, Spectre.Properties.Resources.TypeConverterNotFound, typeof(T)));
+#pragma warning restore CA1863, NullCoalescingConditionIsAlwaysNotNullAccordingToAPIContract
 
             static ComponentModel.TypeConverter? GetTypeConverterCore()
             {
@@ -215,16 +218,8 @@ public static class PromptExtensions
         public static TEnum GetUInt64<TEnum>(IEnumerable<TEnum> values) => Get<ulong, TEnum>(values);
 
         private static TEnum Get<T, TEnum>(IEnumerable<TEnum> values)
-            where T : struct, Numerics.IBitwiseOperators<T, T, T>
-        {
-            T value = default;
-            foreach (var v in values.Cast<T>())
-            {
-                value |= v;
-            }
-
-            return (TEnum)(object)value;
-        }
+            where T : struct, Numerics.IBitwiseOperators<T, T, T> =>
+            (TEnum)(object)values.Cast<T>().Aggregate<T, T>(default, (current, v) => current | v);
 #else
         public static TEnum GetSByte<TEnum>(IEnumerable<TEnum> values) => Get<sbyte, TEnum>(values, static (value, v) => (sbyte)(value | v));
 
@@ -243,16 +238,7 @@ public static class PromptExtensions
         public static TEnum GetUInt64<TEnum>(IEnumerable<TEnum> values) => Get<ulong, TEnum>(values, static (value, v) => value | v);
 
         private static TEnum Get<T, TEnum>(IEnumerable<TEnum> values, Func<T, T, T> orFunc)
-           where T : struct
-        {
-            T value = default;
-            foreach (var v in values.Cast<T>())
-            {
-                value = orFunc(value, v);
-            }
-
-            return (TEnum)(object)value;
-        }
+           where T : struct => (TEnum)(object)values.Cast<T>().Aggregate(default, orFunc);
 #endif
     }
 }

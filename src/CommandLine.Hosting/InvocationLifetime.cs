@@ -40,7 +40,7 @@ public
     private bool disposedValue;
 
     /// <summary>
-    /// Initialises a new instance of the <see cref="InvocationLifetime"/> class.
+    /// Initializes a new instance of the <see cref="InvocationLifetime"/> class.
     /// </summary>
     /// <param name="options">The options.</param>
     /// <param name="environment">The host environment.</param>

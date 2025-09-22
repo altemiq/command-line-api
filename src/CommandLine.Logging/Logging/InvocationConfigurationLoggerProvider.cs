@@ -9,9 +9,6 @@ namespace System.CommandLine.Logging;
 /// <summary>
 /// The <see cref="InvocationConfigurationLogger"/> <see cref="ILoggerProvider"/>.
 /// </summary>
-/// <remarks>
-/// Initialises a new instance of the <see cref="InvocationConfigurationLoggerProvider"/> class.
-/// </remarks>
 /// <param name="configuration">The configuration.</param>
 /// <param name="comparer">The <see cref="IEqualityComparer{T}"/> implementation to use when comparing category names.</param>
 [ProviderAlias(nameof(InvocationConfiguration))]
@@ -21,7 +18,7 @@ internal sealed class InvocationConfigurationLoggerProvider(InvocationConfigurat
     private IExternalScopeProvider externalScopeProvider = Internal.NullExternalScopeProvider.Instance;
 
     /// <summary>
-    /// Initialises a new instance of the <see cref="InvocationConfigurationLoggerProvider"/> class.
+    /// Initializes a new instance of the <see cref="InvocationConfigurationLoggerProvider"/> class.
     /// </summary>
     /// <param name="configuration">The configuration.</param>
     public InvocationConfigurationLoggerProvider(InvocationConfiguration configuration)

@@ -101,12 +101,7 @@ public static class FileInfoParser
 
         static string? GetParentDirectoryIfExists(string v)
         {
-            if (Path.GetDirectoryName(v) is { } directory && Directory.Exists(directory))
-            {
-                return directory;
-            }
-
-            return default;
+            return Path.GetDirectoryName(v) is { } directory && Directory.Exists(directory) ? directory : default;
         }
 
         static IEnumerable<T> Create<T>(T value)

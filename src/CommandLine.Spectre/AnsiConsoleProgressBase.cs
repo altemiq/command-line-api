@@ -12,7 +12,7 @@ namespace System.CommandLine;
 public abstract class AnsiConsoleProgressBase
 {
     /// <summary>
-    /// Initialises a new instance of the <see cref="AnsiConsoleProgressBase"/> class.
+    /// Initializes a new instance of the <see cref="AnsiConsoleProgressBase"/> class.
     /// </summary>
     private protected AnsiConsoleProgressBase()
     {

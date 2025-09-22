@@ -29,12 +29,8 @@ internal static class ParsingHelpers
         }
 
         var uri = enumerator.Current;
-        if (enumerator.MoveNext())
-        {
-            // throw exception as we have multiple
-            throw multipleException();
-        }
-
-        return uri;
+        return !enumerator.MoveNext()
+            ? uri
+            : throw multipleException(); // throw exception as we have multiple
     }
 }

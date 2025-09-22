@@ -24,10 +24,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
 
     # Install the .NET workloads
-    - uses: actions/setup-dotnet@v4
+    - uses: actions/setup-dotnet@v5
       id: cache
       with:
         dotnet-version: 9.0.x
@@ -43,12 +43,12 @@ jobs:
     needs: restore
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
       with:
         lfs: true
 
     # Install .NET
-    - uses: actions/setup-dotnet@v4
+    - uses: actions/setup-dotnet@v5
       with:
         dotnet-version: |
           8.0.x
@@ -102,12 +102,12 @@ jobs:
       Configuration: Release
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
       with:
         fetch-depth: 0 # get all history here, for semantic versioning
 
     # Install the .NET workload
-    - uses: actions/setup-dotnet@v4
+    - uses: actions/setup-dotnet@v5
       with:
         dotnet-version: 9.0.x
         cache: true
@@ -122,10 +122,10 @@ jobs:
     - name: Run local/get-suffix@v1
       id: suffix
       run: |
-        suffix=alpha7
+        suffix=beta7
         if [ ${{ github.event_name }} == push ];
         then
-          suffix=beta7;
+          suffix=rc.1;
         fi
 
         echo "value=$suffix" >> $GITHUB_OUTPUT
@@ -159,7 +159,7 @@ jobs:
       DOTNET_MULTILEVEL_LOOKUP: false
 
     steps:
-    - uses: actions/download-artifact@v4
+    - uses: actions/download-artifact@v5
       with:
         name: NuPkg
         path: ${{ github.workspace }}/nupkg

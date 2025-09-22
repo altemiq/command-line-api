@@ -10,7 +10,7 @@ namespace System.CommandLine.Invocation;
 /// A nested <see cref="SynchronousCommandLineAction"/>.
 /// </summary>
 /// <remarks>
-/// Initialises a new instance of the <see cref="NestedSynchronousCommandLineAction"/> class.
+/// Initializes a new instance of the <see cref="NestedSynchronousCommandLineAction"/> class.
 /// </remarks>
 /// <param name="action">The <see cref="System.Action"/>.</param>
 public class NestedSynchronousCommandLineAction(SynchronousCommandLineAction action) : SynchronousCommandLineAction, INestedCommandLineAction<SynchronousCommandLineAction>, INestedCommandLineAction
@@ -19,7 +19,7 @@ public class NestedSynchronousCommandLineAction(SynchronousCommandLineAction act
     private readonly Action<SynchronousCommandLineAction, ParseResult>? afterInvoke;
 
     /// <summary>
-    /// Initialises a new instance of the <see cref="NestedSynchronousCommandLineAction"/> class.
+    /// Initializes a new instance of the <see cref="NestedSynchronousCommandLineAction"/> class.
     /// </summary>
     /// <param name="action">The <see cref="System.Action"/>.</param>
     /// <param name="beforeInvoke">The action to call before invoking the nested action.</param>
@@ -32,7 +32,7 @@ public class NestedSynchronousCommandLineAction(SynchronousCommandLineAction act
     }
 
     /// <summary>
-    /// Initialises a new instance of the <see cref="NestedSynchronousCommandLineAction"/> class.
+    /// Initializes a new instance of the <see cref="NestedSynchronousCommandLineAction"/> class.
     /// </summary>
     /// <param name="action">The <see cref="System.Action"/>.</param>
     /// <param name="beforeInvoke">The action to call before invoking the nested action.</param>

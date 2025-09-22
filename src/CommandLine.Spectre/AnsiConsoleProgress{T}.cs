@@ -11,6 +11,7 @@ namespace System.CommandLine;
 /// </summary>
 /// <typeparam name="T">The type of progress item.</typeparam>
 [Diagnostics.CodeAnalysis.SuppressMessage("ReSharper", "ClassWithVirtualMembersNeverInherited", Justification = "Public API")]
+[Diagnostics.CodeAnalysis.SuppressMessage("ReSharper", "ClassWithVirtualMembersNeverInherited.Global", Justification = "Public API")]
 public class AnsiConsoleProgress<T> : AnsiConsoleProgressBase, IProgress<T>
 {
     private readonly SynchronizationContext synchronizationContext;
@@ -19,7 +20,7 @@ public class AnsiConsoleProgress<T> : AnsiConsoleProgressBase, IProgress<T>
     private readonly Func<bool>? isComplete;
 
     /// <summary>
-    /// Initialises a new instance of the <see cref="AnsiConsoleProgress{T}"/> class.
+    /// Initializes a new instance of the <see cref="AnsiConsoleProgress{T}"/> class.
     /// </summary>
     /// <param name="handler">The message handler.</param>
     /// <param name="isComplete">The function to determine if the progress is complete.</param>
