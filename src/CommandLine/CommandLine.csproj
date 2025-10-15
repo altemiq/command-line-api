@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.CommandLine" VersionOverride="2.0.0-rc.1.25451.107" />
+    <PackageReference Include="System.CommandLine" VersionOverride="2.0.0-rc.2.25502.107" />
     <PackageReference Include="Microsoft.Bcl.Memory" VersionOverride="9.0.0" Condition="!$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'netstandard2.1'))" />
   </ItemGroup>
 
