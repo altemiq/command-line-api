@@ -17,13 +17,13 @@ public class FileInfoParserTests
     [Test]
     public async Task ParseDirectory()
     {
-        _ = await Assert.That(FileInfoParser.ParseAll(Path.GetDirectoryName(typeof(FileInfoParserTests).Assembly.Location))).HasCount().GreaterThan(1);
+        _ = await Assert.That(FileInfoParser.ParseAll(Path.GetDirectoryName(typeof(FileInfoParserTests).Assembly.Location))).HasCount().GreaterThanOrEqualTo(2);
     }
 
     [Test]
     public async Task ParsePattern()
     {
-        _ = await Assert.That(FileInfoParser.ParseAll(Path.Combine(Path.GetDirectoryName(typeof(FileInfoParserTests).Assembly.Location)!, "*.dll"))).HasCount().GreaterThan(1);
+        _ = await Assert.That(FileInfoParser.ParseAll(Path.Combine(Path.GetDirectoryName(typeof(FileInfoParserTests).Assembly.Location)!, "*.dll"))).HasCount().GreaterThanOrEqualTo(2);
     }
 
     [Test]
@@ -49,13 +49,13 @@ public class FileInfoParserTests
     [Test]
     public async Task ExpandTilde()
     {
-        _ = await Assert.That(() => FileInfoParser.ExpandPath("~")).IsEqualTo(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)).And.IsAssignableTo<string?>();
+        _ = await Assert.That(() => FileInfoParser.ExpandPath("~")).IsEqualTo(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile));
     }
 
     [Test]
     public async Task ExpandHome()
     {
-        _ = await Assert.That(() => FileInfoParser.ExpandPath("%HOME%")).IsEqualTo(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)).And.IsAssignableTo<string?>();
+        _ = await Assert.That(() => FileInfoParser.ExpandPath("%HOME%")).IsEqualTo(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile));
     }
 
 

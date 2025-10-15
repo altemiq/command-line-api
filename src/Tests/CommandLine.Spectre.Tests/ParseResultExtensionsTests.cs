@@ -22,7 +22,7 @@ public class ParseResultExtensionsTests
         var parseResult = command.Parse(string.Empty);
         await Assert.That(parseResult.CreateConsole())
             .IsNotNull().And
-            .Satisfies(c => c.Profile.Out.Writer, @out => @out.IsSameReferenceAs(Console.Out));
+            .HasMember(c => c.Profile.Out.Writer).IsSameReferenceAs(Console.Out);
     }
 
     [Test]
@@ -35,14 +35,8 @@ public class ParseResultExtensionsTests
 
         await Assert.That(parseResult.CreateConsole(option))
             .IsNotNull().And
-            .Satisfies(
-                c => c.Profile.Out,
-                @out => @out
-                    .IsAssignableTo<IAnsiConsoleOutput>().And
-                    .Satisfies(
-                        x => x.Writer,
-                        writer => writer.IsSameReferenceAs(Console.Out)).And
-                    .IsAssignableTo<IAnsiConsoleOutput?>());
+            .HasMember(c => c.Profile.Out).IsNotNull().And
+            .HasMember(x => x.Writer).IsSameReferenceAs(Console.Out);
     }
 
     [Test]
@@ -56,22 +50,10 @@ public class ParseResultExtensionsTests
 
         await Assert.That(parseResult.CreateConsole(option))
             .IsNotNull().And
-            .Satisfies(
-                c => c.Profile.Out,
-                @out => @out
-                    .IsAssignableTo<IAnsiConsoleOutput>().And
-                    .Satisfies(
-                        x => x.Writer,
-                        writer => writer
-                            .IsTypeOf<StreamWriter>().And
-                            .Satisfies(
-                                x => x.BaseStream,
-                                baseStream => baseStream
-                                    .IsTypeOf<FileStream>().And
-                                    .Satisfies(x => x.Name, name => name.IsEqualTo(temp).And.IsTypeOf<string?>()).And
-                                    .IsAssignableTo<Stream?>()).And
-                        .IsAssignableTo<TextWriter?>()).And
-                    .IsAssignableTo<IAnsiConsoleOutput?>());
+            .HasMember(c => c.Profile.Out).IsNotNull().And
+            .HasMember(x => x.Writer as StreamWriter).IsNotNull().And
+            .HasMember(x => x!.BaseStream as FileStream).IsNotNull().And
+            .HasMember(x => x!.Name).IsEqualTo(temp);
     }
 
     [Test]
@@ -84,21 +66,9 @@ public class ParseResultExtensionsTests
 
         await Assert.That(parseResult.CreateConsole())
             .IsNotNull().And
-            .Satisfies(
-                c => c.Profile.Out,
-                @out => @out
-                    .IsAssignableTo<IAnsiConsoleOutput>().And
-                    .Satisfies(
-                        x => x.Writer,
-                        writer => writer
-                            .IsTypeOf<StreamWriter>().And
-                            .Satisfies(
-                                x => x.BaseStream,
-                                baseStream => baseStream
-                                    .IsTypeOf<MemoryStream>().And
-                                    .IsSameReferenceAs(memoryStream).And
-                                    .IsAssignableTo<Stream?>()).And
-                        .IsAssignableTo<TextWriter?>()).And
-                    .IsAssignableTo<IAnsiConsoleOutput?>());
+            .HasMember(c => c.Profile.Out).IsNotNull().And
+            .HasMember(x => x.Writer as StreamWriter).IsNotNull().And
+            .HasMember(x => x!.BaseStream).IsSameReferenceAs(memoryStream);
+            
     }
 }

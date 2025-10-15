@@ -28,35 +28,20 @@ public class RangeParserTests
     [MethodDataSource(nameof(Ranges))]
     public async Task ParseRange(string input, Range expected)
     {
-        _ = await Assert.That(RangeParser.Parse(input)).IsEqualTo(expected, RangeEqualityComparer.Instance);
+        _ = await Assert.That(RangeParser.Parse(input)).IsEqualTo(expected);
     }
 
     [Test]
     [MethodDataSource(nameof(Ranges))]
     public async Task ParseArgument(string input, Range expected)
     {
-        _ = await Assert.That(RangeParser.Parse(ArgumentCommand.Parse(input).CommandResult.Children.OfType<ArgumentResult>().First())).IsEqualTo(expected, RangeEqualityComparer.Instance);
+        _ = await Assert.That(RangeParser.Parse(ArgumentCommand.Parse(input).CommandResult.Children.OfType<ArgumentResult>().First())).IsEqualTo(expected);
     }
 
     [Test]
     [MethodDataSource(nameof(Ranges))]
     public async Task ParseOption(string input, Range expected)
     {
-        _ = await Assert.That(OptionCommand.Parse(RangeOptionName + " " + input).GetValue<Range>(RangeOptionName)).IsEqualTo(expected, RangeEqualityComparer.Instance);
-    }
-
-    private class RangeEqualityComparer : IEqualityComparer<Range>
-    {
-        public static readonly RangeEqualityComparer Instance = new();
-
-        public bool Equals(Range x, Range y)
-        {
-            return x.Equals(y);
-        }
-
-        public int GetHashCode(Range obj)
-        {
-            return obj.GetHashCode();
-        }
+        _ = await Assert.That(OptionCommand.Parse(RangeOptionName + " " + input).GetValue<Range>(RangeOptionName)).IsEqualTo(expected);
     }
 }

@@ -4,6 +4,8 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using TUnit.Assertions.Core;
+
 namespace System.CommandLine.Hosting;
 
 using Microsoft.Extensions.Configuration;
@@ -24,15 +26,11 @@ public partial class HostingExtensionsTests
         _ = rootCommand.UseHost(configureHost: static (_, builder) => builder.ConfigureServices((_, services) => services.ConfigureInvocationLifetime(opts => opts.SuppressStatusMessages = Value)));
 
         _ = await rootCommand.Parse([]).InvokeAsync();
-        _ = await Assert.That(host).IsAssignableTo<Microsoft.Extensions.Hosting.IHost>().And
-            .Satisfies(
-                h => h.Services.GetService<Microsoft.Extensions.Hosting.IHostLifetime>(),
-                hostLifeTime => hostLifeTime.IsNotNull().And
-                    .IsTypeOf<InvocationLifetime>().And
-                    .Satisfies(
-                        invocationLifetime => invocationLifetime.Options.SuppressStatusMessages,
-                        suppressStatusMessages => suppressStatusMessages.IsEqualTo(Value)).And
-                    .IsAssignableTo<Microsoft.Extensions.Hosting.IHostLifetime?>());
+        _ = await Assert.That(host)
+            .IsNotNull().And
+            .HasMember(static host => host.Services.GetService<Microsoft.Extensions.Hosting.IHostLifetime>())
+            .IsTypeOf<InvocationLifetime, Microsoft.Extensions.Hosting.IHostLifetime?>().And
+            .HasMember(static invocationLifetime => invocationLifetime.Options.SuppressStatusMessages).IsEqualTo(Value);
     }
 
     [Test]
@@ -50,7 +48,7 @@ public partial class HostingExtensionsTests
         ConfigurationRoot? configurationRoot = await Assert.That(host?.Services.GetService(typeof(IConfiguration))).IsTypeOf<ConfigurationRoot>();
 
         _ = await Assert.That(configurationRoot!.GetValue<string>("Key1")).IsEqualTo("Value1");
-        _ = await Assert.That(configurationRoot!.GetValue<string>("Key2")).IsEqualTo(null);
+        _ = await Assert.That(configurationRoot!.GetValue<string>("Key2")).IsNull();
     }
 
     [Test]

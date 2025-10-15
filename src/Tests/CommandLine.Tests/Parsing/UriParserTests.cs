@@ -31,13 +31,13 @@ public class UriParserTests
     [Test]
     public async Task ParseFromDirectory()
     {
-        _ = await Assert.That(UriParser.ParseAll(Path.GetDirectoryName(typeof(UriParserTests).Assembly.Location))).HasCount().GreaterThan(1);
+        _ = await Assert.That(UriParser.ParseAll(Path.GetDirectoryName(typeof(UriParserTests).Assembly.Location))).HasCount().GreaterThanOrEqualTo(2);
     }
 
     [Test]
     public async Task ParseFromGlob()
     {
-        _ = await Assert.That(UriParser.ParseAll(Path.Join(Path.GetDirectoryName(typeof(UriParserTests).Assembly.Location), "*.*"))).HasCount().GreaterThan(1);
+        _ = await Assert.That(UriParser.ParseAll(Path.Join(Path.GetDirectoryName(typeof(UriParserTests).Assembly.Location), "*.*"))).HasCount().GreaterThanOrEqualTo(2);
     }
 
     [Test]
@@ -49,8 +49,9 @@ public class UriParserTests
         var file = Directory.EnumerateFiles(home, "*", SearchOption.AllDirectories).First();
 
         // replace the home directory with a tilde
-        await Assert.That(UriParser.Parse(string.Concat("~", file.AsSpan(home.Length)))).IsNotNull()
-            .And.Satisfies(uri => uri.LocalPath, localPath => localPath.IsEqualTo(file).And.IsAssignableTo<string?>());
+        await Assert.That(UriParser.Parse(string.Concat("~", file.AsSpan(home.Length))))
+            .IsNotNull().And
+            .HasMember(static uri => uri.LocalPath).IsEqualTo(file);
     }
 
     [Test]
@@ -62,7 +63,8 @@ public class UriParserTests
         var file = Directory.EnumerateFiles(home, "*", SearchOption.AllDirectories).First();
 
         // replace the home directory with HOME
-        await Assert.That(UriParser.Parse(string.Concat("%HOME%", file.AsSpan(home.Length)))).IsNotNull()
-            .And.Satisfies(uri => uri.LocalPath, localPath => localPath.IsEqualTo(file).And.IsAssignableTo<string?>());
+        await Assert.That(UriParser.Parse(string.Concat("%HOME%", file.AsSpan(home.Length))))
+            .IsNotNull().And
+            .HasMember(static uri => uri.LocalPath).IsEqualTo(file);
     }
 }

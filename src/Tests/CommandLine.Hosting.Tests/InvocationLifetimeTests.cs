@@ -44,7 +44,7 @@ public class InvocationLifetimeTests
 
         IHostLifetime? lifetime = host.Services.GetService<IHostLifetime>();
 
-        IDisposable? disposable = await Assert.That(lifetime).IsAssignableTo<IDisposable>();
+        IDisposable? disposable = await Assert.That<object>(lifetime).IsTypeOf<IDisposable>();
         _ = await Assert.That(() => disposable?.Dispose()).ThrowsNothing();
         _ = await Assert.That(() => disposable?.Dispose()).ThrowsNothing();
 
