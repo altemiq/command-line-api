@@ -5,7 +5,7 @@ if (Test-Path -Path $results -Type Container) {
 }
 
 # Run dotnet test
-dotnet test $PSScriptRoot\src --no-build -- --results-directory $results --coverage --coverage-output-format cobertura
+dotnet test $PSScriptRoot --no-build -- --results-directory $results --coverage --coverage-output-format cobertura
 
 # install the report generator
 dotnet tool install -g dotnet-reportgenerator-globaltool

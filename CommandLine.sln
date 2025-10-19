@@ -23,48 +23,53 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 		.github\workflows\build.yml = .github\workflows\build.yml
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{5D20AA90-6969-D8BD-9DCD-8634F4692FDA}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{5D20AA90-6969-D8BD-9DCD-8634F4692FDA}"
 	ProjectSection(SolutionItems) = preProject
-		src\Samples\Directory.Packages.props = src\Samples\Directory.Packages.props
+		samples\Directory.Packages.props = samples\Directory.Packages.props
+		samples\Directory.Build.props = samples\Directory.Build.props
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Console.Sample", "src\Samples\Console.Sample\Console.Sample.csproj", "{9DE64132-9EA6-4578-524B-F29DBCC219A4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Console.Sample", "samples\Console.Sample\Console.Sample.csproj", "{9DE64132-9EA6-4578-524B-F29DBCC219A4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{089100B1-113F-4E66-888A-E83F3999EAFD}"
 	ProjectSection(SolutionItems) = preProject
 		src\.editorconfig = src\.editorconfig
-		src\Directory.Build.props = src\Directory.Build.props
-		src\Directory.Build.targets = src\Directory.Build.targets
-		src\Directory.Packages.props = src\Directory.Packages.props
-		src\exclusion.dic = src\exclusion.dic
 		README.md = README.md
 		LICENSE.md = LICENSE.md
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{0AB3BF05-4346-4AA6-1389-037BE0695223}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{0AB3BF05-4346-4AA6-1389-037BE0695223}"
 	ProjectSection(SolutionItems) = preProject
-		src\Tests\Directory.Build.props = src\Tests\Directory.Build.props
-		src\Tests\Directory.Build.targets = src\Tests\Directory.Build.targets
-		src\Tests\Directory.Packages.props = src\Tests\Directory.Packages.props
+		tests\Directory.Build.props = tests\Directory.Build.props
+		tests\Directory.Build.targets = tests\Directory.Build.targets
+		tests\Directory.Packages.props = tests\Directory.Packages.props
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLine.Configuration.Tests", "src\Tests\CommandLine.Configuration.Tests\CommandLine.Configuration.Tests.csproj", "{A483F50D-BDD0-6A25-387B-833B1131754E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLine.Configuration.Tests", "tests\CommandLine.Configuration.Tests\CommandLine.Configuration.Tests.csproj", "{A483F50D-BDD0-6A25-387B-833B1131754E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLine.DependencyInjection.Tests", "src\Tests\CommandLine.DependencyInjection.Tests\CommandLine.DependencyInjection.Tests.csproj", "{185F0305-1831-54F8-3CB9-1E1D5F0F15AB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLine.DependencyInjection.Tests", "tests\CommandLine.DependencyInjection.Tests\CommandLine.DependencyInjection.Tests.csproj", "{185F0305-1831-54F8-3CB9-1E1D5F0F15AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLine.FileSystemGlobbing.Tests", "src\Tests\CommandLine.FileSystemGlobbing.Tests\CommandLine.FileSystemGlobbing.Tests.csproj", "{77542EFB-6225-05D6-41E7-4C78CD9A342E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLine.FileSystemGlobbing.Tests", "tests\CommandLine.FileSystemGlobbing.Tests\CommandLine.FileSystemGlobbing.Tests.csproj", "{77542EFB-6225-05D6-41E7-4C78CD9A342E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLine.Hosting.Tests", "src\Tests\CommandLine.Hosting.Tests\CommandLine.Hosting.Tests.csproj", "{7BE13E37-5B95-7B8F-139F-3D8A0DA88DD0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLine.Hosting.Tests", "tests\CommandLine.Hosting.Tests\CommandLine.Hosting.Tests.csproj", "{7BE13E37-5B95-7B8F-139F-3D8A0DA88DD0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLine.Logging.Tests", "src\Tests\CommandLine.Logging.Tests\CommandLine.Logging.Tests.csproj", "{A6E27D45-0F6B-A8E4-285F-0C9122F28266}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLine.Logging.Tests", "tests\CommandLine.Logging.Tests\CommandLine.Logging.Tests.csproj", "{A6E27D45-0F6B-A8E4-285F-0C9122F28266}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLine.Native.Tests", "src\Tests\CommandLine.Native.Tests\CommandLine.Native.Tests.csproj", "{B2DADD7C-F90F-3826-E483-74AD50356FD0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLine.Native.Tests", "tests\CommandLine.Native.Tests\CommandLine.Native.Tests.csproj", "{B2DADD7C-F90F-3826-E483-74AD50356FD0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLine.Services.Tests", "src\Tests\CommandLine.Services.Tests\CommandLine.Services.Tests.csproj", "{1CA3872C-49F5-3C50-12BC-A89DB9164447}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLine.Services.Tests", "tests\CommandLine.Services.Tests\CommandLine.Services.Tests.csproj", "{1CA3872C-49F5-3C50-12BC-A89DB9164447}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLine.Spectre.Tests", "src\Tests\CommandLine.Spectre.Tests\CommandLine.Spectre.Tests.csproj", "{69D79856-EDF2-2D06-7E85-6C5702D7D0DE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLine.Spectre.Tests", "tests\CommandLine.Spectre.Tests\CommandLine.Spectre.Tests.csproj", "{69D79856-EDF2-2D06-7E85-6C5702D7D0DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLine.Tests", "src\Tests\CommandLine.Tests\CommandLine.Tests.csproj", "{86244959-72DE-3186-9B4E-8AB524599EA4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLine.Tests", "tests\CommandLine.Tests\CommandLine.Tests.csproj", "{86244959-72DE-3186-9B4E-8AB524599EA4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{5F4F5A4A-2B22-45AE-B885-7BEF596B4AD3}"
+	ProjectSection(SolutionItems) = preProject
+		src\Directory.Build.props = src\Directory.Build.props
+		src\Directory.Build.targets = src\Directory.Build.targets
+		src\Directory.Packages.props = src\Directory.Packages.props
+		src\exclusion.dic = src\exclusion.dic
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -157,5 +162,13 @@ Global
 		{1CA3872C-49F5-3C50-12BC-A89DB9164447} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
 		{69D79856-EDF2-2D06-7E85-6C5702D7D0DE} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
 		{86244959-72DE-3186-9B4E-8AB524599EA4} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
+		{25F9512E-A4D9-0F52-4BA5-BEB008A23430} = {5F4F5A4A-2B22-45AE-B885-7BEF596B4AD3}
+		{55B0B09E-5BD6-70BD-B94D-AC44D53501CD} = {5F4F5A4A-2B22-45AE-B885-7BEF596B4AD3}
+		{78B602B8-C76B-D4A7-CD6F-B0D257540A36} = {5F4F5A4A-2B22-45AE-B885-7BEF596B4AD3}
+		{DD195299-8422-BFB2-B90E-837B26AA78C1} = {5F4F5A4A-2B22-45AE-B885-7BEF596B4AD3}
+		{40126EA7-D603-7574-8FC6-F2C765FB8109} = {5F4F5A4A-2B22-45AE-B885-7BEF596B4AD3}
+		{0D005A07-D3C9-852A-B8FD-6C14C6A4614C} = {5F4F5A4A-2B22-45AE-B885-7BEF596B4AD3}
+		{18D9457E-C14B-B66A-EBCE-855423B18145} = {5F4F5A4A-2B22-45AE-B885-7BEF596B4AD3}
+		{4BB74789-7980-CC97-E70E-9218BBFB74B1} = {5F4F5A4A-2B22-45AE-B885-7BEF596B4AD3}
 	EndGlobalSection
 EndGlobal

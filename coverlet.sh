@@ -9,7 +9,7 @@ if [ -d "$results" ]; then
 fi
 
 # Run dotnet test
-dotnet test $(dirname "$0")/src --no-build -- --results-directory $results --coverage --coverage-output-format cobertura
+dotnet test $root_path --no-build -- --results-directory $results --coverage --coverage-output-format cobertura
 
 # install the report generator
 dotnet tool install -g dotnet-reportgenerator-globaltool
