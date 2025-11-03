@@ -51,7 +51,7 @@ public class UriParserTests
         // replace the home directory with a tilde
         await Assert.That(UriParser.Parse(string.Concat("~", file.AsSpan(home.Length))))
             .IsNotNull().And
-            .HasMember(static uri => uri.LocalPath).IsEqualTo(file);
+            .Member(static uri => uri.LocalPath, uri => uri.IsEqualTo(file));
     }
 
     [Test]
@@ -65,6 +65,6 @@ public class UriParserTests
         // replace the home directory with HOME
         await Assert.That(UriParser.Parse(string.Concat("%HOME%", file.AsSpan(home.Length))))
             .IsNotNull().And
-            .HasMember(static uri => uri.LocalPath).IsEqualTo(file);
+            .Member(static uri => uri.LocalPath, uri => uri.IsEqualTo(file));
     }
 }

@@ -12,8 +12,8 @@ public class OptionsTests
     public async Task Verbosity()
     {
         _ = await Assert.That(new VerbosityOption())
-            .Satisfies(verbosity => verbosity!.Recursive, recursive => recursive.IsTrue()).And
-            .Satisfies(verbosity => verbosity!.HasDefaultValue, hasDefaultValue => hasDefaultValue.IsTrue()).And
-            .Satisfies(verbosity => verbosity!.DefaultValueFactory, defaultValueFactory => defaultValueFactory.IsNotNull());
+            .Member(verbosity => verbosity.Recursive, recursive => recursive.IsTrue()).And
+            .Member(verbosity => verbosity.HasDefaultValue, hasDefaultValue => hasDefaultValue.IsTrue()).And
+            .Member(verbosity => verbosity.DefaultValueFactory, defaultValueFactory => defaultValueFactory.IsNotNull());
     }
 }

@@ -22,7 +22,7 @@ public class ParseResultExtensionsTests
         var parseResult = command.Parse(string.Empty);
         await Assert.That(parseResult.CreateConsole())
             .IsNotNull().And
-            .HasMember(c => c.Profile.Out.Writer).IsSameReferenceAs(Console.Out);
+            .Member(static c => c.Profile.Out.Writer, static writer => writer.IsSameReferenceAs(Console.Out));
     }
 
     [Test]
@@ -35,8 +35,9 @@ public class ParseResultExtensionsTests
 
         await Assert.That(parseResult.CreateConsole(option))
             .IsNotNull().And
-            .HasMember(c => c.Profile.Out).IsNotNull().And
-            .HasMember(x => x.Writer).IsSameReferenceAs(Console.Out);
+            .Member(
+                static c => c.Profile.Out,
+                static output => output.Member(static x => x.Writer, writer => writer.IsSameReferenceAs(Console.Out)));
     }
 
     [Test]
@@ -50,10 +51,9 @@ public class ParseResultExtensionsTests
 
         await Assert.That(parseResult.CreateConsole(option))
             .IsNotNull().And
-            .HasMember(c => c.Profile.Out).IsNotNull().And
-            .HasMember(x => x.Writer as StreamWriter).IsNotNull().And
-            .HasMember(x => x!.BaseStream as FileStream).IsNotNull().And
-            .HasMember(x => x!.Name).IsEqualTo(temp);
+            .Member(
+                static c => ((FileStream)((StreamWriter)c.Profile.Out.Writer).BaseStream).Name,
+                name => name.IsEqualTo(temp));
     }
 
     [Test]
@@ -66,9 +66,8 @@ public class ParseResultExtensionsTests
 
         await Assert.That(parseResult.CreateConsole())
             .IsNotNull().And
-            .HasMember(c => c.Profile.Out).IsNotNull().And
-            .HasMember(x => x.Writer as StreamWriter).IsNotNull().And
-            .HasMember(x => x!.BaseStream).IsSameReferenceAs(memoryStream);
-
+            .Member(
+                static c => ((StreamWriter)c.Profile.Out.Writer).BaseStream,
+                stream => stream.IsSameReferenceAs(memoryStream));
     }
 }

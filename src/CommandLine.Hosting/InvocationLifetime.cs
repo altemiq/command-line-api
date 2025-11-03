@@ -53,8 +53,9 @@ public
         ILoggerFactory? loggerFactory = null)
     {
 #if NET6_0_OR_GREATER
-        ArgumentNullException.ThrowIfNull(options);
-        ArgumentNullException.ThrowIfNull(options.Value);
+#pragma warning disable S3236
+        ArgumentNullException.ThrowIfNull(options.Value, nameof(options));
+#pragma warning restore S3236
         ArgumentNullException.ThrowIfNull(environment);
         ArgumentNullException.ThrowIfNull(applicationLifetime);
         this.Options = options.Value;

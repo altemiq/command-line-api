@@ -26,11 +26,11 @@ public partial class HostingExtensionsTests
         _ = rootCommand.UseHost(configureHost: static (_, builder) => builder.ConfigureServices((_, services) => services.ConfigureInvocationLifetime(opts => opts.SuppressStatusMessages = Value)));
 
         _ = await rootCommand.Parse([]).InvokeAsync();
-        _ = await Assert.That(host)
-            .IsNotNull().And
-            .HasMember(static host => host.Services.GetService<Microsoft.Extensions.Hosting.IHostLifetime>())
-            .IsTypeOf<InvocationLifetime, Microsoft.Extensions.Hosting.IHostLifetime?>().And
-            .HasMember(static invocationLifetime => invocationLifetime.Options.SuppressStatusMessages).IsEqualTo(Value);
+        _ = await Assert.That(host?.Services.GetService<Microsoft.Extensions.Hosting.IHostLifetime>())
+            .IsTypeOf<InvocationLifetime>().And
+            .Member(
+                static invocationLifetime => invocationLifetime.Options.SuppressStatusMessages,
+                static suppressStatusMessages => suppressStatusMessages.IsEqualTo(Value));
     }
 
     [Test]
